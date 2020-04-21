@@ -1,6 +1,7 @@
 
 import * as math from 'mathjs';
 import {Particle} from "./Particle";
+import {Complex} from "mathjs";
 
 export interface Vector2 {
   x: number,
@@ -88,7 +89,12 @@ export class CMath {
       angle = -angle;
     }
 
+    if ( angle.hasOwnProperty("re")) {
+      angle = angle.re;
+    }
 
+    if (isNaN(angle))
+      return 0;
 
     return angle;
 
@@ -109,13 +115,11 @@ export class CMath {
 
     if ( radius > b) {
       // Inside circle
-      console.log("inside");
       return {
         isInside: true
       }
     } else if ( radius === b) {
       // on tangent
-      console.log("on tangent");
       return {
         isOnTangent: true
       }
@@ -140,6 +144,12 @@ export class CMath {
     }
   }
 
+  public static scale(v1: Vector2, scale: number): Vector2 {
+    return {
+      x: v1.x * scale,
+      y: v1.y * scale
+    }
+  }
 
   public static add(v1: Vector2, v2: Vector2): Vector2 {
     return {

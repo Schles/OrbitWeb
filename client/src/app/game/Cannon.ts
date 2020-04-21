@@ -134,7 +134,7 @@ export class Cannon {
       }
 
 
-      Game.renderLaser.emit({ start: start, end: end});
+      Game.shootLaser.emit({ start: this.parent, end: this.targetPlayer});
 
 
 

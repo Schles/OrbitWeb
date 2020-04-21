@@ -5,16 +5,33 @@ import {compileNgModule} from "@angular/compiler";
 import {Physics} from "./Physics";
 import {Cannon} from "./Cannon";
 import {Game} from "./Game";
+import {PlayerMessage} from "../shared/player-message";
+import {PlayerJoinedMessage} from "../shared/player-joined-message";
+import {IPhysics} from "./impl/IPhysics";
+import {ArcadePhysics} from "./impl/ArcadePhysics";
+import {RealPhysics} from "./impl/RealPhysics";
+import {HybridPhysics} from "./impl/HybridPhysics";
 
 export class Spaceship extends Particle {
 
   public id;
 
   public color: string = "#00FF00";
-
   public maxSpeed: number = 50;
-  private acceleration: number = 10000;
 
+  public curSpeed: number = 0;
+
+  public get acceleration(): number {
+    return this.maxSpeed / (this.timeToMaxSpeed);
+  }
+
+  public timeToMaxSpeed = 2;
+
+  public physics: IPhysics;
+
+  public shipSize: number = 7;
+
+  public speedInput: number = 1;
   public maxOmega: number = 1;
 
   private _targetPlayer: Spaceship;
@@ -29,11 +46,17 @@ export class Spaceship extends Particle {
 
   public targetPosition: Vector2;
 
-  public rotateRadius = 100;
+  public orbitRadius = 100;
 
   public actionOrbitTarget: boolean = false;
+  public actionKeepAtRange: boolean = false;
 
   public gameObject: PIXI.Container;
+
+  public playerLayer: PIXI.Container;
+  public uiLayer: PIXI.Container;
+
+  public targetLayer: PIXI.Graphics;
 
   public cannon: Cannon;
 
@@ -49,68 +72,41 @@ export class Spaceship extends Particle {
     this.cannon = new Cannon(this);
     this.gameObject = this.getGameObject();
 
+    this.physics = new HybridPhysics();
 
+    window.addEventListener(
+      "keydown", (event) => {
+        //
+
+        console.log(event);
+
+        if (event.key === "ArrowDown") {
+          this.speedInput -= 0.1;
+          if (this.speedInput < 0)
+            this.speedInput = 0;
+        } else if (event.key === "ArrowUp") {
+          this.speedInput += 0.1;
+          if (this.speedInput > 1)
+            this.speedInput = 1;
+        } else if (event.key === "PageUp") {
+          this.orbitRadius += 50;
+        } else if (event.key === "PageDown") {
+          this.orbitRadius -= 50;
+
+          if ( this.orbitRadius < 50)
+            this.orbitRadius = 50;
+        } else if (event.key === "R") {
+          this.actionKeepAtRange = true;
+          this.actionOrbitTarget = false;
+        }
+
+
+      });
 
   }
 
   public iterate(delta: number) {
-
-    // Input
-    //let rotation = this.getRotation(this, this.target);
-    //const accel = this.getAccel(this, this.target);
-    let input = {
-      rotation: 0,
-      accel: 0
-    }
-
-    if (this.actionOrbitTarget) {
-      if( this.targetPlayer !== undefined)
-        input = this.orbitTarget(this.targetPlayer.position);
-
-    } else {
-      if (this.targetPosition !== undefined)
-        input = this.moveTo(this.targetPosition)
-    }
-
-
-    //const input = this.moveTo(this.target, true);
-
-
-    let omega = input.rotation / delta;
-    const accel = input.accel;
-
-    // Clamping
-
-    const length = math.norm( [this.speed.x, this.speed.y] );
-    if (length > this.maxSpeed) {
-      this.speed.x *= this.maxSpeed / length;
-      this.speed.y *= this.maxSpeed / length;
-    }
-
-
-
-    if ( math.abs(omega) > this.maxOmega) {
-      omega = math.sign(omega) * this.maxOmega
-    }
-
-    if (isNaN(omega))
-      omega = 0;
-
-    const newDir = this.getOrientation(this);
-
-
-    //const omega = this.getAngularVelocity(this, this.targetPlayer.position);
-//    console.log(omega);
-    // Updating physics
-
-    this.accel = {
-      x: newDir.x * accel * delta,
-      y: newDir.y * accel * delta
-    };
-
-
-    this.rotation += omega * delta;
-
+    this.physics.iterate(this, delta);
 
     this.cannon.iterate(delta);
   }
@@ -162,127 +158,22 @@ export class Spaceship extends Particle {
     return angle;
   }
 
-  public orbitTarget(target: Vector2): { rotation: number, accel: number }{
-
-    const tangents: Tangents = CMath.constructTangent(target, this.rotateRadius, this.position);
 
 
-    const orient: Vector2 = this.getOrientation(this);
-
-    if( tangents.tangents !== undefined ) {
-
-      const v1: Vector2 = {
-        x: tangents.tangents.t1.x - this.position.x,
-        y: tangents.tangents.t1.y - this.position.y,
-      };
-
-      const v2: Vector2 = {
-        x: tangents.tangents.t2.x - this.position.x,
-        y: tangents.tangents.t2.y - this.position.y,
-      };
-
-
-
-
-
-      //console.log(tangents.tangents.t2);
-
-
-      const angle1: number = CMath.degree(v1, orient);
-      const angle2: number = CMath.degree(v2, orient);
-
-      if ( math.abs(angle2) < math.abs(angle1))
-        return this.moveTo(tangents.tangents.t2);
-      else
-        return this.moveTo(tangents.tangents.t1);
-
-
-    }
-
-    return {
-      rotation: 0,
-      accel: 0.01
-    };
-
-  }
-
-  public moveTo(target: Vector2, stopAtTarget?:boolean): { rotation: number, accel: number } {
-
-    const dir = {
-      x: target.x - this.position.x,
-      y: target.y - this.position.y
-    };
-
-    const angle = CMath.angle(dir, this.getOrientation(this));
-
-
-
-
-
-    let timeToStop = 100;
-
-    let accel = this.acceleration;
-
-    if( stopAtTarget ) {
-      const dist = {
-        x: target.x - this.position.x,
-        y: target.y - this.position.y
-      }
-
-      const remainingDistance = math.norm( [dist.x, dist.y]);
-      const v = math.norm ( [this.speed.x, this.speed.y]);
-
-      if ( remainingDistance < 1) {
-        accel = 0;
-
-        this.speed = {
-          x: 0,
-          y: 0
-        }
-
-
-      } else if ( v * timeToStop > remainingDistance ) {
-
-
-
-        accel = -2 * remainingDistance / (timeToStop * timeToStop);
-
-      } else {
-
-      }
-
-
-
-    }
-
-    return {
-      rotation: angle,
-      accel: accel
-    };
-
-  }
-
-  private getOrientation(particle: Particle): Vector2 {
-    //return CMath.rotate({x: 0, y: 1}, particle.rotation);
-    const n = math.norm( [particle.speed.x, particle.speed.y]);
-    //console.log(n);
-
-    //if(n == 0)
-      return CMath.rotate({x: 0, y: 1}, particle.rotation);
-
-
-
-    //return particle.speed;
-
+  public moveTo(target: Vector2, stopAtTarget?:boolean): { r: number, a: Vector2 } {
+    return this.physics.moveTo(this, target, stopAtTarget);
   }
 
   private nameplate: PIXI.Text;
 
   public getGameObject(): PIXI.Container {
     // Initialize the pixi Graphics class
-    const container: PIXI.Container = new PIXI.Container();
+    const parentObject: PIXI.Container = new PIXI.Container();
 
 
+    const playerObject: PIXI.Container = new PIXI.Container();
+
+    const playerRadius = this.shipSize;
 
     const graphics: PIXI.Graphics = new PIXI.Graphics();
 
@@ -291,12 +182,12 @@ export class Spaceship extends Particle {
     graphics.beginFill(c); // Red
 
     // Draw a circle
-    graphics.drawCircle(0, 0, 10); // drawCircle(x, y, radius)
+    graphics.drawCircle(0, 0, playerRadius); // drawCircle(x, y, radius)
 
     // Applies fill to lines and shapes since the last call to beginFill.
     graphics.endFill();
 
-    container.addChild(graphics);
+    playerObject.addChild(graphics);
 
     const look: PIXI.Graphics = new PIXI.Graphics();
 
@@ -304,38 +195,57 @@ export class Spaceship extends Particle {
     look.beginFill(c); // Red
 
     // Draw a circle
-    look.drawRect(0, 0, 1, 30);
-
-  // Applies fill to lines and shapes since the last call to beginFill.
+    look.lineStyle(1, c);
+    look.moveTo(-playerRadius, 0);
+    look.lineTo(0, 3 * playerRadius);
+    look.lineTo(playerRadius, 0);
     look.endFill();
 
-    container.addChild(look);
+
+
+
+    playerObject.addChild(look);
 
 
     const cannonCont: PIXI.Container = this.cannon.gameObject;
 
-    container.addChild(cannonCont);
+    // target
 
+    this.targetLayer = new PIXI.Graphics();
+
+
+
+    playerObject.addChild(cannonCont);
+    this.playerLayer = playerObject;
 
     // text
 
-
+    const uiLayer: PIXI.Container = new PIXI.Container();
 
     this.nameplate = new PIXI.Text(this.id, {fontFamily : 'Arial', fontSize: 14, fill : 0xff1010, align : 'center'});
-    this.nameplate.position.x = 0;
-    this.nameplate.position.y = -30;
-    container.addChild(this.nameplate);
+    this.nameplate.position.x = 20;
+    this.nameplate.position.y = -50;
+    uiLayer.addChild(this.nameplate);
 
-    return container;
+
+
+    parentObject.addChild(playerObject);
+    parentObject.addChild(uiLayer);
+    parentObject.addChild(this.targetLayer);
+    return parentObject;
   }
 
   public iterateGraphics() {
     this.gameObject.x = this.position.x;
     this.gameObject.y = this.position.y;
 
-    this.gameObject.rotation = this.rotation;
+    this.playerLayer.rotation = this.rotation;
 
     this.nameplate.text = this.health + " " + this.id;
+
+    if ( this.targetPlayer !== undefined) {
+      this.renderTargeting();
+    }
 
     this.cannon.iterateGraphics();
   }
@@ -344,6 +254,11 @@ export class Spaceship extends Particle {
     this.targetPlayer = undefined;
     this.actionOrbitTarget = false;
   }
+
+  public renderTargeting() {
+
+
+  } 
 
   public drawOrbit() {
     const graphics: PIXI.Graphics = new PIXI.Graphics();
@@ -358,5 +273,16 @@ export class Spaceship extends Particle {
     //this.targetContainer.addChild(graphics)
   }
 
+  public getPlayerMessage(): PlayerMessage {
+    return new PlayerMessage(this.id, this.position.x, this.position.y, this.speed.x, this.speed.y, this.rotation, this.cannon.rotation);
+  }
 
+  public getPlayerJoinedMessage(): PlayerJoinedMessage {
+    return new PlayerJoinedMessage(this.id, this.position.x, this.position.y, this.speed.x, this.speed.y, this.rotation, this.cannon.rotation, this.health, this.color, this.shipSize);
+  }
+
+  public testEmitter() {
+
+
+  }
 }

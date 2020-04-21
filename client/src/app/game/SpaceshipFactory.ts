@@ -15,7 +15,7 @@ export class SpaceshipFactory {
           spaceship.cannon.damage = 2.5;
           spaceship.cannon.cooldownDuration = 1.5;
           spaceship.cannon.range = 400;
-
+          spaceship.shipSize = 5;
           break;
 
         case "tank":
@@ -26,14 +26,18 @@ export class SpaceshipFactory {
           spaceship.cannon.damage = 20;
           spaceship.cannon.range = 500;
           spaceship.cannon.cooldownDuration = 10;
-
+          spaceship.shipSize = 20;
           break;
 
 
         default:
           spaceship.cannon.damage = 10;
           spaceship.cannon.cooldownDuration = 5;
+          spaceship.maxSpeed = 99;
           spaceship.color = color;
+          //spaceship.cannon.range = 10;
+          spaceship.shipSize = 10;
+          spaceship.maxOmega = 0.6;
           break;
       }
 

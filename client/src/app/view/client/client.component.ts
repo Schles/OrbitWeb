@@ -3,7 +3,6 @@ import {Spaceship} from "../../game/Spaceship";
 import {RendererComponent} from "../renderer/renderer.component";
 import {Physics} from "../../game/Physics";
 import {Game} from "../../game/Game";
-import {ClientService} from "../../network/client.service";
 import {WebsocketService} from "../../network/websocket.service";
 
 import {Event} from '../../network/client-enums';
@@ -11,16 +10,17 @@ import {Message} from "../../shared/message";
 
 import {ActivatedRoute} from "@angular/router";
 import {PlayerMessage} from "../../shared/player-message";
-import {AuthMessage} from "../../shared/auth-message";
-import {Player} from "../../../../../server/src/model/player";
+
 import {CMath, Vector2} from "../../game/CMath";
 import {LaserMessage} from "../../shared/laser-message";
-import {Projectile} from "../../game/Projectile";
+
 import {DamageMessage} from "../../shared/damage-message";
 import {KillingBlowMessage} from "../../shared/killing-blow-message";
 import {UiComponent} from "../ui/ui.component";
 import {LobbyQueryMessage} from "../../shared/lobby-query-message";
 import {PlayerJoinedMessage} from "../../shared/player-joined-message";
+import {Projectile} from "../../game/weapons/Projectile";
+import {Laser} from "../../game/weapons/Laser";
 
 
 
@@ -32,6 +32,8 @@ import {PlayerJoinedMessage} from "../../shared/player-joined-message";
 export class ClientComponent implements OnInit, AfterViewInit {
 
 
+  public DEBUG: boolean = false;
+
   //private userName: string;
   public ownPlayer: Spaceship;
 
@@ -41,62 +43,43 @@ export class ClientComponent implements OnInit, AfterViewInit {
   @ViewChild('renderer') private renderer: RendererComponent;
 
 
-
-
   constructor(private socketService: WebsocketService, private route: ActivatedRoute) {
 
   }
 
+  ngAfterViewInit(): void {
+    this.initIoConnection();
+
+//    this.renderer.pApp.test();
+  }
+
+
+  public test() {
+
+  }
+
   ngOnInit() {
-
-    //this.userName = this.route.snapshot.paramMap.get("name")
-
     this.ui.spawnPlayer.subscribe( (value: Spaceship) => {
       this.ownPlayer = value;
-
-      const x = this.renderer.width * 0.1 + Math.floor(Math.random() * Math.floor(this.renderer.width * 0.8));
-      const y = this.renderer.height * 0.1 + Math.floor(Math.random() * Math.floor(this.renderer.height * 0.8));
-      const rotation = Math.floor(Math.random() * 360) * Math.PI / 180;
-      const gun_rotation = 90 * Math.PI / 180;
-
-      this.ownPlayer.position.x = x;
-      this.ownPlayer.position.y = y;
-
-      this.ownPlayer.rotation = rotation;
-      this.ownPlayer.cannon.rotation = gun_rotation
-
       this.renderer.pApp.spawnPlayer(this.ownPlayer);
 
       this.ownPlayer.iterateGraphics();
 
-      const msg: PlayerJoinedMessage = this.getPlayerJoinedMessage();
-      msg.x = x;
-      msg.y = y;
-      msg.rotation = rotation;
-      msg.gun_rotation = gun_rotation;
-      msg.health = value.health;
-      msg.color = value.color
-
+      const msg: PlayerJoinedMessage = this.ownPlayer.getPlayerJoinedMessage();
       this.socketService.send(msg);
 
       this.ui.loginEnabled = false;
     });
 
-    Game.worldClicked.subscribe((event) => {
+    Game.worldClicked.subscribe((event: { localPosition: Vector2, event: any }) => {
+      console.log("worldClicked", event.localPosition);
       if (this.ownPlayer !== undefined) {
-        this.ownPlayer.targetPosition = {
-          x: event.data.global.x,
-          y: event.data.global.y
-        };
+        this.ownPlayer.targetPosition = event.localPosition;
         this.ownPlayer.actionOrbitTarget = false;
       } else {
         console.log("no player");
-
       }
-
-
     });
-
 
     Game.playerClicked.subscribe((value) => {
       console.log(value.target);
@@ -111,8 +94,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
     });
 
 
-    Game.renderLaser.subscribe((laser: { start: Vector2, end: Vector2 }) => {
-      this.socketService.send(new LaserMessage(this.ownPlayer.color, laser.start.x, laser.start.y, laser.end.x, laser.end.y));
+    Game.shootLaser.subscribe((laser: { start: Spaceship, end: Spaceship }) => {
+      this.socketService.send(new LaserMessage(this.ownPlayer.color, laser.start.id, laser.end.id));
     });
 
     Game.playerHit.subscribe((value: { target: Spaceship, damage: number }) => {
@@ -124,7 +107,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
     let ticker = PIXI.Ticker.shared;
 
     console.log(ticker.FPS);
-    console.log("dMS", ticker.elapsedMS);
 
     ticker.add((delta) => {
 
@@ -136,25 +118,23 @@ export class ClientComponent implements OnInit, AfterViewInit {
       if (this.ownPlayer !== undefined) {
         this.ownPlayer.iterate(dT);
 
-        physics.iterate(this.ownPlayer, dT);
+        Physics.iterate(this.ownPlayer, dT);
 
-        const msg: PlayerMessage = this.getPlayerMessage();
+        const msg: PlayerMessage = this.ownPlayer.getPlayerMessage();
 
         this.socketService.send(msg);
 
         const v = CMath.length(this.ownPlayer.speed);
-
         this.ui.speedUI = v.toFixed(0);
         this.ui.cooldownUI = this.ownPlayer.cannon.remainingCooldown.toFixed(0)
-
+        this.ui.speedInputUI = this.ownPlayer.speedInput.toFixed(1);
         if (this.ownPlayer.targetPlayer !== undefined) {
           const dist: number = CMath.length(CMath.sub(this.ownPlayer.position, this.ownPlayer.targetPlayer.position));
           this.ui.distanceUI = dist.toFixed(0);
+          this.ui.orbitUI = this.ownPlayer.orbitRadius;
         } else {
           this.ui.distanceUI = undefined;
         }
-
-
       }
 
       this.renderer.pApp.players.forEach(value => {
@@ -162,6 +142,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
       });
     });
   }
+
+
 
 
   public onPlayerHit(value: { target: Spaceship, damage: number }) {
@@ -179,51 +161,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
     this.ioConnection = this.socketService.onMessage()
       .subscribe((message: Message) => {
-
-        switch (message.type) {
-          /*
-          case "authMessage":
-            this.OnAuthMessage(message);
-            console.log(message);
-            break;
-           */
-
-          case "playerMessage":
-            if (this.ownPlayer === undefined || message.name !== this.ownPlayer.id)
-              this.moveEnemy(message);
-            break;
-
-          case "laserMessage":
-            this.initProjectile(message);
-            break;
-
-          case "dmgMessage":
-            const player = this.renderer.pApp.players.find(value => value.id === message.target);
-            player.health -= message.damage;
-            break;
-
-
-          case "killingBlowMessage":
-            this.OnKillingBlowMessage(message);
-            break;
-
-          case "lobbyQueryMessage":
-            if (this.ownPlayer !== undefined) {
-
-                const msg: PlayerJoinedMessage = this.getPlayerJoinedMessage();
-                this.socketService.send(msg);
-            }
-            break;
-
-          case "playerJoinedMessage":
-
-            this.OnPlayerJoinedMessage(message);
-            break;
-
-          default:
-            console.log("unknown message", message);
-            break;
-        }
+        this.OnMessageReceived(message)
       });
 
     this.socketService.onEvent(Event.CONNECT)
@@ -234,12 +172,66 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
         this.socketService.send ( new LobbyQueryMessage());
 
+        if (this.DEBUG) {
+          this.ui.spawnTypeWithName("default", "Schles");
+
+          const msg = new PlayerJoinedMessage("Enemy", 700, 340, 0, 100, 0, 0, 100, "#FFaaFF", 10);
+          this.socketService.send(msg);
+        }
+
       });
 
     this.socketService.onEvent(Event.DISCONNECT)
       .subscribe(() => {
         console.log('disconnected');
       });
+  }
+
+  public OnMessageReceived(message: Message) {
+
+    switch (message.type) {
+      /*
+      case "authMessage":
+        this.OnAuthMessage(message);
+        console.log(message);
+        break;
+       */
+
+      case "playerMessage":
+        if (this.ownPlayer === undefined || message.name !== this.ownPlayer.id)
+          this.moveEnemy(message);
+        break;
+
+      case "laserMessage":
+        this.initProjectile(message);
+        break;
+
+      case "dmgMessage":
+        const player = this.renderer.pApp.players.find(value => value.id === message.target);
+        player.health -= message.damage;
+        break;
+
+
+      case "killingBlowMessage":
+        this.OnKillingBlowMessage(message);
+        break;
+
+      case "lobbyQueryMessage":
+        if (this.ownPlayer !== undefined) {
+
+          const msg: PlayerJoinedMessage = this.ownPlayer.getPlayerJoinedMessage();
+          this.socketService.send(msg);
+        }
+        break;
+
+      case "playerJoinedMessage":
+        this.OnPlayerJoinedMessage(message);
+        break;
+
+      default:
+        console.log("unknown message", message);
+        break;
+    }
   }
 
   public OnPlayerJoinedMessage(message: PlayerJoinedMessage) {
@@ -257,40 +249,24 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
     this.ui.addKill(message.origin);
 
-    if (this.ownPlayer !== undefined) {
-      if (this.ownPlayer.id === deadPlayer.id) {
-        console.error("ich bin gestorben");
-        this.renderer.pApp.killPlayer(deadPlayer);
-        this.ownPlayer = undefined;
-        this.ui.loginEnabled = true;
-      } else {
-        this.renderer.pApp.killPlayer(deadPlayer);
+    if ( deadPlayer !== undefined) {
+      if (this.ownPlayer !== undefined) {
+        if (this.ownPlayer.id === deadPlayer.id) {
+          console.error("ich bin gestorben");
+          this.renderer.pApp.killPlayer(deadPlayer);
+          this.ownPlayer = undefined;
+          this.ui.loginEnabled = true;
+        } else {
+          this.renderer.pApp.killPlayer(deadPlayer);
 
-        if (this.ownPlayer.targetPlayer.id === deadPlayer.id) {
-          this.ownPlayer.removeTarget();
+          if (this.ownPlayer.targetPlayer.id === deadPlayer.id) {
+            this.ownPlayer.removeTarget();
+          }
         }
-      }
 
-    } else {
-      this.renderer.pApp.killPlayer(deadPlayer);
-    }
-  }
-
-  public OnAuthMessage(message: AuthMessage) {
-    if (this.ownPlayer === undefined || (message.name === this.ownPlayer.id && this.getEnemy(this.ownPlayer.id) === undefined)) {
-      //this.initOwnPlayer(message);
-    } else {
-      const enemyGO = this.getEnemy(message.name);
-      if (enemyGO === undefined) {
-        this.initEnemy(message);
-
-        const msg: AuthMessage = <AuthMessage>this.getPlayerMessage();
-        msg.type = "authMessage";
-        this.socketService.send(msg);
       } else {
-        console.log("Bereits bekannt");
+        this.renderer.pApp.killPlayer(deadPlayer);
       }
-
     }
   }
 
@@ -298,8 +274,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
     return this.renderer.pApp.players.find(value => {
       return value.id === name;
     });
-
-
   }
 
   public moveEnemy(msg: PlayerMessage) {
@@ -312,6 +286,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
     enemyGO.position.x = msg.x;
     enemyGO.position.y = msg.y;
 
+    enemyGO.speed.x = msg.speedX;
+    enemyGO.speed.y = msg.speedY;
+
     enemyGO.rotation = msg.rotation;
     enemyGO.cannon.rotation = msg.gun_rotation;
 
@@ -319,8 +296,19 @@ export class ClientComponent implements OnInit, AfterViewInit {
   }
 
   public initProjectile(msg: LaserMessage) {
-    const projectile: Projectile = new Projectile(msg.color);
 
+    const sourcePlayer: Spaceship = this.renderer.pApp.players.find( value => value.id === msg.origin);
+    const targetPlayer: Spaceship = this.renderer.pApp.players.find( value => value.id === msg.target);
+
+    if ( sourcePlayer === undefined && targetPlayer === undefined)
+      return;
+
+
+    const projectile: Laser = new Laser(msg.color);
+    projectile.source = sourcePlayer;
+    projectile.target = targetPlayer;
+
+/*
     projectile.drawLine({
       x: msg.startX,
       y: msg.startY
@@ -328,6 +316,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
       x: msg.endX,
       y: msg.endY
     });
+    */
 
     this.renderer.pApp.spawnProjectile(projectile);
   }
@@ -335,11 +324,16 @@ export class ClientComponent implements OnInit, AfterViewInit {
   public initEnemy(msg: PlayerJoinedMessage) {
     const enemy: Spaceship = new Spaceship(msg.name, msg.color);
 
+    console.log(msg);
+
     enemy.position.x = msg.x;
     enemy.position.y = msg.y;
 
     enemy.health = msg.health;
     enemy.rotation = msg.rotation;
+
+    enemy.speed.x = msg.speedX;
+    enemy.speed.y = msg.speedY;
 
     enemy.cannon.rotation = msg.gun_rotation;
 
@@ -349,23 +343,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
 
-    this.initIoConnection();
-
-    this.ui.spawnPlayer.subscribe( (value) => {
-      //console.log(value);
-    })
-
-  }
-
-
-  private getPlayerMessage(): PlayerMessage {
-    return new PlayerMessage(this.ownPlayer.id, this.ownPlayer.position.x, this.ownPlayer.position.y, this.ownPlayer.rotation, this.ownPlayer.cannon.rotation);
-  }
-
-  private getPlayerJoinedMessage(): PlayerJoinedMessage {
-    return new PlayerJoinedMessage(this.ownPlayer.id, this.ownPlayer.position.x, this.ownPlayer.position.y, this.ownPlayer.rotation, this.ownPlayer.cannon.rotation, this.ownPlayer.health, this.ownPlayer.color);
-  }
 
 }

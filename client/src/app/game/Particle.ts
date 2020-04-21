@@ -7,6 +7,7 @@ export class Particle {
   public accel: { x: number, y: number;};
 
   public rotation: number = 0;
+  public omega: number = 0;
 
   constructor() {
     this.position = { x: 0, y: 0};

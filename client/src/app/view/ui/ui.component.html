@@ -1,36 +1,31 @@
-<div style="display:flex;" class="header">
-  <div> Speed: {{speedUI}}</div>
-  <div> Cooldown: {{cooldownUI}} </div>
+<div style="display:flex;" class="header" >
+  <div *ngIf="!loginEnabled" style="display:flex;">
+    <div> Speed: {{speedUI}} ( {{speedInputUI}} )</div>
+    <div> Cooldown: {{cooldownUI}} </div>
 
-  <div *ngIf="distanceUI"> Distance: {{distanceUI}}</div>
-  <div *ngIf="orbitUI"> Orbit: {{orbitUI}}</div>
-    <!--<button (click)="changeOrbit(100)">100</button>
-    <button (click)="changeOrbit(200)">200</button>
-    <button (click)="changeOrbit(300)">300</button>-->
-
-
-
-
-</div>
-
-
-<div style="display:flex">
-  <ng-content></ng-content>
-
-  <div style="display:flex; flex-direction: column">
-    <div *ngIf="loginEnabled">
-      Name: <input [formControl]="nameControl">
-      <button (click)="spawnType('default')">Default</button>
-      <button (click)="spawnType('tank')">Tank</button>
-      <button (click)="spawnType('intercepter')">Intercepter</button>
-    </div>
-
-
-    <div>
-      Scoreboard
-      <div *ngFor="let scorer of scoreboard">
-        {{scorer.count}}| {{scorer.id}}
-      </div>
-    </div>
+    <div *ngIf="distanceUI"> Distance: {{distanceUI}}</div>
+    <div *ngIf="orbitUI"> Orbit: {{orbitUI}}</div>
+      <!--<button (click)="changeOrbit(100)">100</button>
+      <button (click)="changeOrbit(200)">200</button>
+      <button (click)="changeOrbit(300)">300</button>-->
   </div>
+
+  <div *ngIf="loginEnabled" style="display:flex;">
+    Name: <input [formControl]="nameControl">
+    <button (click)="spawnType('default')">Default</button>
+    <button (click)="spawnType('tank')">Tank</button>
+    <button (click)="spawnType('intercepter')">Intercepter</button>
+  </div>
+
 </div>
+
+
+
+
+
+
+
+<ng-content></ng-content>
+
+
+

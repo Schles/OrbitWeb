@@ -5,10 +5,8 @@ export class LaserMessage extends Message {
 
 
     constructor(public color: any,
-                public startX: number,
-                public startY: number,
-                public endX: number,
-                public endY: number) {
+                public origin: string,
+                public target: string) {
       super();
       this.type = "laserMessage";
     }

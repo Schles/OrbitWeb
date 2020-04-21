@@ -13,10 +13,12 @@ export class UiComponent implements OnInit {
 
 
   @Input() public speedUI: number = 1;
+  @Input() public speedInputUI: number = 1;
   @Input() public distanceUI: string;
   @Input() public orbitUI: number = 1;
   @Input() public cooldownUI: number = 1;
   @Input() public targetHPUI: number = 0;
+
 
   @Output() public spawnPlayer: EventEmitter<Spaceship> = new EventEmitter<Spaceship>();
 
@@ -40,13 +42,43 @@ export class UiComponent implements OnInit {
 
   public spawnType(type: string) {
     const name = this.nameControl.value;
+    this.spawnTypeWithName(type, name);
+  }
+
+  public spawnTypeWithName(type: string, name: string) {
+
 
     const c = this.getColor();
 
     const spaceship: Spaceship = SpaceshipFactory.create(name, type, c);
 
+    spaceship.position.x = 400;
+    spaceship.position.y = 150;
+    spaceship.shipSize = 10;
     this.spawnPlayer.emit(spaceship);
   }
+
+
+  public spawnTypeFull(type: string, name: string) {
+
+
+
+    const c = this.getColor();
+
+    const spaceship: Spaceship = SpaceshipFactory.create(name, type, c);
+
+    //spaceship.x = this.width * 0.1 + Math.floor(Math.random() * Math.floor(this.renderer.width * 0.8));
+    //const y = this.renderer.height * 0.1 + Math.floor(Math.random() * Math.floor(this.renderer.height * 0.8));
+    spaceship.position.x = 600;
+    spaceship.position.y = 300;
+    spaceship.rotation = Math.floor(Math.random() * 360) * Math.PI / 180;
+    spaceship.cannon.rotation = 90 * Math.PI / 180;
+
+    this.spawnPlayer.emit(spaceship);
+  }
+
+
+
 
   public getColor(): string {
     const c = '#'+Math.random().toString(16).substr(2,6);
