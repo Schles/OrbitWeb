@@ -20,6 +20,8 @@ export class UiComponent implements OnInit {
   @Input() public targetHPUI: number = 0;
 
 
+  public showCustom: boolean = false;
+
   @Output() public spawnPlayer: EventEmitter<Spaceship> = new EventEmitter<Spaceship>();
 
   public nameControl: FormControl;
@@ -99,6 +101,12 @@ export class UiComponent implements OnInit {
     scorer = this.scoreboard.find(value => value.id === name);
 
     scorer.count++;
+  }
+
+
+
+  public toggleCustom() {
+    this.showCustom = !this.showCustom;
   }
 
 }

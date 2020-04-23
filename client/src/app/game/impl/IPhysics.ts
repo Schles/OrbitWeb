@@ -76,7 +76,6 @@ export abstract class IPhysics {
     if( tangents.tangents !== undefined ) {
       return this.orbitOutside(spaceship, target, tangents.tangents.t1, tangents.tangents.t2);
     } else if ( tangents.isInside ) {
-      console.error("inside");
       return this.orbitInside(spaceship, target);
     } else {
       return this.orbitTangent(spaceship, target);

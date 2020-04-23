@@ -14,7 +14,4 @@ export class Particle {
     this.speed = { x: 0, y: 0};
     this.accel = { x: 0, y: 0};
   }
-
-
-
 }

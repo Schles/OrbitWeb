@@ -21,6 +21,7 @@ import {LobbyQueryMessage} from "../../shared/lobby-query-message";
 import {PlayerJoinedMessage} from "../../shared/player-joined-message";
 import {Projectile} from "../../game/weapons/Projectile";
 import {Laser} from "../../game/weapons/Laser";
+import {SpaceShooter} from "../../engine/SpaceShooter";
 
 
 
@@ -32,7 +33,7 @@ import {Laser} from "../../game/weapons/Laser";
 export class ClientComponent implements OnInit, AfterViewInit {
 
 
-  public DEBUG: boolean = false;
+  public DEBUG: boolean = true;
 
   //private userName: string;
   public ownPlayer: Spaceship;
@@ -47,10 +48,14 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   }
 
+  public get app(): SpaceShooter {
+    return this.renderer.pApp;
+  }
+
   ngAfterViewInit(): void {
     this.initIoConnection();
 
-//    this.renderer.pApp.test();
+
   }
 
 
@@ -82,8 +87,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
     });
 
     Game.playerClicked.subscribe((value) => {
-      console.log(value.target);
-      console.log(this.ownPlayer);
       if (value.target.id === this.ownPlayer.id) {
         console.log("self");
       } else {
@@ -239,7 +242,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
     if (enemyGO === undefined) {
       this.initEnemy(message);
     } else {
-      console.log("Bereits bekannt");
+      //console.log("Bereits bekannt");
     }
   }
 
@@ -323,8 +326,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   public initEnemy(msg: PlayerJoinedMessage) {
     const enemy: Spaceship = new Spaceship(msg.name, msg.color);
-
-    console.log(msg);
 
     enemy.position.x = msg.x;
     enemy.position.y = msg.y;

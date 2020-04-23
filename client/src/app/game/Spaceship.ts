@@ -204,7 +204,7 @@ export class Spaceship extends Particle {
 
 
 
-    playerObject.addChild(look);
+    //playerObject.addChild(look);
 
 
     const cannonCont: PIXI.Container = this.cannon.gameObject;
@@ -258,7 +258,7 @@ export class Spaceship extends Particle {
   public renderTargeting() {
 
 
-  } 
+  }
 
   public drawOrbit() {
     const graphics: PIXI.Graphics = new PIXI.Graphics();

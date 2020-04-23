@@ -3,6 +3,7 @@ import {CMath, Vector2} from "../../game/CMath";
 import * as math from 'mathjs';
 import {Game} from "../../game/Game";
 import {SpaceShooter} from "../../engine/SpaceShooter";
+import {Camera} from "../../engine/Camera";
 
 @Component({
   selector: 'app-renderer',
@@ -19,8 +20,8 @@ export class RendererComponent implements OnInit {
 
   public pApp: SpaceShooter; // this will be our pixi application
 
-  private xOffset = 16;
-  private yOffset = 60;
+  private xOffset = 0;
+  private yOffset = 0;
 
   ngOnInit() {
     this.ngZone.runOutsideAngular(() => {
@@ -28,9 +29,27 @@ export class RendererComponent implements OnInit {
     });
 
 
-    this.pixiContainer.nativeElement.appendChild(this.pApp.view); // this places our pixi application onto the viewable document
-    this.pApp.renderer.background = 0x061639;
 
+// scale your stage accordingly:
+
+
+
+
+
+
+
+
+    this.pixiContainer.nativeElement.appendChild(this.pApp.view); // this places our pixi application onto the viewable document
+
+
+
+    this.pApp.camera = new Camera(this.pApp.gameStage);
+    this.pApp.camera.setSize(this.width, this.height);
+
+/*
+    this.pApp.stage.width = this.width;
+    this.pApp.stage.height = 700;
+    */
     this.pApp.renderer.plugins.interaction.on('pointerup', (event) => this.canvasClicked(event));
 
     window.addEventListener(
@@ -66,46 +85,14 @@ export class RendererComponent implements OnInit {
     );
       }
 
-  private cameraFocusAllPlayer(): { start: Vector2, end: Vector2 } {
-
-    let start: Vector2 = {x:0, y: 0};
-    let end: Vector2 = {x:0, y: 0};
-
-    this.pApp.players.forEach( value => {
-      start.x = value.position.x - 100;
-      start.y = value.position.y - 100;
-
-      end.x = value.position.x + 100;
-      end.y = value.position.y + 100;
-    });
-
-    return {
-      start: start,
-      end: end
-    }
-  };
-
-
-  private cameraFocusRectangle(start: Vector2, end: Vector2) {
-    console.log("focusStart", start);
-    console.log("focusEnd", end);
-
-    const centerPoint: Vector2 = {
-      x: start.x + 0.5 * (end.x - start.x),
-      y: start.y + 0.5 * (end.y - start.y),
-    }
-
-    console.log(centerPoint);
-
-    this.pApp.stage.x = -centerPoint.x + 800;
-    this.pApp.stage.y = -centerPoint.y + 350;
-
-
-  }
 
   private canvasClicked(event) {
-    const localPosition: Vector2 = this.worldToLocalMatrix(event.data.global);
 
+    const v = this.pApp.gameStage.toLocal(event.data.global);
+    const localPosition: Vector2 = {
+      x: v.x,
+      y: v.y
+    };
 
     const clickedPlayer = this.pApp.players.find( (ship) =>
       CMath.isInsideCircle(ship.position, localPosition, 50));
@@ -131,8 +118,11 @@ export class RendererComponent implements OnInit {
     const viewportScale = 1 / this.devicePixelRatio;
     this.pApp.renderer.resize(window.innerWidth - this.xOffset , window.innerHeight - this.yOffset);
 
+    this.pApp.setRenderSize(this.pApp.renderer.width, this.pApp.renderer.height);
 
-    console.log(window.innerHeight);
+    if ( this.pApp.camera !== undefined)
+      this.pApp.camera.setSize(this.width, this.height);
+
     //this.pApp.view.style.transform = `scale(${viewportScale})`;
     //this.pApp.view.style.transformOrigin = `top left`;
 
@@ -164,7 +154,7 @@ export class RendererComponent implements OnInit {
   }
 
   public worldToLocalMatrix(v: Vector2): Vector2 {
-    const m = this.pApp.stage.worldTransform;
+    const m = this.pApp.gameStage.worldTransform;
     const vector = [v.x, v.y, 1];
     const matrix = math.matrix([[m.a, m.b, 0], [m.c, m.d, 0], [m.tx, m.ty, 1]]);
     const matInv = math.inv(matrix);

@@ -1,5 +1,5 @@
-<div style="display:flex;" class="header" >
-  <div *ngIf="!loginEnabled" style="display:flex;">
+<div class="ui" >
+  <div *ngIf="!loginEnabled" class="headsup">
     <div> Speed: {{speedUI}} ( {{speedInputUI}} )</div>
     <div> Cooldown: {{cooldownUI}} </div>
 
@@ -10,11 +10,18 @@
       <button (click)="changeOrbit(300)">300</button>-->
   </div>
 
-  <div *ngIf="loginEnabled" style="display:flex;">
-    Name: <input [formControl]="nameControl">
+  <div *ngIf="loginEnabled" class="login">
+    <input [formControl]="nameControl" placeholder="Name">
+
     <button (click)="spawnType('default')">Default</button>
     <button (click)="spawnType('tank')">Tank</button>
     <button (click)="spawnType('intercepter')">Intercepter</button>
+    <!--button (click)="toggleCustom()">Custom</button>-->
+
+
+    <div *ngIf="showCustom">
+      hallo
+    </div>
   </div>
 
 </div>

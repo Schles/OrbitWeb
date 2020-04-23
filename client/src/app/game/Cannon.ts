@@ -48,7 +48,16 @@ export class Cannon {
     // Applies fill to lines and shapes since the last call to beginFill.
     cannon.endFill();
 
-    cannonCont.addChild(cannon);
+    //cannonCont.addChild(cannon);
+
+    const sprite = PIXI.Sprite.from("assets/ShipATypeB.png");
+    sprite.tint = c;
+    sprite.x = 10;
+    sprite.y = 12;
+    sprite.scale.x = 0.1;
+    sprite.scale.y = 0.1;
+    sprite.rotation = Math.PI * -2 / 4;
+    cannonCont.addChild(sprite);
 
 
     return cannonCont;
