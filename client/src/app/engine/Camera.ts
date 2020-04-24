@@ -1,4 +1,4 @@
-import {CMath, Vector2} from "../game/CMath";
+import {CMath, Vector2} from "../util/CMath";
 
 export interface Rectangle {
   x1: Vector2,

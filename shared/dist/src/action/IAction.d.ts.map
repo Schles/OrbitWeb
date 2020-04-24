@@ -1,0 +1,1 @@
+{"version":3,"file":"IAction.d.ts","sourceRoot":"","sources":["../../../src/action/IAction.ts"],"names":[],"mappings":"AAAA,qBAAa,OAAO;IACX,OAAO,EAAE,MAAM,CAAC;IAEhB,WAAW,CAAC,EAAE,OAAO,CAAC;IACtB,UAAU,CAAC,EAAE,OAAO,CAAC;CAI7B"}

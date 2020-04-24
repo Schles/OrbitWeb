@@ -1,4 +1,4 @@
-import {Vector2} from "../CMath";
+import {Vector2} from "../../util/CMath";
 import * as math from "mathjs";
 
 export class SunGameObject {

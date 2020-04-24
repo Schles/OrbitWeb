@@ -1,4 +1,6 @@
 server/node_modules
 server/dist
 client/node_modules
+shared/node_modules
+shared/dist
 

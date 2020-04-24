@@ -1,4 +1,4 @@
-import {Vector2} from "../CMath";
+import {Vector2} from "../../util/CMath";
 
 
 export class Projectile {

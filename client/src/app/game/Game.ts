@@ -1,5 +1,5 @@
 import {EventEmitter} from "@angular/core";
-import {Vector2, Vector3} from "./CMath";
+
 import {Spaceship} from "./Spaceship";
 
 export class Game {

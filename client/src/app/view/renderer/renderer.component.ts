@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {CMath, Vector2} from "../../game/CMath";
+import {CMath, Vector2} from "../../util/CMath";
 import * as math from 'mathjs';
 import {Game} from "../../game/Game";
 import {SpaceShooter} from "../../engine/SpaceShooter";
@@ -56,7 +56,7 @@ export class RendererComponent implements OnInit {
       "keydown", (event) => {
         //
 
-        console.log(event);
+
 
         if(event.key=== "ArrowDown") {
           const start: Vector2 = {

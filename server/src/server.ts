@@ -2,7 +2,9 @@ import { createServer, Server } from 'http';
 import * as express from 'express';
 import * as socketIo from 'socket.io';
 
-import { Message } from './model/message';
+
+import {GameServer} from "./game/GameServer";
+import {Message} from "../../shared/src/message/Message";
 
 export class ChatServer {
   public static readonly PORT:number = 8000;
@@ -11,15 +13,20 @@ export class ChatServer {
   private io: SocketIO.Server;
   private port: string | number;
 
+  private gameServer: GameServer;
+
   constructor() {
     this.createApp();
     this.config();
     this.createServer();
     this.sockets();
     this.listen();
+
+
   }
 
   private createApp(): void {
+
     this.app = express();
   }
 
@@ -33,6 +40,7 @@ export class ChatServer {
 
   private sockets(): void {
     this.io = socketIo(this.server);
+    this.gameServer = new GameServer(this.io);
   }
 
   private listen(): void {
@@ -43,8 +51,8 @@ export class ChatServer {
     this.io.on('connect', (socket: any) => {
       console.log('Connected client on port %s.', this.port);
       socket.on('message', (m: Message) => {
-        //console.log('[server](message): %s', JSON.stringify(m));
-        this.io.emit('message', m);
+        this.gameServer.onMessage(m, this.io, socket);
+        //this.io.emit('message', m);
       });
 
       socket.on('disconnect', () => {

@@ -1,9 +1,18 @@
 {
-  "files": [
-    "src/*.ts",
-    "src/model/*.ts"
+
+  "references": [
+    /*
+    {
+      "path": "../shared"
+    }
+    */
+  ],
+  "include": [
+    "src/**/*",
+    "../shared/**/*"
   ],
   "compilerOptions": {
     "target": "es5"
+    //"target": "es2015"
   }
 }

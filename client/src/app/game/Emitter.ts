@@ -1,7 +1,8 @@
-import {Vector2} from "./CMath";
+
 import {ParticleEffect} from "./particles/ParticleEffect";
-import {Physics} from "./Physics";
-import {Spaceship} from "./Spaceship";
+import {Physics} from "../../../../shared/src/physics/Physics";
+import {SpaceshipGO} from "./gameobjects/SpaceshipGO";
+;
 
 export class Emitter {
 
@@ -121,7 +122,7 @@ export class Emitter {
     })
   }
 
-  public emit(sources: Spaceship[]) {
+  public emit(sources: SpaceshipGO[]) {
     sources.forEach( (spaceship) => {
 
 

@@ -1,24 +1,33 @@
 import {Spaceship} from "../game/Spaceship";
 import {Game} from "../game/Game";
-import {CMath, Vector2} from "../game/CMath";
+import {CMath} from "../util/CMath";
 
 import {Emitter} from "../game/Emitter";
-import {Laser} from "../game/weapons/Laser";
+
 import {Projectile} from "../game/weapons/Projectile";
 import {Camera} from "./Camera";
 import {TestFilter} from "../shader/filter/TestFilter";
 import * as math from "mathjs";
 import {SunFilter} from "../shader/filter/SunFilter";
 import {SunGameObject} from "../game/gameobjects/Sun";
+import {Skill} from "../game/skills/Skill";
+
+import {Message} from "../shared/message";
+import {SkillUsedMessage} from "../shared/skill-used-message";
+import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
+import {Vector2} from "../../../../shared/src/util/VectorInterface";
+import {SkillGO} from "../game/gameobjects/SkillGO";
+import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
 
 //import vertex from '../shader/myVertex.vs';
 
 export class SpaceShooter extends PIXI.Application {
 
-  public players: Spaceship[] = [];
+  public players: SpaceshipGO[] = [];
 
-  public projectiles: Projectile[] = [];
+  public projectiles: ProjectileGO[] = [];
 
+  public skills: SkillGO[] = [];
 
   public emitter: Emitter;
 
@@ -32,11 +41,7 @@ export class SpaceShooter extends PIXI.Application {
   private _gameStage: PIXI.Container;
   private _uiStage: PIXI.Container;
 
-
   private sunGameObject: SunGameObject;
-
-
-
 
 
   public get gameStage(): PIXI.Container {
@@ -53,7 +58,7 @@ export class SpaceShooter extends PIXI.Application {
   constructor(options) {
     super(options);
 
-    this.test();
+    this.boot();
 
 
   }
@@ -65,8 +70,8 @@ export class SpaceShooter extends PIXI.Application {
     this.renderSizePoint.y = y;
   }
 
-  public test() {
-    console.log("test");
+  public boot() {
+    console.log("boot");
 
     this._gameStage = new PIXI.Container();
     this._uiStage = new PIXI.Container();
@@ -76,10 +81,6 @@ export class SpaceShooter extends PIXI.Application {
 
     this.emitter = new Emitter(1000);
     this.emitter.init();
-
-
-
-
 
     this.gameStage.addChild(this.emitter.getContainer());
 
@@ -115,8 +116,7 @@ export class SpaceShooter extends PIXI.Application {
       this.emitter.emit ( this.players );
       this.emitter.update(dT);
 
-      const removeProjectiles: Projectile[] = [];
-
+      // Camera
       if (this.camera !== undefined)
        this.camera.iterate(this.players.map( (v) => v.position), dT);
 
@@ -132,28 +132,49 @@ export class SpaceShooter extends PIXI.Application {
 
       this.sunGameObject.iterate(dT);
 
-      this.projectiles.forEach( value => {
-        value.iterate(dT);
-
-        if( value.timeToLife < 0)
-          removeProjectiles.push(value);
-      });
-
-      removeProjectiles.forEach( value => {
-        const index = this.projectiles.findIndex( value1 => value1.id === value.id)
-        this.gameStage.removeChild(value.gameObject);
-        this.projectiles.splice(index, 1);
-      })
+      this.iterateSkills(dT);
+      this.iterateProjectiles(dT);
+      this.iteratePlayer(dT);
 
     })
 
 
   }
 
+  private iteratePlayer(delta: number) {
+    this.players.forEach(value => {
+      value.iterate(delta);
+      value.iterateGraphics();
+    });
+
+  }
+
+  private iterateSkills(delta: number) {
+    const removeSkills: SkillGO[] = [];
+
+    this.skills.forEach( (skill: SkillGO) => {
+      skill.iterate(delta);
+
+      if( skill.remainingTime < 0)
+        removeSkills.push(skill);
+    });
+
+    removeSkills.forEach( value => {
+      const index = this.skills.findIndex( value1 => value1.id === value.id);
+      this.skills[index].onDestroy();
+      this.skills.splice(index, 1);
+    })
+
+  }
+
+  private iterateProjectiles(delta: number) {
+    this.projectiles.forEach( (projectile: ProjectileGO) => {
+      projectile.iterate(delta);
+    });
+  }
+
   public loadShader() {
-
     this.loader.add("shader", "assets/shader/myVertex.fs").add("sun", "assets/shader/SunShader.frag").load( (a, b) => this.onLoaded(a,b));
-
   }
 
   private filter: TestFilter;
@@ -173,7 +194,7 @@ export class SpaceShooter extends PIXI.Application {
 
     this.sunGameObject.initShader(res.sun.data, this.renderer.screen);
 
-    testFilter.setSize(this.renderer.width, this.renderer.height)
+    testFilter.setSize(this.renderer.width, this.renderer.height);
 
 
 
@@ -187,34 +208,60 @@ export class SpaceShooter extends PIXI.Application {
 
   }
 
-  public spawnPlayer(player: Spaceship) {
+  // Skill
 
+  public spawnSkill(skill: SkillGO) {
+    skill.onInit();
+    this.skills.push(skill);
+  }
+
+  // Player
+
+  public spawnPlayer(player: SpaceshipGO) {
     this.players.push(player);
-
+    player.onInit();
     this.gameStage.addChild(player.gameObject);
 
   }
 
-  public killPlayer(player: Spaceship) {
+  public killPlayer(player: SpaceshipGO) {
     this.gameStage.removeChild(player.gameObject);
 
     const p = this.players.findIndex( value => value.id === player.id);
-
     if ( p !== undefined) {
+      player.onDestroy();
       this.players.splice(p, 1);
     }
   }
 
-  private projId = 0;
+  // Projectiles
 
-  public spawnProjectile(projectile: Projectile) {
+  public spawnProjectile(projectile: ProjectileGO) {
 
-    projectile.id = this.projId;
-    this.projId++;
-    this.projectiles.push(projectile);
+    if ( this.projectiles.findIndex( (p) => p.id === projectile.id ) < 0) {
+      this.projectiles.push(projectile);
 
-    this.gameStage.addChild(projectile.gameObject);
+      projectile.onInit();
+      this.gameStage.addChild(projectile.gameObject);
+    }
   }
+
+  public destroyProjectile(projectile: ProjectileGO) {
+
+    if ( this.projectiles.findIndex( (p) => p.id === projectile.id ) > -1) {
+
+      this.gameStage.removeChild(projectile.gameObject);
+
+      const p = this.projectiles.findIndex(value => value.id === projectile.id);
+      if (p !== undefined) {
+        projectile.onDestroy();
+        this.projectiles.splice(p, 1);
+      }
+    }
+  }
+
+
+
 
   public renderTargeting() {
 
@@ -228,7 +275,7 @@ export class SpaceShooter extends PIXI.Application {
         this.drawLine(this.targetingLine, source, target, 0xFF0000, 1);
 
         const dir = CMath.sub(target, source);
-        const len = CMath.length(dir);
+        const len = CMath.len(dir);
         const center: Vector2 = CMath.add(source, CMath.scale(dir, 0.5));
 
         this.targetingText.x = center.x;

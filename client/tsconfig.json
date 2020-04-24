@@ -23,7 +23,13 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
-  "files": [
-    "../server/src"
+  "references": [
+    /*
+    {
+      "path": "../shared"
+    }*/
+  ],
+  "include": [
+    "../shared/**/*"
   ]
 }

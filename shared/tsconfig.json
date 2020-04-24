@@ -1,0 +1,17 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    /* Truncated compiler options to list only relevant options */
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": ".",
+    "composite": true,
+    "outDir": "dist",
+    "target": "es5"
+  },
+
+  "include": [
+    "src/**/*"
+  ],
+  "references": []  // * Any project that is referenced must itself have a `references` array (which may be empty).
+}

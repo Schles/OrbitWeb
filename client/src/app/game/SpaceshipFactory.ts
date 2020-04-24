@@ -1,4 +1,5 @@
-import {Spaceship} from "./Spaceship";
+import {Spaceship} from "../../../../shared/src/model/Spaceship";
+
 
 export class SpaceshipFactory {
   public static create(name: string, type: string, color?: string): Spaceship {

@@ -1,4 +1,5 @@
-import {Particle} from "../Particle";
+import {Particle} from "../../../../../shared/src/model/Particle";
+
 
 export class ParticleEffect extends Particle {
   public timeToLive: number = 0;
