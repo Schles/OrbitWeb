@@ -1,6 +1,7 @@
 import {Particle} from "./Particle";
 import {Vector2} from "../util/VectorInterface";
 import {Cannon} from "./Cannon";
+import {ShipFitting} from "./ShipFitting";
 
 
 
@@ -14,15 +15,16 @@ export class Spaceship extends Particle {
   public color: string = "#00FF00";
 
   public maxSpeed: number = 50;
+
   public curSpeed: number = 0;
+
+  public fitting: ShipFitting = new ShipFitting();
 
   public get acceleration(): number {
     return this.maxSpeed / (this.timeToMaxSpeed);
   }
 
   public timeToMaxSpeed = 2;
-
-  //public physics: IPhysics;
 
   public shipSize: number = 7;
 
@@ -48,9 +50,6 @@ export class Spaceship extends Particle {
   public actionKeepAtRange: boolean = false;
 
   public cannon: Cannon;
-
-
-
 
   constructor(id, color) {
     super();

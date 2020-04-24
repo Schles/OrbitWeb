@@ -18,6 +18,8 @@ import {EventManager} from "./EventManager";
 import {ProjectileSpawnMessage} from "../../../shared/src/message/game/projectile/ProjectileSpawnMessage";
 import {ProjectileDestroyMessage} from "../../../shared/src/message/game/projectile/ProjectileDestroyMessage";
 import {PlayerKilledMessage} from "../../../shared/src/message/game/player/PlayerKilledMessage";
+import {ShipFitting} from "../../../shared/src/model/ShipFitting";
+import {ShipEquipmentEntity} from "../entities/ShipEquipmentEntity";
 
 const gameloop = require('node-gameloop');
 
@@ -63,18 +65,7 @@ export class GameServer {
 
 
     EventManager.shootProjectile.on('playerHit', (msg) => {
-
-
         msg.target.health -= msg.damage;
-
-        console.log(msg.target.health);
-/*
-        if (health <= 0) {
-          this.socketService.send(new KillingBlowMessage(this.ownPlayer.id, value.target.id, value.damage));
-        } else {
-          this.socketService.send(new DamageMessage(this.ownPlayer.id, value.target.id, value.damage));
-        }
-*/
     });
 
 
@@ -198,19 +189,19 @@ export class GameServer {
 
       const target = this.getPlayer(player.targetPlayer.id);
 
-      const skill: SkillEntity = SkillFactory.createTargetSkill(msg.action.skillId, player, target);
+      const skill: SkillEntity = SkillFactory.createTargetSkill(msg.skillId, player, target);
       skill.onInit();
       this.skills.push(skill);
 
-      res = new PlayerTargetSkillUsedMessage(msg.source, player.targetPlayer.id, msg.action.skillId);
+      res = new PlayerTargetSkillUsedMessage(msg.source, player.targetPlayer.id, msg.skillId);
     } else if (msg.action.targetSelf) {
 
-      const skill: SkillEntity = SkillFactory.createTargetSkill(msg.action.skillId, player, player);
+      const skill: SkillEntity = SkillFactory.createTargetSkill(msg.skillId, player, player);
       skill.onInit();
       this.skills.push(skill);
 
-      skill.id = msg.action.skillId;
-      res = new PlayerTargetSkillUsedMessage(msg.source, msg.source, msg.action.skillId);
+      skill.id = msg.skillId;
+      res = new PlayerTargetSkillUsedMessage(msg.source, msg.source, msg.skillId);
     } else if (msg.action.targetPosition !== undefined){
       //msg = new SkillUsedMessage(action.skillId, ownPlayer.id, null, action.targetPosition);
     }
@@ -223,12 +214,14 @@ export class GameServer {
 
     let player = this.players.find( (p) => p.id === msg.source);
 
-
-
     if ( player === undefined) {
       const sp = new Spaceship(msg.source, this.getColor());
 
       player = new SpaceshipEntity(sp);
+      player.fitting = new ShipFitting();
+      player.fitting.fitting= msg.fitting.fitting.map( (fit) => {
+        return new ShipEquipmentEntity(fit);
+      });
 
       player.onInit();
       this.players.push(player);
@@ -270,7 +263,7 @@ export class GameServer {
 
 
       this.players.forEach( value1 => {
-        if ( value1.targetPlayer.id === value.id)
+        if ( value1.targetPlayer !== undefined && value1.targetPlayer.id === value.id)
           value1.targetPlayer = undefined;
       });
     })

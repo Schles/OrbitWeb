@@ -1,36 +1,19 @@
 <div class="ui" >
   <div *ngIf="!loginEnabled" class="headsup">
-    <div> Speed: {{speedUI}} ( {{speedInputUI}} )</div>
-    <div> Cooldown: {{cooldownUI}} </div>
+    <app-headsup #headsUp>
 
-    <div *ngIf="distanceUI"> Distance: {{distanceUI}}</div>
-    <div *ngIf="orbitUI"> Orbit: {{orbitUI}}</div>
-      <!--<button (click)="changeOrbit(100)">100</button>
-      <button (click)="changeOrbit(200)">200</button>
-      <button (click)="changeOrbit(300)">300</button>-->
+    </app-headsup>
   </div>
 
   <div *ngIf="loginEnabled" class="login">
-    <input [formControl]="nameControl" placeholder="Name">
-
-    <button (click)="spawnType('default')">Default</button>
-    <button (click)="spawnType('tank')">Tank</button>
-    <button (click)="spawnType('intercepter')">Intercepter</button>
-    <!--button (click)="toggleCustom()">Custom</button>-->
-
-
     <div *ngIf="showCustom">
-      hallo
+      <app-fitting #fitting>
+
+      </app-fitting>
     </div>
   </div>
 
 </div>
-
-
-
-
-
-
 
 <ng-content></ng-content>
 

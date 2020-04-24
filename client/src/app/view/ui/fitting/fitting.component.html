@@ -1,0 +1,8 @@
+<input [formControl]="nameControl" placeholder="Name">
+
+<button (click)="spawnType('default')">Default</button>
+<button (click)="spawnType('tank')">Tank</button>
+<button (click)="spawnType('intercepter')">Intercepter</button>
+<button (click)="toggleCustom()">Custom</button>
+
+<button (click)="spawn()">Spawn</button>

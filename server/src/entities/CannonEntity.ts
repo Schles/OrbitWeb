@@ -92,7 +92,7 @@ export class CannonEntity extends Cannon {
       } else {
         // Getroffen
 //        Game.playerHit.emit( { target: <Spaceship> this.targetPlayer, damage: this.damage });
-        EventManager.shootProjectile.emit("playerHit", { source: this.parent, target: this.targetPlayer, damage: 1.0});
+        EventManager.shootProjectile.emit("playerHit", { source: this.parent, target: this.targetPlayer, damage: 100.0});
       }
 
       EventManager.shootProjectile.emit("shootProjectile", { source: this.parent, target: this.targetPlayer});

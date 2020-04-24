@@ -10,7 +10,7 @@ export class SkillPrototypes {
         return new Repair(source, target);
         break;
       default:
-        return undefined;
+        return new Repair(source, target);
     }
 
   }

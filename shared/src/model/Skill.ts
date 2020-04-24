@@ -1,5 +1,4 @@
 
-
 export class Skill{
   public id;
 

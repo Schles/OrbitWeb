@@ -4,6 +4,7 @@ import * as math from 'mathjs';
 import {Game} from "../../game/Game";
 import {SpaceShooter} from "../../engine/SpaceShooter";
 import {Camera} from "../../engine/Camera";
+import {GameService} from "../../service/game.service";
 
 @Component({
   selector: 'app-renderer',
@@ -16,28 +17,23 @@ export class RendererComponent implements OnInit {
 
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone, private gameService: GameService) {
+    console.log(this.gameService);
+  }
 
-  public pApp: SpaceShooter; // this will be our pixi application
+  public get pApp(): SpaceShooter { // this will be our pixi application
+    return this.gameService.app();
+  }
 
   private xOffset = 0;
   private yOffset = 0;
 
   ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      this.pApp = new SpaceShooter({ width: window.innerWidth - this.xOffset, height: window.innerHeight - this.yOffset }); // this creates our pixi application
-    });
+
 
 
 
 // scale your stage accordingly:
-
-
-
-
-
-
-
 
     this.pixiContainer.nativeElement.appendChild(this.pApp.view); // this places our pixi application onto the viewable document
 
@@ -176,10 +172,5 @@ export class RendererComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.destroy();
-  }
-
-  public changeOrbit(radius: number) {
-    this.player1.rotateRadius = radius;
-
   }
 }

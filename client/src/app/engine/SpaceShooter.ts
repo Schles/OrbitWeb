@@ -177,7 +177,7 @@ export class SpaceShooter extends PIXI.Application {
     this.loader.add("shader", "assets/shader/myVertex.fs").add("sun", "assets/shader/SunShader.frag").load( (a, b) => this.onLoaded(a,b));
   }
 
-  private filter: TestFilter;
+  private filter: TestFilter
 
   public onLoaded(loader, res) {
     console.log(res);

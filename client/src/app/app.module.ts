@@ -7,13 +7,20 @@ import { RendererComponent } from './view/renderer/renderer.component';
 import { ClientComponent } from './view/client/client.component';
 import { UiComponent } from './view/ui/ui.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { FittingComponent } from './view/ui/fitting/fitting.component';
+import { HeadsupComponent } from './view/ui/headsup/headsup.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RendererComponent,
     ClientComponent,
-    UiComponent
+    UiComponent,
+    FittingComponent,
+    HeadsupComponent,
+
   ],
   imports: [
     BrowserModule,

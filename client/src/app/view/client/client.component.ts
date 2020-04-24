@@ -41,6 +41,10 @@ import {ProjectileSpawnMessage} from "../../../../../shared/src/message/game/pro
 import {ProjectileUpdateMessage} from "../../../../../shared/src/message/game/projectile/ProjectileUpdateMessage";
 import {ProjectileDestroyMessage} from "../../../../../shared/src/message/game/projectile/ProjectileDestroyMessage";
 import {ProjectileGO} from "../../game/gameobjects/ProjectileGO";
+import {GameService} from "../../service/game.service";
+import {CastSpell} from "../../util/CastSpell";
+import {ShipFitting} from "../../../../../shared/src/model/ShipFitting";
+import {ShipEquipmentGO} from "../../game/gameobjects/ShipEquipmentGO";
 
 
 @Component({
@@ -50,21 +54,13 @@ import {ProjectileGO} from "../../game/gameobjects/ProjectileGO";
 })
 export class ClientComponent implements OnInit, AfterViewInit {
 
-
-
-
-  public DEBUG: boolean = true;
-
-  private userName: string;
   public ownPlayer: SpaceshipGO;
-
-  private ioConnection: any;
 
   @ViewChild(UiComponent) private ui: UiComponent;
   @ViewChild('renderer') private renderer: RendererComponent;
 
 
-  constructor(private socketService: WebsocketService, private route: ActivatedRoute) {
+  constructor(private gameService: GameService) {
 
   }
 
@@ -73,68 +69,45 @@ export class ClientComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initIoConnection();
-
-
+    this.gameService.connect();
   }
 
 
   ngOnInit() {
 
-
     window.addEventListener(
       "keydown", (event) => {
         if ( this.ownPlayer !== undefined) {
-          if ( event.key === "h") {
-
-
-            const action = new IAction();
-            action.skillId = "repair";
-            action.targetSelf = true;
-
-            //this.ownPlayer.actions[0]
-
-
-
-            const msg = new PlayerActionMessage(this.ownPlayer.id, action);
-            this.socketService.send(msg);
-
-          } else if ( event.key === "j") {
-
-
-            const action = new IAction();
-            action.skillId = "webber";
-            action.targetEnemy = true;
-
-            const msg = new PlayerActionMessage(this.ownPlayer.id, action);
-            this.socketService.send(msg)
-          } else if ( event.key === "k") {
-
-/*
-            const action = new IAction();
-            action.skillId = "bubble";
-            action.targetPosition = {x: 500, y: 500};
-
-            //this.ownPlayer.actions[0]
-            const msg = this.renderer.pApp.spawnAction(this.ownPlayer, action);
-            this.socketService.send(msg);
-
- */
+          if ( event.key === "1") {
+            const msg = CastSpell.castSpell(this.ownPlayer, 0);
+            if ( msg !== undefined) { this.gameService.send(msg); }
+          } else if ( event.key === "2") {
+            const msg = CastSpell.castSpell(this.ownPlayer, 1);
+            if ( msg !== undefined) { this.gameService.send(msg); }
+          } else if ( event.key === "3") {
+            const msg = CastSpell.castSpell(this.ownPlayer, 2);
+            if ( msg !== undefined) { this.gameService.send(msg); }
+          } else if ( event.key === "4") {
+            const msg = CastSpell.castSpell(this.ownPlayer, 3);
+            if ( msg !== undefined) { this.gameService.send(msg); }
+          } else if ( event.key === "5") {
+            const msg = CastSpell.castSpell(this.ownPlayer, 4);
+            if ( msg !== undefined) { this.gameService.send(msg); }
           }
         }
       });
 
-    this.ui.spawnPlayer.subscribe( (value: Spaceship) => {
-        this.ownPlayer = value;
-        this.renderer.pApp.spawnPlayer(this.ownPlayer);
+    this.gameService.onConnect.subscribe( () => {
 
-      this.ownPlayer.iterateGraphics();
+      this.ui.loginEnabled = true;
 
-      const msg: PlayerJoinedMessage = this.ownPlayer.getPlayerJoinedMessage();
-      this.socketService.send(msg);
+      this.gameService.send ( new LobbyQueryMessage());
 
-      this.ui.loginEnabled = false;
-    });
+    })
+
+    this.gameService.onMessage.subscribe( (msg: Message) => {
+      this.OnMessageReceived(msg);
+    })
 
     Game.worldClicked.subscribe((event: { localPosition: Vector2, event: any }) => {
       console.log("worldClicked", event.localPosition);
@@ -142,7 +115,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
         const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.ownPlayer.id, event.localPosition);
 
-        this.socketService.send(msg);
+        this.gameService.send(msg);
 
         this.ownPlayer.targetPosition = event.localPosition;
         this.ownPlayer.actionOrbitTarget = false;
@@ -158,7 +131,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
         const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.ownPlayer.id, value.target.id);
 
-        this.socketService.send(msg);
+        this.gameService.send(msg);
 
         //this.ownPlayer.targetPlayer = value.target;
         //this.ownPlayer.actionOrbitTarget = true;
@@ -197,36 +170,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private initIoConnection(): void {
-    this.socketService.initSocket();
 
-    this.ioConnection = this.socketService.onMessage()
-      .subscribe((message: Message) => {
-        this.OnMessageReceived(message)
-      });
 
-    this.socketService.onEvent(Event.CONNECT)
-      .subscribe(() => {
-        console.log('connected');
 
-        this.ui.loginEnabled = true;
-
-        this.socketService.send ( new LobbyQueryMessage());
-
-        if (this.DEBUG) {
-          this.userName = "Schles";
-          this.ui.loginEnabled = false;
-          const msg = new PlayerLoginMessage(this.userName);
-          this.socketService.send(msg);
-        }
-
-      });
-
-    this.socketService.onEvent(Event.DISCONNECT)
-      .subscribe(() => {
-        console.log('disconnected');
-      });
-  }
 
   public OnMessageReceived(message: Message) {
 //console.log(message);
@@ -278,11 +224,40 @@ export class ClientComponent implements OnInit, AfterViewInit {
   }
 
   public OnPlayerJoinedMessage(message: PlayerJoinedMessage) {
-    const enemyGO = this.getEnemy(message.source);
+    console.log(message);
+    let enemyGO: SpaceshipGO = this.getEnemy(message.source);
+
     if (enemyGO === undefined) {
-      this.initEnemy(message);
+
+      const enemy: Spaceship = Factories.createSpaceship(message);
+
+      enemyGO =  new SpaceshipGO(enemy);
+      /*
+          enemy.position.x = msg.x;
+          enemy.position.y = msg.y;
+
+          enemy.health = msg.health;
+          enemy.rotation = msg.rotation;
+
+          enemy.speed.x = msg.speedX;
+          enemy.speed.y = msg.speedY;
+
+          enemy.cannon.rotation = msg.gun_rotation;
+      */
+      enemyGO.fitting = new ShipFitting();
+      enemyGO.fitting.fitting = message.fitting.fitting.map ( (fit) => {
+        return new ShipEquipmentGO(fit);
+      });
+      this.renderer.pApp.spawnPlayer(enemyGO);
+
+      enemyGO.iterateGraphics();
     } else {
       //console.log("Bereits bekannt");
+    }
+
+    if ( message.source === this.gameService.getUserName()) {
+      this.ownPlayer = enemyGO;
+      this.ui.loginEnabled = false;
     }
   }
 
@@ -346,34 +321,6 @@ export class ClientComponent implements OnInit, AfterViewInit {
     enemyGO.iterateGraphics();
   }
 
-  public initEnemy(msg: PlayerJoinedMessage) {
-    console.error(msg);
-
-    const enemy: Spaceship = Factories.createSpaceship(msg);
-
-    const spaceship: SpaceshipGO = new SpaceshipGO(enemy);
-/*
-    enemy.position.x = msg.x;
-    enemy.position.y = msg.y;
-
-    enemy.health = msg.health;
-    enemy.rotation = msg.rotation;
-
-    enemy.speed.x = msg.speedX;
-    enemy.speed.y = msg.speedY;
-
-    enemy.cannon.rotation = msg.gun_rotation;
-*/
-    this.renderer.pApp.spawnPlayer(spaceship);
-
-    if ( msg.source === this.userName) {
-      this.ownPlayer = spaceship;
-    }
-
-    spaceship.iterateGraphics();
-
-  }
-
   // Projectile
 
   public onProjSpawn(msg: ProjectileSpawnMessage) {
@@ -395,9 +342,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
   }
 
   public onProjDestroy(msg: ProjectileDestroyMessage) {
-    console.log(msg);
+
     const projectile = this.renderer.pApp.projectiles.find ( (p) => p.id === msg.id);
-console.log(projectile);
+
     if (projectile !== undefined) {
       this.renderer.pApp.destroyProjectile(projectile);
     }
