@@ -2,6 +2,7 @@
 import {ParticleEffect} from "./particles/ParticleEffect";
 import {Physics} from "../../../../shared/src/physics/Physics";
 import {SpaceshipGO} from "./gameobjects/SpaceshipGO";
+import {Particle} from "../../../../shared/src/model/Particle";
 ;
 
 export class Emitter {
@@ -122,7 +123,7 @@ export class Emitter {
     })
   }
 
-  public emit(sources: SpaceshipGO[]) {
+  public emit(sources: { p: Particle, c: any}[]) {
     sources.forEach( (spaceship) => {
 
 
@@ -130,16 +131,16 @@ export class Emitter {
 
           particle.timeToLive = particle.lifeTime;
 
-          particle.sprite.tint = PIXI.utils.string2hex(spaceship.color);
+          particle.sprite.tint = PIXI.utils.string2hex(spaceship.c);
 
           particle.position = {
-            x: spaceship.position.x,
-            y: spaceship.position.y
+            x: spaceship.p.position.x,
+            y: spaceship.p.position.y
           };
 
           particle.speed = {
-            x: -1 * spaceship.speed.x,
-            y: -1 * spaceship.speed.y
+            x: -1 * spaceship.p.speed.x,
+            y: -1 * spaceship.p.speed.y
           };
 
 

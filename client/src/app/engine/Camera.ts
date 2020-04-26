@@ -1,4 +1,5 @@
-import {CMath, Vector2} from "../util/CMath";
+import {CMath} from "../util/CMath";
+import {Vector2} from "../../../../shared/src/util/VectorInterface";
 
 export interface Rectangle {
   x1: Vector2,
@@ -41,13 +42,25 @@ export class Camera {
 
   public iterate(positions: Vector2[], delta) {
 
+    ;
+    let rect: Rectangle;
 
-
-
-    if ( positions.length < 2)
+    if ( positions.length < 1)
       return;
-
-    let rect: Rectangle = this.focus(positions);
+    else if (positions.length < 2) {
+      const pos: Vector2 = positions[0];
+      rect = {
+        x1: {
+          x: pos.x - 20,
+          y: pos.y - 20
+        },
+        x2: {
+          x: pos.x + 20,
+          y: pos.y + 20
+        }
+      };
+    } else
+      rect = this.focus(positions);
 
     let scale = this.findZoom(rect);
 
@@ -66,8 +79,8 @@ export class Camera {
 
 
 
-    const a = this.view.toGlobal(localCenterPoint);
-    const b = this.view.toGlobal({
+    const a = this.view.toGlobal(<any>localCenterPoint);
+    const b = this.view.toGlobal(<any>{
       x: w / scale,
       y: h / scale
     });

@@ -20,6 +20,12 @@ import {ProjectileDestroyMessage} from "../../../shared/src/message/game/project
 import {PlayerKilledMessage} from "../../../shared/src/message/game/player/PlayerKilledMessage";
 import {ShipFitting} from "../../../shared/src/model/ShipFitting";
 import {ShipEquipmentEntity} from "../entities/ShipEquipmentEntity";
+import {EQFactory} from "../equipment/EQFactory";
+import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
+import {PlayerSelfKillMessage} from "../../../shared/src/message/game/player/PlayerSelfKillMessage";
+import {Scoreboard} from "./Scoreboard";
+import {ScoreboardUpdateMessage} from "../../../shared/src/message/game/ScoreboardUpdateMessage";
+
 
 const gameloop = require('node-gameloop');
 
@@ -35,12 +41,16 @@ export class GameServer {
 
   private projectiles: ProjectileEntity[] = [];
 
+  public scoreboard: Scoreboard;
+
   constructor(private io: SocketIO.Server) {
     this.init();
   }
 
   public init() {
-    this.spawnEnemy("Enemy");
+    this.spawnEnemy("Enemy")
+
+    this.scoreboard = new Scoreboard();
 
     this.gameLoopId = gameloop.setGameLoop( (delta) => {
       // `delta` is the delta time from the last frame
@@ -52,12 +62,13 @@ export class GameServer {
 
     EventManager.shootProjectile.on('shootProjectile', (msg) => {
 
-      const projectile: ProjectileEntity = new ProjectileEntity(''+this.getUniqueId(), msg.source, msg.target);
-      projectile.onInit();
+      const projectileEntity: ProjectileEntity = <ProjectileEntity> msg.projectile;
+      projectileEntity.id = ''+this.getUniqueId();
+      projectileEntity.onInit();
 
-      this.projectiles.push(projectile);
+      this.projectiles.push(projectileEntity);
 
-      const res: Message = new ProjectileSpawnMessage(projectile, msg.source.id, msg.target.id);
+      const res: Message = new ProjectileSpawnMessage(projectileEntity, projectileEntity.source.id, projectileEntity.target.id);
       this.send(res);
 
 
@@ -79,6 +90,9 @@ export class GameServer {
     const sp = new Spaceship(name, this.getColor());
 
     const player = new SpaceshipEntity(sp);
+    player.position.x = 300;
+    player.position.y = 500;
+
     player.onInit();
     this.players.push(player);
   }
@@ -94,7 +108,7 @@ export class GameServer {
       });
 
 
-    this.projectiles.forEach( value => {
+    this.projectiles.forEach( (value: ProjectileEntity) => {
       value.iterate(delta);
 
       const msg = new ProjectileUpdateMessage(value);
@@ -113,7 +127,7 @@ export class GameServer {
   }
 
   public onMessage(msg: Message, broadCast, singleCast) {
-    console.log(msg);
+    //console.log(msg);
 
     let p, t;
 
@@ -131,6 +145,14 @@ export class GameServer {
           const resmsg: PlayerJoinedMessage = new PlayerJoinedMessage(player);
           this.send(resmsg);
         })
+
+        this.projectiles.forEach( (proj) => {
+          const resmsg1: ProjectileSpawnMessage = new ProjectileSpawnMessage(proj, proj.source.id, proj.target.id);
+          this.send(resmsg1);
+        });
+
+        const ansmsg = new ScoreboardUpdateMessage(this.scoreboard.scoreboard);
+        this.send(ansmsg);
 
         break;
 
@@ -159,6 +181,10 @@ export class GameServer {
         this.onPlayerAction(<PlayerActionMessage> msg);
         break;
 
+      case "playerSelfKillMessage":
+        this.onSelfKill(<PlayerSelfKillMessage> msg);
+        break;
+
       default:
         console.log("unknown message");
         break;
@@ -181,7 +207,16 @@ export class GameServer {
 
     let res;
 
-    if (msg.action.targetEnemy) {
+    if ( msg.skillIndex >= player.fitting.fitting.length) {
+      console.log("skill not available");
+      return;
+    }
+
+    const shipEquipment: ShipEquipment = player.fitting.fitting[msg.skillIndex]
+    if ( shipEquipment.name !== "Empty")
+      shipEquipment.state.pendingState = !shipEquipment.state.pendingState;
+/*
+    if (shipEquipment.action.targetEnemy) {
       if ( player.targetPlayer === undefined) {
         console.log("no target player focused");
         return;
@@ -207,7 +242,7 @@ export class GameServer {
     }
 
     this.send(res);
-
+*/
   }
 
   private onPlayerLogin(msg: PlayerLoginMessage) {
@@ -219,9 +254,13 @@ export class GameServer {
 
       player = new SpaceshipEntity(sp);
       player.fitting = new ShipFitting();
-      player.fitting.fitting= msg.fitting.fitting.map( (fit) => {
-        return new ShipEquipmentEntity(fit);
+      player.fitting.fitting = msg.fitting.fitting.map( (fit) => {
+        return EQFactory.create(fit);
+        //return new ShipEquipmentEntity(fit, undefined);
       });
+
+      player.position.x = 500;
+      player.position.y = 500;
 
       player.onInit();
       this.players.push(player);
@@ -258,6 +297,16 @@ export class GameServer {
       this.players[index].onDestroy();
       this.players.splice(index, 1);
 
+      if( value.lastHitBy !== undefined) {
+        this.scoreboard.addKill(value.lastHitBy.id);
+
+        const msg = new ScoreboardUpdateMessage(this.scoreboard.scoreboard);
+        this.send(msg);
+
+      } else
+        console.error("lastHitBy is undefined");
+
+
       const msg: Message = new PlayerKilledMessage(value, undefined);
       this.send(msg);
 
@@ -287,7 +336,7 @@ export class GameServer {
     const removeProjectiles: ProjectileEntity[] = [];
 
     this.projectiles.forEach( value => {
-      if( value.remainingTime < 0)
+      if( value.timeToLife <= 0)
         removeProjectiles.push(value);
     });
 
@@ -302,4 +351,13 @@ export class GameServer {
 
   }
 
+  private onSelfKill(msg: PlayerSelfKillMessage) {
+    const player = this.getPlayer(msg.source);
+
+    if ( player !== undefined) {
+      player.health = 0;
+      //player.lastHitBy = player;
+    }
+    
+  }
 }

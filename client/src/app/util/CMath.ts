@@ -10,6 +10,11 @@ export class CMath {
 
   }
 
+  public static normalize3(vec: Vector3): Vector3 {
+    const res:number = <number> math.norm( [vec.x, vec.y, vec.z]);
+    return { x: vec.x / res, y: vec.y / res, z: vec.z / res};
+  }
+
   public static normalize(vec: Vector2): Vector2 {
     const res:number = <number> math.norm( [vec.x, vec.y]);
     return { x: vec.x / res, y: vec.y / res};
@@ -170,6 +175,19 @@ export class CMath {
     const res = math.dot([v1.x, v1.y, v1.z], [v2.x, v2.y, v2.z]);
 
     return res;
+  }
+
+  public static cross3(v1: Vector3, v2: Vector3): Vector3 {
+    const v1n = this.normalize3(v1);
+    const v2n = this.normalize3(v2);
+
+    const res = math.cross( [v1n.x, v1n.y, v1n.z], [v2n.x, v2n.y, v2.z] );
+
+    return {
+      x: res[0],
+      y: res[1],
+      z: res[2]
+    };
   }
 
   public static cross(v1: Vector2, v2: Vector2): Vector3 {

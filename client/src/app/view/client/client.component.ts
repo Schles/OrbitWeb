@@ -6,7 +6,7 @@ import {Game} from "../../game/Game";
 import {WebsocketService} from "../../network/websocket.service";
 
 import {Event} from '../../network/client-enums';
-import {Message} from "../../shared/message";
+;
 
 import {ActivatedRoute} from "@angular/router";
 import {PlayerMessage} from "../../shared/player-message";
@@ -16,15 +16,15 @@ import {UiComponent} from "../ui/ui.component";
 
 
 import {SpaceShooter} from "../../engine/SpaceShooter";
-import {SkillUsedMessage} from "../../shared/skill-used-message";
-import {Repair} from "../../game/skills/Repair";
+
+
 import {SkillPrototypes} from "../../game/skills/SkillPrototypes";
 
 
 import { log } from "../../../../../shared/lib"
 import {IAction} from "../../../../../shared/src/action/IAction";
 import {LobbyQueryMessage} from "../../../../../shared/src/message/login/LobbyQueryMessage";
-import {SpaceshipFactory} from "../../game/SpaceshipFactory";
+
 import {PlayerLoginMessage} from "../../../../../shared/src/message/login/PlayerLoginMessage";
 import {PlayerJoinedMessage} from "../../../../../shared/src/message/game/player/PlayerJoinedMessage";
 import {SpaceshipGO} from "../../game/gameobjects/SpaceshipGO";
@@ -45,6 +45,10 @@ import {GameService} from "../../service/game.service";
 import {CastSpell} from "../../util/CastSpell";
 import {ShipFitting} from "../../../../../shared/src/model/ShipFitting";
 import {ShipEquipmentGO} from "../../game/gameobjects/ShipEquipmentGO";
+import {FactoryEquipmentGO} from "../../game/equipment/FactoryEquipmentGO";
+import {Rocket} from "../../game/projectiles/Rocket";
+import {Message} from "../../../../../shared/src/message/Message";
+import {ScoreboardUpdateMessage} from "../../../../../shared/src/message/game/ScoreboardUpdateMessage";
 
 
 @Component({
@@ -79,46 +83,38 @@ export class ClientComponent implements OnInit, AfterViewInit {
       "keydown", (event) => {
         if ( this.ownPlayer !== undefined) {
           if ( event.key === "1") {
-            const msg = CastSpell.castSpell(this.ownPlayer, 0);
+            const msg = new PlayerActionMessage(this.ownPlayer.id, 0);
             if ( msg !== undefined) { this.gameService.send(msg); }
           } else if ( event.key === "2") {
-            const msg = CastSpell.castSpell(this.ownPlayer, 1);
+            const msg = new PlayerActionMessage(this.ownPlayer.id, 1);
             if ( msg !== undefined) { this.gameService.send(msg); }
           } else if ( event.key === "3") {
-            const msg = CastSpell.castSpell(this.ownPlayer, 2);
+            const msg = new PlayerActionMessage(this.ownPlayer.id, 2);
             if ( msg !== undefined) { this.gameService.send(msg); }
           } else if ( event.key === "4") {
-            const msg = CastSpell.castSpell(this.ownPlayer, 3);
+            const msg = new PlayerActionMessage(this.ownPlayer.id, 3);
             if ( msg !== undefined) { this.gameService.send(msg); }
           } else if ( event.key === "5") {
-            const msg = CastSpell.castSpell(this.ownPlayer, 4);
+            const msg = new PlayerActionMessage(this.ownPlayer.id, 4);
             if ( msg !== undefined) { this.gameService.send(msg); }
           }
         }
       });
 
     this.gameService.onConnect.subscribe( () => {
-
       this.ui.loginEnabled = true;
-
       this.gameService.send ( new LobbyQueryMessage());
-
     })
 
     this.gameService.onMessage.subscribe( (msg: Message) => {
       this.OnMessageReceived(msg);
-    })
+    });
 
     Game.worldClicked.subscribe((event: { localPosition: Vector2, event: any }) => {
-      console.log("worldClicked", event.localPosition);
+      //console.log("worldClicked", event.localPosition);
       if (this.ownPlayer !== undefined) {
-
         const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.ownPlayer.id, event.localPosition);
-
         this.gameService.send(msg);
-
-        this.ownPlayer.targetPosition = event.localPosition;
-        this.ownPlayer.actionOrbitTarget = false;
       } else {
         console.log("no player");
       }
@@ -128,44 +124,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
       if (value.target.id === this.ownPlayer.id) {
         console.log("self");
       } else {
-
         const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.ownPlayer.id, value.target.id);
-
         this.gameService.send(msg);
-
-        //this.ownPlayer.targetPlayer = value.target;
-        //this.ownPlayer.actionOrbitTarget = true;
-      }
-    });
-
-
-    let ticker = PIXI.Ticker.shared;
-
-    console.log(ticker.FPS);
-
-    ticker.add((delta) => {
-
-      //  for( let i = 0; i < 5; i++) {
-      //  const delta = 1;
-
-      const dT = ticker.elapsedMS / 1000;
-
-      if (this.ownPlayer !== undefined) {
-
-/*
-        const v = CMath.length(this.ownPlayer.speed);
-        this.ui.speedUI = v.toFixed(0);
-        this.ui.cooldownUI = this.ownPlayer.cannon.remainingCooldown.toFixed(0)
-        this.ui.speedInputUI = this.ownPlayer.speedInput.toFixed(1);
-        if (this.ownPlayer.targetPlayer !== undefined) {
-          const dist: number = CMath.length(CMath.sub(this.ownPlayer.position, this.ownPlayer.targetPlayer.position));
-          this.ui.distanceUI = dist.toFixed(0);
-          this.ui.orbitUI = this.ownPlayer.orbitRadius;
-        } else {
-          this.ui.distanceUI = undefined;
-        }
-
- */
       }
     });
   }
@@ -217,6 +177,10 @@ export class ClientComponent implements OnInit, AfterViewInit {
         this.onProjDestroy(<ProjectileDestroyMessage> message);
         break;
 
+      case "scoreboardUpdateMessage":
+        this.ui.scoreboard.scoreboard = (<ScoreboardUpdateMessage> message).entries;
+        break;
+
       default:
         console.log("unknown message", message);
         break;
@@ -245,10 +209,14 @@ export class ClientComponent implements OnInit, AfterViewInit {
           enemy.cannon.rotation = msg.gun_rotation;
       */
       enemyGO.fitting = new ShipFitting();
-      enemyGO.fitting.fitting = message.fitting.fitting.map ( (fit) => {
-        return new ShipEquipmentGO(fit);
-      });
+
       this.renderer.pApp.spawnPlayer(enemyGO);
+
+      enemyGO.fitting.fitting = message.fitting.fitting.map ( (fit) => {
+        const fitGO = FactoryEquipmentGO.create(fit);
+        fitGO.onInit(enemyGO);
+        return fitGO;
+      });
 
       enemyGO.iterateGraphics();
     } else {
@@ -304,9 +272,17 @@ export class ClientComponent implements OnInit, AfterViewInit {
     enemyGO.speed.y = msg.speedY;
 
     enemyGO.rotation = msg.rotation;
-    enemyGO.cannon.rotation = msg.gun_rotation;
+
+    //enemyGO.cannon.rotation = msg.gun_rotation;
+
+    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map( (fit: ShipEquipmentGO, index) => {
+      fit.state = msg.fitting.fitting[index].state;
+      fit.remainingTime = msg.fitting.fitting[index].remainingTime;
+      return fit;
+    });
 
     enemyGO.health = msg.health;
+    enemyGO.power = msg.power;
 
     if ( msg.target !== undefined ) {
       const target = this.renderer.pApp.players.find((p) => p.id === msg.target);
@@ -331,7 +307,12 @@ export class ClientComponent implements OnInit, AfterViewInit {
     console.log(msg);
 
     if ( source !== undefined && target !== undefined) {
-      const projectileGO: ProjectileGO = new ProjectileGO(msg.id, source, target);
+      let projectileGO: ProjectileGO;
+      if ( msg.projType === "rocketProjectile")
+        projectileGO = new Rocket(msg.id, source, target);
+      else
+        projectileGO = new ProjectileGO(msg.id, source, target);
+
       this.renderer.pApp.spawnProjectile(projectileGO);
     }
 
@@ -339,10 +320,24 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   public onProjUpdate(msg: ProjectileUpdateMessage) {
     //console.log(msg);
+    const projectile: ProjectileGO = this.gameService.app().projectiles.find( (proj) => proj.id === msg.id);
+
+    if ( projectile === undefined) {
+      return;
+    }
+
+    projectile.position.x = msg.x;
+    projectile.position.y = msg.y;
+
+    projectile.speed.x = msg.speedX;
+    projectile.speed.y = msg.speedY;
+
+    projectile.rotation = msg.rotation;
+
   }
 
   public onProjDestroy(msg: ProjectileDestroyMessage) {
-
+      console.log(msg);
     const projectile = this.renderer.pApp.projectiles.find ( (p) => p.id === msg.id);
 
     if (projectile !== undefined) {

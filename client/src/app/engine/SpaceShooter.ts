@@ -1,23 +1,18 @@
-import {Spaceship} from "../game/Spaceship";
-import {Game} from "../game/Game";
 import {CMath} from "../util/CMath";
 
 import {Emitter} from "../game/Emitter";
-
-import {Projectile} from "../game/weapons/Projectile";
 import {Camera} from "./Camera";
 import {TestFilter} from "../shader/filter/TestFilter";
-import * as math from "mathjs";
-import {SunFilter} from "../shader/filter/SunFilter";
 import {SunGameObject} from "../game/gameobjects/Sun";
-import {Skill} from "../game/skills/Skill";
-
-import {Message} from "../shared/message";
-import {SkillUsedMessage} from "../shared/skill-used-message";
 import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {SkillGO} from "../game/gameobjects/SkillGO";
 import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
+import {TargetLayer} from "./TargetLayer";
+import {Particle} from "../../../../shared/src/model/Particle";
+import {AdvancedBloomFilter} from '@pixi/filter-advanced-bloom';
+import {BloomFilter} from "../shader/filter/bloom/BloomFilter";
+import {ShadowFilter} from "../shader/filter/shadow/ShadowFilter";
 
 //import vertex from '../shader/myVertex.vs';
 
@@ -40,8 +35,9 @@ export class SpaceShooter extends PIXI.Application {
 
   private _gameStage: PIXI.Container;
   private _uiStage: PIXI.Container;
+  private _targetStage: TargetLayer;
 
-  private sunGameObject: SunGameObject;
+  public sunGameObject: SunGameObject;
 
 
   public get gameStage(): PIXI.Container {
@@ -52,6 +48,10 @@ export class SpaceShooter extends PIXI.Application {
     return this._uiStage;
   }
 
+  public get targetStage(): TargetLayer {
+    return this._targetStage;
+  }
+
 
   public camera: Camera;
 
@@ -59,8 +59,6 @@ export class SpaceShooter extends PIXI.Application {
     super(options);
 
     this.boot();
-
-
   }
 
   private renderSizePoint: PIXI.Graphics;
@@ -75,9 +73,12 @@ export class SpaceShooter extends PIXI.Application {
 
     this._gameStage = new PIXI.Container();
     this._uiStage = new PIXI.Container();
+    this._targetStage = new TargetLayer();
 
     this.stage.addChild(this.gameStage);
     this.stage.addChild(this.uiStage);
+
+    this.gameStage.addChild(this.targetStage);
 
     this.emitter = new Emitter(1000);
     this.emitter.init();
@@ -101,50 +102,72 @@ export class SpaceShooter extends PIXI.Application {
     this.targetingText = new PIXI.Text("", {fontFamily : 'Arial', fontSize: 10, fill : 0xff1010, align : 'center'});
 
     this.targeting.addChild(this.targetingText);
-    this.gameStage.addChild(this.targeting);
+
 
 
 
 
     this.sunGameObject = new SunGameObject(this.gameStage);
 
-    this.ticker.add ( (delta) => {
 
 
-      const dT = this.ticker.elapsedMS / 1000;
+  }
 
-      this.emitter.emit ( this.players );
-      this.emitter.update(dT);
+  public iterateSelf(spaceship: SpaceshipGO, delta: number) {
+    this.targetStage.setSource(spaceship);
+    this.targetStage.iterate(delta);
+  }
 
-      // Camera
-      if (this.camera !== undefined)
-       this.camera.iterate(this.players.map( (v) => v.position), dT);
-
-      if (this.filter !== undefined) {
-        if (this.players.length > 1) {
-          const players: Vector2[] = this.players.map( (p) => this.gameStage.toGlobal(p.position));
-          const sun: Vector2 = this.gameStage.toGlobal(this.sunGameObject.gameObject.position);
-          this.filter.iterate(players, sun, dT);
-        }
+  public iterate(dT: number) {
+    const pl: {
+      p: Particle,
+      c: string
+    }[] = this.players.map( (p) => {
+      return {
+        p: <Particle> p,
+        c: p.color
       }
+    }).concat(this.projectiles.map( (p) => {
+      return {
+        p: <Particle> p,
+        c: p.color
+      }
+    }));
 
-      this.renderTargeting();
+    const res  = pl;
 
-      this.sunGameObject.iterate(dT);
+    this.emitter.emit ( res );
+    this.emitter.update(dT);
 
-      this.iterateSkills(dT);
-      this.iterateProjectiles(dT);
-      this.iteratePlayer(dT);
+    // Camera
+    if (this.camera !== undefined)
+      this.camera.iterate(this.players.map( (v) => v.position), dT);
 
-    })
 
+
+
+
+    // Targeting
+
+
+
+    this.renderTargeting();
+
+    this.sunGameObject.iterate(dT);
+
+    this.iterateSkills(dT);
+    this.iterateProjectiles(dT);
+    this.iteratePlayer(dT);
 
   }
 
   private iteratePlayer(delta: number) {
     this.players.forEach(value => {
       value.iterate(delta);
-      value.iterateGraphics();
+
+      value.fitting.fitting.forEach( (fit) => {
+        fit.iterate(value, delta);
+      })
     });
 
   }
@@ -174,10 +197,15 @@ export class SpaceShooter extends PIXI.Application {
   }
 
   public loadShader() {
+
+
+
+    //const container = new PIXI.Container();
+
     this.loader.add("shader", "assets/shader/myVertex.fs").add("sun", "assets/shader/SunShader.frag").load( (a, b) => this.onLoaded(a,b));
   }
 
-  private filter: TestFilter
+  public filter: TestFilter
 
   public onLoaded(loader, res) {
     console.log(res);
@@ -204,9 +232,17 @@ export class SpaceShooter extends PIXI.Application {
 
     this.filter = testFilter;
     this.stage.filterArea = this.renderer.screen;
-    this.stage.filters = [this.filter];
+    //this.gameStage.filters = [new AdvancedBloomFilter()];
+    this.filter2 = new BloomFilter();
+    // this.filter,
+    this.filter3 = new ShadowFilter(this.stage.worldTransform, this.players);
+    this.stage.filters = [this.filter3];
+
+
 
   }
+  private filter3;
+  private filter2;
 
   // Skill
 
@@ -229,6 +265,11 @@ export class SpaceShooter extends PIXI.Application {
 
     const p = this.players.findIndex( value => value.id === player.id);
     if ( p !== undefined) {
+
+      player.fitting.fitting.forEach( (fit) => {
+        fit.onDestroy(player);
+      });
+
       player.onDestroy();
       this.players.splice(p, 1);
     }

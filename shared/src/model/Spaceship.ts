@@ -14,23 +14,21 @@ export class Spaceship extends Particle {
 
   public color: string = "#00FF00";
 
-  public maxSpeed: number = 50;
-
   public curSpeed: number = 0;
 
   public fitting: ShipFitting = new ShipFitting();
 
-  public get acceleration(): number {
-    return this.maxSpeed / (this.timeToMaxSpeed);
-  }
-
   public timeToMaxSpeed = 2;
+
+  public power: number = 100;
 
   public shipSize: number = 7;
 
   public speedInput: number = 1;
 
   public maxOmega: number = 1;
+
+  public cpuCapacity: number = 200;
 
   private _targetPlayer: Spaceship;
 
@@ -49,17 +47,10 @@ export class Spaceship extends Particle {
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;
 
-  public cannon: Cannon;
-
   constructor(id, color) {
     super();
     this.id = id;
     this.color = color;
-    //this.cannon = new Cannon(this);
-
-
-//    this.physics = new HybridPhysics();
-
   }
 
   public removeTarget() {
@@ -75,15 +66,4 @@ export class Spaceship extends Particle {
   public onDestroy() {
 
   }
-
-/*
-  public getPlayerMessage(): PlayerMessage {
-    return new PlayerMessage(this.id, this.position.x, this.position.y, this.speed.x, this.speed.y, this.rotation, this.cannon.rotation);
-  }
-
-  public getPlayerJoinedMessage(): PlayerJoinedMessage {
-    return new PlayerJoinedMessage(this.id, this.position.x, this.position.y, this.speed.x, this.speed.y, this.rotation, this.cannon.rotation, this.health, this.color, this.shipSize);
-  }
-*/
-
 }

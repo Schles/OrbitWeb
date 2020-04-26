@@ -1,0 +1,54 @@
+.equipmentWrapper {
+  color: green;
+  height:400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.powerCostWrapper {
+  color: blue;
+}
+
+.equipment {
+  border: 1px solid black;
+
+  background-color: white;
+}
+
+
+.equipmentSlot {
+  width: 50px;
+  height: 50px;
+  margin:5px;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.empty {
+  border: 1px solid black;
+  background-color: grey;
+}
+
+.filled {
+  border: 2px solid green;
+  color: black;
+  background-color: white;
+}
+
+.equipmentSlotWrapper {
+  display: flex;
+}
+
+.fitting {
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+.header {
+  input {
+    padding: 2px;
+    margin:5px;
+  }
+  background-color: white;
+  margin-bottom: 10px;
+}

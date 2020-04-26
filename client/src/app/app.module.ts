@@ -10,6 +10,10 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { FittingComponent } from './view/ui/fitting/fitting.component';
 import { HeadsupComponent } from './view/ui/headsup/headsup.component';
 
+import { ProgressBarComponent } from './view/util/progress-bar/progress-bar.component';
+import { EquipmentWindowComponent } from './view/ui/fitting/equipment-window/equipment-window.component';
+import { ScoreboardComponent } from './view/ui/scoreboard/scoreboard.component';
+
 
 
 @NgModule({
@@ -20,6 +24,9 @@ import { HeadsupComponent } from './view/ui/headsup/headsup.component';
     UiComponent,
     FittingComponent,
     HeadsupComponent,
+    ProgressBarComponent,
+    EquipmentWindowComponent,
+    ScoreboardComponent,
 
   ],
   imports: [

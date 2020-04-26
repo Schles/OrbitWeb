@@ -1,0 +1,23 @@
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.title {
+  span {
+    display: inline;
+  }
+
+  p {
+    display: block;
+  }
+}
+
+.attr {
+  display: flex;
+  flex-direction: column;
+  td:first-child {
+    text-align: right;
+  }
+}

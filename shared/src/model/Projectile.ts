@@ -1,13 +1,19 @@
 import {Vector2} from "../util/VectorInterface";
 import {Particle} from "./Particle";
+import {TimedAbility} from "./TimedAbility";
 
-export class Projectile extends Particle {
-  public remainingTime: number = 5;
+export class Projectile extends Particle implements TimedAbility {
 
+  public duration: number;
+  public timeToLife: number;
+
+  public type: string;
 
   constructor(public id: string,
               public color) {
     super();
+    this.timeToLife = 1;
+    this.type = "projectile";
   }
 
   public onInit() {
@@ -15,10 +21,12 @@ export class Projectile extends Particle {
   }
 
   public iterate(delta: number) {
-    this.remainingTime -= delta;
+    this.timeToLife -= delta;
   }
 
   public onDestroy() {
 
   }
+
+
 }

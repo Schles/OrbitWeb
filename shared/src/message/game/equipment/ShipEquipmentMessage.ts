@@ -1,9 +1,7 @@
-import {Message} from "../../Message";
 import {PlayerMessage} from "../../generic/PlayerMessage";
-import {ShipEquipment} from "../../../model/ShipEquipment";
 
 export class ShipEquipmentMessage extends PlayerMessage{
-  constructor(public id: string, public shipEquipment: ShipEquipment) {
+  constructor(public id: string, public index: number, public active: boolean) {
     super(id);
     this.type = "shipEquipmentMessage";
   }

@@ -1,11 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
-import {RendererComponent} from "../renderer/renderer.component";
-import {Spaceship} from "../../game/Spaceship";
-import {FormControl} from "@angular/forms";
-import {SpaceshipFactory} from "../../game/SpaceshipFactory";
+
 import {HeadsupComponent} from "./headsup/headsup.component";
 import {FittingComponent} from "./fitting/fitting.component";
-import {Game} from "../../game/Game";
+import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
 
 @Component({
   selector: 'app-ui',
@@ -17,6 +14,7 @@ export class UiComponent implements OnInit {
 
   @ViewChild('headsUp') public headsUp: HeadsupComponent;
   @ViewChild('fitting') public renderer: FittingComponent;
+  @ViewChild('scoreboard') public scoreboard: ScoreboardComponent;
 
 
 

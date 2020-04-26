@@ -1,5 +1,6 @@
 import Filter = PIXI.Filter;
-import {Vector2} from "../../util/CMath";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
+
 
 export class TestFilter extends Filter {
   constructor(a, b) {
@@ -19,8 +20,8 @@ export class TestFilter extends Filter {
     this.uniforms.viewPort = [x, y];
   }
 
-  public iterate(playerPosition: Vector2[], sunPosition: Vector2, delta) {
+  public iterate(playerPosition: Vector2[], sunPosition: Vector2, delta, playerIndex) {
     this.uniforms.sunPosition = [sunPosition.x, sunPosition.y];
-    this.uniforms.playerPosition = [playerPosition[0].x, playerPosition[0].y];
+    this.uniforms.playerPosition = [playerPosition[playerIndex].x, playerPosition[playerIndex].y];
   }
 }

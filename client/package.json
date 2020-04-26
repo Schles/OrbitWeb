@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@pixi/filter-advanced-bloom": "^3.1.1",
     "@types/mathjs": "^6.0.5",
     "@types/pixi.js": "^5.0.0",
     "express": "^4.17.1",

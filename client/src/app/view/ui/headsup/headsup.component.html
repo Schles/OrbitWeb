@@ -1,6 +1,37 @@
-<p>headsup works!</p>
-<div> Speed: {{speedUI}} ( {{speedInputUI}} )</div>
-<div> Cooldown: {{cooldownUI}} </div>
 
-<div *ngIf="distanceUI"> Distance: {{distanceUI}}</div>
-<div *ngIf="orbitUI"> Orbit: {{orbitUI}}</div>
+<div *ngIf="mePlayer() !== undefined" class="header">
+  <div class="container">
+    <div class="row" style="margin:10px;">
+      <div>{{speedUI}}</div>
+      <div>Speed</div>
+      <div>Energy</div>
+
+      <div>{{powerUI}}</div>
+    </div>
+
+    <div *ngFor="let fit of mePlayer().fitting.fitting; let i = index" style="margin:10px;" >
+      <app-progress-bar
+        *ngIf="!fit.passive"
+        [currentValue]="fit.remainingTime"
+        [maxValue]="fit.cycleTime">
+        <div class="row"                 [ngClass]="{
+               active: fit.state.active && fit.state.pendingState,
+               offline: !fit.state.active && !fit.state.pendingState,
+               pending: fit.state.active != fit.state.pendingState}">
+
+
+          <div>
+            Key_{{i + 1}}
+          </div>
+          <div>
+            {{fit.name}}
+          </div>
+          <div>
+            {{fit.powerCost}}
+          </div>
+        </div>
+      </app-progress-bar>
+    </div>
+  </div>
+</div>
+<button class="capsule" (click)="selfKill()">Capsule</button>

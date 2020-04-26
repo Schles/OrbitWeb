@@ -1,8 +1,54 @@
-<input [formControl]="nameControl" placeholder="Name">
 
+<div class="header">
+  <form [formGroup]="myForm">
+  <input [formControl]="nameControl" placeholder="Name">
+<!--
 <button (click)="spawnType('default')">Default</button>
 <button (click)="spawnType('tank')">Tank</button>
 <button (click)="spawnType('intercepter')">Intercepter</button>
-<button (click)="toggleCustom()">Custom</button>
+<button (click)="toggleCustom()">Custom</button>-->
 
-<button (click)="spawn()">Spawn</button>
+    <button (click)="spawn()" type="submit">Spawn</button>
+    <button (click)="spawnDefault()" type="submit">Default</button>
+  </form>
+</div>
+
+<div class="fitting">
+  <div class="equipmentSlotWrapper">
+    <div *ngFor="let equipmentSlot of equipmentSlots; let i = index">
+      <div class="equipmentSlot"
+           [ngClass]="{ empty: equipmentSlot === undefined, filled: equipmentSlot !== undefined}"
+           (drop)="drop($event, i)"
+           (dragover)="dragOver($event)">
+
+          <p *ngIf="equipmentSlot === undefined">
+            Slot {{i+1}}
+          </p>
+
+        <p *ngIf="equipmentSlot !== undefined">
+          {{equipmentSlot.name}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="powerCostWrapper">
+    <app-progress-bar
+      [currentValue]="equipmentCPUCost"
+      [maxValue]="equipmentCPUCapacity">
+      CPU: {{equipmentCPUCost}} / {{equipmentCPUCapacity}}
+    </app-progress-bar>
+
+  </div>
+</div>
+
+<div class="equipmentWrapper">
+  <div *ngFor="let equipment of database"
+       class="equipment"
+        draggable="true"
+       (dragstart)="dragStart($event, equipment)"
+       (dragend)="dragEnd($event, equipment)">
+    <app-equipment-window [equipment]="equipment">
+    </app-equipment-window>
+  </div>
+</div>
+

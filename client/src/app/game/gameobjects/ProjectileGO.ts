@@ -15,7 +15,8 @@ export class ProjectileGO extends Projectile {
   }
 
   public iterate(delta: number) {
-    this.gameObject.alpha -= delta * 0.1;
+    //this.gameObject.alpha -= delta * 0.1;
+    this.iterPhysics();
   }
 
   public getGameObject(): PIXI.Container {
@@ -42,5 +43,12 @@ export class ProjectileGO extends Projectile {
     this.lineObject.lineStyle(2, c);
     this.lineObject.moveTo(start.x, start.y);
     this.lineObject.lineTo(end.x, end.y);
+  }
+
+  public iterPhysics() {
+    this.gameObject.x = this.position.x;
+    this.gameObject.y = this.position.y;
+
+    this.gameObject.rotation = this.rotation;
   }
 }

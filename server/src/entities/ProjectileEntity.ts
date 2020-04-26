@@ -13,4 +13,7 @@ export class ProjectileEntity extends Projectile {
   }
 
 
+  iterate(delta: number) {
+    super.iterate(delta);
+  }
 }

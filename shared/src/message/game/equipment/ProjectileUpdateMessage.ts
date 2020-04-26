@@ -14,10 +14,12 @@ export class ShipEquipmentUpdateMessage extends ShipEquipmentMessage {
   public speedY: number;
 
   public rotation: number;
-
+/*
   constructor(source: string, equipment: ShipEquipment) {
     super(source, equipment);
 
     this.type = "shipEquipmentUpdateMessage";
   }
+
+ */
 }
