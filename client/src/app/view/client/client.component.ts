@@ -82,9 +82,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
     window.addEventListener(
       "keydown", (event) => {
         if ( this.ownPlayer !== undefined) {
-          if ( event.key === "1") {
-            const msg = new PlayerActionMessage(this.ownPlayer.id, 0);
-            if ( msg !== undefined) { this.gameService.send(msg); }
+          if ( event.key === "1") {1
+            this.gameService.input.keyPressed(1);
           } else if ( event.key === "2") {
             const msg = new PlayerActionMessage(this.ownPlayer.id, 1);
             if ( msg !== undefined) { this.gameService.send(msg); }
@@ -246,6 +245,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
           this.ownPlayer = undefined;
           this.ui.loginEnabled = true;
+          this.gameService.logout();
       }
 
     }

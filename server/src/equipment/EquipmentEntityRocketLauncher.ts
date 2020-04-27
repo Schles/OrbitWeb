@@ -16,22 +16,14 @@ export class EquipmentEntityRocketLauncher extends ShipEquipmentTargetEntity{
     super(shipEquipment);
   }
 
-
-  onInit(parent: SpaceshipEntity) {
-    super.onInit(parent);
-  }
-
-  iterate(parent: SpaceshipEntity, delta: number) {
-    super.iterate(parent, delta);
-  }
-
-
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
 
     const proj: ProjectileEntity = new ProjectileRocket(undefined, parent, <SpaceshipEntity>parent.targetPlayer);
     EventManager.shootProjectile.emit("shootProjectile", {projectile: proj});
+  }
 
-
+  protected isTargetInRange(parent: SpaceshipEntity): boolean {
+    return true;
   }
 }

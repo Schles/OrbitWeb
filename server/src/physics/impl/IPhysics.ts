@@ -87,12 +87,27 @@ export abstract class IPhysics {
   }
 
   public iterate(spaceship: SpaceshipEntity, delta) {
+
+    const angle = spaceship.rotation;
+
+    let acc = {
+      x: 0,
+      y: 0
+    };
+
+    if (CMath.len(spaceship.speed) > 0) {
+      acc = CMath.scale(CMath.rotate({
+        x: 0,
+        y: 1
+      }, angle), spaceship.acceleration);
+    }
+
+
+
+
     let input = {
       r: 0,
-      a: {
-        x: 0,
-        y: 0
-      }
+      a: acc
     };
 
     if (spaceship.actionOrbitTarget) {
@@ -103,22 +118,20 @@ export abstract class IPhysics {
       if( spaceship.targetPlayer !== undefined)
         input = this.keepAtRange(spaceship, spaceship.targetPlayer.position, spaceship.orbitRadius);
     }  else {
-      if (spaceship.targetPosition !== undefined)
-        input = this.moveTo(spaceship, spaceship.targetPosition)
+      if (spaceship.targetPosition !== undefined) {
+        const a: Vector2 = this.getOrientation(spaceship);
+        const b: Vector2 = CMath.normalize(CMath.sub(spaceship.targetPosition, spaceship.position));
+
+        if ( math.abs(CMath.angle(a, b)) < 0.5) {
+          spaceship.targetPosition = undefined;
+        } else {
+          input = this.moveTo(spaceship, spaceship.targetPosition);
+        }
+      }
     }
 
     spaceship.accel = input.a;
     spaceship.omega = input.r;
-
-
-    //const input = this.moveTo(this.target, true);
-
-//    const newDir = this.getOrientation(this);
-
-    // Accel / Speed
-    //let accForce = input.accel;
-    //console.log("accelInput", accel);
-
   }
 
 

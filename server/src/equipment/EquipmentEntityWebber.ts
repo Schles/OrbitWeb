@@ -12,47 +12,20 @@ export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {
   private targetPlayer: SpaceshipEntity;
 
   constructor(shipEquipment: ShipEquipment) {
-    super(shipEquipment);
-  }
-
-
-  public iterate(parent: SpaceshipEntity, delta: number) {
-    super.iterate(parent, delta);
-  }
-
-  protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
-    super.onUpdateEquipment(parent, delta);
-
-
-  }
-
-
-  protected enteredRange(parent: SpaceshipEntity) {
-
-
-    this.payPower(parent);
-    console.log("bin dran");
-    //this.absoluteChange = this.targetPlayer.maxSpeed * this.bonus;
-    //this.targetPlayer.maxSpeed -= this.absoluteChange;
+    super(shipEquipment)
+    this.range = 250;
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
-/*
-    if ( this.hasTarget(parent)) {
-      this.targetPlayer = <SpaceshipEntity>parent.targetPlayer;
 
-
-    } else {
-      this.state.active = false;
-      this.state.pendingState = false;
-    }
-*/
+    this.targetPlayer = <SpaceshipEntity>parent.targetPlayer;
+    this.absoluteChange = this.targetPlayer.maxSpeed * this.bonus;
+    this.targetPlayer.maxSpeed -= this.absoluteChange;
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
     super.onEndEquipment(parent);
-    console.log("on eq end");
     if ( this.targetPlayer !== undefined) {
       this.targetPlayer.maxSpeed += this.absoluteChange;
       this.absoluteChange = 0.0;

@@ -1,21 +1,23 @@
 
 <div class="wrap">
   <div class="title">
+    <div class="desc">
+      <span *ngIf="equipment.passive">Passive</span>
+      <span *ngIf="equipment.action.targetEnemy === true">onTarget</span>
+      <span *ngIf="equipment.action.targetSelf === true">onSelf</span>
+    </div>
     <div class="name">{{equipment.name}}</div>
-    Tags:
-    <span *ngIf="equipment.passive">Passive</span>
-    <span *ngIf="equipment.action.targetEnemy === true">Target</span>
-    <span *ngIf="equipment.action.targetSelf === true">Self</span>
+
   </div>
   <div class="attr">
     <table>
       <tr>
         <td>{{equipment.cpuCost}}</td><td>CPU</td>
       </tr>
-      <tr>
+      <tr *ngIf="!equipment.passive">
         <td>{{equipment.powerCost}}</td><td>Energy</td>
       </tr>
-      <tr>
+      <tr *ngIf="!equipment.passive">
         <td>{{equipment.cycleTime}}s</td><td>Cooldown</td>
       </tr>
     </table>

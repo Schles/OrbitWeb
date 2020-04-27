@@ -3,6 +3,7 @@ import {GameService} from "../../../service/game.service";
 import {CMath} from "../../../util/CMath";
 import {SpaceshipGO} from "../../../game/gameobjects/SpaceshipGO";
 import {PlayerSelfKillMessage} from "../../../../../../shared/src/message/game/player/PlayerSelfKillMessage";
+import {ShipEquipment} from "../../../../../../shared/src/model/ShipEquipment";
 
 @Component({
   selector: 'app-headsup',
@@ -45,14 +46,21 @@ export class HeadsupComponent implements OnInit {
     return ownPlayer;
   }
 
+  public onClick(index) {
+
+    this.gameService.input.keyPressed(index + 1);
+  }
+
   public iterate(delta: number) {
     const ownPlayer = this.mePlayer();
     if ( ownPlayer === undefined) {
       return;
     }
-          const v = CMath.len(ownPlayer.speed);
-          this.speedUI = v.toFixed(0);
-          this.powerUI = ownPlayer.power.toFixed(0);
+
+
+    const v = CMath.len(ownPlayer.speed);
+    this.speedUI = v.toFixed(0);
+    this.powerUI = ownPlayer.power.toFixed(0);
 
 
 
@@ -70,6 +78,55 @@ export class HeadsupComponent implements OnInit {
 
 */
 
+      }
+
+      public getCDP(fit: ShipEquipment) {
+        const r = fit.remainingTime * 100 / fit.cycleTime;
+
+        return r;
+      }
+
+      public getEnergy() {
+        const player = this.getPlayer();
+        if (player === undefined)
+          return 0;
+
+        return player.power.toFixed(0);
+      }
+
+      public getEnergyP() {
+        const player = this.getPlayer();
+        if (player === undefined)
+          return 0;
+
+        return player.power * 100 / player.energyCapacity;
+      }
+
+      public getSpeed() {
+        const player = this.getPlayer();
+
+        if (player === undefined)
+          return 0;
+
+        return CMath.len(player.speed).toFixed(0);
+      }
+
+      public getSpeedP() {
+
+        const player = this.getPlayer();
+
+        if (player === undefined)
+          return 0;
+
+        const speed = CMath.len(player.speed);
+        return speed * 100 / 51;
+      }
+
+      public getPlayer(): SpaceshipGO {
+        if ( this.gameService.getUserName() === undefined)
+          return undefined;
+
+        return this.gameService.app().players.find( (p) => p.id === this.gameService.getUserName());
       }
 
       public selfKill() {

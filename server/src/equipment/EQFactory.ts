@@ -9,6 +9,8 @@ import {EquipmentEntityRepair} from "./EquipmentEntityRepair";
 import {EquipmentEntityWebber} from "./EquipmentEntityWebber";
 import {EquipmentEntityEmpty} from "./EquipmentEntityEmpty";
 import {EquipmentEntityBattery} from "./EquipmentEntityBattery";
+import {EquipmentEntityNosferatu} from "./EquipmentEntityNosferatu";
+
 
 export class EQFactory {
   public static create(shipEquipment: ShipEquipment): ShipEquipmentEntity {
@@ -17,6 +19,7 @@ export class EQFactory {
       return undefined;
     }
 
+
     switch (shipEquipment.name) {
       case "Empty": return new EquipmentEntityEmpty(shipEquipment);
       case "Repair": return new EquipmentEntityRepair(shipEquipment);
@@ -24,8 +27,8 @@ export class EQFactory {
       case "Laser": return new EquipmentEntityLaser(shipEquipment);
       case "Battery": return new EquipmentEntityBattery(shipEquipment);
       case "SpeedBooster": return new EquipmentEntitySpeedBooster(shipEquipment);
+      case "Nosferatu": return new EquipmentEntityNosferatu(shipEquipment);
       case "RocketLauncher": return new EquipmentEntityRocketLauncher(shipEquipment);
-
     }
     return undefined;
   }

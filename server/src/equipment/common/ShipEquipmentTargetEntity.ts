@@ -17,30 +17,28 @@ export class ShipEquipmentTargetEntity extends ShipEquipmentEntity{
 
 
   iterate(parent: SpaceshipEntity, delta: number) {
-    if ( this.state.active === false && this.state.pendingState === true) {
-      if ( !this.hasTarget(parent) )
-        return;
-
-      if ( this.isTargetInRange(parent) )
-        this.state.active = true;
-    } else {
-      super.iterate(parent, delta);
-    }
+    super.iterate(parent, delta);
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
   }
 
-
-
-
-
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
-    if ( !this.hasTarget(parent) )
+    if ( !this.hasTarget(parent) ) {
+      this.state.pendingState = false;
+      super.onUpdateEquipment(parent, delta);
       return;
+    }
 
-    super.onUpdateEquipment(parent, delta);
+    if ( this.state.pendingState === true && !this.isTargetInRange(parent)) {
+      if ( this.state.active)
+        this.onEndEquipment(parent);
+    } else {
+      super.onUpdateEquipment(parent, delta);
+    }
+
+
   }
 
 

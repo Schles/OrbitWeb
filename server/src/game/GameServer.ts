@@ -255,7 +255,9 @@ export class GameServer {
       player = new SpaceshipEntity(sp);
       player.fitting = new ShipFitting();
       player.fitting.fitting = msg.fitting.fitting.map( (fit) => {
-        return EQFactory.create(fit);
+        const eq = EQFactory.create(fit);
+        eq.onInit(player);
+        return eq;
         //return new ShipEquipmentEntity(fit, undefined);
       });
 

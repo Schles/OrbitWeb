@@ -10,14 +10,14 @@ export class ProjectileRocket extends ProjectileEntity {
 
 
   private minDistanceToExplode: number = 30.0;
-  private maxSpeed: number = 40;
-  private damage: number = 20;
+  private maxSpeed: number = 60;
+  private damage: number = 10;
 
   constructor(id: string, source: SpaceshipEntity, target: SpaceshipEntity) {
     super(id, source, target);
     this.type = "rocketProjectile";
     this.duration = 20;
-    this.timeToLife = 5;
+    this.timeToLife = 15;
   }
 
 

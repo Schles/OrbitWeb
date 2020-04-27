@@ -30,6 +30,9 @@ export class Spaceship extends Particle {
 
   public cpuCapacity: number = 200;
 
+  public energyRechargeRate: number = 1.0;
+  public energyCapacity: number = 150;
+
   private _targetPlayer: Spaceship;
 
   public set targetPlayer(target: Spaceship) {

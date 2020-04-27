@@ -1,23 +1,50 @@
 .wrap {
   display: flex;
   justify-content: space-between;
-  padding: 5px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  margin-top:5px;
+  margin-bottom:5px;
 }
 
 .title {
+
   span {
     display: inline;
   }
 
   p {
     display: block;
+    color:red;
   }
+}
+
+.name {
+  font-weight: bold;
+}
+
+.desc {
+  font-size: 0.8em;
+  color:lightslategrey
+}
+
+
+table {
+
+  border-left:1px solid black;
 }
 
 .attr {
   display: flex;
   flex-direction: column;
   td:first-child {
+    width:40px;
     text-align: right;
+  }
+  td:last-child {
+    width:80px;
+    color:darkslategrey;
+    font-size: 0.8em;
   }
 }

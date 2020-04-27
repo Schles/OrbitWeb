@@ -13,6 +13,8 @@ export class Camera {
   public width: number;
   public height: number;
 
+  public maxCameraRange: number = 500;
+
   constructor(private view: PIXI.Container,
               ) {
     this.targetRectangle = {
@@ -37,32 +39,18 @@ export class Camera {
     this.width = w;
     this.height = h;
 
-    this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
+    //this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
   }
 
-  public iterate(positions: Vector2[], delta) {
-
-    ;
+  public iterate(positions: Vector2[], vip: Vector2, delta) {
     let rect: Rectangle;
 
     if ( positions.length < 1)
       return;
-    else if (positions.length < 2) {
-      const pos: Vector2 = positions[0];
-      rect = {
-        x1: {
-          x: pos.x - 20,
-          y: pos.y - 20
-        },
-        x2: {
-          x: pos.x + 20,
-          y: pos.y + 20
-        }
-      };
-    } else
-      rect = this.focus(positions);
 
-    let scale = this.findZoom(rect);
+
+    //let scale = this.findZoom(rect);
+    let scale = 1.0;
 
     scale = scale > 2 ? 2 : scale;
 
@@ -72,7 +60,7 @@ export class Camera {
     this.view.scale.x = scale;
     this.view.scale.y = scale;
 
-    const localCenterPoint = CMath.add( rect.x1, CMath.scale(CMath.sub(rect.x2, rect.x1), 0.5));
+    const localCenterPoint = this.focusPoint(positions, vip);
 
     const w = this.width / 2;
     const h = this.height / 2;
@@ -105,9 +93,78 @@ export class Camera {
 
   }
 
-  public focus(positions: Vector2[]): Rectangle {
+  public focusPoint(positions: Vector2[], vip: Vector2): Vector2 {
+
+    if ( positions.length < 2 && vip !== undefined )
+      return vip;
+
+    const center = this.findCenter(positions);
+
+    if (vip === undefined)
+      return center;
+
+    const distanceToCenter = CMath.len(CMath.sub(center, vip));
+    2
+    if ( distanceToCenter < this.maxCameraRange ) {
+        return center;
+    } else {
+        return this.focusPoint(positions.reduce( (acc, cur) => {
+          if ( cur.x === vip.x && cur.y === vip.y)
+            acc.push(cur);
+          else if (CMath.len(CMath.sub(cur, vip)) <= this.maxCameraRange)
+            acc.push(cur);
+
+          return acc;
+        }, []), vip)
+    }
+  }
+
+  public focus(positions: Vector2[], vip: Vector2): Rectangle {
 
 
+    const center = this.findCenter(positions);
+
+    const distanceToCenter = CMath.len(CMath.sub(center, vip));
+
+    console.log(distanceToCenter);
+
+    if ( distanceToCenter < this.maxCameraRange ) {
+
+    } else {
+
+    }
+
+        let rectangle: Rectangle = {
+      x1: {
+        x: Number.POSITIVE_INFINITY,
+        y: Number.POSITIVE_INFINITY
+      },
+      x2: {
+        x: Number.NEGATIVE_INFINITY,
+        y: Number.NEGATIVE_INFINITY
+      },
+    };
+
+    positions.forEach( value => {
+      if ( value.x > rectangle.x2.x)
+        rectangle.x2.x = value.x;
+
+      if ( value.x < rectangle.x1.x)
+        rectangle.x1.x = value.x;
+
+      if ( value.y > rectangle.x2.y)
+        rectangle.x2.y = value.y;
+
+      if ( value.y < rectangle.x1.y)
+        rectangle.x1.y = value.y;
+    });
+
+
+
+    return rectangle;
+  }
+
+  private findCenter(positions: Vector2[]): Vector2 {
     let rectangle: Rectangle = {
       x1: {
         x: Number.POSITIVE_INFINITY,
@@ -131,10 +188,12 @@ export class Camera {
 
       if ( value.y < rectangle.x1.y)
         rectangle.x1.y = value.y;
-
-
     });
 
-    return rectangle;
+    return {
+      x: (rectangle.x1.x + rectangle.x2.x) / 2,
+      y: (rectangle.x1.y + rectangle.x2.y) / 2,
+    }
+
   }
 }

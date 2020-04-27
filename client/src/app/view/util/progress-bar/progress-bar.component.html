@@ -1,5 +1,16 @@
-<ng-content></ng-content>
-<div class="outerBar">
- <div class="innerBar"
-    [style.width.%]="pValue"></div>
+<!--
+  <ng-content></ng-content>
+  -->
+
+<!--
+[attr.data-label]="title"
+-->
+<div class="progress"  cost-label="20">
+  <div style="position: absolute">
+    <ng-content>
+
+    </ng-content>
+  </div>
+  <span class="value" [style.width.%]="100 - pValue"></span>
 </div>
+

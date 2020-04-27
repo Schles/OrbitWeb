@@ -32,32 +32,8 @@ export class FittingComponent implements OnInit {
   constructor(private gameService: GameService) {
     this.myForm = new FormGroup({});
     this.nameControl = new FormControl();
-  }
 
 
-
-  ngOnInit() {
-    this.equipmentSlots = new Array(5);
-
-    Game.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
-      //this.ownPlayer = value;
-
-      console.log(value);
-
-      this.gameService.login(value.name);
-
-      this.gameService.send(new PlayerLoginMessage(value.name, value.fitting));
-
-      /*
-        this.renderer.pApp.spawnPlayer(this.ownPlayer);
-
-      this.ownPlayer.iterateGraphics();
-
-      const msg: PlayerJoinedMessage = this.ownPlayer.getPlayerJoinedMessage();
-      this.socketService.send(msg);
-*/
-      //this.ui.loginEnabled = false;
-    });
 
     if ( this.gameService.DEBUG) {
       const shipFitting = new ShipFitting();
@@ -68,7 +44,29 @@ export class FittingComponent implements OnInit {
         fitting: shipFitting
       });
     }
+
   }
+
+
+
+  ngOnInit() {
+    this.equipmentSlots = new Array(5);
+
+    document.addEventListener('keyup',  (event) => {
+      if ( event.shiftKey === true && event.code === "Enter") {
+        if( this.gameService.getUserName() === undefined)
+          this.spawn();
+      }
+    });
+
+
+  }
+
+  public getCPUP() {
+    const p = this.equipmentCPUCost * 100 / this.equipmentCPUCapacity;
+
+    return p <= 100 ? p : 100;
+}
 
   public spawn() {
       const name = this.nameControl.value;

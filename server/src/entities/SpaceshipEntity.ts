@@ -29,10 +29,11 @@ export class SpaceshipEntity extends Spaceship {
   public iterate(delta: number) {
     this.physics.iterate(this, delta);
 
-    this.power += delta;
+    this.power += this.energyRechargeRate * delta;
 
-    if ( this.power > 100)
-      this.power = 100;
+    this.power = this.power <= this.energyCapacity ? this.power : this.energyCapacity;
+
+    this.health = this.health <= 150 ? this.health : 150;
 
     this.fitting.fitting.forEach( (eq: ShipEquipmentEntity) => {
       eq.iterate(this, delta);

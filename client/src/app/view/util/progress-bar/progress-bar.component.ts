@@ -7,7 +7,11 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ProgressBarComponent implements OnInit {
 
+  @Input() public title: string;
+  @Input() public desc: string;
+
   @Input() maxValue: number = 100;
+
   public _currentValue: number = 40;
   @Input() public set currentValue(val: number) {
     this._currentValue = val;

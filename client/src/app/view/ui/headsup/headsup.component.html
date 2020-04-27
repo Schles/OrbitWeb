@@ -1,37 +1,38 @@
 
+
+
 <div *ngIf="mePlayer() !== undefined" class="header">
-  <div class="container">
-    <div class="row" style="margin:10px;">
-      <div>{{speedUI}}</div>
-      <div>Speed</div>
-      <div>Energy</div>
+  <button class="capsule" (click)="selfKill()">Capsule</button>
+  <div class="equipment">
+    <div style="color:white">Equipment</div>
+    <div *ngFor="let fit of mePlayer().fitting.fitting; let i = index" class="slot" >
 
-      <div>{{powerUI}}</div>
-    </div>
-
-    <div *ngFor="let fit of mePlayer().fitting.fitting; let i = index" style="margin:10px;" >
-      <app-progress-bar
-        *ngIf="!fit.passive"
-        [currentValue]="fit.remainingTime"
-        [maxValue]="fit.cycleTime">
-        <div class="row"                 [ngClass]="{
+      <div class="progress"
+           *ngIf="!fit.passive"
+           (click)="onClick(i)"
+           [ngClass]="{
                active: fit.state.active && fit.state.pendingState,
                offline: !fit.state.active && !fit.state.pendingState,
-               pending: fit.state.active != fit.state.pendingState}">
-
-
-          <div>
-            Key_{{i + 1}}
-          </div>
-          <div>
-            {{fit.name}}
-          </div>
-          <div>
-            {{fit.powerCost}}
-          </div>
-        </div>
-      </app-progress-bar>
+               pending: fit.state.active != fit.state.pendingState}"
+           [attr.data-label]="(i+1) + ':'  + fit.name" [attr.cost-label]="fit.powerCost">
+        <span class="value" [style.width.%]="getCDP(fit)"></span>
+      </div>
     </div>
   </div>
+
+  <div class="ship">
+    <div style="color:white">Ship</div>
+    <div class="progress energy slot" data-label="Energy" [attr.cost-label]="getEnergy()">
+      <span class="value" [style.width.%]="getEnergyP()"></span>
+    </div>
+
+      <div class="progress speed slot" data-label="Speed" [attr.cost-label]="getSpeed()">
+        <span class="value" [style.width.%]="getSpeedP()"></span>
+      </div>
+
+  </div>
+
+
+
 </div>
-<button class="capsule" (click)="selfKill()">Capsule</button>
+

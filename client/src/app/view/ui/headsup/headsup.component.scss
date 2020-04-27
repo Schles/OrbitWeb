@@ -1,49 +1,110 @@
 .header {
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.ship {
+
+}
+
+.equipment {
+  display: flex;
+
+  flex-direction: column;
+
+
+
+
+}
+
+.slot {
+  width: 200px;
+  margin-top:5px;
 }
 
 .active {
-  color: green;
+  color: white;
+  background-color:green;
+
+  .value {
+    background-color: #2f2f9a;
+    color:white;
+  }
 }
 
 .offline {
   color: white;
+  background-color: #2f2f9a;
 }
 
 .pending {
-  color: yellow;
-}
+  color: white;
+  background-color: #ff971b;
 
-:host ::ng-deep .row {
-  display: flex;
-
-  div {
-    padding:3px;
-  }
-
-  div:first-child {
-    flex: 0 0 50px;
-    text-align: right;
-
-  }
-
-  div:nth-child(2) {
-    flex: 1 1 30px;
-    text-align: left;
-  }
-
-  div:last-child {
-
-    flex: 0 0 30px;
-
+  .value {
+    background-color: #2f2f9a;
   }
 }
+
 
 .container {
 
-  width: 240px;
 }
 
 .capsule {
   user-select: none;
 }
+
+
+
+.progress {
+  height: 2em;
+  width: 100%;
+  font-size: 14px;
+
+  position: relative;
+}
+.progress:before {
+  content: attr(data-label);
+  position: absolute;
+  text-align: left;
+  line-height: 2em;
+  left: 5px;
+  right: 0;
+  font-weight: bold;
+}
+
+.progress:after {
+  content: attr(cost-label);
+  position: absolute;
+  text-align: right;
+  line-height: 2em;
+  left: 0;
+  right: 5px;
+}
+
+.value {
+  //background-color: #7cc4ff;
+  display: inline-block;
+  height: 100%;
+}
+
+.speed {
+  background-color: #a91aff;
+  color:white;
+  .value {
+    background-color: #2f2f9a;
+  }
+}
+
+.energy {
+  background-color: #a91aff;
+  color:white;
+  .value {
+    background-color: #2f2f9a;
+  }
+}
+
+

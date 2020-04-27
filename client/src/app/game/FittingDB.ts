@@ -11,27 +11,31 @@ export class FittingDB {
 
   public init() {
 
-      this.db.push(new ShipEquipment("Repair", 0, 10, 10, 2,false, {
+      this.db.push(new ShipEquipment("Repair", 0, 10, 30, 15,false, {
         targetSelf: true
       }));
 
-      this.db.push(new ShipEquipment("Webber", 0, 100, 10, 3,false,{
+      this.db.push(new ShipEquipment("Webber", 0, 15, 10, 10,false,{
         targetEnemy: true
       }));
 
-      this.db.push(new ShipEquipment("Laser", 0, 100, 20, 2,false,{
+      this.db.push(new ShipEquipment("Laser", 0, 8, 20, 5,false,{
         targetEnemy: true
       }));
 
-      this.db.push(new ShipEquipment("SpeedBooster", 0, 100, 30, 5, false,{
+      this.db.push(new ShipEquipment("SpeedBooster", 0, 70, 30, 6, false,{
         targetSelf: true
       }));
 
-      this.db.push(new ShipEquipment("RocketLauncher", 0, 100, 5, 5,false,{
+      this.db.push(new ShipEquipment("RocketLauncher", 0, 5, 5, 5,false,{
         targetEnemy: true
       }));
 
-      this.db.push(new ShipEquipment("Battery", 0, 100, 0, 0,true,{}));
+      this.db.push(new ShipEquipment("Nosferatu", 0, 10, 60, 15,false,{
+        targetEnemy: true
+      }));
+
+    this.db.push(new ShipEquipment("Battery", 0, 40, 0, 0,true,{}));
 
     }
 
@@ -45,9 +49,9 @@ export class FittingDB {
         case "default":
           set.push(this.search("Repair"));
           set.push(this.search("Webber"));
-          set.push(this.search("Laser"));
+          set.push(this.search("SpeedBooster"));
           set.push(this.search("RocketLauncher"));
-          set.push(this.search("Battery"));
+          set.push(this.search("Nosferatu"));
           break;
       }
 

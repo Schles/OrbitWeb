@@ -8,7 +8,7 @@
 <button (click)="spawnType('intercepter')">Intercepter</button>
 <button (click)="toggleCustom()">Custom</button>-->
 
-    <button (click)="spawn()" type="submit">Spawn</button>
+    <button (click)="spawn()" type="submit" [disabled]="equipmentCPUCost > equipmentCPUCapacity">Spawn</button>
     <button (click)="spawnDefault()" type="submit">Default</button>
   </form>
 </div>
@@ -32,12 +32,9 @@
     </div>
   </div>
   <div class="powerCostWrapper">
-    <app-progress-bar
-      [currentValue]="equipmentCPUCost"
-      [maxValue]="equipmentCPUCapacity">
-      CPU: {{equipmentCPUCost}} / {{equipmentCPUCapacity}}
-    </app-progress-bar>
-
+    <div class="progress speed slot" [attr.data-label]="'CPU: ' + equipmentCPUCost" [attr.cost-label]="equipmentCPUCapacity">
+      <span class="value" [style.width.%]="getCPUP()"></span>
+    </div>
   </div>
 </div>
 

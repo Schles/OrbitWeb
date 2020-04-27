@@ -17,16 +17,6 @@ export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
     super(shipEquipment);
   }
 
-
-  onInit(parent: SpaceshipEntity) {
-    super.onInit(parent);
-  }
-
-  iterate(parent: SpaceshipEntity, delta: number) {
-    super.iterate(parent, delta);
-  }
-
-
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
 

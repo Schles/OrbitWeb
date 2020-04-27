@@ -12,11 +12,11 @@ export class EquipmentEntityEmpty extends ShipEquipmentEntity {
 
   }
 
-
   protected onStartEquipment(parent: SpaceshipEntity) {
 
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
+
   }
 }

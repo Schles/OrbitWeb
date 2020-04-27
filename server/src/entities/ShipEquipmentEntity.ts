@@ -20,7 +20,6 @@ export class ShipEquipmentEntity extends ShipEquipment {
     if (this.isOnCooldown())
       return;
 
-
     if ( this.state.active === false && this.state.pendingState === false) {
       return;
     }
@@ -34,10 +33,29 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
 
   protected onStartEquipment(parent: SpaceshipEntity) {
-    this.state.active = false;
+    this.state.active = true;
   }
 
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
+    if ( this.state.active === false && this.state.pendingState === true) {
+      if (!this.canAfford(parent, delta)) {
+        return;
+      }
+      this.payPower(parent);
+      this.onStartEquipment(parent);
+    } else if ( this.state.active === true && this.state.pendingState === false) {
+      this.onEndEquipment(parent);
+    } else if ( this.state.active === true && this.state.pendingState === true) {
+      this.onEndEquipment(parent);
+
+      if (!this.canAfford(parent, delta)) {
+        return;
+      }
+
+      this.payPower(parent);
+      this.onStartEquipment(parent)
+    }
+/*
     if (this.state.active && !this.alreadyApplied) {
       if (!this.canAfford(parent, delta)) {
         this.state.active = false;
@@ -75,6 +93,8 @@ export class ShipEquipmentEntity extends ShipEquipment {
       this.alreadyApplied = false;
       this.onEndEquipment(parent);
     }
+
+ */
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {

@@ -3,23 +3,17 @@ import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 
 export class EquipmentEntityRepair extends ShipEquipmentEntity {
+
+  public repairAmount = 30;
+
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
-  }
-
-
-  public iterate(parent: SpaceshipEntity, delta: number) {
-    super.iterate(parent, delta);
-  }
-
-
-  protected onStartEquipment(parent: SpaceshipEntity) {
-    super.onStartEquipment(parent);
+    this.powerCost = 1;
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
     super.onEndEquipment(parent);
 
-    parent.health += 10;
+    parent.health += this.repairAmount;
   }
 }

@@ -6,6 +6,8 @@ import {EquipmentGOLaser} from "./EquipmentGOLaser";
 import {EquipmentGOSpeedBooster} from "./EquipmentGOSpeedBooster";
 import {EquipmentGORocketLauncher} from "./EquipmentGORocketLauncher";
 import {EquipmentGOEmpty} from "./EquipmentGOEmpty";
+import {EquipmentGONosferatu} from "./EquipmentGONosferatu";
+
 
 export class FactoryEquipmentGO {
   public static create(shipEquipment: ShipEquipment): ShipEquipmentGO {
@@ -17,6 +19,7 @@ export class FactoryEquipmentGO {
       case "Laser": return new EquipmentGOLaser(shipEquipment);
       case "SpeedBooster": return new EquipmentGOSpeedBooster(shipEquipment);
       case "RocketLauncher": return new EquipmentGORocketLauncher(shipEquipment);
+      case "Nosferatu": return new EquipmentGONosferatu(shipEquipment);
 
     }
     return undefined;

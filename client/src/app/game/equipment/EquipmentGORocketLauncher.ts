@@ -57,24 +57,19 @@ export class EquipmentGORocketLauncher extends ShipEquipmentGO {
     const c = PIXI.utils.string2hex("#AA55FF");
 
     // Set the fill color
-    cannon.beginFill(0xFFFFFF);
+
+    const look: PIXI.Graphics = new PIXI.Graphics();
+    const invertColor = PIXI.utils.string2hex(parent.invertColor(parent.color));
+    // Set the fill color
+    look.lineStyle(2, invertColor); // Red
 
     // Draw a circle
-    cannon.drawRect(0, 0, 20, 1);
 
-    // Applies fill to lines and shapes since the last call to beginFill.
-    cannon.endFill();
+    look.drawCircle(0, 0, parent.shipSize + 3);
 
-    //cannonCont.addChild(cannon);
+    look.endFill();
 
-    const sprite = PIXI.Sprite.from("assets/ShipATypeB.png");
-    sprite.tint = c;
-    sprite.x = 10;
-    sprite.y = 12;
-    sprite.scale.x = -0.1;
-    sprite.scale.y = -0.1;
-    sprite.rotation = Math.PI;
-    cannonCont.addChild(sprite);
+    cannonCont.addChild(look);
 
 
     return cannonCont;

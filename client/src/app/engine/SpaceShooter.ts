@@ -64,8 +64,8 @@ export class SpaceShooter extends PIXI.Application {
   private renderSizePoint: PIXI.Graphics;
 
   public setRenderSize(x, y) {
-    this.renderSizePoint.x = x;
-    this.renderSizePoint.y = y;
+    //this.renderSizePoint.x = x;
+    //this.renderSizePoint.y = y;
   }
 
   public boot() {
@@ -140,17 +140,10 @@ export class SpaceShooter extends PIXI.Application {
     this.emitter.update(dT);
 
     // Camera
-    if (this.camera !== undefined)
-      this.camera.iterate(this.players.map( (v) => v.position), dT);
-
-
 
 
 
     // Targeting
-
-
-
     this.renderTargeting();
 
     this.sunGameObject.iterate(dT);

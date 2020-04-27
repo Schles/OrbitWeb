@@ -6,13 +6,18 @@ import {WebsocketService} from "../network/websocket.service";
 import {Message} from "../../../../shared/src/message/Message";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {FittingDB} from "../game/FittingDB";
+import {Game} from "../game/Game";
+import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
+import {Spaceship} from "../../../../shared/src/model/Spaceship";
+import {PlayerLoginMessage} from "../../../../shared/src/message/login/PlayerLoginMessage";
+import {Input} from "../game/Input";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
-  public DEBUG = true;
+  public DEBUG = false;
 
   private application: SpaceShooter;
 
@@ -25,30 +30,46 @@ export class GameService {
 
   public fittingDB: FittingDB;
 
+  public input: Input;
+
   constructor(private ngZone: NgZone, private socketService: WebsocketService, ) {
     this.ngZone.runOutsideAngular(() => {
       this.application = new SpaceShooter({ width: window.innerWidth, height: window.innerHeight, antialias: true,  }); // this creates our pixi application
     });
 
+    this.input = new Input(this);
+
     this.fittingDB = new FittingDB();
 
+    Game.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
+      this.login(value.name);
 
+      this.send(new PlayerLoginMessage(value.name, value.fitting));
+    });
 
     this.app().ticker.add ( (delta) => {
-
-
       const dT = this.app().ticker.elapsedMS / 1000;
+
+      let me;
+      let mePosition;
+      if ( this.userName !== undefined) {
+        me = this.app().players.find((p) => p.id === this.userName)
+        if ( me !== undefined)
+          mePosition = me.position;
+      }
 
       this.app().iterate(dT);
 
-      if ( this.userName !== undefined) {
-        const me = this.app().players.find ( (p) => p.id === this.userName)
-
-        if (me !== undefined) {
-          this.app().iterateSelf(me, dT);
-        }
+      if (me !== undefined) {
+        this.app().iterateSelf(me, dT);
       }
 
+
+
+
+
+      if (this.app().camera !== undefined)
+        this.app().camera.iterate(this.app().players.map( (v) => v.position), mePosition, dT);
 
       if (this.app().filter !== undefined) {
         if (this.app().players.length > 0) {
@@ -89,6 +110,8 @@ export class GameService {
   public logout() {
     this.userName = undefined;
   }
+
+
 
   public connect() {
       this.socketService.initSocket();

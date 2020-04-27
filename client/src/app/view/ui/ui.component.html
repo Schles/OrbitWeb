@@ -1,9 +1,11 @@
-<div class="ui" >
-  <div *ngIf="!loginEnabled" class="headsup">
-    <app-headsup #headsUp>
+<div *ngIf="!loginEnabled" class="headsup">
+  <app-headsup #headsUp>
 
-    </app-headsup>
-  </div>
+  </app-headsup>
+</div>
+
+<div class="ui" >
+
 
   <div *ngIf="loginEnabled" class="login">
     <div *ngIf="showCustom">

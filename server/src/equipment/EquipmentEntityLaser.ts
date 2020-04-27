@@ -1,11 +1,10 @@
-import {ShipEquipmentEntity} from "../entities/ShipEquipmentEntity";
+
 import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 import {CMath} from "../utils/CMath";
 import * as math from "mathjs";
 import {Vector2} from "../../../shared/src/util/VectorInterface";
 import {EventManager} from "../game/EventManager";
-import {TimedAbility} from "../../../shared/src/model/TimedAbility";
 import {ProjectileEntity} from "../entities/ProjectileEntity";
 import {ShipEquipmentTargetEntity} from "./common/ShipEquipmentTargetEntity";
 
@@ -13,20 +12,17 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
   private maxOmega = 0.4;
   private maxAimAngle: number = 0.2;
-  private damage: number = 10;
+  private damage: number = 5;
 
 
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
+    this.range = 400;
   }
 
 
-  onInit(parent: SpaceshipEntity) {
-    super.onInit(parent);
-  }
-
-  iterate(parent: SpaceshipEntity, delta: number) {
+  public iterate(parent: SpaceshipEntity, delta: number) {
     super.iterate(parent, delta);
 
     if ( parent.targetPlayer !== undefined) {
@@ -37,48 +33,9 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
+
+    this.shoot(parent);
   }
-
-  protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
-//    super.onUpdateEquipment(parent, delta);
-
-    //console.log(this.state.active);
-    if( this.hasTarget(parent) && this.isTargetInRange(parent)) {
-
-      if (!this.canAfford(parent, delta)) {
-        this.state.active = false;
-        this.state.pendingState = false;
-        return;
-      }
-      this.payPower(parent);
-      this.shoot(parent, delta);
-    }
-
-  }
-
-  protected onEndEquipment(parent: SpaceshipEntity) {
-    super.onEndEquipment(parent);
-  }
-
-  private alignCannon(parent: SpaceshipEntity, delta: number) {
-
-
-    const targetVector = CMath.sub(parent.targetPlayer.position, parent.position);
-
-
-
-
-    let omega = CMath.angle(targetVector, this.getOrientation(parent)) / delta;
-
-
-
-    if ( math.abs(omega) > this.maxOmega)
-      omega = math.sign(omega) * this.maxOmega;
-
-
-    this.state.rotation += omega * delta;
-  }
-
 
   protected isTargetInRange(parent: SpaceshipEntity): boolean {
     const targetVector = CMath.sub(parent.targetPlayer.position, parent.position);
@@ -88,7 +45,20 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
     return math.abs(angle) < this.maxAimAngle && len < this.range;
   }
 
-  private shoot(parent: SpaceshipEntity, delta: number) {
+  private alignCannon(parent: SpaceshipEntity, delta: number) {
+
+    const targetVector = CMath.sub(parent.targetPlayer.position, parent.position);
+    let omega = CMath.angle(targetVector, this.getOrientation(parent)) / delta;
+
+    if ( math.abs(omega) > this.maxOmega)
+      omega = math.sign(omega) * this.maxOmega;
+
+
+    this.state.rotation += omega * delta;
+  }
+
+
+  private shoot(parent: SpaceshipEntity) {
     const targetVector = CMath.sub(parent.targetPlayer.position, parent.position);
     const angle = CMath.angle(targetVector, this.getOrientation(parent));
 
@@ -107,7 +77,7 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
       const length = math.norm( [v.x, v.y]);
 
-      parent.targetPlayer.health -= 10;
+      parent.targetPlayer.health -= this.damage;
       (<SpaceshipEntity> parent.targetPlayer).lastHitBy = parent;
 
       const proj: ProjectileEntity = new ProjectileEntity(undefined, parent, <SpaceshipEntity> parent.targetPlayer);

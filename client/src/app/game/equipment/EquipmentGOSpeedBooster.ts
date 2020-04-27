@@ -1,11 +1,10 @@
 import {ShipEquipmentGO} from "../gameobjects/ShipEquipmentGO";
 import {ShipEquipment} from "../../../../../shared/src/model/ShipEquipment";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
+import NoiseFilter = PIXI.filters.NoiseFilter;
 
 export class EquipmentGOSpeedBooster extends ShipEquipmentGO {
-
-  private repairGraphic: PIXI.Graphics;
-
+  private filter: PIXI.Filter;
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
@@ -14,33 +13,20 @@ export class EquipmentGOSpeedBooster extends ShipEquipmentGO {
 
   onInit(parent: SpaceshipGO) {
     super.onInit(parent);
-
-    this.repairGraphic = new PIXI.Graphics;
-    parent.gameObject.addChild(this.repairGraphic);
-
-    this.repairGraphic.lineStyle(2, 0xFFFF00);
-
-    this.repairGraphic.drawCircle(0, 0, 24);
-
-    this.repairGraphic.endFill();
-
-  }
-
-  iterate(parent: SpaceshipGO, delta: number) {
-    super.iterate(parent, delta);
-
-    if ( this.state.active) {
-      this.repairGraphic.visible = true;
-    } else {
-      this.repairGraphic.visible = false;
-    }
+    this.filter = new NoiseFilter(0.5);
+    parent.playerLayer.filters.push( this.filter);
   }
 
 
-  onDestroy(parent: SpaceshipGO) {
-    super.onDestroy(parent);
+  protected onStartEquipment(parent: SpaceshipGO) {
+    super.onStartEquipment(parent);
+    this.filter.enabled = true;
 
-    parent.gameObject.removeChild(this.repairGraphic);
-    this.repairGraphic = undefined;
+  }
+
+  protected onEndEquipment(parent: SpaceshipGO) {
+    super.onEndEquipment(parent);
+    this.filter.enabled = false;
+
   }
 }
