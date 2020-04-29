@@ -1,6 +1,7 @@
 import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 import {Projectile} from "../../../../../shared/src/model/Projectile";
 import {SpaceshipGO} from "./SpaceshipGO";
+import {Physics} from "../../../../../shared/src/physics/Physics";
 
 export class ProjectileGO extends Projectile {
 
@@ -15,7 +16,7 @@ export class ProjectileGO extends Projectile {
   }
 
   public iterate(delta: number) {
-    //this.gameObject.alpha -= delta * 0.1;
+    Physics.iterate(this, delta);
     this.iterPhysics();
   }
 

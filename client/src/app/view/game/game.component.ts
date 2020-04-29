@@ -71,6 +71,9 @@ export class GameComponent implements OnInit, AfterViewInit{
   public ngAfterViewInit(): void {
     this.gameService.onConnect.subscribe( () => {
       this.ui.loginEnabled = true;
+
+
+      this.gameService.clear();
       this.gameService.send ( new LobbyQueryMessage());
 
     });

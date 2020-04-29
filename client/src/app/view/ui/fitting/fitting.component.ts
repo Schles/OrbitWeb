@@ -74,15 +74,11 @@ export class FittingComponent implements OnInit {
       const shipFitting: ShipFitting = new ShipFitting();
       for (let i = 0; i < this.equipmentSlots.length; i++) {
         const slot = this.equipmentSlots[i];
-        console.log(i);
         if ( this.equipmentSlots[i] !== undefined) {
           shipFitting.fitting.push(this.equipmentSlots[i]);
         } else {
-          console.log("bin leer", this.emptySlot);
           shipFitting.fitting.push(this.emptySlot);
         }
-
-        console.log(JSON.parse(JSON.stringify(shipFitting.fitting)));
       }
 
 

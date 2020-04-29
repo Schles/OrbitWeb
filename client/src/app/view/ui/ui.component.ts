@@ -42,7 +42,7 @@ export class UiComponent implements OnInit {
           }
           break;
         case "playerKilledMessage":
-          if ((<PlayerKilledMessage>msg).source === this.playerService.getUserName()) {
+          if (this.playerService.getUserName() === undefined) {
             this.loginEnabled = true;
           }
           break;

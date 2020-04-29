@@ -38,7 +38,7 @@ export class ClientService {
   }
 
   public parseMessage(message: Message, app: SpaceShooter) {
-    console.log(message);
+    //console.log(message);
     switch (message.type) {
       case "playerJoinedMessage":
         new ClientPlayerJoinedMessage(<PlayerJoinedMessage> message).onRecieve(app);
@@ -61,6 +61,7 @@ export class ClientService {
         break;
 
       case "playerKilledMessage":
+        console.log(message);
         const deadPlayer = app.players.find(value => value.id === (<PlayerKilledMessage>message).source);
 
         if ( deadPlayer !== undefined) {

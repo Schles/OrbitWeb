@@ -35,6 +35,7 @@ export class PlayerService {
 
     Game.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
       this.login(value.name);
+      console.log("login");
       this.gameService.send(new PlayerLoginMessage(value.name, value.fitting));
     });
 

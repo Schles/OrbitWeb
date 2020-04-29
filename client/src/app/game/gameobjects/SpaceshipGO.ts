@@ -1,4 +1,5 @@
 import {Spaceship} from "../../../../../shared/src/model/Spaceship";
+import {Physics} from "../../../../../shared/src/physics/Physics";
 
 export class SpaceshipGO extends Spaceship {
 
@@ -24,6 +25,9 @@ export class SpaceshipGO extends Spaceship {
   }
 
   public iterate(delta: number) {
+    Physics.iterate(this, delta);
+
+
     this.iterateGraphics();
   }
 

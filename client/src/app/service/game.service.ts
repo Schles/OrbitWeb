@@ -6,6 +6,8 @@ import {WebsocketService} from "../network/websocket.service";
 import {Message} from "../../../../shared/src/message/Message";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {FittingDB} from "../game/FittingDB";
+import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
+import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
 
 @Injectable({
   providedIn: 'root'
@@ -60,8 +62,25 @@ export class GameService {
 
   }
 
+
+
   public send(msg: Message) {
     this.socketService.send(msg);
+  }
+
+  public clear() {
+    const players: SpaceshipGO[] = this.app().players.map ( p => p);
+
+    players.forEach( (p) => {
+      this.app().killPlayer(p);
+    });
+
+    const projectiles: ProjectileGO[] = this.app().projectiles.map (p => p);
+
+    projectiles.forEach( (p) => {
+      this.app().destroyProjectile(p);
+    });
+
   }
 
 }

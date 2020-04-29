@@ -58,7 +58,7 @@ export class GameServer {
       //console.log('Hi there! (frame=%s, delta=%s)', frameCount++, delta);
 
       this.gc();
-    }, 1000 / 60);
+    }, 1000 / 10);
 
     EventManager.shootProjectile.on('shootProjectile', (msg) => {
 
