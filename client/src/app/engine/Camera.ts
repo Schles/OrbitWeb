@@ -1,5 +1,7 @@
 import {CMath} from "../util/CMath";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
+import {GameService} from "../service/game.service";
+import {PlayerService} from "../service/player.service";
 
 export interface Rectangle {
   x1: Vector2,
@@ -8,7 +10,7 @@ export interface Rectangle {
 
 export class Camera {
 
-  private targetRectangle: Rectangle
+  private targetRectangle: Rectangle;
 
   public width: number;
   public height: number;
@@ -16,26 +18,37 @@ export class Camera {
   public maxCameraRange: number = 500;
 
   constructor(private view: PIXI.Container,
-              ) {
-    this.targetRectangle = {
-      x1: {
-        x: 400,
-        y: 150,
-      },
-      x2: {
-        x: 700,
-        y: 340
+              private gameService: GameService,
+              private playerService: PlayerService) {
+
+    this.setSize(this.gameService.app().renderer.width, this.gameService.app().renderer.height);
+
+    this.gameService.app().OnResizeWindow.subscribe( (size) => {
+      console.error(" got it", size);
+      this.setSize(size.x, size.y);
+    });
+
+
+    this.gameService.app().ticker.add ( (delta) => {
+      const dT = this.gameService.app().ticker.elapsedMS / 1000;
+
+      let me;
+      let mePosition;
+      if (this.playerService.getUserName() !== undefined) {
+        me = this.gameService.app().players.find((p) => p.id === this.playerService.getUserName());
+        if (me !== undefined)
+          mePosition = me.position;
       }
-    }
 
-
-
+      this.iterate(this.gameService.app().players.map( (v) => v.position), mePosition, dT);
+    });
 
 
 
   }
 
   public setSize(w: number, h: number) {
+
     this.width = w;
     this.height = h;
 

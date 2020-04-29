@@ -1,5 +1,6 @@
-import {Vector2} from "../../util/CMath";
+
 import * as math from "mathjs";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 
 export class SunGameObject {
 
@@ -86,7 +87,7 @@ export class SunGameObject {
         this.deltaTime += delta;
         this.filter.uniforms.deltaTime = this.deltaTime;
 
-        const v2 = this.parent.toGlobal(this.position);
+        const v2 = this.parent.toGlobal(<any>this.position);
 
         this.filter.uniforms.sunPosition = [v2.x, v2.y];
       }

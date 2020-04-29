@@ -5,23 +5,35 @@ import {EquipmentGOWebber} from "./EquipmentGOWebber";
 import {EquipmentGOLaser} from "./EquipmentGOLaser";
 import {EquipmentGOSpeedBooster} from "./EquipmentGOSpeedBooster";
 import {EquipmentGORocketLauncher} from "./EquipmentGORocketLauncher";
-import {EquipmentGOEmpty} from "./EquipmentGOEmpty";
+
 import {EquipmentGONosferatu} from "./EquipmentGONosferatu";
 
 
+
+
+import {EquipmentGOError} from "./EquipmentGOError";
+import {EquipmentGOEmpty} from "./EquipmentGOEmpty";
+
+const classes = {
+  EquipmentGOError,
+  EquipmentGOEmpty,
+  EquipmentGOLaser,
+  EquipmentGONosferatu,
+  EquipmentGORepair,
+  EquipmentGORocketLauncher,
+  EquipmentGOSpeedBooster,
+  EquipmentGOWebber
+};
+
 export class FactoryEquipmentGO {
   public static create(shipEquipment: ShipEquipment): ShipEquipmentGO {
-    switch (shipEquipment.name) {
-      case "Empty": return new EquipmentGOEmpty(shipEquipment);
-      case "Battery": return new EquipmentGOEmpty(shipEquipment);
-      case "Repair": return new EquipmentGORepair(shipEquipment);
-      case "Webber": return new EquipmentGOWebber(shipEquipment);
-      case "Laser": return new EquipmentGOLaser(shipEquipment);
-      case "SpeedBooster": return new EquipmentGOSpeedBooster(shipEquipment);
-      case "RocketLauncher": return new EquipmentGORocketLauncher(shipEquipment);
-      case "Nosferatu": return new EquipmentGONosferatu(shipEquipment);
-
+    const name = "EquipmentGO" + shipEquipment.name;
+    if( (<any>classes)[name] !== undefined) {
+      return new classes[name](shipEquipment);
     }
-    return undefined;
+
+    console.error("module not found", name);
+    return new EquipmentGOError(shipEquipment);
+
   }
 }

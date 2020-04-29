@@ -3,7 +3,7 @@ import {ShipEquipment} from "../../../../../shared/src/model/ShipEquipment";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
 
 
-  export class EquipmentGOEmpty extends ShipEquipmentGO {
+  export class EquipmentGOError extends ShipEquipmentGO {
 
 
     constructor(shipEquipment: ShipEquipment) {

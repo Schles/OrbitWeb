@@ -1,4 +1,4 @@
-import {Vector2} from "../../util/CMath";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 
 
 export class Projectile {
@@ -39,11 +39,11 @@ export class Projectile {
   }
 
   public getSource(): Vector2 {
-
+    return undefined;
   }
 
   public getTarget(): Vector2 {
-
+    return undefined;
   }
 
   public drawLine(start: Vector2, end: Vector2, lineWidth: number, color) {

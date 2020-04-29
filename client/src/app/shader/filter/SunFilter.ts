@@ -1,5 +1,5 @@
 import Filter = PIXI.Filter;
-import {Vector2} from "../../util/CMath";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 
 export class SunFilter extends Filter {
   constructor(a, b) {

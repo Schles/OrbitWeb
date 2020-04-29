@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import {WebSocketSubject} from "rxjs/internal-compatibility";
-
-
-
 import * as socketIo from 'socket.io-client';
-import {Message} from "../../../../server/src/model/message";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {Message} from "../../../../shared/src/message/Message";
 
 const SERVER_URL = 'http://localhost:8000';
 
@@ -18,7 +14,7 @@ export class WebsocketService {
   private server_url = 'http://schles.eu:8000';
 
 
-  constructor(private router: Router) {
+  constructor() {
     if( location.origin.indexOf("localhost") > -1)
       this.server_url = 'http://localhost:8000';
   }

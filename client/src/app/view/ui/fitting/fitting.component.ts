@@ -6,6 +6,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {Spaceship} from "../../../../../../shared/src/model/Spaceship";
 import {Game} from "../../../game/Game";
 import {PlayerLoginMessage} from "../../../../../../shared/src/message/login/PlayerLoginMessage";
+import {PlayerService} from "../../../service/player.service";
 
 @Component({
   selector: 'app-fitting',
@@ -29,7 +30,7 @@ export class FittingComponent implements OnInit {
 
   public myForm;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private playerService: PlayerService) {
     this.myForm = new FormGroup({});
     this.nameControl = new FormControl();
 
@@ -54,7 +55,7 @@ export class FittingComponent implements OnInit {
 
     document.addEventListener('keyup',  (event) => {
       if ( event.shiftKey === true && event.code === "Enter") {
-        if( this.gameService.getUserName() === undefined)
+        if( this.playerService.getUserName() === undefined)
           this.spawn();
       }
     });

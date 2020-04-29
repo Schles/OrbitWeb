@@ -1,14 +1,11 @@
-import {SkillUsedMessage} from "../../shared/skill-used-message";
-import {Spaceship} from "../Spaceship";
 import {SkillGO} from "../gameobjects/SkillGO";
-
-
+import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
 
 export class Webber extends SkillGO {
 
     private repairGraphic: PIXI.Graphics;
 
-    constructor(private source: Spaceship, private target: Spaceship) {
+    constructor(private source: SpaceshipGO, private target: SpaceshipGO) {
       super();
     }
 

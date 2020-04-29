@@ -3,6 +3,12 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren}
 import {HeadsupComponent} from "./headsup/headsup.component";
 import {FittingComponent} from "./fitting/fitting.component";
 import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
+import {ScoreboardEntry} from "../../../../../shared/src/model/ScoreboardEntry";
+import {Message} from "../../../../../shared/src/message/Message";
+import {PlayerLoginMessage} from "../../../../../shared/src/message/login/PlayerLoginMessage";
+import {GameService} from "../../service/game.service";
+import {PlayerService} from "../../service/player.service";
+import {PlayerKilledMessage} from "../../../../../shared/src/message/game/player/PlayerKilledMessage";
 
 @Component({
   selector: 'app-ui',
@@ -12,9 +18,9 @@ import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
 export class UiComponent implements OnInit {
 
 
-  @ViewChild('headsUp') public headsUp: HeadsupComponent;
-  @ViewChild('fitting') public renderer: FittingComponent;
-  @ViewChild('scoreboard') public scoreboard: ScoreboardComponent;
+  @ViewChild(HeadsupComponent, {static: false}) public headsUp: HeadsupComponent;
+  @ViewChild(FittingComponent, {static: false}) public renderer: FittingComponent;
+  @ViewChild(ScoreboardComponent, {static: true}) public scoreboard: ScoreboardComponent;
 
 
 
@@ -26,10 +32,22 @@ export class UiComponent implements OnInit {
 
   public loginEnabled: boolean = false;
 
-  public scoreboard: {id: string, count: number}[] = [];
 
-  constructor() {
-
+  constructor(private gameService: GameService, private playerService: PlayerService) {
+    this.gameService.onMessage.subscribe( (msg: Message) => {
+      switch (msg.type) {
+        case "playerJoinedMessage":
+          if ((<PlayerLoginMessage>msg).source === this.playerService.getUserName()) {
+            this.loginEnabled = false;
+          }
+          break;
+        case "playerKilledMessage":
+          if ((<PlayerKilledMessage>msg).source === this.playerService.getUserName()) {
+            this.loginEnabled = true;
+          }
+          break;
+      }
+    });
 
   }
 
@@ -41,9 +59,9 @@ export class UiComponent implements OnInit {
 
   }
 
-
+/*
   public addKill(name: string) {
-    let scorer = this.scoreboard.find(value => value.id === name);
+    let scorer: ScoreboardEntry = this.scoreboard.scoreboard.find((value: ScoreboardEntry) => value.name === name);
 
     if ( scorer === undefined){
       const newScorer = {
@@ -53,11 +71,11 @@ export class UiComponent implements OnInit {
       this.scoreboard.push(newScorer);
     }
 
-    scorer = this.scoreboard.find(value => value.id === name);
+    scorer = this.scoreboard.scoreboard.find(value => value.name === name);
 
     scorer.count++;
   }
-
+*/
 
 
   public toggleCustom() {

@@ -16,7 +16,7 @@ export class Emitter {
   private particleIterator: number = 0;
 
   constructor(size: number) {
-    this.container = new PIXI.ParticleContainer( size, {
+    this.container = new PIXI.ParticleContainer( size, <any> {
       scale: true,
       position: true,
       rotation: true,

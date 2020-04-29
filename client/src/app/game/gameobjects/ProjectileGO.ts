@@ -6,7 +6,7 @@ export class ProjectileGO extends Projectile {
 
   public gameObject: PIXI.Container;
 
-  private lineObject: PIXI.Graphics;
+  protected lineObject: PIXI.Graphics;
 
   constructor(id: string, public source: SpaceshipGO, public target: SpaceshipGO) {
     super(id, source.color);

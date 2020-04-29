@@ -16,6 +16,10 @@ export class ScoreboardComponent implements OnInit {
     });
   }
 
+  public get scoreboard(): ScoreboardEntry[] {
+    return this._scoreboard;
+  }
+
 
   constructor() { }
 

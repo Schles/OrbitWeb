@@ -4,6 +4,7 @@ import {CMath} from "../../../util/CMath";
 import {SpaceshipGO} from "../../../game/gameobjects/SpaceshipGO";
 import {PlayerSelfKillMessage} from "../../../../../../shared/src/message/game/player/PlayerSelfKillMessage";
 import {ShipEquipment} from "../../../../../../shared/src/model/ShipEquipment";
+import {PlayerService} from "../../../service/player.service";
 
 @Component({
   selector: 'app-headsup',
@@ -22,7 +23,7 @@ export class HeadsupComponent implements OnInit {
   public powerUI: number = 100;
 
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private playerService: PlayerService) { }
 
   ngOnInit() {
 
@@ -34,7 +35,7 @@ export class HeadsupComponent implements OnInit {
   }
 
   public mePlayer(): SpaceshipGO {
-    const playerName = this.gameService.getUserName();
+    const playerName = this.playerService.getUserName();
 
 
 
@@ -48,7 +49,7 @@ export class HeadsupComponent implements OnInit {
 
   public onClick(index) {
 
-    this.gameService.input.keyPressed(index + 1);
+    this.playerService.input.keyPressed(index + 1);
   }
 
   public iterate(delta: number) {
@@ -59,8 +60,8 @@ export class HeadsupComponent implements OnInit {
 
 
     const v = CMath.len(ownPlayer.speed);
-    this.speedUI = v.toFixed(0);
-    this.powerUI = ownPlayer.power.toFixed(0);
+    this.speedUI = Number.parseInt(v.toFixed(0));
+    this.powerUI = Number.parseInt(ownPlayer.power.toFixed(0));
 
 
 
@@ -123,15 +124,15 @@ export class HeadsupComponent implements OnInit {
       }
 
       public getPlayer(): SpaceshipGO {
-        if ( this.gameService.getUserName() === undefined)
+        if ( this.playerService.getUserName() === undefined)
           return undefined;
 
-        return this.gameService.app().players.find( (p) => p.id === this.gameService.getUserName());
+        return this.gameService.app().players.find( (p) => p.id === this.playerService.getUserName());
       }
 
       public selfKill() {
         console.log("kill");
-        const playerName = this.gameService.getUserName();
+        const playerName = this.playerService.getUserName();
 
         if( playerName !== undefined) {
           const msg = new PlayerSelfKillMessage(playerName);

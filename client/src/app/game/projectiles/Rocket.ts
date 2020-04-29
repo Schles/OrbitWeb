@@ -1,16 +1,8 @@
-
 import {ProjectileGO} from "../gameobjects/ProjectileGO";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
 
 
 export class Rocket extends ProjectileGO {
-
-  private lineObject: PIXI.Graphics;
-
-
-
-
-  private color;
 
   constructor(id: string, source: SpaceshipGO, target: SpaceshipGO) {
     super(id, source, target);

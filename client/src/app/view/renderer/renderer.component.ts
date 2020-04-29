@@ -1,10 +1,12 @@
 import {Component, EventEmitter, HostListener, NgZone, OnInit, Output, ViewChild} from '@angular/core';
-import {CMath, Vector2} from "../../util/CMath";
+import {CMath} from "../../util/CMath";
 import * as math from 'mathjs';
 import {Game} from "../../game/Game";
 import {SpaceShooter} from "../../engine/SpaceShooter";
 import {Camera} from "../../engine/Camera";
 import {GameService} from "../../service/game.service";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
+
 
 @Component({
   selector: 'app-renderer',
@@ -13,7 +15,7 @@ import {GameService} from "../../service/game.service";
 })
 export class RendererComponent implements OnInit {
 
-  @ViewChild('pixiContainer') pixiContainer;
+  @ViewChild('pixiContainer', {static: true}) pixiContainer;
 
   @Output() clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
@@ -29,61 +31,11 @@ export class RendererComponent implements OnInit {
   private yOffset = 0;
 
   ngOnInit() {
-
-
-
-
-// scale your stage accordingly:
-
     this.pixiContainer.nativeElement.appendChild(this.pApp.view); // this places our pixi application onto the viewable document
-
-
-
-    this.pApp.camera = new Camera(this.pApp.gameStage);
-    this.pApp.camera.setSize(this.width, this.height);
-
-/*
-    this.pApp.stage.width = this.width;
-    this.pApp.stage.height = 700;
-    */
     this.pApp.renderer.plugins.interaction.on('pointerup', (event) => this.canvasClicked(event));
-
-    window.addEventListener(
-      "keydown", (event) => {
-        //
-
-
-
-        if(event.key=== "ArrowDown") {
-          const start: Vector2 = {
-            x: 300,
-            y: 100,
-          }
-
-          const end: Vector2 = {
-            x: 1000,
-            y: 600
-          };
-          //const res = this.cameraFocusAllPlayer();
-          //this.cameraFocusRectangle(res.start, res.end);
-
-        } else if ( event.key === "ArrowUp") {
-          /*
-          this.pApp.stage.scale.x += 0.1;
-          this.pApp.stage.scale.y += 0.1;
-
-           */
-        }
-
-//
-
-      }, false
-    );
-      }
-
+  }
 
   private canvasClicked(event) {
-
     const v = this.pApp.gameStage.toLocal(event.data.global);
     const localPosition: Vector2 = {
       x: v.x,
@@ -110,35 +62,8 @@ export class RendererComponent implements OnInit {
 
   @HostListener('window:resize')
   public resize() {
-
-    const viewportScale = 1 / this.devicePixelRatio;
     this.pApp.renderer.resize(window.innerWidth - this.xOffset , window.innerHeight - this.yOffset);
-
-    this.pApp.setRenderSize(this.pApp.renderer.width, this.pApp.renderer.height);
-
-    if ( this.pApp.camera !== undefined)
-      this.pApp.camera.setSize(this.width, this.height);
-
-    //this.pApp.view.style.transform = `scale(${viewportScale})`;
-    //this.pApp.view.style.transformOrigin = `top left`;
-
-
-  }
-
-  public moveView(value: Vector2) {
-
-    this.pApp.stage.x += value.x;
-    this.pApp.stage.y += value.y;
-
-    //this.pApp.stage.scale.x -= 0.1;
-    //this.pApp.stage.scale.y -= 0.1;
-
-    const v: Vector2 = {
-      x: 10,
-      y: 10
-    };
-
-    console.log(this.worldToLocalMatrix(v));
+    this.pApp.OnResizeWindow.emit({x: this.pApp.renderer.width, y: this.pApp.renderer.height});
   }
 
   public get width(): number {
@@ -149,22 +74,7 @@ export class RendererComponent implements OnInit {
     return  this.pixiContainer.nativeElement.offsetHeight;
   }
 
-  public worldToLocalMatrix(v: Vector2): Vector2 {
-    const m = this.pApp.gameStage.worldTransform;
-    const vector = [v.x, v.y, 1];
-    const matrix = math.matrix([[m.a, m.b, 0], [m.c, m.d, 0], [m.tx, m.ty, 1]]);
-    const matInv = math.inv(matrix);
-    const res = math.multiply(matInv, vector).toArray();
 
-    return {
-      x: res[0],
-      y: res[1]
-    }
-  }
-
-  public localToWorldMatrix(v: Vector2) {
-
-  }
 
   destroy() {
 //    this.app.destroy();

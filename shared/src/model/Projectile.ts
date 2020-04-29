@@ -1,4 +1,3 @@
-import {Vector2} from "../util/VectorInterface";
 import {Particle} from "./Particle";
 import {TimedAbility} from "./TimedAbility";
 

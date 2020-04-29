@@ -13,10 +13,13 @@ import {Particle} from "../../../../shared/src/model/Particle";
 import {AdvancedBloomFilter} from '@pixi/filter-advanced-bloom';
 import {BloomFilter} from "../shader/filter/bloom/BloomFilter";
 import {ShadowFilter} from "../shader/filter/shadow/ShadowFilter";
+import {EventEmitter} from "@angular/core";
 
 //import vertex from '../shader/myVertex.vs';
 
 export class SpaceShooter extends PIXI.Application {
+
+  public OnResizeWindow: EventEmitter<Vector2> = new EventEmitter<Vector2>();
 
   public players: SpaceshipGO[] = [];
 
@@ -61,9 +64,13 @@ export class SpaceShooter extends PIXI.Application {
     this.boot();
   }
 
+
+
   private renderSizePoint: PIXI.Graphics;
 
+
   public setRenderSize(x, y) {
+
     //this.renderSizePoint.x = x;
     //this.renderSizePoint.y = y;
   }
@@ -229,7 +236,7 @@ export class SpaceShooter extends PIXI.Application {
     this.filter2 = new BloomFilter();
     // this.filter,
     this.filter3 = new ShadowFilter(this.stage.worldTransform, this.players);
-    this.stage.filters = [this.filter3];
+    this.stage.filters = [this.filter];
 
 
 

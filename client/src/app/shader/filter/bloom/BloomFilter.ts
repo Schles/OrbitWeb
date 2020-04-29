@@ -15,19 +15,20 @@ export class BloomFilter extends Filter {
 
     let blurX;
     let blurY;
-
+/*
     if (typeof blur === 'number') {
       blurX = blur;
       blurY = blur;
-    }
-    else if (blur instanceof Point) {
-      blurX = blur.x;
-      blurY = blur.y;
+    } else if (blur instanceof Point) {
+      blurX = (<any>blur).x;
+      blurY = (<any>blur).y;
     }
     else if (Array.isArray(blur)) {
       blurX = blur[0];
       blurY = blur[1];
     }
+
+ */
 
     this.blurXFilter = new BlurFilterPass(true, blurX, quality, resolution, kernelSize);
     this.blurYFilter = new BlurFilterPass(false, blurY, quality, resolution, kernelSize);

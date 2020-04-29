@@ -5,7 +5,7 @@ import {ClientComponent} from "./view/client/client.component";
 
 
 const routes: Routes = [
-  { path: 'game', component: ClientComponent }
+  { path: '', component: ClientComponent }
 ];
 
 @NgModule({

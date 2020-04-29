@@ -5,7 +5,7 @@ export enum Action {
 }
 
 // Socket.io events
-export enum Event {
+export enum EventIO {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect'
 }

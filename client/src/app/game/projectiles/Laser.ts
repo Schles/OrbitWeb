@@ -1,21 +1,8 @@
-import {Vector2} from "../../util/CMath";
-import {Projectile} from "../weapons/Projectile";
-
 import {ProjectileGO} from "../gameobjects/ProjectileGO";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
 
 
 export class Laser extends ProjectileGO {
-
-  public gameObject: PIXI.Container;
-
-  private lineObject: PIXI.Graphics;
-
-
-
-
-  private color;
-
   constructor(id: string, source: SpaceshipGO, target: SpaceshipGO) {
     super(id, source, target);
     this.gameObject = this.getGameObject();
@@ -28,7 +15,7 @@ export class Laser extends ProjectileGO {
     const c = PIXI.utils.string2hex(this.color);
     let lineWidth = 2;
 
-    const progress = this.timeToLife / this.lifeTime;
+    const progress = this.timeToLife / this.duration;
 
     if ( progress > 0.6)
       lineWidth = 2;
@@ -39,7 +26,7 @@ export class Laser extends ProjectileGO {
 
     if ( this.target !== undefined) {
 
-      this.drawLine(this.source.position, this.target.position, lineWidth, c);
+      this.drawLine(this.source.position, this.target.position);
     }
   }
 
@@ -58,3 +45,4 @@ export class Laser extends ProjectileGO {
 
 
 }
+
