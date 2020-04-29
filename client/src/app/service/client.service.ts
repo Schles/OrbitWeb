@@ -38,7 +38,7 @@ export class ClientService {
   }
 
   public parseMessage(message: Message, app: SpaceShooter) {
-    //console.log(message);
+    console.log(message);
     switch (message.type) {
       case "playerJoinedMessage":
         new ClientPlayerJoinedMessage(<PlayerJoinedMessage> message).onRecieve(app);

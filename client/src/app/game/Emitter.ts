@@ -1,9 +1,16 @@
 
-import {ParticleEffect} from "./particles/ParticleEffect";
 import {Physics} from "../../../../shared/src/physics/Physics";
 import {SpaceshipGO} from "./gameobjects/SpaceshipGO";
 import {Particle} from "../../../../shared/src/model/Particle";
-;
+
+
+
+class ParticleEffect extends Particle {
+  public timeToLive: number = 0;
+  public lifeTime: number = 2;
+  public sprite: PIXI.Sprite;
+}
+
 
 export class Emitter {
 

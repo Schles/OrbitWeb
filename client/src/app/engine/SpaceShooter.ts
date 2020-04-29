@@ -6,7 +6,6 @@ import {TestFilter} from "../shader/filter/TestFilter";
 import {SunGameObject} from "../game/gameobjects/Sun";
 import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
-import {SkillGO} from "../game/gameobjects/SkillGO";
 import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
 import {TargetLayer} from "./TargetLayer";
 import {Particle} from "../../../../shared/src/model/Particle";
@@ -25,7 +24,7 @@ export class SpaceShooter extends PIXI.Application {
 
   public projectiles: ProjectileGO[] = [];
 
-  public skills: SkillGO[] = [];
+  public skills: any[] = [];
 
   public emitter: Emitter;
 
@@ -155,7 +154,6 @@ export class SpaceShooter extends PIXI.Application {
 
     this.sunGameObject.iterate(dT);
 
-    this.iterateSkills(dT);
     this.iterateProjectiles(dT);
     this.iteratePlayer(dT);
 
@@ -169,24 +167,6 @@ export class SpaceShooter extends PIXI.Application {
         fit.iterate(value, delta);
       })
     });
-
-  }
-
-  private iterateSkills(delta: number) {
-    const removeSkills: SkillGO[] = [];
-
-    this.skills.forEach( (skill: SkillGO) => {
-      skill.iterate(delta);
-
-      if( skill.remainingTime < 0)
-        removeSkills.push(skill);
-    });
-
-    removeSkills.forEach( value => {
-      const index = this.skills.findIndex( value1 => value1.id === value.id);
-      this.skills[index].onDestroy();
-      this.skills.splice(index, 1);
-    })
 
   }
 
@@ -243,13 +223,6 @@ export class SpaceShooter extends PIXI.Application {
   }
   private filter3;
   private filter2;
-
-  // Skill
-
-  public spawnSkill(skill: SkillGO) {
-    skill.onInit();
-    this.skills.push(skill);
-  }
 
   // Player
 

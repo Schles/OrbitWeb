@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {RendererComponent} from "./view/renderer/renderer.component";
-import {ClientComponent} from "./view/client/client.component";
+import {GameComponent} from "./view/game/game.component";
 
 
 const routes: Routes = [
-  { path: '', component: ClientComponent }
+  { path: '', component: GameComponent }
 ];
 
 @NgModule({

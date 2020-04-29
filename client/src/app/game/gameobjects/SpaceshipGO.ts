@@ -1,6 +1,4 @@
-
 import {Spaceship} from "../../../../../shared/src/model/Spaceship";
-import {CannonGO} from "./CannonGO";
 
 export class SpaceshipGO extends Spaceship {
 
