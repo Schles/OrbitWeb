@@ -49,6 +49,8 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
       enemyGO.targetPlayer = undefined;
     }
 
+    enemyGO.activationProgress = this.message.activationProgress;
+
     enemyGO.iterateGraphics();
   }
 }

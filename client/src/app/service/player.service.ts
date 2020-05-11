@@ -1,19 +1,13 @@
 import {EventEmitter, Injectable, NgZone} from '@angular/core';
-import {SpaceShooter} from "../engine/SpaceShooter";
-import {EventIO} from "../network/client-enums";
-
-import {WebsocketService} from "../network/websocket.service";
-import {Message} from "../../../../shared/src/message/Message";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
-import {FittingDB} from "../game/FittingDB";
+
 import {Game} from "../game/Game";
 import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
 import {Spaceship} from "../../../../shared/src/model/Spaceship";
 import {PlayerLoginMessage} from "../../../../shared/src/message/login/PlayerLoginMessage";
 import {Input} from "../game/Input";
 import {GameService} from "./game.service";
-import {PlayerActionMessage} from "../../../../shared/src/message/game/player/PlayerActionMessage";
-import {MessageFactory} from "../network/messages/MessageFactory";
+
 
 @Injectable({
   providedIn: 'root'

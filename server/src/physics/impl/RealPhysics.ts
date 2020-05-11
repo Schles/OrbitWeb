@@ -1,4 +1,4 @@
-import {IPhysics} from "./IPhysics";
+import {IPhysics, PhysicsInput} from "./IPhysics";
 
 import * as math from "mathjs";
 import {Particle} from "../../../../shared/src/model/Particle";
@@ -32,7 +32,7 @@ export class RealPhysics extends IPhysics {
   }
 
 
-  public moveTo(particle: SpaceshipEntity, target: Vector2, stopAtTarget?: boolean): { r: number; a: Vector2 } {
+  public moveTo(particle: SpaceshipEntity, target: Vector2, stopAtTarget?: boolean): PhysicsInput {
 
     const dir = {
       x: target.x - particle.position.x,
@@ -51,7 +51,8 @@ export class RealPhysics extends IPhysics {
       a: {
         x: d.x * particle.acceleration,
         y: d.y * particle.acceleration
-      }
+      },
+      vCap: 1
     }
 
   }

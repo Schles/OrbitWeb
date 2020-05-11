@@ -27,7 +27,7 @@ export class FittingDB {
         targetSelf: true
       }));
 
-      this.db.push(new ShipEquipment("RocketLauncher", 0, 5, 5, 5,false,{
+      this.db.push(new ShipEquipment("RocketLauncher", 0, 5, 5, 2.5,false,{
         targetEnemy: true
       }));
 
@@ -36,6 +36,7 @@ export class FittingDB {
       }));
 
     this.db.push(new ShipEquipment("Battery", 0, 40, 0, 0,true,{}));
+    this.db.push(new ShipEquipment("Mass", 0, 40, 0, 0,true,{}));
 
     }
 
@@ -51,7 +52,7 @@ export class FittingDB {
           set.push(this.search("Webber"));
           set.push(this.search("SpeedBooster"));
           set.push(this.search("RocketLauncher"));
-          set.push(this.search("Nosferatu"));
+          set.push(this.search("Mass"));
           break;
       }
 

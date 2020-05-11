@@ -1,20 +1,12 @@
-import {EventEmitter, Injectable, NgZone} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {SpaceShooter} from "../engine/SpaceShooter";
 import {EventIO} from "../network/client-enums";
-
-import {WebsocketService} from "../network/websocket.service";
 import {Message} from "../../../../shared/src/message/Message";
-import {Vector2} from "../../../../shared/src/util/VectorInterface";
-import {FittingDB} from "../game/FittingDB";
+
 import {Game} from "../game/Game";
-import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
-import {Spaceship} from "../../../../shared/src/model/Spaceship";
-import {PlayerLoginMessage} from "../../../../shared/src/message/login/PlayerLoginMessage";
-import {Input} from "../game/Input";
+
 import {GameService} from "./game.service";
-import {PlayerActionMessage} from "../../../../shared/src/message/game/player/PlayerActionMessage";
-import {MessageFactory} from "../network/messages/MessageFactory";
-import {PlayerService} from "./player.service";
+
 import {ClientPlayerJoinedMessage} from "../network/messages/ClientPlayerJoinedMessage";
 import {PlayerJoinedMessage} from "../../../../shared/src/message/game/player/PlayerJoinedMessage";
 import {ClientPlayerUpdateMessage} from "../network/messages/ClientPlayerUpdateMessage";
@@ -26,6 +18,11 @@ import {ProjectileUpdateMessage} from "../../../../shared/src/message/game/proje
 import {ClientProjectileDestroyMessage} from "../network/messages/ClientProjectileDestroyMessage";
 import {ProjectileDestroyMessage} from "../../../../shared/src/message/game/projectile/ProjectileDestroyMessage";
 import {PlayerKilledMessage} from "../../../../shared/src/message/game/player/PlayerKilledMessage";
+import {ClientStructureSpawnMessage} from "../network/messages/ClientStructureSpawnMessage";
+import {StructureSpawnMessage} from "../../../../shared/src/message/game/structures/StructureSpawnMessage";
+import {ClientStructureDestroyMessage} from "../network/messages/ClientStructureDestroyMessage";
+import {StructureDestroyMessage} from "../../../../shared/src/message/game/structures/StructureDestroyMessage";
+import {BoundryUpdateMessage} from "../../../../shared/src/message/game/BoundryUpdateMessage";
 
 @Injectable({
   providedIn: 'root'
@@ -60,14 +57,25 @@ export class ClientService {
         new ClientProjectileDestroyMessage(<ProjectileDestroyMessage> message).onRecieve(app);
         break;
 
+      case "structureSpawnMessage":
+        new ClientStructureSpawnMessage(<StructureSpawnMessage> message).onRecieve(app);
+        break;
+
+      case "structureDestroyMessage":
+        new ClientStructureDestroyMessage(<StructureDestroyMessage> message).onRecieve(app);
+        break;
+
       case "playerKilledMessage":
-        console.log(message);
         const deadPlayer = app.players.find(value => value.id === (<PlayerKilledMessage>message).source);
 
         if ( deadPlayer !== undefined) {
           app.killPlayer(deadPlayer);
           Game.onPlayerKilled.emit(deadPlayer.id);
         }
+        break;
+
+      case "boundryUpdateMessage":
+        this.gameService.app().boundry.setSize((<BoundryUpdateMessage> message).boundry);
         break;
 
 

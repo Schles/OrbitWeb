@@ -2,6 +2,8 @@ import {Particle} from "./Particle";
 import {Vector2} from "../util/VectorInterface";
 import {Cannon} from "./Cannon";
 import {ShipFitting} from "./ShipFitting";
+import {Structure} from "./Structure";
+import {Inventory} from "./Inventory";
 
 
 
@@ -14,9 +16,11 @@ export class Spaceship extends Particle {
 
   public color: string = "#00FF00";
 
-  public curSpeed: number = 0;
+  public curSpeedDEP: number = 0;
 
   public fitting: ShipFitting = new ShipFitting();
+
+  public inventory: Inventory[] = [];
 
   public timeToMaxSpeed = 2;
 
@@ -26,9 +30,11 @@ export class Spaceship extends Particle {
 
   public speedInput: number = 1;
 
-  public maxOmega: number = 1;
+  public maxOmega: number = 1 * Math.PI;
 
   public cpuCapacity: number = 200;
+
+  public activationProgress: number = 0;
 
   public energyRechargeRate: number = 1.0;
   public energyCapacity: number = 150;
@@ -49,6 +55,9 @@ export class Spaceship extends Particle {
 
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;
+  public actionUseStructure: boolean = false;
+
+  public targetStructure: Structure;
 
   constructor(id, color) {
     super();

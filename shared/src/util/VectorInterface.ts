@@ -1,3 +1,7 @@
+export interface Rectangle {
+  x1: Vector2,
+  x2: Vector2
+}
 
 export interface Vector2 {
   x: number,

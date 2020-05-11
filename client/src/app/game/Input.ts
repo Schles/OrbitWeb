@@ -5,6 +5,7 @@ import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {PlayerMoveToMessage} from "../../../../shared/src/message/game/player/movement/PlayerMoveToMessage";
 import {PlayerOrbitMessage} from "../../../../shared/src/message/game/player/movement/PlayerOrbitMessage";
 import {PlayerService} from "../service/player.service";
+import {PlayerStructureMessage} from "../../../../shared/src/message/game/player/movement/PlayerStructureMessage";
 
 export class Input {
 
@@ -18,6 +19,15 @@ export class Input {
         console.log("no player");
       }
     });
+
+    Game.structureClicked.subscribe( (val) => {
+      if (this.playerService.getUserName() !== undefined) {
+        const msg: PlayerStructureMessage = new PlayerStructureMessage(this.playerService.getUserName(), val.target.id);
+        this.gameService.send(msg);
+      } else {
+        console.log("no player");
+      }
+    })
 
     Game.playerClicked.subscribe((value) => {
       if (value.target.id === this.playerService.getUserName()) {

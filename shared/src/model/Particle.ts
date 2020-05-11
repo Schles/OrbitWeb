@@ -9,6 +9,9 @@ export class Particle {
   public rotation: number = 0;
   public omega: number = 0;
 
+  public mass: number = 1;
+  public radius: number = 10;
+
   constructor() {
     this.position = { x: 0, y: 0};
     this.speed = { x: 0, y: 0};

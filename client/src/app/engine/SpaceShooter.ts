@@ -13,6 +13,10 @@ import {AdvancedBloomFilter} from '@pixi/filter-advanced-bloom';
 import {BloomFilter} from "../shader/filter/bloom/BloomFilter";
 import {ShadowFilter} from "../shader/filter/shadow/ShadowFilter";
 import {EventEmitter} from "@angular/core";
+import {StructureGO} from "../game/gameobjects/StructureGO";
+import {BoundryGO} from "../game/gameobjects/BoundryGO";
+import {AssetLoader} from "./AssetLoader";
+import {Message} from "../../../../shared/src/message/Message";
 
 //import vertex from '../shader/myVertex.vs';
 
@@ -24,6 +28,8 @@ export class SpaceShooter extends PIXI.Application {
 
   public projectiles: ProjectileGO[] = [];
 
+  public structures: StructureGO[] = [];
+
   public skills: any[] = [];
 
   public emitter: Emitter;
@@ -33,6 +39,8 @@ export class SpaceShooter extends PIXI.Application {
   public targetingLine2: PIXI.Graphics;
   public targetingText;
 
+  public boundry: BoundryGO;
+
   public targetingCircle: PIXI.Graphics;
 
   private _gameStage: PIXI.Container;
@@ -41,9 +49,18 @@ export class SpaceShooter extends PIXI.Application {
 
   public sunGameObject: SunGameObject;
 
+  private _structureStage: PIXI.Container;
+  private _playerStage: PIXI.Container;
+
+
+  public assetLoader: AssetLoader;
 
   public get gameStage(): PIXI.Container {
     return this._gameStage;
+  }
+
+  public get playerStage(): PIXI.Container {
+    return this._playerStage;
   }
 
   public get uiStage(): PIXI.Container {
@@ -52,6 +69,10 @@ export class SpaceShooter extends PIXI.Application {
 
   public get targetStage(): TargetLayer {
     return this._targetStage;
+  }
+
+  public get structureStage(): PIXI.Container {
+    return this._structureStage;
   }
 
 
@@ -79,20 +100,30 @@ export class SpaceShooter extends PIXI.Application {
 
     this._gameStage = new PIXI.Container();
     this._uiStage = new PIXI.Container();
+    this._structureStage = new PIXI.Container();
+    this._playerStage = new PIXI.Container();
+
     this._targetStage = new TargetLayer();
+
+    this.boundry = new BoundryGO();
 
     this.stage.addChild(this.gameStage);
     this.stage.addChild(this.uiStage);
 
+    this.gameStage.addChild(this.structureStage);
+    this.gameStage.addChild(this.playerStage);
     this.gameStage.addChild(this.targetStage);
+    this.gameStage.addChild(this.boundry.gameObject);
 
     this.emitter = new Emitter(1000);
     this.emitter.init();
 
-    this.gameStage.addChild(this.emitter.getContainer());
+    this.structureStage.addChild(this.emitter.getContainer());
 
 
-    this.loadShader();
+    this.assetLoader = new AssetLoader();
+    this.assetLoader.load(this.loader);
+    this.assetLoader.onLoaded.subscribe( (val) => { this.onLoaded(val.loader, val.res)});
 
     this.targeting = new PIXI.Container();
     this.targetingLine = new PIXI.Graphics();
@@ -156,6 +187,7 @@ export class SpaceShooter extends PIXI.Application {
 
     this.iterateProjectiles(dT);
     this.iteratePlayer(dT);
+    this.iterateStructure(dT);
 
   }
 
@@ -176,13 +208,15 @@ export class SpaceShooter extends PIXI.Application {
     });
   }
 
+  private iterateStructure(delta: number) {
+    this.structures.forEach( (structure) => {
+      structure.iterate(delta);
+    });
+  }
+
   public loadShader() {
-
-
-
     //const container = new PIXI.Container();
 
-    this.loader.add("shader", "assets/shader/myVertex.fs").add("sun", "assets/shader/SunShader.frag").load( (a, b) => this.onLoaded(a,b));
   }
 
   public filter: TestFilter
@@ -229,12 +263,12 @@ export class SpaceShooter extends PIXI.Application {
   public spawnPlayer(player: SpaceshipGO) {
     this.players.push(player);
     player.onInit();
-    this.gameStage.addChild(player.gameObject);
+    this.playerStage.addChild(player.gameObject);
 
   }
 
   public killPlayer(player: SpaceshipGO) {
-    this.gameStage.removeChild(player.gameObject);
+    this.playerStage.removeChild(player.gameObject);
 
     const p = this.players.findIndex( value => value.id === player.id);
     if ( p !== undefined) {

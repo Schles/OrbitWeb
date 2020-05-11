@@ -46,12 +46,20 @@ export class GameComponent implements OnInit, AfterViewInit{
     const clickedPlayer = this.gameService.app().players.find( (ship) =>
       CMath.isInsideCircle(ship.position, localPosition, 50));
 
+    const clickedStructure = this.gameService.app().structures.find( (structure) =>
+      CMath.isInsideCircle(structure.position, localPosition, 50));
+
     if (clickedPlayer !== undefined) {
-      Game.playerClicked.emit( {
+      Game.playerClicked.emit({
         target: clickedPlayer,
         localPosition: localPosition,
         event: event,
       });
+    } else if (clickedStructure !== undefined) {
+        Game.structureClicked.emit( {
+          target: clickedStructure,
+          event: event,
+        });
     } else {
       Game.worldClicked.emit( {
         localPosition: localPosition,

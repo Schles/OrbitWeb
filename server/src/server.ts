@@ -59,6 +59,7 @@ export class ChatServer {
         console.log('Client disconnected');
       });
     });
+
   }
 
   public getApp(): express.Application {

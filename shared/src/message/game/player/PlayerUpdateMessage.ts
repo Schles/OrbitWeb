@@ -2,6 +2,8 @@ import {Spaceship} from "../../../model/Spaceship";
 import {PlayerMessage} from "../../generic/PlayerMessage";
 import {ShipEquipmentState} from "../../../model/ShipEquipment";
 import {ShipFitting} from "../../../model/ShipFitting";
+import {SpaceshipEntity} from "../../../../../server/src/entities/SpaceshipEntity";
+import {MovementGoalUseStructure} from "../../../../../server/src/entities/input/MovementGoalUseStructure";
 
 export class PlayerUpdateMessage extends PlayerMessage {
   public color: string;
@@ -18,6 +20,8 @@ export class PlayerUpdateMessage extends PlayerMessage {
   public target: string;
   public health: number;
   public power: number;
+
+  public activationProgress: number = 0;
 
   constructor(spaceship: Spaceship) {
     super(spaceship.id);
@@ -40,6 +44,10 @@ export class PlayerUpdateMessage extends PlayerMessage {
     this.health = spaceship.health;
     this.power = spaceship.power;
     this.target = spaceship.targetPlayer !== undefined ? spaceship.targetPlayer.id : undefined;
+
+    const spaceshipEntity: SpaceshipEntity = <SpaceshipEntity> spaceship;
+
+    this.activationProgress = spaceshipEntity.activationProgress;
 
     this.type = "playerUpdateMessage";
   }

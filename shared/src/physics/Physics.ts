@@ -1,7 +1,10 @@
 import {Particle} from "../model/Particle";
+import * as math from "mathjs";
 
 
 export class Physics {
+
+
 
   constructor() {
 
@@ -15,6 +18,8 @@ export class Physics {
     particle.speed.y += particle.accel.y * delta;
 
     particle.rotation += particle.omega * delta;
+
+    particle.rotation = particle.rotation % (2 * Math.PI);
 
     particle.omega = 0;
 

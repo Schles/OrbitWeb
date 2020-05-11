@@ -12,9 +12,10 @@ export class SpaceshipGO extends Spaceship {
   public uiLayer: PIXI.Container;
   public equipmentLayer: PIXI.Container;
 
-  public targetLayer: PIXI.Graphics;
+  public progressLayer: PIXI.Graphics;
   public health = 100;
 
+  private iColor;
 
 
 
@@ -42,7 +43,7 @@ export class SpaceshipGO extends Spaceship {
     this.playerLayer.filters = [];
 
     //const playerRadius = this.shipSize;
-    const playerRadius = 10;
+    const playerRadius = this.radius;
 
     const graphics: PIXI.Graphics = new PIXI.Graphics();
     const c = PIXI.utils.string2hex(this.color);
@@ -55,9 +56,9 @@ export class SpaceshipGO extends Spaceship {
 
 
     const look: PIXI.Graphics = new PIXI.Graphics();
-    const invertColor = PIXI.utils.string2hex(this.invertColor(this.color));
+    this.iColor = PIXI.utils.string2hex(this.invertColor(this.color));
     // Set the fill color
-    look.beginFill(invertColor); // Red
+    look.beginFill(this.iColor); // Red
 
     // Draw a circle
 
@@ -70,7 +71,8 @@ export class SpaceshipGO extends Spaceship {
 
     this.playerLayer.addChild(look);
 
-
+    this.progressLayer = new PIXI.Graphics();
+    this.playerLayer.addChild(this.progressLayer);
 
 
     // target
@@ -100,6 +102,14 @@ export class SpaceshipGO extends Spaceship {
     this.gameObject.y = this.position.y;
 
     this.playerLayer.rotation = this.rotation;
+
+    this.progressLayer.clear();
+
+    if ( this.activationProgress > 0) {
+      this.progressLayer.beginFill(this.iColor);
+      this.progressLayer.drawCircle(0, 0, this.activationProgress * this.radius);
+      this.progressLayer.endFill();
+    }
 
     this.nameplate.text = this.health.toFixed(0) + " " + this.id;
 

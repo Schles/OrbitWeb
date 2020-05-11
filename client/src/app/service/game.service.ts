@@ -8,6 +8,7 @@ import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {FittingDB} from "../game/FittingDB";
 import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
 import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
+import {StructureGO} from "../game/gameobjects/StructureGO";
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,18 @@ export class GameService {
 
     projectiles.forEach( (p) => {
       this.app().destroyProjectile(p);
+    });
+
+    const structures: StructureGO[] = this.app().structures.map (p => p);
+
+    structures.forEach( (structureGO) => {
+      this.app().gameStage.removeChild(structureGO.gameObject);
+
+      const p = this.app().structures.findIndex(value => value.id === structureGO.id);
+      if (p !== undefined) {
+        structureGO.onDestroy();
+        this.app().structures.splice(p, 1);
+      }
     });
 
   }

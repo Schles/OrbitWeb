@@ -10,6 +10,7 @@ import {EquipmentEntityWebber} from "./EquipmentEntityWebber";
 import {EquipmentEntityEmpty} from "./EquipmentEntityEmpty";
 import {EquipmentEntityBattery} from "./EquipmentEntityBattery";
 import {EquipmentEntityNosferatu} from "./EquipmentEntityNosferatu";
+import {EquipmentEntityMass} from "./EquipmentEntityMass";
 
 
 export class EQFactory {
@@ -29,6 +30,7 @@ export class EQFactory {
       case "SpeedBooster": return new EquipmentEntitySpeedBooster(shipEquipment);
       case "Nosferatu": return new EquipmentEntityNosferatu(shipEquipment);
       case "RocketLauncher": return new EquipmentEntityRocketLauncher(shipEquipment);
+      case "Mass": return new EquipmentEntityMass(shipEquipment);
     }
     return undefined;
   }

@@ -10,13 +10,14 @@ import {CMath} from "../../utils/CMath";
 
 export interface PhysicsInput {
   r: number,
-  a: Vector2
+  a: Vector2,
+  vCap: number
 }
 
 export abstract class IPhysics {
   abstract getOrientation(particle: Particle): Vector2;
 
-  abstract moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): { r: number, a: Vector2 };
+  abstract moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): PhysicsInput;
 
   protected orbitOutside(spaceship: SpaceshipEntity, target: Vector2, t1: Vector2, t2: Vector2): PhysicsInput {
 
@@ -49,7 +50,8 @@ export abstract class IPhysics {
       a: {
         x: 0,
         y: 0
-      }
+      },
+      vCap: 1
     };
   }
 

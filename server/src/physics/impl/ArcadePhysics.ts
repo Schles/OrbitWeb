@@ -1,4 +1,4 @@
-import {IPhysics} from "./IPhysics";
+import {IPhysics, PhysicsInput} from "./IPhysics";
 
 
 
@@ -19,26 +19,26 @@ export class ArcadePhysics extends IPhysics {
 
     const orientation = this.getOrientation(spaceship);
 
-    if ( spaceship.curSpeed > spaceship.maxSpeed) {
-      spaceship.curSpeed = spaceship.maxSpeed;
+    if ( spaceship.curSpeedDEP > spaceship.maxSpeed) {
+      spaceship.curSpeedDEP = spaceship.maxSpeed;
     }
 
-    if ( spaceship.curSpeed > 1.05 * (spaceship.speedInput * spaceship.maxSpeed)) {
-      spaceship.curSpeed -= spaceship.acceleration * delta;
-    } else if ( spaceship.curSpeed < 0.95 * (spaceship.speedInput * spaceship.maxSpeed) ) {
-      spaceship.curSpeed += spaceship.acceleration * delta;
+    if ( spaceship.curSpeedDEP > 1.05 * (spaceship.speedInput * spaceship.maxSpeed)) {
+      spaceship.curSpeedDEP -= spaceship.acceleration * delta;
+    } else if ( spaceship.curSpeedDEP < 0.95 * (spaceship.speedInput * spaceship.maxSpeed) ) {
+      spaceship.curSpeedDEP += spaceship.acceleration * delta;
     } else {
 
     }
 
     spaceship.speed = {
-      x: orientation.x * spaceship.curSpeed,
-      y: orientation.y * spaceship.curSpeed
+      x: orientation.x * spaceship.curSpeedDEP,
+      y: orientation.y * spaceship.curSpeedDEP
     }
 
   }
 
-  public moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): { r: number; a: Vector2 } {
+  public moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): PhysicsInput {
     const dir = {
       x: target.x - particle.position.x,
       y: target.y - particle.position.y
@@ -52,7 +52,8 @@ export class ArcadePhysics extends IPhysics {
       a: {
         x: 0,
         y: 0
-      }
+      },
+      vCap: 1
     };
   }
 

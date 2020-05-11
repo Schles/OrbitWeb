@@ -1,12 +1,9 @@
 import {CMath} from "../util/CMath";
-import {Vector2} from "../../../../shared/src/util/VectorInterface";
+import {Rectangle, Vector2} from "../../../../shared/src/util/VectorInterface";
 import {GameService} from "../service/game.service";
 import {PlayerService} from "../service/player.service";
 
-export interface Rectangle {
-  x1: Vector2,
-  x2: Vector2
-}
+
 
 export class Camera {
 
