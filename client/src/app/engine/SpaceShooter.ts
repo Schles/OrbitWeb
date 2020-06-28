@@ -55,6 +55,9 @@ export class SpaceShooter extends PIXI.Application {
 
   public assetLoader: AssetLoader;
 
+  public depCamera: Camera;
+
+
   public get gameStage(): PIXI.Container {
     return this._gameStage;
   }
@@ -123,7 +126,7 @@ export class SpaceShooter extends PIXI.Application {
 
     this.assetLoader = new AssetLoader();
     this.assetLoader.load(this.loader);
-    this.assetLoader.onLoaded.subscribe( (val) => { this.onLoaded(val.loader, val.res)});
+    AssetLoader.onLoaded.subscribe( (val) => { this.onLoaded(val.loader, val.res)});
 
     this.targeting = new PIXI.Container();
     this.targetingLine = new PIXI.Graphics();
@@ -193,6 +196,8 @@ export class SpaceShooter extends PIXI.Application {
 
   private iteratePlayer(delta: number) {
     this.players.forEach(value => {
+      value.setCameraCenter(this.depCamera.localCenterPoint);
+      value.setMatrix(this.depCamera.getViewMatrix(), this.depCamera.getModelMatrix());
       value.iterate(delta);
 
       value.fitting.fitting.forEach( (fit) => {

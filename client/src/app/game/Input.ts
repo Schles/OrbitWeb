@@ -6,6 +6,7 @@ import {PlayerMoveToMessage} from "../../../../shared/src/message/game/player/mo
 import {PlayerOrbitMessage} from "../../../../shared/src/message/game/player/movement/PlayerOrbitMessage";
 import {PlayerService} from "../service/player.service";
 import {PlayerStructureMessage} from "../../../../shared/src/message/game/player/movement/PlayerStructureMessage";
+import {DebugMessage} from "../../../../shared/src/message/DebugMessage";
 
 export class Input {
 
@@ -52,7 +53,10 @@ export class Input {
             this.keyPressed(4);
           } else if ( event.key === "5") {
             this.keyPressed(5);
+          } else if ( event.key === " ") {
+            this.debugPressed(-1);
           }
+
         }
       });
 
@@ -64,6 +68,20 @@ export class Input {
     if ( userName !== undefined ) {
 
       const msg = new PlayerActionMessage(userName, key - 1);
+      if (msg !== undefined) {
+        this.gameService.send(msg);
+      }
+    }
+
+
+  }
+
+  public debugPressed(key) {
+    console.log(key);
+    const userName = this.playerService.getUserName();
+    if ( userName !== undefined ) {
+
+      const msg = new DebugMessage();
       if (msg !== undefined) {
         this.gameService.send(msg);
       }

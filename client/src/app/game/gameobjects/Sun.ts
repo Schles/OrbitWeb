@@ -20,7 +20,7 @@ export class SunGameObject {
     constructor(private parent: PIXI.Container) {
       this.gameObject = new PIXI.Container();
 
-      this.parent.addChild(this.gameObject);
+      //this.parent.addChild(this.gameObject);
 
       this.init(this.gameObject);
     }

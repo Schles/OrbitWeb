@@ -1,5 +1,10 @@
 import {Spaceship} from "../../../../../shared/src/model/Spaceship";
 import {Physics} from "../../../../../shared/src/physics/Physics";
+import {AssetLoader} from "../../engine/AssetLoader";
+import {PIXIUtilts} from "../../util/PIXIUtilts";
+import {CMath} from "../../util/CMath";
+import {Vector2} from "../../../../../shared/src/util/VectorInterface";
+import {PhongFilter} from "../../shader/filter/PhongFilter";
 
 export class SpaceshipGO extends Spaceship {
 
@@ -25,14 +30,43 @@ export class SpaceshipGO extends Spaceship {
     this.gameObject.filters = [];
   }
 
+  private view: PIXI.Matrix;
+  private model: PIXI.Matrix
+
+  private cameraCenterPoint;
+
+  public setCameraCenter(point) {
+    this.cameraCenterPoint = point;
+  }
+
+  public setMatrix(view: PIXI.Matrix, model: PIXI.Matrix) {
+    this.view = view;
+    this.model = model;
+  }
+
   public iterate(delta: number) {
     Physics.iterate(this, delta);
 
+    if (this.filter !== undefined) {
+     const phong: PhongFilter = <PhongFilter> this.filter;
+
+     const sun: Vector2 = {x: 0, y: 0}
+
+
+
+     phong.iterate(this.position, sun, this.cameraCenterPoint);
+    }
+
+    //console.log(this.playerLayer.worldTransform);
 
     this.iterateGraphics();
   }
 
   private nameplate: PIXI.Text;
+
+  private mesh: PIXI.Mesh;
+
+  private filter: PIXI.Filter;
 
   public getGameObject(): PIXI.Container {
     const parentObject: PIXI.Container = new PIXI.Container();
@@ -42,6 +76,52 @@ export class SpaceshipGO extends Spaceship {
     this.playerLayer = new PIXI.Container();
     this.playerLayer.filters = [];
 
+    AssetLoader.onLoaded.subscribe( (val) => {
+
+      const len = 30;
+      /*
+      const geometry = new PIXI.Geometry()
+      geometry.addAttribute("aVertexPosition", this.buildSixEck(this.position), 3);
+
+      geometry.addIndex([0, 1, 2,
+          0, 2, 3,
+          0, 3, 4,
+          0, 4, 5,
+          0, 5, 6,
+          0, 6, 1]);
+
+
+
+      geometry.addIndex([0, 1, 2
+        ]);
+
+      geometry.addAttribute('aNormal', [
+        1 ,-1, 1,
+        0, -1, 1,
+        -1, -1, 1,
+        -1, 1, 1,
+        0, 1, 1,
+        1, 1, 1,
+        1,1, 1,
+      ], 3)
+*/
+      //const filter = new PIXI.Filter(val.res.phongVert.data, val.res.phongFrag.data);
+      const filter = new PhongFilter(null, val.res.phongFrag.data);
+
+      //this.mesh = new PIXI.Mesh(geometry, filter);
+      this.filter = filter;
+      this.playerLayer.filters.push(this.filter);
+      //this.playerLayer.addChild(this.mesh);
+    })
+
+/*
+    loader
+      .add("shader", "assets/shader/SunShader.frag")
+      .load( (a, b) => {
+        console.log(b);
+
+      });
+*/
     //const playerRadius = this.shipSize;
     const playerRadius = this.radius;
 
@@ -95,6 +175,46 @@ export class SpaceshipGO extends Spaceship {
     parentObject.addChild(this.uiLayer);
     parentObject.addChild(this.equipmentLayer);
     return parentObject;
+  }
+
+  private buildSixEck( pos: Vector2): number[] {
+    const len = 50;
+
+
+    const dir:Vector2 = {x: len, y: 0};
+
+    const toRad = (deg) => {
+      return deg / 180 * Math.PI;
+    };
+
+    const z = pos;
+    const a = CMath.add(pos, CMath.rotate(dir, 0));
+    const b = CMath.add(pos, CMath.rotate(dir, toRad(60)));
+    const c = CMath.add(pos, CMath.rotate(dir, toRad(120)));
+    const d = CMath.add(pos, CMath.rotate(dir, toRad(180)));
+    const e = CMath.add(pos, CMath.rotate(dir, toRad(240)));
+    const f = CMath.add(pos, CMath.rotate(dir, toRad(300)));
+
+    const buffer = [
+      z.x, z.y, 0,
+      a.x, a.y, 0,
+      b.x, b.y, 0,
+      c.x, c.y, 0,
+      d.x, d.y, 0,
+      e.x, e.y, 0,
+      f.x, f.y, 0];
+
+    //return buffer;
+
+    const b2 = [
+      pos.x, pos.y - len, 0,
+      pos.x, pos.y + len, 0,
+      pos.y - 2*len, pos.y, 0
+    ]
+
+    return b2;
+
+
   }
 
   public iterateGraphics() {

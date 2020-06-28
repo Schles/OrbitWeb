@@ -52,9 +52,34 @@ export class Camera {
     //this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
   }
 
+  public getViewMatrix(): PIXI.Matrix {
+    const mat = new PIXI.Matrix()
+    mat.translate(-this.width / 2, -this.height / 2);
+    return mat;
+
+  }
+
+  public getModelMatrix(): PIXI.Matrix {
+    const mat = new PIXI.Matrix()
+
+    mat.translate(this.view.worldTransform.tx, this.view.worldTransform.ty);
+    //return mat;
+
+    return mat;
+
+  }
+
+
+
+  public localCenterPoint;
+
   public iterate(positions: Vector2[], vip: Vector2, delta) {
     let rect: Rectangle;
+    const p1 = {x: 0, y: 0};
+    //console.log("cam", this.getModelMatrix().append(this.getViewMatrix()).apply(p1));
+    //console.log("cam", this.view.worldTransform);
 
+    //return;
     if ( positions.length < 1)
       return;
 
@@ -70,14 +95,14 @@ export class Camera {
     this.view.scale.x = scale;
     this.view.scale.y = scale;
 
-    const localCenterPoint = this.focusPoint(positions, vip);
+    this.localCenterPoint = this.focusPoint(positions, vip);
 
     const w = this.width / 2;
     const h = this.height / 2;
 
 
 
-    const a = this.view.toGlobal(<any>localCenterPoint);
+    const a = this.view.toGlobal(<any>this.localCenterPoint);
     const b = this.view.toGlobal(<any>{
       x: w / scale,
       y: h / scale
@@ -86,6 +111,8 @@ export class Camera {
 
     this.view.x = b.x - a.x;
     this.view.y = b.y - a.y;
+
+
   }
 
   public findZoom(rect: Rectangle): number {
@@ -114,7 +141,7 @@ export class Camera {
       return center;
 
     const distanceToCenter = CMath.len(CMath.sub(center, vip));
-    2
+
     if ( distanceToCenter < this.maxCameraRange ) {
         return center;
     } else {

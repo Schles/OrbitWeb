@@ -74,13 +74,18 @@ export class GameServer {
 
   constructor(private io: SocketIO.Server) {
     this.init();
+
+    this.boundries.x1 = { x: -300, y: -300};
+    this.boundries.x2 = { x: 300, y: 300};
+
+
   }
 
   public init() {
     this.scoreboard = new Scoreboard();
 
-    this.spawnEnemy("Enemy", 200, 100, -1.5708);
-    //this.spawnEnemy("Enemy2", 500, 300, 1.5708);
+    this.spawnEnemy("Enemy", -100, 0, -1.5708);
+    this.spawnEnemy("Enemy2", 100, 0, 1.5708);
     this.spawnPortal(700, 300);
 
 
@@ -125,8 +130,15 @@ export class GameServer {
     player.position.x = x;
     player.position.y = y;
     player.rotation = r;
+    /*
+    player.speed = {
+      x: 0,
+      y: 10
+    }
 
+     */
     player.movementGoal = new MovementGoalIdle();
+    //player.movementGoal = new MovementGoalFreeFly();
 
     player.onInit();
     this.players.push(player);
@@ -247,6 +259,13 @@ export class GameServer {
 
       case "playerStructureMessage":
         this.onPlayerStructure(<PlayerStructureMessage> msg);
+        break;
+
+      case "debugMessage":
+        this.players.forEach( (player) => {
+          player.speed = {x: 0, y:0};
+          player.movementGoal = new MovementGoalIdle();
+        });
         break;
 
       default:

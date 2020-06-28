@@ -3,14 +3,21 @@ import {Message} from "../../../../shared/src/message/Message";
 
 export class AssetLoader {
 
-  public onLoaded: EventEmitter<{ loader: any, res: any }> = new EventEmitter<{ loader: any, res: any }>();
+  public static data;
+
+  public static onLoaded: EventEmitter<{ loader: any, res: any }> = new EventEmitter<{ loader: any, res: any }>();
 
   public load(loader) {
 
     loader
       .add("shader", "assets/shader/myVertex.fs")
       .add("sun", "assets/shader/SunShader.frag")
-      .load( (loader, res) => this.onLoaded.emit( { loader: loader, res: res }) );
+      .add("phongFrag", "assets/shader/PhongShader.frag")
+      .add("phongVert", "assets/shader/PhongShader.vert")
+      .load( (loader, res) => {
+        AssetLoader.data = res;
+        AssetLoader.onLoaded.emit( { loader: loader, res: res })
+       });
   }
 
 

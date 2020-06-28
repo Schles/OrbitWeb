@@ -15,7 +15,7 @@ import {StructureGO} from "../game/gameobjects/StructureGO";
 })
 export class GameService {
 
-  public DEBUG = false;
+  public DEBUG = true;
 
   private application: SpaceShooter;
 

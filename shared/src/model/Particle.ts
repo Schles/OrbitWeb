@@ -10,7 +10,7 @@ export class Particle {
   public omega: number = 0;
 
   public mass: number = 1;
-  public radius: number = 10;
+  public radius: number = 40;
 
   constructor() {
     this.position = { x: 0, y: 0};

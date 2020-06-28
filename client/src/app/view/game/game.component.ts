@@ -85,8 +85,9 @@ export class GameComponent implements OnInit, AfterViewInit{
       this.gameService.send ( new LobbyQueryMessage());
 
     });
-    this.camera = new Camera(this.gameService.app().gameStage, this.gameService, this.playerService);
 
+    this.camera = new Camera(this.gameService.app().gameStage, this.gameService, this.playerService);
+    this.gameService.app().depCamera = this.camera;
     this.gameService.connect();
   }
 

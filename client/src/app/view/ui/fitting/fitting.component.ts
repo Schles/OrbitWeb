@@ -41,7 +41,7 @@ export class FittingComponent implements OnInit {
       shipFitting.fitting = this.gameService.fittingDB.getSet("default");
 
       Game.loginPlayer.emit( {
-        name: "Schles",
+        name: "Enemy",
         fitting: shipFitting
       });
     }
