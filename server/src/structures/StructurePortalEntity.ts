@@ -9,6 +9,7 @@ export class StructurePortalEntity extends StructureEntity {
     this.type = "Portal";
     this.activationRange = 30;
     this.activationDuration = 30;
+    this.isStatic = true;
   }
 
 

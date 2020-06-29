@@ -32,6 +32,8 @@ export class TargetLayer extends PIXI.Container {
     this.crossHair.drawRect(-1 * width / 2, -1 * this.crossHairRadius - length, width, length);
     this.crossHair.endFill();
 
+    this.crossHair.visible = false;
+
     this.addChild(this.crossHair);
 
   }
@@ -45,9 +47,9 @@ export class TargetLayer extends PIXI.Container {
     if ( this.source !== undefined) {
 
       if ( this.source.targetPlayer !== undefined) {
-         this.crossHair.visible = true;
-         this.crossHair.x = this.source.targetPlayer.position.x;
-         this.crossHair.y = this.source.targetPlayer.position.y;
+        this.crossHair.visible = true;
+        this.crossHair.x = this.source.targetPlayer.position.x;
+        this.crossHair.y = this.source.targetPlayer.position.y;
       } else {
         this.crossHair.visible = false;
       }

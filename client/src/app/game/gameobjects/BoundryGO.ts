@@ -16,14 +16,13 @@ export class BoundryGO {
   }
 
   public setSize(size: Rectangle) {
-    console.log("setsize", size);
     this.size = size;
 
     const w = size.x2.x - size.x1.x;
     const h = size.x2.y - size.x1.y;
 
     this.lineObject.clear();
-    this.lineObject.lineStyle(2, 0x00FF00);
+    this.lineObject.lineStyle(2, 0xF05E23);
 
 
     this.lineObject.drawRect(size.x1.x, size.x1.y, w, h);

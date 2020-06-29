@@ -39,6 +39,10 @@ export class Spaceship extends Particle {
   public energyRechargeRate: number = 1.0;
   public energyCapacity: number = 150;
 
+  public timestampLastActionMs: number;
+  public isNPC: boolean = false;
+  public maxIdleTimeMs: number = 30 * 60 * 1000;
+
   private _targetPlayer: Spaceship;
 
   public set targetPlayer(target: Spaceship) {

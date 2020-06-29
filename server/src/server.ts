@@ -50,13 +50,16 @@ export class ChatServer {
 
     this.io.on('connect', (socket: any) => {
       console.log('Connected client on port %s.', this.port);
+      this.gameServer.activeConnectionCount++;
+      this.gameServer.start();
+
+
       socket.on('message', (m: Message) => {
         this.gameServer.onMessage(m, this.io, socket);
-        //this.io.emit('message', m);
       });
 
       socket.on('disconnect', () => {
-        console.log('Client disconnected');
+        this.gameServer.activeConnectionCount--;
       });
     });
 

@@ -227,7 +227,7 @@ export class SpaceShooter extends PIXI.Application {
   public filter: TestFilter
 
   public onLoaded(loader, res) {
-    console.log(res);
+//    console.log(res);
 
     const testFilter = new TestFilter(null, res.shader.data);
 

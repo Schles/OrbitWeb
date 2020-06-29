@@ -13,7 +13,7 @@ export class FactoryStructureGO {
   public static create(msg: StructureSpawnMessage): StructureGO {
     const name = "StructureGO" + msg.structureType;
     if( (<any>classes)[name] !== undefined) {
-      return new classes[name](msg.id, msg.x, msg.y, msg.activationRange, msg.activationDuration);
+      return new classes[name](msg.id, msg.x, msg.y, msg.activationRange, msg.activationDuration, msg.info);
     }
 
     console.error("structure not found", name);

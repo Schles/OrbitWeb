@@ -35,7 +35,6 @@ export class ClientService {
   }
 
   public parseMessage(message: Message, app: SpaceShooter) {
-    //console.log(message);
     switch (message.type) {
       case "playerJoinedMessage":
         new ClientPlayerJoinedMessage(<PlayerJoinedMessage> message).onRecieve(app);
@@ -88,11 +87,11 @@ export class ClientService {
               const skillGO = SkillPrototypes.OnTargetSkillUsedMessage((<PlayerTargetSkillUsedMessage> message).skillId, p, t);
               this.renderer.pApp.spawnSkill(skillGO);
               break;
+*/
+      case "scoreboardUpdateMessage":
+        //this.ui.scoreboard.scoreboard = (<ScoreboardUpdateMessage> message).entries;
+        break;
 
-            case "scoreboardUpdateMessage":
-              this.ui.scoreboard.scoreboard = (<ScoreboardUpdateMessage> message).entries;
-              break;
-      */
       default:
         console.log("unknown message", message);
         break;

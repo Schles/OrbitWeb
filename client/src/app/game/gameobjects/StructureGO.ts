@@ -10,12 +10,12 @@ export class StructureGO extends Structure {
 
   protected lineObject: PIXI.Graphics;
 
-  constructor(id: string, x: number, y: number, activationRange: number, activationDuration: number) {
+  constructor(id: string, x: number, y: number, activationRange: number, activationDuration: number, info: string) {
     super(x, y);
     this.id = id;
     this.activationRange = activationRange;
     this.activationDuration = activationDuration;
-
+    this.info = info;
     this.gameObject = this.getGameObject();
   }
 

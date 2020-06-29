@@ -4,8 +4,6 @@ import {CMath} from "../../utils/CMath";
 
 export class CollisionParticleParticle {
   public static collide(p1: Particle, p2: Particle, penetrationDepth: number) {
-    console.log("collide", JSON.stringify(p1.position) + " " + JSON.stringify(p2.position));
-
     const r1 = 10;
     const r2 = 10;
 
