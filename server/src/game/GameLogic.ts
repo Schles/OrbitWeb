@@ -446,6 +446,10 @@ export class GameLogic {
      */
     player.movementGoal = new MovementGoalIdle();
     //player.movementGoal = new MovementGoalFreeFly();
+    player.fitting = new ShipFitting();
+
+    const eq = new ShipEquipment("Loot", 3, 0, 0, 1, true, {});
+    player.fitting.fitting.push(eq);
 
     player.onInit();
     this.players.push(player);
