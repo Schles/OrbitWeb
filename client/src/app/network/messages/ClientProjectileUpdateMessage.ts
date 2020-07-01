@@ -1,11 +1,5 @@
-import {PlayerJoinedMessage} from "../../../../../shared/src/message/game/player/PlayerJoinedMessage";
 import {ClientMessageRecieved} from "./MessageRecieved";
 import {SpaceShooter} from "../../engine/SpaceShooter";
-import {SpaceshipGO} from "../../game/gameobjects/SpaceshipGO";
-import {Spaceship} from "../../../../../shared/src/model/Spaceship";
-import {Factories} from "../../../../../shared/src/util/Factories";
-import {ShipFitting} from "../../../../../shared/src/model/ShipFitting";
-import {FactoryEquipmentGO} from "../../game/equipment/FactoryEquipmentGO";
 import {ProjectileGO} from "../../game/gameobjects/ProjectileGO";
 import {ProjectileUpdateMessage} from "../../../../../shared/src/message/game/projectile/ProjectileUpdateMessage";
 

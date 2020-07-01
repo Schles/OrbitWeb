@@ -1,4 +1,3 @@
-import {ShipEquipmentEntity} from "../entities/ShipEquipmentEntity";
 import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 import {ShipEquipmentTargetEntity} from "./common/ShipEquipmentTargetEntity";

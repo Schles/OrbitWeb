@@ -1,0 +1,148 @@
+
+
+.powerCostWrapper {
+  background-color: cornflowerblue;
+  flex: 1 1 auto;
+}
+
+.progress {
+  height: 2em;
+  width: 100%;
+  font-size: 14px;
+
+  position: relative;
+}
+.progress:before {
+  content: attr(data-label);
+  position: absolute;
+  text-align: left;
+  line-height: 2em;
+  left: 5px;
+  right: 0;
+
+}
+
+.progress:after {
+  content: attr(cost-label);
+  position: absolute;
+  text-align: right;
+  line-height: 2em;
+  left: 0;
+  right: 5px;
+}
+
+.value {
+  background-color: #ff5c45;
+  display: inline-block;
+  height: 100%;
+}
+
+.atk {
+  .tierName {
+    background-color:red;
+  }
+
+  border:1px solid red;
+}
+
+.util {
+  .tierName {
+    background-color: #7cc4ff;
+  }
+
+  border:1px solid #7cc4ff;
+}
+
+.passive {
+  .tierName {
+    background-color: grey;
+  }
+
+  border:1px solid grey;
+}
+
+.tierWrap {
+
+  .tierName {
+    padding:5px;
+    margin:5px;
+  }
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  .fitted {
+
+    display: flex;
+    flex-wrap: wrap;
+
+    .equipment {
+      background-color: cornflowerblue;
+      color: black;
+      margin:10px;
+      display: flex;
+
+      .name {
+        padding:5px;
+      }
+
+      .action {
+        padding:5px;
+        color: cornflowerblue;
+        background-color:purple;
+        font-weight: bold;
+      }
+
+    }
+
+
+
+
+  }
+
+
+}
+
+
+.wrap {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.equipmentSlotWrapper {
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.potentialEquipment {
+
+
+  .header {
+    display:flex;
+
+
+    .name {
+      flex: 1 1 100%;
+      padding:5px;
+      margin:5px;
+      color: cornflowerblue;
+      font-weight: bold;
+    }
+
+    .action {
+      padding:5px;
+      margin:5px;
+      background-color: cornflowerblue;
+      flex: 0 0 5%;
+    }
+  }
+
+  .equipment {
+
+    padding:5px;
+  }
+}

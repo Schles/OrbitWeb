@@ -1,5 +1,4 @@
 import {Vector2} from "../../../../../shared/src/util/VectorInterface";
-import {PIXIUtilts} from "../../util/PIXIUtilts";
 import {CMath} from "../../util/CMath";
 
 export class PhongFilter extends PIXI.Filter{

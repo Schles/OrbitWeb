@@ -4,7 +4,6 @@ import {GameService} from "../service/game.service";
 import {PlayerService} from "../service/player.service";
 
 
-
 export class Camera {
 
   private targetRectangle: Rectangle;
@@ -19,6 +18,7 @@ export class Camera {
               private playerService: PlayerService) {
 
     this.setSize(this.gameService.app().renderer.width, this.gameService.app().renderer.height);
+
 
     this.gameService.app().OnResizeWindow.subscribe( (size) => {
       console.error(" got it", size);
@@ -49,6 +49,7 @@ export class Camera {
     this.width = w;
     this.height = h;
 
+    this.maxCameraRange = this.width > this.height ? this.height / 2 : this.width / 2;
     //this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
   }
 
@@ -71,7 +72,7 @@ export class Camera {
 
 
 
-  public localCenterPoint;
+  public localCenterPoint: Vector2;
 
   public iterate(positions: Vector2[], vip: Vector2, delta) {
     let rect: Rectangle;
@@ -95,7 +96,24 @@ export class Camera {
     this.view.scale.x = scale;
     this.view.scale.y = scale;
 
-    this.localCenterPoint = this.focusPoint(positions, vip);
+    let focusPoint = this.focusPoint(positions, vip);
+
+
+    if ( this.localCenterPoint ) {
+
+      const disVector: Vector2 = CMath.sub(focusPoint, this.localCenterPoint);
+      const disVLen: number = CMath.len(disVector);
+
+
+      if (disVLen > 5) {
+        let scale =  0.05;
+        const newVector: Vector2 = CMath.add(this.localCenterPoint, CMath.scale(disVector, scale));
+        focusPoint = newVector;
+      }
+    }
+
+
+    this.localCenterPoint = focusPoint;
 
     const w = this.width / 2;
     const h = this.height / 2;

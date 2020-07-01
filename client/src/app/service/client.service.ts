@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {SpaceShooter} from "../engine/SpaceShooter";
-import {EventIO} from "../network/client-enums";
 import {Message} from "../../../../shared/src/message/Message";
 
 import {Game} from "../game/Game";

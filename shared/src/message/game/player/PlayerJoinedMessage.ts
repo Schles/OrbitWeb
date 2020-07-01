@@ -1,6 +1,5 @@
 import {Spaceship} from "../../../model/Spaceship";
 import {PlayerUpdateMessage} from "./PlayerUpdateMessage";
-import {ShipFitting} from "../../../model/ShipFitting";
 
 export class PlayerJoinedMessage extends PlayerUpdateMessage {
 

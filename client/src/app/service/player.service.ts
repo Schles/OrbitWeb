@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, NgZone} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 
 import {Game} from "../game/Game";

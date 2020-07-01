@@ -1,4 +1,3 @@
-
 import {SkillEntity} from "../../../server/src/entities/SkillEntity";
 import {SpaceshipEntity} from "../../../server/src/entities/SpaceshipEntity";
 

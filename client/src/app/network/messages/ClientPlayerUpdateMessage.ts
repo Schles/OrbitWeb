@@ -1,4 +1,3 @@
-import {PlayerJoinedMessage} from "../../../../../shared/src/message/game/player/PlayerJoinedMessage";
 import {ClientMessageRecieved} from "./MessageRecieved";
 import {SpaceShooter} from "../../engine/SpaceShooter";
 import {PlayerUpdateMessage} from "../../../../../shared/src/message/game/player/PlayerUpdateMessage";

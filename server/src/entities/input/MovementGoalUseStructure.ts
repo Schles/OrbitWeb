@@ -3,8 +3,6 @@ import {PhysicsInput} from "../../physics/impl/IPhysics";
 import {SpaceshipEntity} from "../SpaceshipEntity";
 import {CMath} from "../../utils/CMath";
 import {StructureEntity} from "../../structures/StructureEntity";
-import {PlayerMoveToMessage} from "../../../../shared/src/message/game/player/movement/PlayerMoveToMessage";
-import * as math from "mathjs";
 import {MovementGoalAlignTo} from "./MovementGoalAlignTo";
 import {MovementGoalIdle} from "./MovementGoalIdle";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";

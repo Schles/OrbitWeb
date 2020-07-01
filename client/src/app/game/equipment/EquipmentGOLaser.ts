@@ -3,7 +3,7 @@ import {ShipEquipment} from "../../../../../shared/src/model/ShipEquipment";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
 
 
-  export class EquipmentGOLaser extends ShipEquipmentGO {
+export class EquipmentGOLaser extends ShipEquipmentGO {
 
     private gameObject: PIXI.Container;
 

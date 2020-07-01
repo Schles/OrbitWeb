@@ -1,51 +1,38 @@
+<div class="header flexWraps" [hidden]="!loginEnabled">
+  <div class="flexT" style="height:10px">
 
-<div class="header">
-  <form [formGroup]="myForm">
-  <input [formControl]="nameControl" placeholder="Name">
-<!--
-<button (click)="spawnType('default')">Default</button>
-<button (click)="spawnType('tank')">Tank</button>
-<button (click)="spawnType('intercepter')">Intercepter</button>
-<button (click)="toggleCustom()">Custom</button>-->
+  </div>
 
-    <button (click)="spawn()" type="submit" [disabled]="equipmentCPUCost > equipmentCPUCapacity">Spawn</button>
-    <button (click)="spawnDefault()" type="submit">Default</button>
-  </form>
-</div>
+  <form class="flexT" [formGroup]="myForm">
+    <input [hidden]="true" type="checkbox" [formControlName]="'customEq'">
+    <div class="login">
 
-<div class="fitting">
-  <div class="equipmentSlotWrapper">
-    <div *ngFor="let equipmentSlot of equipmentSlots; let i = index">
-      <div class="equipmentSlot"
-           [ngClass]="{ empty: equipmentSlot === undefined, filled: equipmentSlot !== undefined}"
-           (drop)="drop($event, i)"
-           (dragover)="dragOver($event)">
-
-          <p *ngIf="equipmentSlot === undefined">
-            Slot {{i+1}}
-          </p>
-
-        <p *ngIf="equipmentSlot !== undefined">
-          {{equipmentSlot.name}}
-        </p>
+      <div class="name">
+        <input [formControlName]="'name'" placeholder="Name">
       </div>
+
+      <div class="spawn">
+        <button (click)="spawn()" type="submit" [disabled]="!isValid() || myForm.value.name.length === 0">Spawn</button>
+      </div>
+
+      <div class="customFit" [ngClass]="{active: isCustomFit}" (click)="toggleCustomFit()" >
+          Equip
+      </div>
+
+
+
     </div>
+  </form>
+
+
+  <div class="fitting flexWrap" >
+    <app-equipment-slot #fitting [hidden]="!myForm.value.customEq"></app-equipment-slot>
   </div>
-  <div class="powerCostWrapper">
-    <div class="progress speed slot" [attr.data-label]="'CPU: ' + equipmentCPUCost" [attr.cost-label]="equipmentCPUCapacity">
-      <span class="value" [style.width.%]="getCPUP()"></span>
-    </div>
-  </div>
+
+
+
 </div>
 
-<div class="equipmentWrapper">
-  <div *ngFor="let equipment of database"
-       class="equipment"
-        draggable="true"
-       (dragstart)="dragStart($event, equipment)"
-       (dragend)="dragEnd($event, equipment)">
-    <app-equipment-window [equipment]="equipment">
-    </app-equipment-window>
-  </div>
-</div>
+
+
 

@@ -1,5 +1,3 @@
-
-import * as math from "mathjs";
 import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 
 export class SunGameObject {

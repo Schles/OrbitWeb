@@ -1,4 +1,3 @@
-import {Structure} from "../../../../../shared/src/model/Structure";
 import {StructureGO} from "../gameobjects/StructureGO";
 import {StructureGOPortal} from "./StructureGOPortal";
 import {StructureSpawnMessage} from "../../../../../shared/src/message/game/structures/StructureSpawnMessage";

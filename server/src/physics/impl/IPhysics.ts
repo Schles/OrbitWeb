@@ -1,6 +1,3 @@
-
-
-
 import * as math from "mathjs";
 import {Particle} from "../../../../shared/src/model/Particle";
 import {SpaceshipEntity} from "../../entities/SpaceshipEntity";

@@ -1,14 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {HeadsupComponent} from "./headsup/headsup.component";
 import {FittingComponent} from "./fitting/fitting.component";
 import {ScoreboardComponent} from "./scoreboard/scoreboard.component";
-import {ScoreboardEntry} from "../../../../../shared/src/model/ScoreboardEntry";
 import {Message} from "../../../../../shared/src/message/Message";
 import {PlayerLoginMessage} from "../../../../../shared/src/message/login/PlayerLoginMessage";
 import {GameService} from "../../service/game.service";
 import {PlayerService} from "../../service/player.service";
-import {PlayerKilledMessage} from "../../../../../shared/src/message/game/player/PlayerKilledMessage";
 
 @Component({
   selector: 'app-ui',
@@ -19,7 +17,7 @@ export class UiComponent implements OnInit {
 
 
   @ViewChild(HeadsupComponent, {static: false}) public headsUp: HeadsupComponent;
-  @ViewChild(FittingComponent, {static: false}) public renderer: FittingComponent;
+  @ViewChild(FittingComponent, {static: false}) public fitting: FittingComponent;
   @ViewChild(ScoreboardComponent, {static: true}) public scoreboard: ScoreboardComponent;
 
 
@@ -34,20 +32,6 @@ export class UiComponent implements OnInit {
 
 
   constructor(private gameService: GameService, private playerService: PlayerService) {
-    this.gameService.onMessage.subscribe( (msg: Message) => {
-      switch (msg.type) {
-        case "playerJoinedMessage":
-          if ((<PlayerLoginMessage>msg).source === this.playerService.getUserName()) {
-            this.loginEnabled = false;
-          }
-          break;
-        case "playerKilledMessage":
-          if (this.playerService.getUserName() === undefined) {
-            this.loginEnabled = true;
-          }
-          break;
-      }
-    });
 
   }
 

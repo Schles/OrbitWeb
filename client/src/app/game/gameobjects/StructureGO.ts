@@ -1,7 +1,3 @@
-import {Vector2} from "../../../../../shared/src/util/VectorInterface";
-import {Projectile} from "../../../../../shared/src/model/Projectile";
-import {SpaceshipGO} from "./SpaceshipGO";
-import {Physics} from "../../../../../shared/src/physics/Physics";
 import {Structure} from "../../../../../shared/src/model/Structure";
 
 export class StructureGO extends Structure {

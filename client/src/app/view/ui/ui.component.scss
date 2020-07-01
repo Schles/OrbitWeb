@@ -9,16 +9,20 @@
 
 .login {
   display:flex;
-
-  position:absolute;
-  top:40px;
-  left: 40px;
+  flex: 1 1 auto;
+  flex-flow: column;
 }
 
 
 .ui {
-  color: white;
+  left: 40px;
+  right:40px;
+  max-width: 300px;
   position: absolute;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
 
 }
 
@@ -32,3 +36,25 @@
   position: absolute;
   bottom: 0px;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #151515;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

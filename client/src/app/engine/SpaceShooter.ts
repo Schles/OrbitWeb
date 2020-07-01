@@ -9,14 +9,12 @@ import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
 import {TargetLayer} from "./TargetLayer";
 import {Particle} from "../../../../shared/src/model/Particle";
-import {AdvancedBloomFilter} from '@pixi/filter-advanced-bloom';
 import {BloomFilter} from "../shader/filter/bloom/BloomFilter";
 import {ShadowFilter} from "../shader/filter/shadow/ShadowFilter";
 import {EventEmitter} from "@angular/core";
 import {StructureGO} from "../game/gameobjects/StructureGO";
 import {BoundryGO} from "../game/gameobjects/BoundryGO";
 import {AssetLoader} from "./AssetLoader";
-import {Message} from "../../../../shared/src/message/Message";
 
 //import vertex from '../shader/myVertex.vs';
 

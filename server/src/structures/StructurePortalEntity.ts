@@ -1,4 +1,3 @@
-
 import {StructureEntity} from "./StructureEntity";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 import {Scoreboard} from "../game/Scoreboard";

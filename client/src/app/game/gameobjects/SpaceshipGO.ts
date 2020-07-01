@@ -1,10 +1,8 @@
 import {Spaceship} from "../../../../../shared/src/model/Spaceship";
 import {Physics} from "../../../../../shared/src/physics/Physics";
-import {AssetLoader} from "../../engine/AssetLoader";
-import {PIXIUtilts} from "../../util/PIXIUtilts";
 import {CMath} from "../../util/CMath";
 import {Vector2} from "../../../../../shared/src/util/VectorInterface";
-import {PhongFilter} from "../../shader/filter/PhongFilter";
+import {NameplateGO} from "./NameplateGO";
 
 export class SpaceshipGO extends Spaceship {
 
@@ -50,7 +48,7 @@ export class SpaceshipGO extends Spaceship {
     this.iterateGraphics();
   }
 
-  private nameplate: PIXI.Text;
+  private nameplate: NameplateGO;
 
   private filter: PIXI.Filter;
 
@@ -104,9 +102,12 @@ export class SpaceshipGO extends Spaceship {
 
     this.uiLayer = new PIXI.Container();
 
-    this.nameplate = new PIXI.Text(this.id, {fontFamily : 'Arial', fontSize: 14, fill : 0xff1010, align : 'center'});
-    this.nameplate.position.x = 20;
-    this.nameplate.position.y = -50;
+    this.nameplate = new NameplateGO(this);
+    /*
+
+     */
+
+
     this.uiLayer.addChild(this.nameplate);
 
 
@@ -171,7 +172,8 @@ export class SpaceshipGO extends Spaceship {
       this.progressLayer.endFill();
     }
 
-    this.nameplate.text = this.health.toFixed(0) + " " + this.id;
+    this.nameplate.update(this);
+    //this.nameplate.text = this.health.toFixed(0) + " " + this.id;
 
   }
 

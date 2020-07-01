@@ -1,5 +1,4 @@
 import {ShipEquipment} from "../../../../../shared/src/model/ShipEquipment";
-import {SpaceshipEntity} from "../../../../../server/src/entities/SpaceshipEntity";
 import {SpaceshipGO} from "./SpaceshipGO";
 
 export class ShipEquipmentGO extends ShipEquipment {

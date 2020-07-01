@@ -1,7 +1,6 @@
 import {Spaceship} from "../../../shared/src/model/Spaceship";
-import {IPhysics, PhysicsInput} from "../physics/impl/IPhysics";
+import {IPhysics} from "../physics/impl/IPhysics";
 import {HybridPhysics} from "../physics/impl/HybridPhysics";
-import {Vector2} from "../../../shared/src/util/VectorInterface";
 import {ShipEquipmentEntity} from "./ShipEquipmentEntity";
 import {CMath} from "../utils/CMath";
 import {StructureEntity} from "../structures/StructureEntity";
@@ -63,7 +62,7 @@ export class SpaceshipEntity extends Spaceship {
 
     this.power = this.power <= this.energyCapacity ? this.power : this.energyCapacity;
 
-    this.health = this.health <= 150 ? this.health : 150;
+    this.health = this.health <= this.maxHealth ? this.health : this.maxHealth;
 
     this.fitting.fitting.forEach( (eq: ShipEquipmentEntity) => {
       eq.iterate(this, delta);

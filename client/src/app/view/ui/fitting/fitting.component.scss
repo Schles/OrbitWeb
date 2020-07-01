@@ -4,9 +4,6 @@
   overflow-x: hidden;
 }
 
-.powerCostWrapper {
-
-}
 
 .equipment {
   border: 1px solid black;
@@ -32,55 +29,89 @@
   background-color: #412e8c;
 }
 
-.equipmentSlotWrapper {
-  display: flex;
-}
+
 
 .fitting {
-  background-color: white;
+
   margin-bottom: 10px;
 }
 
 .header {
-  input {
-    padding: 2px;
-    margin:5px;
+  //max-width: 400px;
+
+  .login {
+    width: 100%;
+    display:flex;
+
+    background-color: #FFC107;
+
+
+    .name {
+      flex: 1 1 50%;
+
+      input {
+        background-color: white;
+        padding: 5px;
+        width: 90%;
+      }
+
+
+    }
+
+    .spawn {
+      flex: 1 1 20%;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .customFit {
+      flex: 1 1 20%;
+      cursor: pointer;
+      user-select: none;
+
+      color: purple;;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .customFit.active {
+      background-color:purple;
+      color: yellow;
+    }
+
+
   }
-  background-color: white;
+
+
+  .fitting {
+    margin-top:10px;
+  }
+
+
+
+
+
+
+
   margin-bottom: 10px;
+
+  form {
+    display: flex;
+  }
+}
+
+.flexWrap {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+}
+
+.flexT {
+  flex: 1 1 auto;
 }
 
 
 
-
-.progress {
-  height: 2em;
-  width: 100%;
-  font-size: 14px;
-  color:black;
-  position: relative;
-}
-.progress:before {
-  content: attr(data-label);
-  position: absolute;
-  text-align: left;
-  line-height: 2em;
-  left: 5px;
-  right: 0;
-
-}
-
-.progress:after {
-  content: attr(cost-label);
-  position: absolute;
-  text-align: right;
-  line-height: 2em;
-  left: 0;
-  right: 5px;
-}
-
-.value {
-  background-color: #ff5c45;
-  display: inline-block;
-  height: 100%;
-}

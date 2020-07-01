@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as socketIo from 'socket.io-client';
 import {Observable} from "rxjs";
 import {Message} from "../../../../shared/src/message/Message";
@@ -12,7 +12,8 @@ export class WebsocketService {
   private port = 8000;
 
   constructor() {
-    this.port = 49160;
+    //this.port = 49160;
+    console.error("dev port is used!");
     this.server_url = 'http://' + document.location.hostname + ':' + this.port;
   }
 

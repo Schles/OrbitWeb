@@ -1,8 +1,5 @@
-
 import {Physics} from "../../../../shared/src/physics/Physics";
-import {SpaceshipGO} from "./gameobjects/SpaceshipGO";
 import {Particle} from "../../../../shared/src/model/Particle";
-
 
 
 class ParticleEffect extends Particle {

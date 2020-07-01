@@ -1,5 +1,3 @@
-import {Spaceship} from "../../../model/Spaceship";
-import {PlayerMessage} from "../../generic/PlayerMessage";
 import {ProjectileMessage} from "./ProjectileMessage";
 import {Projectile} from "../../../model/Projectile";
 

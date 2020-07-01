@@ -1,11 +1,8 @@
 import {Particle} from "./Particle";
 import {Vector2} from "../util/VectorInterface";
-import {Cannon} from "./Cannon";
 import {ShipFitting} from "./ShipFitting";
 import {Structure} from "./Structure";
 import {Inventory} from "./Inventory";
-
-
 
 
 export class Spaceship extends Particle {
@@ -13,6 +10,7 @@ export class Spaceship extends Particle {
   public id;
 
   public health = 100;
+  public maxHealth:number = 150;
 
   public color: string = "#00FF00";
 

@@ -1,4 +1,3 @@
-
 import {PlayerTargetMessage} from "../../generic/PlayerTargetMessage";
 
 export class PlayerTargetSkillUsedMessage extends PlayerTargetMessage {

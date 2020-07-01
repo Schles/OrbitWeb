@@ -1,5 +1,4 @@
 import Filter = PIXI.Filter;
-import AlphaFilter = PIXI.filters.AlphaFilter;
 import {ShadowMap} from "./ShadowMap";
 import {SpaceshipGO} from "../../../game/gameobjects/SpaceshipGO";
 

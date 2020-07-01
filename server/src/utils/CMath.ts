@@ -3,8 +3,6 @@ import {Tangents, Vector2, Vector3} from "../../../shared/src/util/VectorInterfa
 import {Particle} from "../../../shared/src/model/Particle";
 
 
-
-
 export class CMath {
 
   constructor() {

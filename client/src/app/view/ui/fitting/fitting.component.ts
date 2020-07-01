@@ -1,104 +1,105 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {GameService} from "../../../service/game.service";
 import {ShipFitting} from "../../../../../../shared/src/model/ShipFitting";
 import {ShipEquipment} from "../../../../../../shared/src/model/ShipEquipment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Spaceship} from "../../../../../../shared/src/model/Spaceship";
 import {Game} from "../../../game/Game";
-import {PlayerLoginMessage} from "../../../../../../shared/src/message/login/PlayerLoginMessage";
 import {PlayerService} from "../../../service/player.service";
+import {EquipmentSlotComponent} from "./equipment-slot/equipment-slot.component";
+import {Message} from "../../../../../../shared/src/message/Message";
+import {PlayerLoginMessage} from "../../../../../../shared/src/message/login/PlayerLoginMessage";
 
 @Component({
   selector: 'app-fitting',
   templateUrl: './fitting.component.html',
   styleUrls: ['./fitting.component.scss']
 })
-export class FittingComponent implements OnInit {
+export class FittingComponent implements OnInit, AfterViewInit {
 
-  public nameControl: FormControl;
+  @ViewChild(EquipmentSlotComponent, {static: false}) fittingComponent: EquipmentSlotComponent;
 
   public get database(): ShipEquipment[] {
     return this.gameService.fittingDB.db;
   }
 
-  public equipmentSlots: ShipEquipment[] = [];
-
-  public emptySlot: ShipEquipment = new ShipEquipment("Empty", 0, 0, 0, 0, true, {});
-
-  public equipmentCPUCost: number = 0;
-  public equipmentCPUCapacity: number = 200;
 
   public myForm;
 
+  public loginEnabled: boolean = true;
+
+
+
+
   constructor(private gameService: GameService, private playerService: PlayerService) {
-    this.myForm = new FormGroup({});
-    this.nameControl = new FormControl();
+    this.myForm = new FormGroup({
+      name: new FormControl(''),
+      customEq: new FormControl(true)
+    });
 
+  }
 
-
-    if ( this.gameService.DEBUG) {
-      const shipFitting = new ShipFitting();
-      shipFitting.fitting = this.gameService.fittingDB.getSet("default");
-
-      Game.loginPlayer.emit( {
-        name: "Enemy",
-        fitting: shipFitting
-      });
-    }
-
+  ngAfterViewInit(): void {
+    //this.myForm.controls.customEq.setValue(true);
   }
 
 
 
   ngOnInit() {
-    this.equipmentSlots = new Array(5);
+    this.gameService.onMessage.subscribe( (msg: Message) => {
+      switch (msg.type) {
+        case "playerJoinedMessage":
+          if ((<PlayerLoginMessage>msg).source === this.playerService.getUserName()) {
+            this.loginEnabled = false;
+          }
+          break;
+        case "playerKilledMessage":
+          if (this.playerService.getUserName() === undefined) {
+            this.loginEnabled = true;
 
-    document.addEventListener('keyup',  (event) => {
-      if ( event.shiftKey === true && event.code === "Enter") {
-        if( this.playerService.getUserName() === undefined)
-          this.spawn();
+          }
+          break;
       }
     });
 
-
   }
 
-  public getCPUP() {
-    const p = this.equipmentCPUCost * 100 / this.equipmentCPUCapacity;
+  public isValid() {
 
-    return p <= 100 ? p : 100;
-}
+    if ( this.fittingComponent === undefined )
+      return true;
+
+    return this.myForm.value.customEq ? this.fittingComponent.isValid() : true;
+  }
+
+  public toggleCustomFit() {
+
+    this.myForm.controls.customEq.setValue(!this.myForm.controls.customEq.value);
+  }
+
+  public get isCustomFit() {
+    return this.myForm.value.customEq;
+  }
 
   public spawn() {
-      const name = this.nameControl.value;
-      const shipFitting: ShipFitting = new ShipFitting();
-      for (let i = 0; i < this.equipmentSlots.length; i++) {
-        const slot = this.equipmentSlots[i];
-        if ( this.equipmentSlots[i] !== undefined) {
-          shipFitting.fitting.push(this.equipmentSlots[i]);
-        } else {
-          shipFitting.fitting.push(this.emptySlot);
-        }
-      }
+
+    console.log(this.myForm.value);
+    const shipFitting: ShipFitting = new ShipFitting();
+    if ( this.myForm.value.customEq) {
+      shipFitting.fitting = this.fittingComponent.getFitting();
+    } else {
+      console.log("spawn default");
+      shipFitting.fitting = this.gameService.fittingDB.getSet("default");
+    }
+
+    console.log(shipFitting.fitting);
+
 
 
     Game.loginPlayer.emit({
-        name: name,
-        fitting: shipFitting
+      name: this.myForm.value.name,
+      fitting: shipFitting,
     });
 
-
-  }
-
-  public spawnDefault() {
-    const name = this.nameControl.value;
-    const shipFitting = new ShipFitting();
-    shipFitting.fitting = this.gameService.fittingDB.getSet("default");
-
-    Game.loginPlayer.emit( {
-      name: name,
-      fitting: shipFitting
-    });
   }
 
   public getColor(): string {
@@ -106,38 +107,6 @@ export class FittingComponent implements OnInit {
     return c;
   }
 
-  public dragging: ShipEquipment;
 
-  public dragStart(event: DragEvent, item: ShipEquipment){
-    console.log("start");
-    this.dragging = item;
-  };
-
-  public dragEnd(event: DragEvent, item: ShipEquipment){
-    console.log("abort");
-    this.dragging = undefined;
-    this.updatePowerCost();
-  };
-
-  public drop(event, i: number) {
-    this.equipmentSlots[i] = this.dragging;
-    console.log(i, event);
-  }
-
-  public dragOver(event: DragEvent ){
-    if(this.dragging){
-      event.preventDefault();
-    }
-  };
-
-  public updatePowerCost(){
-    this.equipmentCPUCost = this.equipmentSlots.reduce( (acc, cur) => {
-      if( ! (cur === undefined ||cur === null))
-        acc += cur.cpuCost;
-
-        return acc;
-    }, 0);
-
-  }
 
 }

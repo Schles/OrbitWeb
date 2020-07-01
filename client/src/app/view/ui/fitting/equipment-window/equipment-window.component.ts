@@ -9,6 +9,7 @@ import {ShipEquipment} from "../../../../../../../shared/src/model/ShipEquipment
 export class EquipmentWindowComponent implements OnInit {
 
   @Input() public equipment: ShipEquipment;
+  @Input() public description: string;
 
   constructor() { }
 

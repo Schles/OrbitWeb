@@ -1,6 +1,6 @@
 import {Particle} from "../../../shared/src/model/Particle";
 import {Structure} from "../../../shared/src/model/Structure";
-import {Rectangle, Vector2} from "../../../shared/src/util/VectorInterface";
+import {Rectangle} from "../../../shared/src/util/VectorInterface";
 import {CollisionParticleWall} from "./contact/CollisionParticleWall";
 import {CMath} from "../utils/CMath";
 import {CollisionParticleParticle} from "./contact/CollisionParticleParticle";

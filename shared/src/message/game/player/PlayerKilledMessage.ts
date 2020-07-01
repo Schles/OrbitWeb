@@ -1,5 +1,4 @@
 import {Spaceship} from "../../../model/Spaceship";
-import {PlayerUpdateMessage} from "./PlayerUpdateMessage";
 import {PlayerMessage} from "../../generic/PlayerMessage";
 
 export class PlayerKilledMessage extends PlayerMessage {

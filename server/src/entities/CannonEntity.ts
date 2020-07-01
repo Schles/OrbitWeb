@@ -1,12 +1,9 @@
-
 import * as math from "mathjs";
 import {Cannon} from "../../../shared/src/model/Cannon";
 import {Spaceship} from "../../../shared/src/model/Spaceship";
 import {CMath} from "../utils/CMath";
 import {Vector2} from "../../../shared/src/util/VectorInterface";
 import {EventManager} from "../game/EventManager";
-
-
 
 
 export class CannonEntity extends Cannon {

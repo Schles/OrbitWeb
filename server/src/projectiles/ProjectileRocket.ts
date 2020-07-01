@@ -3,7 +3,6 @@ import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 import {Physics} from "../../../shared/src/physics/Physics";
 import {Vector2} from "../../../shared/src/util/VectorInterface";
 import {CMath} from "../utils/CMath";
-import {TimedAbility} from "../../../shared/src/model/TimedAbility";
 import {Particle} from "../../../shared/src/model/Particle";
 
 export class ProjectileRocket extends ProjectileEntity {

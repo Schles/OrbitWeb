@@ -1,0 +1,63 @@
+
+
+<div class="powerCostWrapper">
+  <div class="progress speed slot" [attr.data-label]="'CPU: ' + cpuCost" [attr.cost-label]="equipmentCPUCapacity">
+    <span class="value" [style.width.%]="getCPUP()"></span>
+  </div>
+</div>
+
+<div class="equipmentSlotWrapper">
+
+  <ng-container *ngFor="let tierObj of tierList">
+
+    <div class="tierWrap" [ngClass]="{ atk: tierObj.tier === 1, util: tierObj.tier === 2, passive: tierObj.tier === 3}">
+
+      <div class="tierName">
+        {{tierObj.name}} Module(s)
+      </div>
+      <div class="fitted">
+        <div *ngFor="let fitted of tierObj.fitting; let i = index" class="equipment">
+          <div class="name">{{fitted.name}}</div>
+          <div class="action" (click)="removeEquipment(fitted, tierObj.tier, i)">X</div>
+        </div>
+
+
+        <div class="add equipment" (click)="addTier = tierObj.tier" *ngIf="addTier !== tierObj.tier && tierObj.fitting.length < 3 && this.getFitting().length < 5">
+          <div class="name">
+            Add
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!--
+      <app-equipment-slot [equipmentList]="getAllEquipment(1)"></app-equipment-slot>
+  -->
+    </div>
+
+
+    <div *ngIf="addTier === tierObj.tier" class="potentialEquipment" [ngClass]="{ atk: tierObj.tier === 1, util: tierObj.tier === 2, passive: tierObj.tier === 3}">
+      <div class="header">
+        <div class="name">Choose Equipment</div>
+        <div class="action" (click)="addTier = 0">Close</div>
+      </div>
+
+      <div *ngFor="let equipment of getAllEquipment(tierObj.tier); let i = index">
+        <div (click)="addEquipment(equipment)" class="equipment">
+
+          <app-equipment-window
+            [equipment]="equipment"
+            [description]="getDescription(equipment.name)">
+          </app-equipment-window>
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+  </ng-container>
+

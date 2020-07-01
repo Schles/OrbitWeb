@@ -1,4 +1,3 @@
-import {ScoreboardEntry} from "../../model/ScoreboardEntry";
 import {Message} from "../Message";
 import {Rectangle} from "../../util/VectorInterface";
 

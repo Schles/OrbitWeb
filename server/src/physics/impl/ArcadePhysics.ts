@@ -1,12 +1,10 @@
 import {IPhysics, PhysicsInput} from "./IPhysics";
 
 
-
 import {Particle} from "../../../../shared/src/model/Particle";
 import {SpaceshipEntity} from "../../entities/SpaceshipEntity";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {CMath} from "../../utils/CMath";
-
 
 
 export class ArcadePhysics extends IPhysics {

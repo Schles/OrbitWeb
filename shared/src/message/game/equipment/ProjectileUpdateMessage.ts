@@ -1,9 +1,4 @@
-import {Spaceship} from "../../../model/Spaceship";
-import {PlayerMessage} from "../../generic/PlayerMessage";
-
-import {Projectile} from "../../../model/Projectile";
 import {ShipEquipmentMessage} from "./ShipEquipmentMessage";
-import {ShipEquipment} from "../../../model/ShipEquipment";
 
 export class ShipEquipmentUpdateMessage extends ShipEquipmentMessage {
 

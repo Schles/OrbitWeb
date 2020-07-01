@@ -1,7 +1,3 @@
-import {Spaceship} from "../../../shared/src/model/Spaceship";
-
-import * as EventEmitter from 'events';
-
 import * as events from 'events';
 
 export class EventManager {

@@ -1,5 +1,4 @@
 import {Particle} from "../model/Particle";
-import * as math from "mathjs";
 
 
 export class Physics {

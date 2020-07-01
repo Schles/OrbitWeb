@@ -1,20 +1,18 @@
-<div *ngIf="!loginEnabled" class="headsup">
-  <app-headsup #headsUp>
+<div *ngIf="loginEnabled" class="headsup">
 
-  </app-headsup>
 </div>
 
 <div class="ui" >
 
 
-  <div *ngIf="loginEnabled" class="login">
-    <div *ngIf="showCustom">
-      <app-fitting #fitting>
 
-      </app-fitting>
-    </div>
-  </div>
+  <app-fitting #fitting class="login">
 
+  </app-fitting>
+
+  <app-headsup #headsUp>
+
+  </app-headsup>
 
 
 </div>

@@ -1,4 +1,3 @@
-
 import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
 import {CMath} from "../utils/CMath";

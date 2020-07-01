@@ -1,5 +1,4 @@
 import Filter = PIXI.Filter;
-import Point = PIXI.Point;
 import BlurFilterPass = PIXI.filters.BlurFilterPass;
 import BLEND_MODES = PIXI.BLEND_MODES;
 import AlphaFilter = PIXI.filters.AlphaFilter;

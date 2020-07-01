@@ -1,8 +1,6 @@
 import {ShipEquipmentGO} from "../gameobjects/ShipEquipmentGO";
 import {ShipEquipment} from "../../../../../shared/src/model/ShipEquipment";
 import {SpaceshipGO} from "../gameobjects/SpaceshipGO";
-import NoiseFilter = PIXI.filters.NoiseFilter;
-import AlphaFilter = PIXI.filters.AlphaFilter;
 
 export class EquipmentGORepair extends ShipEquipmentGO {
 

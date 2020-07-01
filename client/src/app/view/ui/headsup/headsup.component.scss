@@ -22,6 +22,19 @@
 .slot {
   width: 200px;
   margin-top:5px;
+
+  display: flex;
+
+  .button {
+    flex: 0 0 10px;
+    padding:5px;
+  }
+
+  .text {
+    color:white;
+    flex: 1 1 80%;
+    padding:5px;
+  }
 }
 
 .active {

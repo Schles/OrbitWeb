@@ -1,5 +1,4 @@
 import {EventEmitter} from "@angular/core";
-import {Message} from "../../../../shared/src/message/Message";
 
 export class AssetLoader {
 

@@ -1,9 +1,7 @@
 import {Spaceship} from "../../../model/Spaceship";
 import {PlayerMessage} from "../../generic/PlayerMessage";
-import {ShipEquipmentState} from "../../../model/ShipEquipment";
 import {ShipFitting} from "../../../model/ShipFitting";
 import {SpaceshipEntity} from "../../../../../server/src/entities/SpaceshipEntity";
-import {MovementGoalUseStructure} from "../../../../../server/src/entities/input/MovementGoalUseStructure";
 
 export class PlayerUpdateMessage extends PlayerMessage {
   public color: string;

@@ -1,4 +1,3 @@
-import {Message} from "../Message";
 import {PlayerMessage} from "./PlayerMessage";
 
 export class PlayerTargetMessage extends PlayerMessage {

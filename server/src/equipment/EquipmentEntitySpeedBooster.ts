@@ -1,11 +1,6 @@
 import {ShipEquipmentEntity} from "../entities/ShipEquipmentEntity";
 import {ShipEquipment} from "../../../shared/src/model/ShipEquipment";
 import {SpaceshipEntity} from "../entities/SpaceshipEntity";
-import {CMath} from "../utils/CMath";
-import * as math from "mathjs";
-import {Vector2} from "../../../shared/src/util/VectorInterface";
-import {EventManager} from "../game/EventManager";
-import {TimedAbility} from "../../../shared/src/model/TimedAbility";
 
 export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
 

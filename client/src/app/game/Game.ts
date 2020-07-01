@@ -1,4 +1,4 @@
-import {EventEmitter, Output} from "@angular/core";
+import {EventEmitter} from "@angular/core";
 
 import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
 import {Spaceship} from "../../../../shared/src/model/Spaceship";

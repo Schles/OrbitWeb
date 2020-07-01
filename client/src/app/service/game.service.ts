@@ -4,11 +4,12 @@ import {EventIO} from "../network/client-enums";
 
 import {WebsocketService} from "../network/websocket.service";
 import {Message} from "../../../../shared/src/message/Message";
-import {Vector2} from "../../../../shared/src/util/VectorInterface";
 import {FittingDB} from "../game/FittingDB";
 import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
 import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
 import {StructureGO} from "../game/gameobjects/StructureGO";
+import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
+import {Game} from "../game/Game";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,20 @@ export class GameService {
     });
 
     this.fittingDB = new FittingDB();
+
+
+    this.onConnect.subscribe( (v) => {
+      if ( this.DEBUG) {
+        const shipFitting = new ShipFitting();
+        shipFitting.fitting = this.fittingDB.getSet("default");
+
+        Game.loginPlayer.emit( {
+          name: "Wasser",
+          fitting: shipFitting
+        });
+      }
+
+    });
   }
 
   public app() {
