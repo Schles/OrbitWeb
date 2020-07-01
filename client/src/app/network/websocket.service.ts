@@ -12,8 +12,8 @@ export class WebsocketService {
   private port = 8000;
 
   constructor() {
-    //this.port = 49160;
-    console.error("dev port is used!");
+    this.port = 49160;
+    //console.error("dev port is used!");
     this.server_url = 'http://' + document.location.hostname + ':' + this.port;
   }
 
