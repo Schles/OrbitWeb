@@ -2,10 +2,10 @@ import {AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, Vi
 import {GameService} from "../../service/game.service";
 import {PlayerService} from "../../service/player.service";
 import {UiComponent} from "../ui/ui.component";
-import {Camera} from "../../engine/Camera";
+import {Camera} from "../../game/renderer/Camera";
 import {Vector2} from "../../../../../shared/src/util/VectorInterface";
 import {CMath} from "../../util/CMath";
-import {Game} from "../../game/Game";
+import {Events} from "../../game/Events";
 import {LobbyQueryMessage} from "../../../../../shared/src/message/login/LobbyQueryMessage";
 import {ClientService} from "../../service/client.service";
 
@@ -50,18 +50,18 @@ export class GameComponent implements OnInit, AfterViewInit{
       CMath.isInsideCircle(structure.position, localPosition, 50));
 
     if (clickedPlayer !== undefined) {
-      Game.playerClicked.emit({
+      Events.playerClicked.emit({
         target: clickedPlayer,
         localPosition: localPosition,
         event: event,
       });
     } else if (clickedStructure !== undefined) {
-        Game.structureClicked.emit( {
+        Events.structureClicked.emit( {
           target: clickedStructure,
           event: event,
         });
     } else {
-      Game.worldClicked.emit( {
+      Events.worldClicked.emit( {
         localPosition: localPosition,
         event: event
       });

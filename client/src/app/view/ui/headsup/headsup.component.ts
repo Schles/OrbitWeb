@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GameService} from "../../../service/game.service";
 import {CMath} from "../../../util/CMath";
-import {SpaceshipGO} from "../../../game/gameobjects/SpaceshipGO";
+import {SpaceshipGO} from "../../../game/model/SpaceshipGO";
 import {PlayerSelfKillMessage} from "../../../../../../shared/src/message/game/player/PlayerSelfKillMessage";
 import {ShipEquipment} from "../../../../../../shared/src/model/ShipEquipment";
 import {PlayerService} from "../../../service/player.service";

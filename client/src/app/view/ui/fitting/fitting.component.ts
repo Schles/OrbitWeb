@@ -3,7 +3,7 @@ import {GameService} from "../../../service/game.service";
 import {ShipFitting} from "../../../../../../shared/src/model/ShipFitting";
 import {ShipEquipment} from "../../../../../../shared/src/model/ShipEquipment";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Game} from "../../../game/Game";
+import {Events} from "../../../game/Events";
 import {PlayerService} from "../../../service/player.service";
 import {EquipmentSlotComponent} from "./equipment-slot/equipment-slot.component";
 import {Message} from "../../../../../../shared/src/message/Message";
@@ -95,7 +95,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
 
 
 
-    Game.loginPlayer.emit({
+    Events.loginPlayer.emit({
       name: this.myForm.value.name,
       fitting: shipFitting,
     });

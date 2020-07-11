@@ -1,5 +1,5 @@
 import {Message} from "../../../shared/src/message/Message";
-import {GameLogic} from "./GameLogic";
+import {GameLogic} from "./core/GameLogic";
 
 
 const gameloop = require('node-gameloop');

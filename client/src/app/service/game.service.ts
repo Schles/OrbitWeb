@@ -1,15 +1,15 @@
 import {EventEmitter, Injectable, NgZone} from '@angular/core';
-import {SpaceShooter} from "../engine/SpaceShooter";
-import {EventIO} from "../network/client-enums";
+import {SpaceShooter} from "../game/SpaceShooter";
+import {EventIO} from "../game/core/network/client-enums";
 
-import {WebsocketService} from "../network/websocket.service";
+import {WebsocketService} from "../game/core/network/websocket.service";
 import {Message} from "../../../../shared/src/message/Message";
 import {FittingDB} from "../game/FittingDB";
-import {SpaceshipGO} from "../game/gameobjects/SpaceshipGO";
-import {ProjectileGO} from "../game/gameobjects/ProjectileGO";
-import {StructureGO} from "../game/gameobjects/StructureGO";
+import {SpaceshipGO} from "../game/model/SpaceshipGO";
+import {ProjectileGO} from "../game/model/ProjectileGO";
+import {StructureGO} from "../game/model/StructureGO";
 import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
-import {Game} from "../game/Game";
+import {Events} from "../game/Events";
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class GameService {
         const shipFitting = new ShipFitting();
         shipFitting.fitting = this.fittingDB.getSet("default");
 
-        Game.loginPlayer.emit( {
+        Events.loginPlayer.emit( {
           name: "Wasser",
           fitting: shipFitting
         });

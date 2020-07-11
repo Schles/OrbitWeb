@@ -2,7 +2,7 @@ import {IPhysics, PhysicsInput} from "./IPhysics";
 
 
 import {Particle} from "../../../../shared/src/model/Particle";
-import {SpaceshipEntity} from "../../entities/SpaceshipEntity";
+import {SpaceshipEntity} from "../../game/model/SpaceshipEntity";
 
 import * as math from "mathjs";
 import {Vector2} from "../../../../shared/src/util/VectorInterface";

@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Vector2} from "../../../../shared/src/util/VectorInterface";
 
-import {Game} from "../game/Game";
+import {Events} from "../game/Events";
 import {ShipFitting} from "../../../../shared/src/model/ShipFitting";
 import {Spaceship} from "../../../../shared/src/model/Spaceship";
 import {PlayerLoginMessage} from "../../../../shared/src/message/login/PlayerLoginMessage";
-import {Input} from "../game/Input";
+import {Input} from "../game/core/Input";
 import {GameService} from "./game.service";
 
 
@@ -22,12 +22,12 @@ export class PlayerService {
 
     this.input = new Input(this, gameService);
 
-    Game.onPlayerKilled.subscribe( (name: string) => {
+    Events.onPlayerKilled.subscribe( (name: string) => {
       if (name === this.getUserName())
         this.logout();
     })
 
-    Game.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
+    Events.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
       this.login(value.name);
       console.log("login");
       this.gameService.send(new PlayerLoginMessage(value.name, value.fitting));
