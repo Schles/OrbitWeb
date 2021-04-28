@@ -33,7 +33,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
   constructor(private gameService: GameService, private playerService: PlayerService) {
     this.myForm = new FormGroup({
       name: new FormControl(''),
-      customEq: new FormControl(true)
+      customEq: new FormControl(false)
     });
 
   }
