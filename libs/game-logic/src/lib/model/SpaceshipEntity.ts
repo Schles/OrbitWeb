@@ -1,6 +1,6 @@
 import {Spaceship} from "@orbitweb/common";
 import {IPhysics} from "@orbitweb/game-engine";
-import {HybridPhysics} from "@orbitweb/game-engine";
+import { Physics } from "@orbitweb/game-engine";
 import {ShipEquipmentEntity} from "./ShipEquipmentEntity";
 import {CMath} from "@orbitweb/common";
 import {StructureEntity} from "./StructureEntity";
@@ -34,7 +34,7 @@ export class SpaceshipEntity extends Spaceship {
 
     this.movementGoal = new MovementGoalFreeFly();
 
-    this.physics = new HybridPhysics();
+    this.physics = new Physics();
   }
 
   public iterate(delta: number) {

@@ -1,4 +1,4 @@
-import {ChatServer} from './app/server';
+import {NetworkServer} from './app/NetworkServer';
 
-let app = new ChatServer().getApp();
-export { app };
+const app = new NetworkServer();
+app.start();

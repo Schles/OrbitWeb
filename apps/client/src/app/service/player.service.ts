@@ -5,8 +5,9 @@ import {Events} from "@orbitweb/renderer";
 import {ShipFitting} from "@orbitweb/common";
 import {Spaceship} from "@orbitweb/common";
 import {PlayerLoginMessage} from "@orbitweb/common";
-import {Input} from "../game/core/Input";
+
 import {GameService} from "./game.service";
+import { NetworkService } from './network.service';
 
 
 @Injectable({
@@ -16,12 +17,7 @@ export class PlayerService {
 
   private userName: string;
 
-  public input: Input;
-
-  constructor(private gameService: GameService) {
-
-    this.input = new Input(this, gameService);
-
+  constructor(private gameService: GameService, private networkService: NetworkService) {
     Events.onPlayerKilled.subscribe( (name: string) => {
       if (name === this.getUserName())
         this.logout();
@@ -30,7 +26,7 @@ export class PlayerService {
     Events.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
       this.login(value.name);
       console.log("login");
-      this.gameService.send(new PlayerLoginMessage(value.name, value.fitting));
+      this.networkService.send(new PlayerLoginMessage(value.name, value.fitting));
     });
 
     this.gameService.app().ticker.add ( (delta) => {

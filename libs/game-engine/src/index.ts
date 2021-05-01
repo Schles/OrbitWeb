@@ -1,6 +1,5 @@
 export * from './lib/CollisionDetection'
 
-export * from './lib/impl/IPhysics'
-export * from './lib/impl/ArcadePhysics'
-export * from './lib/impl/HybridPhysics'
-export * from './lib/impl/RealPhysics'
+export * from './lib/physics/IPhysics'
+export * from './lib/Physics'
+

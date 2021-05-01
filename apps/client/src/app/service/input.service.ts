@@ -1,21 +1,26 @@
-import {GameService} from "../../service/game.service";
-import {PlayerActionMessage} from "@orbitweb/common";
-import {Events} from "@orbitweb/renderer";
-import {Vector2} from "@orbitweb/common";
-import {PlayerMoveToMessage} from "@orbitweb/common";
-import {PlayerOrbitMessage} from "@orbitweb/common";
-import {PlayerService} from "../../service/player.service";
-import {PlayerStructureMessage} from "@orbitweb/common";
-import {DebugMessage} from "@orbitweb/common";
+import {Injectable} from '@angular/core';
+import {DebugMessage, PlayerActionMessage, PlayerMoveToMessage, PlayerOrbitMessage, PlayerStructureMessage, Vector2} from "@orbitweb/common";
+import { Events } from '@orbitweb/renderer';
 
-export class Input {
+import { PlayerService } from './player.service';
+import { NetworkService } from './network.service';
 
-  constructor(private playerService: PlayerService, private gameService: GameService) {
+export enum EventIO {
+  CONNECT = 'connect',
+  DISCONNECT = 'disconnect'
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InputService {
+  constructor(private playerService: PlayerService, private networkService: NetworkService) {
     Events.worldClicked.subscribe((event: { localPosition: Vector2, event: any }) => {
       //console.log("worldClicked", event.localPosition);
       if (this.playerService.getUserName() !== undefined) {
         const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.playerService.getUserName(), event.localPosition);
-        this.gameService.send(msg);
+        this.networkService.send(msg);
       } else {
         console.log("no player");
       }
@@ -24,7 +29,7 @@ export class Input {
     Events.structureClicked.subscribe( (val) => {
       if (this.playerService.getUserName() !== undefined) {
         const msg: PlayerStructureMessage = new PlayerStructureMessage(this.playerService.getUserName(), val.target.id);
-        this.gameService.send(msg);
+        this.networkService.send(msg);
       } else {
         console.log("no player");
       }
@@ -35,7 +40,7 @@ export class Input {
         console.log("self");
       } else {
         const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.playerService.getUserName(), value.target.id);
-        this.gameService.send(msg);
+        this.networkService.send(msg);
       }
     });
 
@@ -69,7 +74,7 @@ export class Input {
 
       const msg = new PlayerActionMessage(userName, key - 1);
       if (msg !== undefined) {
-        this.gameService.send(msg);
+        this.networkService.send(msg);
       }
     }
 
@@ -83,7 +88,7 @@ export class Input {
 
       const msg = new DebugMessage();
       if (msg !== undefined) {
-        this.gameService.send(msg);
+        this.networkService.send(msg);
       }
     }
 

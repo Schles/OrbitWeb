@@ -1,14 +1,16 @@
 import {AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {GameService} from "../../service/game.service";
-import {PlayerService} from "../../service/player.service";
-import {UiComponent} from "../ui/ui.component";
+import {GameService} from "../service/game.service";
+import {PlayerService} from "../service/player.service";
+import {UiComponent} from "../view/ui/ui.component";
 import {Camera} from "@orbitweb/renderer";
 import {Vector2} from "@orbitweb/common";
 import {CMath} from "@orbitweb/common";
 import {Events} from "@orbitweb/renderer";
 import {LobbyQueryMessage} from "@orbitweb/common";
-import {ClientService} from "../../service/client.service";
-import { CameraService } from '../../service/camera.service';
+
+import { CameraService } from '../service/camera.service';
+import { InputService } from '../service/input.service';
+import { NetworkService } from '../service/network.service';
 
 @Component({
   selector: 'app-game',
@@ -27,8 +29,9 @@ export class GameComponent implements OnInit, AfterViewInit{
 
   constructor(private gameService: GameService,
               private playerService: PlayerService,
-              private clientService: ClientService,
-              private cameraService: CameraService) {
+              private networkService: NetworkService,
+              private cameraService: CameraService,
+              private inputService: InputService) {
 
   }
 
@@ -81,18 +84,18 @@ export class GameComponent implements OnInit, AfterViewInit{
   }
 
   public ngAfterViewInit(): void {
-    this.gameService.onConnect.subscribe( () => {
+    this.networkService.onConnect.subscribe( () => {
       this.ui.loginEnabled = true;
 
 
       this.gameService.clear();
-      this.gameService.send ( new LobbyQueryMessage());
+      this.networkService.send ( new LobbyQueryMessage());
 
     });
 
     this.camera = new Camera(this.gameService.app().gameStage);
     this.gameService.app().depCamera = this.camera;
-    this.gameService.connect();
+    this.networkService.connect();
     this.cameraService.init();
   }
 

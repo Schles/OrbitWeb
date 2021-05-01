@@ -1,88 +1,32 @@
-import {EventEmitter, Injectable, NgZone} from '@angular/core';
-import {SpaceShooter} from "@orbitweb/renderer";
-import {EventIO} from "../game/core/network/client-enums";
-
-import {WebsocketService} from "../game/core/network/websocket.service";
-import {Message} from "@orbitweb/common";
+import {Injectable, NgZone} from '@angular/core';
 import {FittingDB} from "../game/FittingDB";
 import {SpaceshipGO} from "@orbitweb/game-objects";
 import {ProjectileGO} from "@orbitweb/game-objects";
 import {StructureGO} from "@orbitweb/game-objects";
-import {ShipFitting} from "@orbitweb/common";
-import {Events} from "@orbitweb/renderer";
+
 import { GameManager } from '@orbitweb/game-objects';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-
-  public DEBUG = false;
-
   private application: GameManager;
-
-  private userName: string;
-
-  private ioConnection: any;
-
-  public onConnect: EventEmitter<any> = new EventEmitter<any>();
-  public onMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
   public fittingDB: FittingDB;
 
-
-  constructor(private ngZone: NgZone, private socketService: WebsocketService) {
+  constructor(private ngZone: NgZone) {
     this.ngZone.runOutsideAngular(() => {
       this.application = new GameManager({ width: window.innerWidth, height: window.innerHeight, antialias: true,  }); // this creates our pixi application
     });
 
-    this.fittingDB = new FittingDB();
-
-
-    this.onConnect.subscribe( (v) => {
-      if ( this.DEBUG) {
-        const shipFitting = new ShipFitting();
-        shipFitting.fitting = this.fittingDB.getSet("default");
-
-        Events.loginPlayer.emit( {
-          name: "Wasser",
-          fitting: shipFitting
-        });
-      }
-
-    });
+    this.fittingDB = new FittingDB(); 
   }
 
   public app() {
     return this.application;
   }
 
-  public connect() {
-      this.socketService.initSocket();
 
-    this.ioConnection = this.socketService.onMessage()
-      .subscribe((message: Message) => {
-        this.onMessage.emit(message);
-      });
-
-    this.socketService.onEvent(<any>EventIO.CONNECT)
-      .subscribe(() => {
-        console.log('connected');
-        this.onConnect.emit();
-      });
-
-    this.socketService.onEvent(<any>EventIO.DISCONNECT)
-      .subscribe(() => {
-        console.log('disconnected');
-      });
-
-  }
-
-
-
-  public send(msg: Message) {    
-    this.socketService.send(msg);
-  }
 
   public clear() {
     const players: SpaceshipGO[] = this.app().players.map ( p => p);

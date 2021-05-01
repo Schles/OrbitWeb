@@ -1,6 +1,5 @@
 import {Message} from "@orbitweb/common";
 import {GameLogic} from "@orbitweb/game-logic";
-import { Server, Socket } from "socket.io";
 
 const gameloop = require('node-gameloop');
 
@@ -12,7 +11,10 @@ export class GameServer extends GameLogic {
 
   private tickRate: number = 1000 / 60;
 
-  constructor(private io: Server) {
+
+  public onSend: (msg) => void;
+
+  constructor() {
     super();
 
     this.boundries.x1 = {x: -1200, y: -300};
@@ -65,7 +67,7 @@ export class GameServer extends GameLogic {
   }
 
   public send(msg) {
-    this.io.emit("message", msg);
+    this.onSend(msg);    
   }
 
 }

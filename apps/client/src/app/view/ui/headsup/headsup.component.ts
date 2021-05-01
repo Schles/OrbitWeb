@@ -5,6 +5,8 @@ import {SpaceshipGO} from "@orbitweb/game-objects";
 import {PlayerSelfKillMessage} from "@orbitweb/common";
 import {ShipEquipment} from "@orbitweb/common";
 import {PlayerService} from "../../../service/player.service";
+import { InputService } from '../../../service/input.service';
+import { NetworkService } from '../../../service/network.service';
 
 @Component({
   selector: 'app-headsup',
@@ -23,7 +25,8 @@ export class HeadsupComponent implements OnInit {
   public powerUI: number = 100;
 
 
-  constructor(private gameService: GameService, private playerService: PlayerService) { }
+  constructor(private gameService: GameService, private playerService: PlayerService, 
+    private inputService: InputService, private networkService: NetworkService) { }
 
   ngOnInit() {
 
@@ -48,8 +51,7 @@ export class HeadsupComponent implements OnInit {
   }
 
   public onClick(index) {
-
-    this.playerService.input.keyPressed(index + 1);
+    this.inputService.keyPressed(index + 1);
   }
 
   public iterate(delta: number) {
@@ -136,7 +138,7 @@ export class HeadsupComponent implements OnInit {
 
         if( playerName !== undefined) {
           const msg = new PlayerSelfKillMessage(playerName);
-          this.gameService.send(msg);
+          this.networkService.send(msg);
         }
       }
 

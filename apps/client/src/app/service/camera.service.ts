@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Vector2} from "@orbitweb/common";
+
 
 import {Camera, Events} from "@orbitweb/renderer";
-import {ShipFitting} from "@orbitweb/common";
-import {Spaceship} from "@orbitweb/common";
-import {PlayerLoginMessage} from "@orbitweb/common";
-import {Input} from "../game/core/Input";
+
 import {GameService} from "./game.service";
 import { PlayerService } from './player.service';
 
@@ -17,7 +14,7 @@ export class CameraService {
 
   private userName: string;
 
-  public input: Input;
+  
 
 public camera: Camera;
 

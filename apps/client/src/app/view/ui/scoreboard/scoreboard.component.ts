@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ScoreboardEntry} from "@orbitweb/common";
-import {GameService} from "../../../service/game.service";
 import {ScoreboardUpdateMessage} from "@orbitweb/common";
+import { NetworkService } from '../../../service/network.service';
 
 @Component({
   selector: 'app-scoreboard',
@@ -24,8 +24,8 @@ export class ScoreboardComponent implements OnInit {
   }
 
 
-  constructor(private gameService: GameService) {
-    this.gameService.onMessage.subscribe( (msg) => {
+  constructor(private networkService: NetworkService) {
+    this.networkService.onMessage.subscribe( (msg) => {
       if ( msg.type === "scoreboardUpdateMessage") {
         this.scoreboard = (<ScoreboardUpdateMessage> msg).entries;
       }
