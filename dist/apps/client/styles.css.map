@@ -1,0 +1,1 @@
+{"version":3,"sources":["./styles.scss"],"names":[],"mappings":"AAAA;AACA;EACE;EACA;EAAkB;EAClB;UAAA;AAEF,C","file":"styles.css","sourcesContent":["/* You can add global styles to this file, and also import other style files */\nbody {\n  margin: 0px;\n  overflow: hidden; /* Hide scrollbars */\n  user-select: none;\n}\n"],"sourceRoot":"webpack:///"}

@@ -1,0 +1,23 @@
+{
+  "implicitDependencies": {
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    ".eslintrc.json": "*"
+  },
+  "affected": { "defaultBase": "master" },
+  "npmScope": "orbitweb",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
+    }
+  },
+  "projects": {
+    "client": { "tags": [] },
+    "server": { "tags": [] },
+    "common": { "tags": [] },
+    "game-logic": { "tags": [] },
+    "game-engine": { "tags": [] },
+    "renderer": { "tags": [] },
+    "game-objects": { "tags": [] }
+  }
+}
