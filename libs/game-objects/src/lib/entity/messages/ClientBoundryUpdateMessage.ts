@@ -1,5 +1,6 @@
-import {SpaceShooter} from "@orbitweb/renderer";
+
 import {BoundryUpdateMessage} from "@orbitweb/common";
+import { GameManager } from "../../GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
 
 export class ClientBoundryUpdateMessage extends ClientMessageRecieved<BoundryUpdateMessage> {
@@ -8,7 +9,7 @@ export class ClientBoundryUpdateMessage extends ClientMessageRecieved<BoundryUpd
     super(message);
   }
 
-  onRecieve(context: SpaceShooter) {
+  onRecieve(context: GameManager) {
     context.boundry.setSize(this.message.boundry);
   }
 }

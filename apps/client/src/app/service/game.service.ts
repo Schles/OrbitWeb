@@ -1,22 +1,21 @@
 import {Injectable, NgZone} from '@angular/core';
 import {FittingDB} from "../game/FittingDB";
-import {SpaceshipGO} from "@orbitweb/game-objects";
+import {OrbitWeb, SpaceshipGO} from "@orbitweb/game-objects";
 import {ProjectileGO} from "@orbitweb/game-objects";
 import {StructureGO} from "@orbitweb/game-objects";
 
-import { GameManager } from '@orbitweb/game-objects';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private application: GameManager;
+  private application: OrbitWeb;
 
   public fittingDB: FittingDB;
 
   constructor(private ngZone: NgZone) {
     this.ngZone.runOutsideAngular(() => {
-      this.application = new GameManager({ width: window.innerWidth, height: window.innerHeight, antialias: true,  }); // this creates our pixi application
+      this.application = new OrbitWeb({ width: window.innerWidth, height: window.innerHeight, antialias: true,  }); // this creates our pixi application
     });
 
     this.fittingDB = new FittingDB(); 

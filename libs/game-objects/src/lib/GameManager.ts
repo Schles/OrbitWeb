@@ -1,12 +1,13 @@
 import { CMath, Particle, Vector2 } from "@orbitweb/common";
-import { Crosshair, SpaceShooter } from "@orbitweb/renderer";
+import { Crosshair, World } from "@orbitweb/renderer";
 import { TargetLayer } from "./layer/TargetLayer";
+import { BoundryGO } from "./model/BoundryGO";
 import { ProjectileGO } from "./model/ProjectileGO";
 import { SpaceshipGO } from "./model/SpaceshipGO";
 import { StructureGO } from "./model/StructureGO";
 import { SunGO } from "./model/SunGO";
 
-export class GameManager extends SpaceShooter {
+export class GameManager extends World {
 
     public players: SpaceshipGO[] = [];
 
@@ -19,6 +20,8 @@ export class GameManager extends SpaceShooter {
     public sun: SunGO;
 
     public crosshair: Crosshair;
+
+    public boundry: BoundryGO;
 
     protected _targetStage: TargetLayer;
 
@@ -184,9 +187,10 @@ export class GameManager extends SpaceShooter {
   }
 
   
-  public onLoaded(loader, res) {
-    super.onLoaded(loader, res);
+  public onShaderLoaded(loader, res) {
+    super.onShaderLoaded(loader, res);
 
     this.sun.initShader(res.sun.data, this.renderer.screen);
+
   }
 }

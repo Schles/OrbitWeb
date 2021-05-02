@@ -1,4 +1,5 @@
 
+export * from './lib/OrbitWeb';
 export * from './lib/GameManager';
 
 export * from './lib/serialize/EquipmentDeserializer';
