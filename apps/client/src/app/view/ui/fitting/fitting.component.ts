@@ -6,9 +6,6 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {Events} from "@orbitweb/renderer";
 import {PlayerService} from "../../../service/player.service";
 import {EquipmentSlotComponent} from "./equipment-slot/equipment-slot.component";
-import {Message} from "@orbitweb/common";
-import {PlayerLoginMessage} from "@orbitweb/common";
-import { NetworkService } from '../../../service/network.service';
 
 @Component({
   selector: 'app-fitting',
@@ -31,7 +28,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
 
 
 
-  constructor(private gameService: GameService, private playerService: PlayerService, private networkService: NetworkService) {
+  constructor(private gameService: GameService, private playerService: PlayerService) {
     this.myForm = new FormGroup({
       name: new FormControl(''),
       customEq: new FormControl(false)
@@ -46,15 +43,11 @@ export class FittingComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    this.networkService.onMessage.subscribe( (msg: Message) => {      
-      switch (msg.type) {
-        case "playerJoinedMessage":
-          if ((<PlayerLoginMessage>msg).source === this.gameService.app().username) {
-            this.loginEnabled = false;
-          }
-          break;
+    Events.loginPlayer.subscribe ( (val, b) => {
+      if (val.name === this.gameService.app().username) {
+        this.loginEnabled = false;
       }
-    });
+    })
 
     Events.onPlayerKilled.subscribe( (name: string) => {
       if (undefined === this.gameService.app().username)
@@ -80,26 +73,16 @@ export class FittingComponent implements OnInit, AfterViewInit {
     return this.myForm.value.customEq;
   }
 
-  public spawn() {
-
-    console.log(this.myForm.value);
+  public spawn() {    
     const shipFitting: ShipFitting = new ShipFitting();
+
     if ( this.myForm.value.customEq) {
       shipFitting.fitting = this.fittingComponent.getFitting();
     } else {
-      console.log("spawn default");
       shipFitting.fitting = this.gameService.fittingDB.getSet("default");
-    }
+    }    
 
-    console.log(shipFitting.fitting);
-
-
-
-    Events.loginPlayer.emit({
-      name: this.myForm.value.name,
-      fitting: shipFitting,
-    });
-
+    this.playerService.login(this.myForm.value.name, shipFitting);
   }
 
   public getColor(): string {

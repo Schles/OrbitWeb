@@ -23,6 +23,23 @@ export class GameManager extends World {
 
     public boundry: BoundryGO;
 
+    public playerLocal: SpaceshipGO;
+    protected _username: string;
+
+    public set username(value: string) {
+        this._username = value;
+        
+        if ( this._username === undefined) { 
+            this.playerLocal = undefined;
+        }
+
+        this.playerLocal = this.players.find( (p) => p.id === this._username );
+    }
+
+    public get username(): string {
+        return this._username;
+    }
+
     protected _targetStage: TargetLayer;
 
     public get targetStage(): TargetLayer {
@@ -36,7 +53,7 @@ export class GameManager extends World {
     }
 
     public onInitGame() {
-      this.renderer.plugins.interaction.on('pointerup', (event) => this.canvasClicked(event));
+      
     }
 
     public initWorld() {
@@ -230,37 +247,6 @@ export class GameManager extends World {
 
   }
 
-  private canvasClicked(event) {
-    const v = this.gameStage.toLocal(event.data.global);
-    const localPosition: Vector2 = {
-      x: v.x,
-      y: v.y
-    };
-
-    const clickedPlayer = this.players.find( (ship) =>
-      CMath.isInsideCircle(ship.position, localPosition, 50));
-
-    const clickedStructure = this.structures.find( (structure) =>
-      CMath.isInsideCircle(structure.position, localPosition, 50));
-
-    if (clickedPlayer !== undefined) {
-      Events.playerClicked.emit({
-        target: clickedPlayer,
-        localPosition: localPosition,
-        event: event,
-      });
-    } else if (clickedStructure !== undefined) {
-        Events.structureClicked.emit( {
-          target: clickedStructure,
-          event: event,
-        });
-    } else {
-      Events.worldClicked.emit( {
-        localPosition: localPosition,
-        event: event
-      });
-
-    }
-  }
+ 
 
 }

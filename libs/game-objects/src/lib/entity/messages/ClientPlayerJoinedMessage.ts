@@ -9,6 +9,7 @@ import {EquipmentDeserializer} from "../../serialize/EquipmentDeserializer";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { GameManager } from "../../GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
+import { Events } from "@orbitweb/renderer";
 
 export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoinedMessage> {
 
@@ -17,6 +18,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
   }
 
   onRecieve(context: GameManager) {
+    
     let enemyGO: SpaceshipGO = context.players.find(value => {
       return value.id === this.message.source;
     });
@@ -39,5 +41,16 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     } else {
       //console.log("Bereits bekannt");
     }
+
+
+    if ( enemyGO.id === context.username) {
+      context.username = enemyGO.id;
+    }
+
+    Events.loginPlayer.emit( {
+      name: this.message.source,
+      fitting: enemyGO.fitting,
+      spaceship: enemyGO
+    });
   }
 }

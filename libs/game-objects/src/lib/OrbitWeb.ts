@@ -8,22 +8,7 @@ import { SpaceshipGO } from "./model/SpaceshipGO";
 
 export class OrbitWeb extends GameManager {
 
-    public playerLocal: SpaceshipGO;
-    private _username: string;
-
-    public set username(value: string) {
-        this._username = value;
-        
-        if ( this._username === undefined) { 
-            this.playerLocal = undefined;
-        }
-
-        this.playerLocal = this.players.find( (p) => p.id === this._username );
-    }
-
-    public get username(): string {
-        return this._username;
-    }
+    
 
     public OnInitGame() {
 

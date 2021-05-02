@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Vector2} from "@orbitweb/common";
+
 
 import {Events} from "@orbitweb/renderer";
 import {ShipFitting} from "@orbitweb/common";
-import {Spaceship} from "@orbitweb/common";
 import {PlayerLoginMessage} from "@orbitweb/common";
 
 import {GameService} from "./game.service";
@@ -20,15 +19,11 @@ export class PlayerService {
       if (name === this.gameService.app().username)
         this.logout();
     })
-
-    Events.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
-      this.login(value.name);
-      this.networkService.send(new PlayerLoginMessage(value.name, value.fitting));
-    });
   }
 
-  public login(userName: string) {
+  public login(userName: string, fitting: ShipFitting) {
     this.gameService.app().username = userName;
+    this.networkService.send(new PlayerLoginMessage(userName, fitting));
   }
 
 
