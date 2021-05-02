@@ -1,17 +1,18 @@
 import {Physics} from "@orbitweb/common";
 import {Particle} from "@orbitweb/common";
-
+import { ParticleContainer, Sprite } from "pixi.js";
+import { string2hex } from "@pixi/utils"
 
 class ParticleEffect extends Particle {
   public timeToLive: number = 0;
   public lifeTime: number = 2;
-  public sprite: PIXI.Sprite;
+  public sprite: Sprite;
 }
 
 
 export class Emitter {
 
-  private container: PIXI.ParticleContainer;
+  private container: ParticleContainer;
 
   private size: number;
 
@@ -20,7 +21,7 @@ export class Emitter {
   private particleIterator: number = 0;
 
   constructor(size: number) {
-    this.container = new PIXI.ParticleContainer( size, <any> {
+    this.container = new ParticleContainer( size, <any> {
       scale: true,
       position: true,
       rotation: true,
@@ -41,7 +42,7 @@ export class Emitter {
     for (let i = 0; i < this.size; i++) {
 
       const particle: ParticleEffect = new ParticleEffect();
-      particle.sprite = PIXI.Sprite.from("assets/Particle.jpg");
+      particle.sprite = Sprite.from("assets/Particle.jpg");
 
       particle.sprite.tint = Math.random() * 0xE8D4CD;
 
@@ -87,7 +88,7 @@ export class Emitter {
 
   }
 
-  public getContainer(): PIXI.ParticleContainer {
+  public getContainer(): ParticleContainer {
     return this.container
   }
 
@@ -135,7 +136,7 @@ export class Emitter {
 
           particle.timeToLive = particle.lifeTime;
 
-          particle.sprite.tint = PIXI.utils.string2hex(spaceship.c);
+          particle.sprite.tint = string2hex(spaceship.c);
 
           particle.position = {
             x: spaceship.p.position.x,

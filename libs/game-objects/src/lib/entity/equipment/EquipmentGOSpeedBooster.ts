@@ -1,10 +1,11 @@
 import {ShipEquipment} from "@orbitweb/common";
+import { Filter } from "pixi.js";
 import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
-import NoiseFilter = PIXI.filters.NoiseFilter;
+import { NoiseFilter } from "@pixi/filter-noise"
 
 export class EquipmentGOSpeedBooster extends ShipEquipmentGO {
-  private filter: PIXI.Filter;
+  private filter: Filter;
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);

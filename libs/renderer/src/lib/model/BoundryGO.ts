@@ -1,10 +1,11 @@
 import {Rectangle} from "@orbitweb/common";
+import { Container, Graphics } from "pixi.js";
 
 export class BoundryGO {
 
-  public gameObject: PIXI.Container;
+  public gameObject: Container;
   public size: Rectangle
-  protected lineObject: PIXI.Graphics;
+  protected lineObject: Graphics;
 
   constructor() {
 
@@ -32,9 +33,9 @@ export class BoundryGO {
   public iterate(delta: number) {
   }
 
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
-    this.lineObject = new PIXI.Graphics();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
+    this.lineObject = new Graphics();
     cannonCont.addChild(this.lineObject);
     return cannonCont;
   }

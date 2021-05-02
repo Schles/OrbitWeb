@@ -1,10 +1,12 @@
 import {ShipEquipment} from "@orbitweb/common";
+import { Sprite } from "pixi.js";
 import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
+import { string2hex } from "@pixi/utils"
 
 export class EquipmentGORepair extends ShipEquipmentGO {
 
-  private repairGraphic: PIXI.Sprite;
+  private repairGraphic: Sprite;
 
 
 
@@ -29,7 +31,7 @@ export class EquipmentGORepair extends ShipEquipmentGO {
     super.onInit(parent);
 
     this.repairGraphic = this.getGameObject();
-    this.repairGraphic.tint = PIXI.utils.string2hex(parent.color);
+    this.repairGraphic.tint = string2hex(parent.color);
     parent.gameObject.addChild(this.repairGraphic);
 
 /*
@@ -81,9 +83,9 @@ export class EquipmentGORepair extends ShipEquipmentGO {
     //parent.gameObject.filters.splice(0, 0);
   }
 
-  public getGameObject(): PIXI.Sprite {
+  public getGameObject(): Sprite {
 
-    const sprite = PIXI.Sprite.from("assets/Shield.png");
+    const sprite = Sprite.from("assets/Shield.png");
 
     console.log(sprite);
     sprite.anchor.x = 0.5;

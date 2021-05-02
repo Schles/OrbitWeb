@@ -1,7 +1,7 @@
+import { Container, Graphics } from "pixi.js";
 import { ProjectileGO } from "../../model/ProjectileGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
-
-
+import { string2hex } from "@pixi/utils"
 
 export class Laser extends ProjectileGO {
   constructor(id: string, source: SpaceshipGO, target: SpaceshipGO) {
@@ -13,7 +13,7 @@ export class Laser extends ProjectileGO {
     super.iterate(delta);
 
 
-    const c = PIXI.utils.string2hex(this.color);
+    const c = string2hex(this.color);
     let lineWidth = 2;
 
     const progress = this.timeToLife / this.duration;
@@ -31,10 +31,10 @@ export class Laser extends ProjectileGO {
     }
   }
 
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
 
-    this.lineObject = new PIXI.Graphics();
+    this.lineObject = new Graphics();
 
     cannonCont.addChild(this.lineObject);
 

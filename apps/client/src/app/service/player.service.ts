@@ -46,26 +46,6 @@ export class PlayerService {
         this.gameService.app().iterateSelf(me, dT);
       }
 
-
-
-
-
-
-      if (this.gameService.app().filter !== undefined) {
-        if (this.gameService.app().players.length > 0) {
-          const players: Vector2[] = this.gameService.app().players.map( (p) => this.gameService.app().gameStage.toGlobal(<any>p.position));
-          const sun: Vector2 = this.gameService.app().gameStage.toGlobal(this.gameService.app().sunGameObject.gameObject.position);
-
-          let ownPlayerIndex = 0;
-
-          if ( this.userName !== undefined) {
-            ownPlayerIndex = this.gameService.app().players.findIndex( (p) => p.id === this.userName);
-            ownPlayerIndex = ownPlayerIndex >= 0 ? ownPlayerIndex : 0;
-          }
-
-          this.gameService.app().filter.iterate(players, sun, dT, ownPlayerIndex);
-        }
-      }
     });
 
 

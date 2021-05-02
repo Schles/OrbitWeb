@@ -1,9 +1,10 @@
+import { Container, Graphics } from "pixi.js";
 import { StructureGO } from "../../model/StructureGO";
 
 
 export class StructureGOPortal extends StructureGO {
 
-  private wander: PIXI.Graphics;
+  private wander: Graphics;
 
   private progress: number = 0;
 
@@ -24,15 +25,15 @@ export class StructureGOPortal extends StructureGO {
     this.wander.endFill();
 
   }
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
 
-    this.lineObject = new PIXI.Graphics();
+    this.lineObject = new Graphics();
 
     // Set the fill color
     //this.lineObject.lineStyle(5, 0xFF00FF);
 
-    this.wander = new PIXI.Graphics();
+    this.wander = new Graphics();
     this.lineObject.addChild(this.wander);
 
     this.lineObject.lineStyle(2, 0xFFAAAA);

@@ -1,5 +1,6 @@
-import Filter = PIXI.Filter;
+
 import {Vector2} from "@orbitweb/common";
+import { Filter } from "pixi.js";
 
 
 export class TestFilter extends Filter {

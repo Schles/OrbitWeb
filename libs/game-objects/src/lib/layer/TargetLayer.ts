@@ -1,11 +1,12 @@
+import { Container, Graphics } from "pixi.js";
 import {SpaceshipGO} from "../model/SpaceshipGO";
 
-export class TargetLayer extends PIXI.Container {
+export class TargetLayer extends Container {
 
   private source: SpaceshipGO;
   private target: SpaceshipGO;
 
-  private crossHair: PIXI.Graphics;
+  private crossHair: Graphics;
 
   private crossHairRadius = 30.0;
   private crossHairColor = 0xFF0000;
@@ -14,7 +15,7 @@ export class TargetLayer extends PIXI.Container {
   constructor() {
     super();
 
-    this.crossHair = new PIXI.Graphics();
+    this.crossHair = new Graphics();
 
     const width = 1;
 

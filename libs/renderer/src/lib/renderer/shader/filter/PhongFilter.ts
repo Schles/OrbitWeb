@@ -1,7 +1,8 @@
-import {Vector2} from "@orbitweb/common";
-import {CMath} from "../../../../util/CMath";
+import {CMath, Vector2} from "@orbitweb/common";
+import { Filter } from "pixi.js";
 
-export class PhongFilter extends PIXI.Filter{
+
+export class PhongFilter extends Filter{
   constructor(a, b) {
     super(a, b);
 

@@ -1,13 +1,14 @@
 
 import {ShipEquipment} from "@orbitweb/common";
+import { Container, Graphics, Sprite } from "pixi.js";
 import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
-
+import { string2hex } from "@pixi/utils"
 
 
 export class EquipmentGOLaser extends ShipEquipmentGO {
 
-    private gameObject: PIXI.Container;
+    private gameObject: Container;
 
     constructor(shipEquipment: ShipEquipment) {
       super(shipEquipment);
@@ -35,12 +36,12 @@ export class EquipmentGOLaser extends ShipEquipmentGO {
       this.gameObject = undefined;
     }
 
-    public getGameObject(parent: SpaceshipGO): PIXI.Container {
-      const cannonCont: PIXI.Container = new PIXI.Container();
+    public getGameObject(parent: SpaceshipGO): Container {
+      const cannonCont: Container = new Container();
 
-      const cannon: PIXI.Graphics = new PIXI.Graphics();
+      const cannon: Graphics = new Graphics();
 
-      const c = PIXI.utils.string2hex(parent.color);
+      const c = string2hex(parent.color);
 
       // Set the fill color
       cannon.beginFill(0xFFFFFF);
@@ -53,7 +54,7 @@ export class EquipmentGOLaser extends ShipEquipmentGO {
 
       //cannonCont.addChild(cannon);
 
-      const sprite = PIXI.Sprite.from("assets/ShipATypeB.png");
+      const sprite = Sprite.from("assets/ShipATypeB.png");
       sprite.tint = c;
       sprite.x = -12;
       sprite.y = 12;

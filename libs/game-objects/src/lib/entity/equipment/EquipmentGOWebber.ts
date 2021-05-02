@@ -1,11 +1,12 @@
 import {ShipEquipment} from "@orbitweb/common";
 import {CMath} from "@orbitweb/common";
+import { Graphics, Point } from "pixi.js";
 import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
 
 export class EquipmentGOWebber extends ShipEquipmentGO {
 
-  private graphic: PIXI.Graphics;
+  private graphic: Graphics;
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
@@ -16,12 +17,12 @@ export class EquipmentGOWebber extends ShipEquipmentGO {
   onInit(parent: SpaceshipGO) {
     super.onInit(parent);
 
-    this.graphic = new PIXI.Graphics();
+    this.graphic = new Graphics();
     this.graphic.beginFill(0xFF00AA);
     this.graphic.drawPolygon( [
-      new PIXI.Point(0,0),
-      new PIXI.Point(100,0),
-      new PIXI.Point(0,100),
+      new Point(0,0),
+      new Point(100,0),
+      new Point(0,100),
     ])
     this.graphic.endFill();
     parent.equipmentLayer.addChild(this.graphic);
@@ -60,9 +61,9 @@ export class EquipmentGOWebber extends ShipEquipmentGO {
     this.graphic.beginFill(0x423271, 0.4);
     //this.graphic.drawCircle(parent.targetPlayer.position.x, parent.targetPlayer.position.y, 10);
     this.graphic.drawPolygon( [
-      new PIXI.Point(0,0),
-      new PIXI.Point(p1.x,p1.y),
-      new PIXI.Point(p2.x,p2.y),
+      new Point(0,0),
+      new Point(p1.x,p1.y),
+      new Point(p2.x,p2.y),
     ]);
 
     this.graphic.endFill();

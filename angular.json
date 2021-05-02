@@ -47,9 +47,14 @@
             "polyfills": "apps/client/src/polyfills.ts",
             "tsConfig": "apps/client/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/client/src/favicon.ico", "apps/client/src/assets"],
+            "assets": ["apps/client/src/favicon.ico", "apps/client/src/assets",
+              {
+                "input": "libs/renderer/src/assets",
+                "glob": "**/*",
+                "output": "assets/shader"
+              }],
             "styles": ["apps/client/src/styles.scss"],
-            "scripts": ["node_modules/pixi.js/dist/pixi.min.js"]
+            "scripts": []
           },
           "configurations": {
             "production": {

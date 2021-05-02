@@ -1,3 +1,4 @@
+import { Container, Graphics } from "pixi.js";
 import { ProjectileGO } from "../../model/ProjectileGO";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
 
@@ -19,10 +20,10 @@ export class Rocket extends ProjectileGO {
    // console.log("rocket");
   }
 
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
 
-    this.lineObject = new PIXI.Graphics();
+    this.lineObject = new Graphics();
 
     this.lineObject.beginFill(0xFFFFFF, 1.0);
     this.lineObject.drawRect(0,-5, 20, 10);

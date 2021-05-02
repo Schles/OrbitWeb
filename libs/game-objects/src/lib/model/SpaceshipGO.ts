@@ -2,20 +2,22 @@ import {Spaceship} from "@orbitweb/common";
 import {Physics} from "@orbitweb/common";
 import {CMath} from "@orbitweb/common";
 import {Vector2} from "@orbitweb/common";
+import { Container, Filter, Graphics, Matrix } from "pixi.js";
 import {NameplateGO} from "./NameplateGO";
+import { string2hex } from "@pixi/utils"
 
 export class SpaceshipGO extends Spaceship {
 
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;
 
-  public gameObject: PIXI.Container;
+  public gameObject: Container;
 
-  public playerLayer: PIXI.Container;
-  public uiLayer: PIXI.Container;
-  public equipmentLayer: PIXI.Container;
+  public playerLayer: Container;
+  public uiLayer: Container;
+  public equipmentLayer: Container;
 
-  public progressLayer: PIXI.Graphics;
+  public progressLayer: Graphics;
   public health = 100;
 
   private iColor;
@@ -28,8 +30,8 @@ export class SpaceshipGO extends Spaceship {
     this.gameObject.filters = [];
   }
 
-  private view: PIXI.Matrix;
-  private model: PIXI.Matrix
+  private view: Matrix;
+  private model: Matrix
 
   private cameraCenterPoint;
 
@@ -37,7 +39,7 @@ export class SpaceshipGO extends Spaceship {
     this.cameraCenterPoint = point;
   }
 
-  public setMatrix(view: PIXI.Matrix, model: PIXI.Matrix) {
+  public setMatrix(view: Matrix, model: Matrix) {
     this.view = view;
     this.model = model;
   }
@@ -50,21 +52,21 @@ export class SpaceshipGO extends Spaceship {
 
   private nameplate: NameplateGO;
 
-  private filter: PIXI.Filter;
+  private filter: Filter;
 
-  public getGameObject(): PIXI.Container {
-    const parentObject: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const parentObject: Container = new Container();
 
     // Player
 
-    this.playerLayer = new PIXI.Container();
+    this.playerLayer = new Container();
     this.playerLayer.filters = [];
 
     //const playerRadius = this.shipSize;
     const playerRadius = this.radius;
 
-    const graphics: PIXI.Graphics = new PIXI.Graphics();
-    const c = PIXI.utils.string2hex(this.color);
+    const graphics: Graphics = new Graphics();
+    const c = string2hex(this.color);
     graphics.beginFill(c);
     graphics.drawCircle(0, 0, playerRadius); // drawCircle(x, y, radius)
     graphics.endFill();
@@ -73,8 +75,8 @@ export class SpaceshipGO extends Spaceship {
 
 
 
-    const look: PIXI.Graphics = new PIXI.Graphics();
-    this.iColor = PIXI.utils.string2hex(this.invertColor(this.color));
+    const look: Graphics = new Graphics();
+    this.iColor = string2hex(this.invertColor(this.color));
     // Set the fill color
     look.beginFill(this.iColor); // Red
 
@@ -89,18 +91,18 @@ export class SpaceshipGO extends Spaceship {
 
     this.playerLayer.addChild(look);
 
-    this.progressLayer = new PIXI.Graphics();
+    this.progressLayer = new Graphics();
     this.playerLayer.addChild(this.progressLayer);
 
 
     // target
 
-    this.equipmentLayer = new PIXI.Graphics();
+    this.equipmentLayer = new Graphics();
     this.equipmentLayer.filters = [];
 
     // text
 
-    this.uiLayer = new PIXI.Container();
+    this.uiLayer = new Container();
 
     this.nameplate = new NameplateGO(this);
     /*

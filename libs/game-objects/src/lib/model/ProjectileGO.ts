@@ -2,12 +2,14 @@ import {Vector2} from "@orbitweb/common";
 import {Projectile} from "@orbitweb/common";
 import {SpaceshipGO} from "./SpaceshipGO";
 import {Physics} from "@orbitweb/common";
+import { Container, Graphics } from "pixi.js";
+import { string2hex } from "@pixi/utils"
 
 export class ProjectileGO extends Projectile {
 
-  public gameObject: PIXI.Container;
+  public gameObject: Container;
 
-  protected lineObject: PIXI.Graphics;
+  protected lineObject: Graphics;
 
   constructor(id: string, public source: SpaceshipGO, public target: SpaceshipGO) {
     super(id, source.color);
@@ -20,10 +22,10 @@ export class ProjectileGO extends Projectile {
     this.iterPhysics();
   }
 
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
 
-    this.lineObject = new PIXI.Graphics();
+    this.lineObject = new Graphics();
 
     // Set the fill color
     //this.lineObject.lineStyle(5, 0xFF00FF);
@@ -38,7 +40,7 @@ export class ProjectileGO extends Projectile {
 
   public drawLine(start: Vector2, end: Vector2) {
 
-    const c = PIXI.utils.string2hex(this.color);
+    const c = string2hex(this.color);
 
     this.lineObject.clear();
     this.lineObject.lineStyle(2, c);

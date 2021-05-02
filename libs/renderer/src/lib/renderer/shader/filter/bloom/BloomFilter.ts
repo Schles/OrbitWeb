@@ -1,7 +1,7 @@
-import Filter = PIXI.Filter;
-import BlurFilterPass = PIXI.filters.BlurFilterPass;
-import BLEND_MODES = PIXI.BLEND_MODES;
-import AlphaFilter = PIXI.filters.AlphaFilter;
+import { BLEND_MODES, Filter } from "pixi.js";
+
+import { BlurFilterPass } from "@pixi/filter-blur"
+import { AlphaFilter } from "@pixi/filter-alpha"
 
 export class BloomFilter extends Filter {
 

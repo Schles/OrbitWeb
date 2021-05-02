@@ -1,5 +1,7 @@
-export class UILayer extends PIXI.Container{
-  public gameObject: PIXI.Container;
+import { Container } from "pixi.js";
+
+export class UILayer extends Container{
+  public gameObject: Container;
 
   constructor() {
     super();

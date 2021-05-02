@@ -1,7 +1,6 @@
 import {CMath} from "@orbitweb/common";
 import {Rectangle, Vector2} from "@orbitweb/common";
-//import {GameService} from "../../service/game.service";
-//import {PlayerService} from "../../service/player.service";
+import { Container, Matrix } from "pixi.js";
 
 
 export class Camera {
@@ -13,7 +12,7 @@ export class Camera {
 
   public maxCameraRange: number = 500;
 
-  constructor(private view: PIXI.Container) {
+  constructor(private view: Container) {
 
    
 
@@ -28,15 +27,15 @@ export class Camera {
     //this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
   }
 
-  public getViewMatrix(): PIXI.Matrix {
-    const mat = new PIXI.Matrix()
+  public getViewMatrix(): Matrix {
+    const mat = new Matrix()
     mat.translate(-this.width / 2, -this.height / 2);
     return mat;
 
   }
 
-  public getModelMatrix(): PIXI.Matrix {
-    const mat = new PIXI.Matrix()
+  public getModelMatrix(): Matrix {
+    const mat = new Matrix()
 
     mat.translate(this.view.worldTransform.tx, this.view.worldTransform.ty);
     //return mat;

@@ -1,10 +1,11 @@
 import {Structure} from "@orbitweb/common";
+import { Container, Graphics } from "pixi.js";
 
 export class StructureGO extends Structure {
 
-  public gameObject: PIXI.Container;
+  public gameObject: Container;
 
-  protected lineObject: PIXI.Graphics;
+  protected lineObject: Graphics;
 
   constructor(id: string, x: number, y: number, activationRange: number, activationDuration: number, info: string) {
     super(x, y);
@@ -27,10 +28,10 @@ export class StructureGO extends Structure {
   public iterate(delta: number) {
   }
 
-  public getGameObject(): PIXI.Container {
-    const cannonCont: PIXI.Container = new PIXI.Container();
+  public getGameObject(): Container {
+    const cannonCont: Container = new Container();
 
-    this.lineObject = new PIXI.Graphics();
+    this.lineObject = new Graphics();
 
     // Set the fill color
     //this.lineObject.lineStyle(5, 0xFF00FF);

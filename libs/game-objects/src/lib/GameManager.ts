@@ -22,9 +22,9 @@ export class GameManager extends SpaceShooter{
     }
   
 
-    public boot() {
+    public initWorld() {
         this._targetStage = new TargetLayer();
-        super.boot();
+        super.initWorld();
         this.gameStage.addChild(this.targetStage);
         
     }

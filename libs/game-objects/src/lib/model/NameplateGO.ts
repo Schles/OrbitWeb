@@ -1,11 +1,12 @@
 import {Spaceship} from "@orbitweb/common";
+import { Container, Graphics, Text } from "pixi.js";
 
-export class NameplateGO extends PIXI.Container {
+export class NameplateGO extends Container {
 
-  private namePlate: PIXI.Text;
+  private namePlate: Text;
 
-  private health: PIXI.Graphics;
-  private energy: PIXI.Graphics;
+  private health: Graphics;
+  private energy: Graphics;
 
   private barWidth: number = 50;
   private barHeight: number = 5;
@@ -16,7 +17,7 @@ export class NameplateGO extends PIXI.Container {
     super();
 
 
-    this.namePlate = new PIXI.Text(spaceship.id, {fontFamily : 'Arial', fontSize: 14, fill : 0xffffff, align : 'center'});
+    this.namePlate = new Text(spaceship.id, {fontFamily : 'Arial', fontSize: 14, fill : 0xffffff, align : 'center'});
     this.namePlate.position.x = 0;
     this.namePlate.position.y = this.offsetY;
     this.namePlate.anchor.x = 0.5;
@@ -25,11 +26,11 @@ export class NameplateGO extends PIXI.Container {
     this.addChild(this.namePlate);
 
 
-    this.health = new PIXI.Graphics();
+    this.health = new Graphics();
     this.health.position.x = -1 * this.barWidth / 2;
     this.health.position.y = this.offsetY + 16;
 
-    this.energy = new PIXI.Graphics();
+    this.energy = new Graphics();
     this.energy.position.x = -1 * this.barWidth / 2;
     this.energy.position.y = this.health.position.y + this.barHeight + 2;
 
@@ -46,7 +47,7 @@ export class NameplateGO extends PIXI.Container {
     this.fillBar(this.energy, spaceship.power, spaceship.energyCapacity, 0x2f2f9a, 0xa91aff);
   }
 
-  private fillBar(bar: PIXI.Graphics, value: number, max: number, color: number, bgcolor: number) {
+  private fillBar(bar: Graphics, value: number, max: number, color: number, bgcolor: number) {
 
 
 

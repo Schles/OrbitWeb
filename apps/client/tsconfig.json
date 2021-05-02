@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "files": ["../../node_modules/pixi.js/pixi.js.d.ts"],
+  "files": [],
   "include": [],
   "references": [
     {
