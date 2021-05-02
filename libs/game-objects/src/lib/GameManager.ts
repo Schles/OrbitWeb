@@ -1,11 +1,12 @@
 import { CMath, Particle, Vector2 } from "@orbitweb/common";
-import { SpaceShooter } from "@orbitweb/renderer";
+import { Crosshair, SpaceShooter } from "@orbitweb/renderer";
 import { TargetLayer } from "./layer/TargetLayer";
 import { ProjectileGO } from "./model/ProjectileGO";
 import { SpaceshipGO } from "./model/SpaceshipGO";
 import { StructureGO } from "./model/StructureGO";
+import { SunGO } from "./model/SunGO";
 
-export class GameManager extends SpaceShooter{
+export class GameManager extends SpaceShooter {
 
     public players: SpaceshipGO[] = [];
 
@@ -14,6 +15,10 @@ export class GameManager extends SpaceShooter{
     public structures: StructureGO[] = [];
   
     public skills: any[] = [];
+
+    public sun: SunGO;
+
+    public crosshair: Crosshair;
 
     protected _targetStage: TargetLayer;
 
@@ -24,6 +29,11 @@ export class GameManager extends SpaceShooter{
 
     public initWorld() {
         this._targetStage = new TargetLayer();
+
+        this.sun = new SunGO(this.backgroundStage);
+
+        this.crosshair = new Crosshair();
+
         super.initWorld();
         this.gameStage.addChild(this.targetStage);
         
@@ -57,7 +67,7 @@ export class GameManager extends SpaceShooter{
         // Targeting
         this.renderTargeting();
     
-        this.sunGameObject.iterate(dT);
+        this.sun.iterate(dT);
     
         this.iterateProjectiles(dT);
         this.iteratePlayer(dT);
@@ -67,8 +77,8 @@ export class GameManager extends SpaceShooter{
     
       private iteratePlayer(delta: number) {
         this.players.forEach(value => {
-          value.setCameraCenter(this.depCamera.localCenterPoint);
-          value.setMatrix(this.depCamera.getViewMatrix(), this.depCamera.getModelMatrix());
+          value.setCameraCenter(this.camera.localCenterPoint);
+          value.setMatrix(this.camera.getViewMatrix(), this.camera.getModelMatrix());
           value.iterate(delta);
     
           value.fitting.fitting.forEach( (fit) => {
@@ -146,41 +156,21 @@ export class GameManager extends SpaceShooter{
             let source = value.position;
             let target = value.targetPlayer.position;
     
-    
-            this.drawLine(this.targetingLine, source, target, 0xFF0000, 1);
-    
-            const dir = CMath.sub(target, source);
-            const len = CMath.len(dir);
-            const center: Vector2 = CMath.add(source, CMath.scale(dir, 0.5));
-    
-            this.targetingText.x = center.x;
-            this.targetingText.y = center.y;
-    
-            this.targetingText.text = len.toFixed(0) + "m";
+            this.crosshair.draw1(source, target);
+
           }
     
           if ( value.actionOrbitTarget === false) {
             if ( value.targetPosition !== undefined) {
               let source = value.position;
               let target = value.targetPosition;
-    
-              this.targetingCircle.clear();
-              this.drawCross(this.targetingLine2, target);
-    
-    
-    
+  
+              this.crosshair.draw2(source, target);
     
             }
           } else {
-            this.targetingLine2.clear();
             let target = value.targetPlayer.position;
-    
-            this.targetingCircle.clear();
-            this.targetingCircle.position.x = target.x;
-            this.targetingCircle.position.y = target.y;
-            this.targetingCircle.lineStyle(1, 0xFFFFFF, 0.1);
-            this.targetingCircle.drawCircle(0, 0, value.orbitRadius)
-            this.targetingCircle.endFill();
+            this.crosshair.draw3(target, value.orbitRadius);
           }
         })
     
@@ -191,5 +181,12 @@ export class GameManager extends SpaceShooter{
   public iterateSelf(spaceship: SpaceshipGO, delta: number) {
     this.targetStage.setSource(spaceship);
     this.targetStage.iterate(delta);
+  }
+
+  
+  public onLoaded(loader, res) {
+    super.onLoaded(loader, res);
+
+    this.sun.initShader(res.sun.data, this.renderer.screen);
   }
 }

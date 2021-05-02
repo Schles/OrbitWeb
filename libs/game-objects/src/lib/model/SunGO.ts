@@ -1,7 +1,7 @@
 import {Vector2} from "@orbitweb/common";
 import { Container, Filter, Graphics, Loader } from "pixi.js";
 
-export class SunGameObject {
+export class SunGO {
 
     public gameObject: Container;
 

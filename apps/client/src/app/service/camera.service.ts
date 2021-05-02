@@ -24,12 +24,9 @@ public camera: Camera;
             
   }
 
-  public init() {
-
-            
-    this.camera = this.gameService.app().depCamera;
+  public init() {            
+    this.camera = this.gameService.app().camera;
     this.camera.setSize(this.gameService.app().renderer.width, this.gameService.app().renderer.height);
-
 
     this.gameService.app().OnResizeWindow.subscribe( (size) => {
       console.error(" got it", size);

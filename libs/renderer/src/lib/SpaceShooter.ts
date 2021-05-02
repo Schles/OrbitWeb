@@ -2,7 +2,8 @@ import {TestFilter} from "./renderer/shader/filter/TestFilter";
 
 import { ShaderGodRays } from "./shader/ShaderGodRays";
 import { World } from "./World";
-import { Viewport } from 'pixi-viewport';
+
+import { Sprite, Texture } from "pixi.js";
 
 export class SpaceShooter extends World {
 
@@ -19,18 +20,11 @@ export class SpaceShooter extends World {
 
     super.initWorld();
 
-    const viewport: Viewport = new Viewport({
-      screenWidth: window.innerWidth,
-      screenHeight: window.innerHeight,
-      worldWidth: 1000,
-      worldHeight: 1000,
-  
-      interaction: this.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
-    });
-
-    this.stage.addChild(viewport);
-
-    viewport.drag();
+   
+    const sprite = this.gameStage.addChild(new Sprite(Texture.WHITE))
+sprite.tint = 0xff0000
+sprite.width = sprite.height = 100
+sprite.position.set(100, 100)
   }
 
   public setRenderSize(x, y) {
@@ -71,7 +65,6 @@ if (this.gameService.app().filter !== undefined) {
     // try to switch that off ;)
     //filter.padding = 100;
 
-    this.sunGameObject.initShader(res.sun.data, this.renderer.screen);
 
     const godRayShader = new ShaderGodRays(res.godFrag.data, res.perlin.data, res.defaultVert.data, {})
 

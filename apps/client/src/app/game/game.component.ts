@@ -94,7 +94,7 @@ export class GameComponent implements OnInit, AfterViewInit{
     });
 
     this.camera = new Camera(this.gameService.app().gameStage);
-    this.gameService.app().depCamera = this.camera;
+    this.gameService.app().camera = this.camera;
     this.networkService.connect();
     this.cameraService.init();
   }
