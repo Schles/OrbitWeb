@@ -73,6 +73,8 @@ export abstract class SceneGraph extends Application {
       interaction: this.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
     });
 
+    this._gameStage = new Container() as Viewport;
+
     this._uiStage = new Container();
     this._structureStage = new Container();
     this._playerStage = new Container();
@@ -84,11 +86,12 @@ export abstract class SceneGraph extends Application {
 
     this.gameStage.addChild(this.structureStage);
     this.gameStage.addChild(this.playerStage);
-
+/*
     this.gameStage.drag()
       .pinch()
       .wheel()
       .decelerate();
+      */
 
   }
 

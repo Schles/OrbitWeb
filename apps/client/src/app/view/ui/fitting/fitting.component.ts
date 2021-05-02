@@ -46,21 +46,20 @@ export class FittingComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    this.networkService.onMessage.subscribe( (msg: Message) => {
+    this.networkService.onMessage.subscribe( (msg: Message) => {      
       switch (msg.type) {
         case "playerJoinedMessage":
-          if ((<PlayerLoginMessage>msg).source === this.playerService.getUserName()) {
+          if ((<PlayerLoginMessage>msg).source === this.gameService.app().username) {
             this.loginEnabled = false;
-          }
-          break;
-        case "playerKilledMessage":
-          if (this.playerService.getUserName() === undefined) {
-            this.loginEnabled = true;
-
           }
           break;
       }
     });
+
+    Events.onPlayerKilled.subscribe( (name: string) => {
+      if (undefined === this.gameService.app().username)
+        this.loginEnabled = true;
+    })
 
   }
 

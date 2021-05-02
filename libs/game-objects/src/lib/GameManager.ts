@@ -1,5 +1,5 @@
 import { CMath, Particle, Vector2 } from "@orbitweb/common";
-import { Crosshair, World } from "@orbitweb/renderer";
+import { Crosshair, Events, World } from "@orbitweb/renderer";
 import { TargetLayer } from "./layer/TargetLayer";
 import { BoundryGO } from "./model/BoundryGO";
 import { ProjectileGO } from "./model/ProjectileGO";
@@ -29,6 +29,15 @@ export class GameManager extends World {
       return this._targetStage;
     }
   
+    constructor(options) {
+      super(options);
+
+      this.onInitGame();
+    }
+
+    public onInitGame() {
+      this.renderer.plugins.interaction.on('pointerup', (event) => this.canvasClicked(event));
+    }
 
     public initWorld() {
         this._targetStage = new TargetLayer();
@@ -193,4 +202,65 @@ export class GameManager extends World {
     this.sun.initShader(res.sun.data, this.renderer.screen);
 
   }
+
+  public clear() {
+    const players: SpaceshipGO[] = this.players.map ( p => p);
+
+    players.forEach( (p) => {
+      this.killPlayer(p);
+    });
+
+    const projectiles: ProjectileGO[] = this.projectiles.map (p => p);
+
+    projectiles.forEach( (p) => {
+      this.destroyProjectile(p);
+    });
+
+    const structures: StructureGO[] = this.structures.map (p => p);
+
+    structures.forEach( (structureGO) => {
+      this.gameStage.removeChild(structureGO.gameObject);
+
+      const p = this.structures.findIndex(value => value.id === structureGO.id);
+      if (p !== undefined) {
+        structureGO.onDestroy();
+        this.structures.splice(p, 1);
+      }
+    });
+
+  }
+
+  private canvasClicked(event) {
+    const v = this.gameStage.toLocal(event.data.global);
+    const localPosition: Vector2 = {
+      x: v.x,
+      y: v.y
+    };
+
+    const clickedPlayer = this.players.find( (ship) =>
+      CMath.isInsideCircle(ship.position, localPosition, 50));
+
+    const clickedStructure = this.structures.find( (structure) =>
+      CMath.isInsideCircle(structure.position, localPosition, 50));
+
+    if (clickedPlayer !== undefined) {
+      Events.playerClicked.emit({
+        target: clickedPlayer,
+        localPosition: localPosition,
+        event: event,
+      });
+    } else if (clickedStructure !== undefined) {
+        Events.structureClicked.emit( {
+          target: clickedStructure,
+          event: event,
+        });
+    } else {
+      Events.worldClicked.emit( {
+        localPosition: localPosition,
+        event: event
+      });
+
+    }
+  }
+
 }

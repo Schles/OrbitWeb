@@ -19,7 +19,7 @@ export class NetworkService {
   private socket;
   private server_url: string;
   private port = 8000;
-  public DEBUG = false;
+
   public onConnect: EventEmitter<any> = new EventEmitter<any>();
   public onMessage: EventEmitter<Message> = new EventEmitter<Message>();
 
@@ -27,23 +27,6 @@ export class NetworkService {
     //this.port = 49160;
     
     this.server_url = 'http://' + document.location.hostname + ':' + this.port;
-    
-
-    this.onConnect.subscribe( (v) => {
-      if ( this.DEBUG) {
-        const shipFitting = new ShipFitting();
-        shipFitting.fitting = this.gameService.fittingDB.getSet("default");
-
-        Events.loginPlayer.emit( {
-          name: "Wasser",
-          fitting: shipFitting
-        });
-      }
-
-    });
-
-
-
   }
 
   public connect(): void {
@@ -59,13 +42,11 @@ export class NetworkService {
     this.socket.on("disconnect", () => {
       console.log('disconnected');
     });
-    
-
-
-  
   }
 
   private onMessageReceived(message: Message) {
+    this.onMessage.emit(message);
+    
     const msg: ClientMessageRecieved<any> = MessageDeserializer.deserialize(message);
     msg?.onRecieve(this.gameService.app());
   }

@@ -1,8 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 import {FittingDB} from "../game/FittingDB";
-import {OrbitWeb, SpaceshipGO} from "@orbitweb/game-objects";
-import {ProjectileGO} from "@orbitweb/game-objects";
-import {StructureGO} from "@orbitweb/game-objects";
+import {OrbitWeb} from "@orbitweb/game-objects";
 
 
 @Injectable({
@@ -21,37 +19,8 @@ export class GameService {
     this.fittingDB = new FittingDB(); 
   }
 
-  public app() {
+  public app(): OrbitWeb {
     return this.application;
-  }
-
-
-
-  public clear() {
-    const players: SpaceshipGO[] = this.app().players.map ( p => p);
-
-    players.forEach( (p) => {
-      this.app().killPlayer(p);
-    });
-
-    const projectiles: ProjectileGO[] = this.app().projectiles.map (p => p);
-
-    projectiles.forEach( (p) => {
-      this.app().destroyProjectile(p);
-    });
-
-    const structures: StructureGO[] = this.app().structures.map (p => p);
-
-    structures.forEach( (structureGO) => {
-      this.app().gameStage.removeChild(structureGO.gameObject);
-
-      const p = this.app().structures.findIndex(value => value.id === structureGO.id);
-      if (p !== undefined) {
-        structureGO.onDestroy();
-        this.app().structures.splice(p, 1);
-      }
-    });
-
   }
 
 }

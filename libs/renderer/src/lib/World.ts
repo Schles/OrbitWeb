@@ -25,12 +25,6 @@ export abstract class World extends SceneGraph{
     this.emitter.init();
 
     this.structureStage.addChild(this.emitter.getContainer());
-  
-    const sprite = this.gameStage.addChild(new Sprite(Texture.WHITE))
-    sprite.tint = 0xff0000
-    sprite.width = sprite.height = 100
-    sprite.position.set(100, 100)
-
   }
 
   public onShaderLoaded(loader, res) {
@@ -45,11 +39,6 @@ export abstract class World extends SceneGraph{
     // how big is max shadow shift to the side?
     // try to switch that off ;)
     //filter.padding = 100;
-
-
-    const godRayShader = new ShaderGodRays(res.godFrag.data, res.perlin.data, res.defaultVert.data, {})
-
-    //this.gameStage.filters = [godRayShader];
 
     testFilter.setSize(this.renderer.width, this.renderer.height);
 

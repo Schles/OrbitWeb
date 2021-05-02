@@ -1,5 +1,5 @@
 import {PlayerJoinedMessage} from "@orbitweb/common";
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
+
 
 import {Spaceship} from "@orbitweb/common";
 import {Factories} from "@orbitweb/common";
@@ -8,6 +8,7 @@ import {ShipFitting} from "@orbitweb/common";
 import {EquipmentDeserializer} from "../../serialize/EquipmentDeserializer";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { GameManager } from "../../GameManager";
+import { ClientMessageRecieved } from "../../model/MessageRecieved";
 
 export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoinedMessage> {
 
@@ -30,7 +31,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
 
       enemyGO.fitting.fitting = this.message.fitting.fitting.map ( (fit) => {
         const fitGO = EquipmentDeserializer.deserialize(fit);
-        fitGO.onInit(enemyGO);
+        fitGO?.onInit(enemyGO);
         return fitGO;
       });
 

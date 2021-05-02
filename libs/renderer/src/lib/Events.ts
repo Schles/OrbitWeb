@@ -12,6 +12,7 @@ export class Events {
   public static playerClicked: EventEmitter<{target: Spaceship, localPosition?: Vector2, event: any}> = new EventEmitter<{target: Spaceship, event: any}>();
   public static structureClicked: EventEmitter<{target: Structure,event: any}> = new EventEmitter<{target: Structure, event: any}>();
   public static worldClicked: EventEmitter<any> = new EventEmitter<any>()
+  public static canvasClicked: EventEmitter<any> = new EventEmitter<any>()
 
 
   public static loginPlayer: EventEmitter< { name: string, fitting: ShipFitting, spaceship?: Spaceship} > = new EventEmitter<{ name: string, fitting: ShipFitting, spaceship?: Spaceship}>();

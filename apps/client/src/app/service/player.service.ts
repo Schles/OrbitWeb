@@ -13,59 +13,31 @@ import { NetworkService } from './network.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayerService {
-
-  private userName: string;
+export class PlayerService { 
 
   constructor(private gameService: GameService, private networkService: NetworkService) {
     Events.onPlayerKilled.subscribe( (name: string) => {
-      if (name === this.getUserName())
+      if (name === this.gameService.app().username)
         this.logout();
     })
 
     Events.loginPlayer.subscribe( (value: { name: string, fitting: ShipFitting, spaceship?: Spaceship}) => {
       this.login(value.name);
-      console.log("login");
       this.networkService.send(new PlayerLoginMessage(value.name, value.fitting));
     });
-
-    this.gameService.app().ticker.add ( (delta) => {
-      const dT = this.gameService.app().ticker.elapsedMS / 1000;
-
-      let me;
-      let mePosition;
-      if ( this.userName !== undefined) {
-        me = this.gameService.app().players.find((p) => p.id === this.userName)
-        if ( me !== undefined)
-          mePosition = me.position;
-      }
-
-      this.gameService.app().iterate(dT);
-
-      if (me !== undefined) {
-        this.gameService.app().iterateSelf(me, dT);
-      }
-
-    });
-
-
   }
 
   public login(userName: string) {
-    this.userName = userName;
+    this.gameService.app().username = userName;
   }
 
 
   public logout() {
-    this.userName = undefined;
-  }
-
-  public getUserName(): string {
-    return this.userName;
+    this.gameService.app().username = undefined;
   }
 
   public isLoggedIn(): boolean {
-    return this.userName !== undefined;
+    return this.gameService.app().username !== undefined;
   }
 
 

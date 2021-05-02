@@ -45,7 +45,7 @@ export class ShaderGodRays extends Filter {
   private _angleLight: Point;
   private _angle = 0;
 
-  constructor(fragmentShader, shaderFragment, defaultVert,options) {
+  constructor(fragmentShader, shaderFragment, defaultVert, options) {
     super(defaultVert, fragmentShader.replace('${perlin}', shaderFragment));
 /*
 

@@ -4,22 +4,18 @@ import { Events } from '@orbitweb/renderer';
 
 import { PlayerService } from './player.service';
 import { NetworkService } from './network.service';
-
-export enum EventIO {
-  CONNECT = 'connect',
-  DISCONNECT = 'disconnect'
-}
+import { GameService } from './game.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class InputService {
-  constructor(private playerService: PlayerService, private networkService: NetworkService) {
+  constructor(private playerService: PlayerService, private networkService: NetworkService, private gameService: GameService) {
     Events.worldClicked.subscribe((event: { localPosition: Vector2, event: any }) => {
       //console.log("worldClicked", event.localPosition);
-      if (this.playerService.getUserName() !== undefined) {
-        const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.playerService.getUserName(), event.localPosition);
+      if (this.gameService.app().playerLocal !== undefined) {
+        const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.gameService.app().playerLocal.id, event.localPosition);
         this.networkService.send(msg);
       } else {
         console.log("no player");
@@ -27,8 +23,8 @@ export class InputService {
     });
 
     Events.structureClicked.subscribe( (val) => {
-      if (this.playerService.getUserName() !== undefined) {
-        const msg: PlayerStructureMessage = new PlayerStructureMessage(this.playerService.getUserName(), val.target.id);
+      if (this.gameService.app().playerLocal !== undefined) {
+        const msg: PlayerStructureMessage = new PlayerStructureMessage(this.gameService.app().playerLocal.id, val.target.id);
         this.networkService.send(msg);
       } else {
         console.log("no player");
@@ -36,10 +32,10 @@ export class InputService {
     })
 
     Events.playerClicked.subscribe((value) => {
-      if (value.target.id === this.playerService.getUserName()) {
+      if (value.target.id === this.gameService.app().playerLocal?.id) {
         console.log("self");
       } else {
-        const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.playerService.getUserName(), value.target.id);
+        const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.gameService.app().playerLocal.id, value.target.id);
         this.networkService.send(msg);
       }
     });
@@ -69,10 +65,10 @@ export class InputService {
 
   public keyPressed(key) {
     console.log(key);
-    const userName = this.playerService.getUserName();
+    const userName = this.gameService.app().playerLocal;
     if ( userName !== undefined ) {
 
-      const msg = new PlayerActionMessage(userName, key - 1);
+      const msg = new PlayerActionMessage(userName.id, key - 1);
       if (msg !== undefined) {
         this.networkService.send(msg);
       }
@@ -83,7 +79,7 @@ export class InputService {
 
   public debugPressed(key) {
     console.log(key);
-    const userName = this.playerService.getUserName();
+    const userName = this.gameService.app().playerLocal;
     if ( userName !== undefined ) {
 
       const msg = new DebugMessage();
