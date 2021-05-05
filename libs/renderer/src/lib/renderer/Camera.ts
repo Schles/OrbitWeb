@@ -12,13 +12,22 @@ export class Camera {
 
   public maxCameraRange: number = 500;
 
+  private _vip: Vector2;
+
   constructor(private view: Container) {
 
    
 
   }
 
+  public setVIP(position: Vector2) {
+    this._vip = position;
+  }
+
   public setSize(w: number, h: number) {
+
+    if ( true )
+      return true;
 
     this.width = w;
     this.height = h;
@@ -48,7 +57,10 @@ export class Camera {
 
   public localCenterPoint: Vector2;
 
-  public iterate(positions: Vector2[], delta, vip: Vector2) {
+  public iterate(positions: Vector2[], delta: number) {
+
+    if ( true )
+      return;
 
     let rect: Rectangle;
     const p1 = {x: 0, y: 0};
@@ -71,7 +83,7 @@ export class Camera {
     this.view.scale.x = scale;
     this.view.scale.y = scale;
 
-    let focusPoint = this.focusPoint(positions, vip);
+    let focusPoint = this.focusPoint(positions, this._vip);
 
 
     if ( this.localCenterPoint ) {

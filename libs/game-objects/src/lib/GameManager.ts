@@ -115,6 +115,8 @@ export class GameManager extends World {
         this.iterateProjectiles(dT);
         this.iteratePlayer(dT);
         this.iterateStructure(dT);
+
+        this.camera.iterate(this.players.map((v) => v.position), dT);
     
       }
     
