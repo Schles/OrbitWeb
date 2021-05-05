@@ -1,11 +1,15 @@
-import { CMath, Particle, Vector2 } from "@orbitweb/common";
+import { CMath, Message, Particle, Vector2 } from "@orbitweb/common";
 import { Crosshair, Events, World } from "@orbitweb/renderer";
+import { InputManager } from "./InputManager";
 import { TargetLayer } from "./layer/TargetLayer";
 import { BoundryGO } from "./model/BoundryGO";
 import { ProjectileGO } from "./model/ProjectileGO";
 import { SpaceshipGO } from "./model/SpaceshipGO";
 import { StructureGO } from "./model/StructureGO";
 import { SunGO } from "./model/SunGO";
+import { NetworkManager } from "./NetworkManager";
+
+
 
 export class GameManager extends World {
 
@@ -23,8 +27,14 @@ export class GameManager extends World {
 
     public boundry: BoundryGO;
 
+
+    public send: (msg: Message) => void;
+
     public playerLocal: SpaceshipGO;
     protected _username: string;
+
+    public inputManager: InputManager;
+    public networkManager: NetworkManager;
 
     public set username(value: string) {
         this._username = value;
@@ -49,11 +59,15 @@ export class GameManager extends World {
     constructor(options) {
       super(options);
 
+      this.networkManager = new NetworkManager(this);
+      this.inputManager = new InputManager(this);
+      
+
       this.onInitGame();
     }
 
     public onInitGame() {
-      
+      this.boundry = new BoundryGO();
     }
 
     public initWorld() {

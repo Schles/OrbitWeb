@@ -128,6 +128,7 @@ export class GameLogic {
   public spawnDefaultEnemy() {
     const msg: ServerEnemySpawnMessage = new ServerEnemySpawnMessage(new EnemySpawnMessage("Enemy"));
     msg.onRecieve(this);
+
   }
 
   public spawnPortal(x: number, y: number) {

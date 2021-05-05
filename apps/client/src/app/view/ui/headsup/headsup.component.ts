@@ -105,12 +105,7 @@ export class HeadsupComponent implements OnInit {
 
     public selfKill() {
       console.log("kill");
-      const playerName = this.getPlayer();
-
-      if( playerName !== undefined) {
-        const msg = new PlayerSelfKillMessage(playerName.id);
-        this.networkService.send(msg);
-      }
+      this.gameService.app().inputManager.onSelfkill();
     }
 
 }

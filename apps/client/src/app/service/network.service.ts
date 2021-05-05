@@ -20,9 +20,6 @@ export class NetworkService {
   private server_url: string;
   private port = 8000;
 
-  public onConnect: EventEmitter<any> = new EventEmitter<any>();
-  public onMessage: EventEmitter<Message> = new EventEmitter<Message>();
-
   constructor(private gameService: GameService) {
     //this.port = 49160;
     
@@ -32,32 +29,25 @@ export class NetworkService {
   public connect(): void {
     this.socket = io(this.server_url);
 
-    this.socket.on('message', (data: Message) => this.onMessageReceived(data));
+    this.socket.on('message', (data: Message) => {
+      this.gameService.app().networkManager.onMessage.emit(data);
+    });
 
-    this.socket.on("connection", () => {
-      console.log('connected'); // TODO es hat keinen effekt. broken
-      this.onConnect.emit()
+    this.socket.on("connect", () => {
+      console.log('connected');
+      this.gameService.app().networkManager.sendHandler = (data: Message) => {
+        console.log("sending", data);
+        this.socket.emit('message', data);
+      }
+
+      this.gameService.app().networkManager.onConnect.emit();     
+
     });
 
     this.socket.on("disconnect", () => {
       console.log('disconnected');
-    });
-  }
-
-  private onMessageReceived(message: Message) {
-    this.onMessage.emit(message);
-    
-    const msg: ClientMessageRecieved<any> = MessageDeserializer.deserialize(message);
-    msg?.onRecieve(this.gameService.app());
-  }
-
-  public send(message: Message): void {
-    this.socket.emit('message', message);
-  }
-
-  public onEvent(event: Event): Observable<any> {
-    return new Observable<Event>(observer => {
-      this.socket.on(event, () => observer.next());
+      this.gameService.app().networkManager.onDisconnect.emit();
+      this.gameService.app().networkManager.sendHandler = (data: Message) => {};
     });
   }
 }

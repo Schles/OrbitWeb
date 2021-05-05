@@ -6,7 +6,6 @@ import {ShipFitting} from "@orbitweb/common";
 import {PlayerLoginMessage} from "@orbitweb/common";
 
 import {GameService} from "./game.service";
-import { NetworkService } from './network.service';
 
 
 @Injectable({
@@ -14,7 +13,7 @@ import { NetworkService } from './network.service';
 })
 export class PlayerService { 
 
-  constructor(private gameService: GameService, private networkService: NetworkService) {
+  constructor(private gameService: GameService) {
     Events.onPlayerKilled.subscribe( (name: string) => {
       if (name === this.gameService.app().username)
         this.logout();
@@ -22,13 +21,12 @@ export class PlayerService {
   }
 
   public login(userName: string, fitting: ShipFitting) {
-    this.gameService.app().username = userName;
-    this.networkService.send(new PlayerLoginMessage(userName, fitting));
+    this.gameService.app().networkManager.login(userName, fitting);
   }
 
 
   public logout() {
-    this.gameService.app().username = undefined;
+    this.gameService.app().networkManager.logout();
   }
 
   public isLoggedIn(): boolean {

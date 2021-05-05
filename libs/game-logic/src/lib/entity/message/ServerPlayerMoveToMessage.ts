@@ -13,13 +13,16 @@ export class ServerPlayerMoveToMessage extends ServerMessageRecieved<PlayerMoveT
 
   onRecieve(context: GameLogic) {
     const player = context.getPlayer(this.message.source);
-
+      console.log("msg", this.message);
+      /*
+      console.log("player", player);
     if ( player !== undefined) {
       const dir =  CMath.sub(this.message.position, player.position);
 
       const reqAngle = CMath.angle(dir, {x: 0, y:1});
       player.movementGoal = new MovementGoalAlignTo(reqAngle);
     }
+    */
   }
 
 

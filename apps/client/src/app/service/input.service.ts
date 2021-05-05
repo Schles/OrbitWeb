@@ -1,9 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CMath, DebugMessage, PlayerActionMessage, PlayerMoveToMessage, PlayerOrbitMessage, PlayerStructureMessage, Vector2} from "@orbitweb/common";
-import { Events } from '@orbitweb/renderer';
-
 import { PlayerService } from './player.service';
-import { NetworkService } from './network.service';
 import { GameService } from './game.service';
 
 
@@ -11,9 +7,11 @@ import { GameService } from './game.service';
   providedIn: 'root'
 })
 export class InputService {
-  constructor(private playerService: PlayerService, private networkService: NetworkService, private gameService: GameService) {
+  constructor(private playerService: PlayerService, private gameService: GameService) {
 
-    this.gameService.app().renderer.plugins.interaction.on('pointerup', (event) => this.canvasClicked(event));
+    this.gameService.app().renderer.plugins.interaction.on('pointerup', (event) => {
+      this.gameService.app().inputManager.onClick(event);
+    });
 
     window.addEventListener(
       "keydown", (event) => {
@@ -30,7 +28,7 @@ export class InputService {
           } else if ( event.key === "5") {
             this.keyPressed(5);
           } else if ( event.key === " ") {
-            this.debugPressed(-1);
+            this.keyPressed(-1);
           }
 
         }
@@ -40,80 +38,7 @@ export class InputService {
 
   public keyPressed(key) {
     console.log(key);
-    const userName = this.gameService.app().playerLocal;
-    if ( userName !== undefined ) {
-
-      const msg = new PlayerActionMessage(userName.id, key - 1);
-      if (msg !== undefined) {
-        this.networkService.send(msg);
-      }
-    }
-
-
+    this.gameService.app().inputManager.onKeyDown(key);
   }
-
-  public debugPressed(key) {
-    console.log(key);
-    const userName = this.gameService.app().playerLocal;
-    if ( userName !== undefined ) {
-
-      const msg = new DebugMessage();
-      if (msg !== undefined) {
-        this.networkService.send(msg);
-      }
-    }
-
-
-  }
-
-  private canvasClicked(event) {
-    const v = this.gameService.app().gameStage.toLocal(event.data.global);
-    const localPosition: Vector2 = {
-      x: v.x,
-      y: v.y
-    };
-
-    const clickedPlayer = this.gameService.app().players.find( (ship) =>
-      CMath.isInsideCircle(ship.position, localPosition, 50));
-
-    const clickedStructure = this.gameService.app().structures.find( (structure) =>
-      CMath.isInsideCircle(structure.position, localPosition, 50));
-
-    if (clickedPlayer !== undefined) {
-      this.onClickPlayer(clickedPlayer, localPosition, event);
-    } else if (clickedStructure !== undefined) {
-      this.onClickStructure(clickedStructure, event);
-    } else {
-      this.onClickWorld(localPosition, event);
-    }
-  }
-
-
-private onClickPlayer(target, localPosition, event) {
-  if (target.id === this.gameService.app().playerLocal?.id) {
-    console.log("self");
-  } else {
-    const msg: PlayerOrbitMessage = new PlayerOrbitMessage(this.gameService.app().playerLocal.id, target.id);
-    this.networkService.send(msg);
-  }
-}
-
-private onClickStructure(target, event) {
-  if (this.gameService.app().playerLocal !== undefined) {
-    const msg: PlayerStructureMessage = new PlayerStructureMessage(this.gameService.app().playerLocal.id, target.id);
-    this.networkService.send(msg);
-  } else {
-    console.log("no player");
-  }
-}
-
-  private onClickWorld(localPosition, event) {
-//console.log("worldClicked", event.localPosition);
-if (this.gameService.app().playerLocal !== undefined) {
-  const msg: PlayerMoveToMessage = new PlayerMoveToMessage(this.gameService.app().playerLocal.id, event.localPosition);
-  this.networkService.send(msg);
-} else {
-  console.log("no player");
-}
-  }
+ 
 }

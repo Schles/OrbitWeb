@@ -18,7 +18,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
   }
 
   onRecieve(context: GameManager) {
-    
+    console.log("abc", this.message);
     let enemyGO: SpaceshipGO = context.players.find(value => {
       return value.id === this.message.source;
     });

@@ -35,14 +35,6 @@ export class GameComponent implements OnInit, AfterViewInit{
 
   ngOnInit() {
     this.pixiContainer.nativeElement.appendChild(this.gameService.app().view); // this places our pixi application onto the viewable document
-
-    this.networkService.onConnect.subscribe( () => {
-      this.ui.loginEnabled = true;
-
-      this.gameService.app().onConnect();
-      this.networkService.send ( new LobbyQueryMessage());
-
-    });
   }
 
   
@@ -54,6 +46,11 @@ export class GameComponent implements OnInit, AfterViewInit{
 
   public ngAfterViewInit(): void {
     this.gameService.app().onViewReady();
+
+    this.gameService.app().networkManager.onConnect.subscribe( () => {
+      this.ui.loginEnabled = true;
+    });
+
     this.networkService.connect();
   }
 

@@ -82,7 +82,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
       shipFitting.fitting = this.gameService.fittingDB.getSet("default");
     }    
 
-    this.playerService.login(this.myForm.value.name, shipFitting);
+    this.gameService.app().networkManager.login(this.myForm.value.name, shipFitting);
   }
 
   public getColor(): string {

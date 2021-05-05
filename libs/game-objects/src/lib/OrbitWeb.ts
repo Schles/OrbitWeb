@@ -1,16 +1,18 @@
 
-import { CMath, Vector2 } from "@orbitweb/common";
+import { CMath, Message, Vector2 } from "@orbitweb/common";
 import { Camera, Events, ShaderGodRays } from "@orbitweb/renderer";
 import { Sprite, Texture } from "pixi.js";
 import { GameManager } from "./GameManager";
+import { ClientMessageRecieved } from "./model/MessageRecieved";
 import { SpaceshipGO } from "./model/SpaceshipGO";
+import { MessageDeserializer } from "./serialize/MessageDeserializer";
 
 
 export class OrbitWeb extends GameManager {
 
     
 
-    public OnInitGame() {
+    public onInitGame() {
 
         super.onInitGame();
 
@@ -30,10 +32,6 @@ export class OrbitWeb extends GameManager {
         this.camera.setSize(this.renderer.width, this.renderer.height);  
     }
 
-    public onConnect() {
-        this.clear();
-    }
-
     public iterate(dT) {
         super.iterate(dT);
 
@@ -41,6 +39,7 @@ export class OrbitWeb extends GameManager {
             this.iterateSelf(this.playerLocal, dT);
             this.camera.iterate(this.players.map( (v) => v.position), this.playerLocal.position, dT);
         }      
+
     }
 
     public initWorld() {

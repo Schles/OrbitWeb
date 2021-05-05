@@ -75,6 +75,8 @@ export abstract class SceneGraph extends Application {
 
     this._gameStage = new Container() as Viewport;
 
+    this._gameStage = new Container() as Viewport;
+
     this._uiStage = new Container();
     this._structureStage = new Container();
     this._playerStage = new Container();

@@ -48,7 +48,8 @@ export class Camera {
 
   public localCenterPoint: Vector2;
 
-  public iterate(positions: Vector2[], vip: Vector2, delta) {
+  public iterate(positions: Vector2[], delta, vip: Vector2) {
+
     let rect: Rectangle;
     const p1 = {x: 0, y: 0};
     //console.log("cam", this.getModelMatrix().append(this.getViewMatrix()).apply(p1));
