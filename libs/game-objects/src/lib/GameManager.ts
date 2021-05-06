@@ -1,5 +1,6 @@
 import { CMath, Message, Particle, Vector2 } from "@orbitweb/common";
-import { Crosshair, Events, World } from "@orbitweb/renderer";
+import { Camera, Crosshair, World } from "@orbitweb/renderer";
+import { EventManager } from "./EventManager";
 import { InputManager } from "./InputManager";
 import { TargetLayer } from "./layer/TargetLayer";
 import { BoundryGO } from "./model/BoundryGO";
@@ -28,6 +29,8 @@ export class GameManager extends World {
     public boundry: BoundryGO;
 
 
+    private _camera: Camera;
+
     public send: (msg: Message) => void;
 
     public playerLocal: SpaceshipGO;
@@ -35,6 +38,18 @@ export class GameManager extends World {
 
     public inputManager: InputManager;
     public networkManager: NetworkManager;
+
+    public eventManager: EventManager;
+
+
+
+    public get camera(): Camera {
+      return this._camera;
+    }
+  
+    public set camera(camera: Camera) {
+      this._camera = camera;
+    }
 
     public set username(value: string) {
         this._username = value;
@@ -59,6 +74,7 @@ export class GameManager extends World {
     constructor(options) {
       super(options);
 
+      this.eventManager = new EventManager();
       this.networkManager = new NetworkManager(this);
       this.inputManager = new InputManager(this);
       
@@ -68,6 +84,7 @@ export class GameManager extends World {
 
     public onInitGame() {
       this.boundry = new BoundryGO();
+      this.camera = new Camera(this.gameStage);
     }
 
     public initWorld() {

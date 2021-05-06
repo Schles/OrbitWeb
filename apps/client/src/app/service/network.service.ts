@@ -1,10 +1,9 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {io} from 'socket.io-client';
-import {Observable} from "rxjs";
+
 import {Message, ShipFitting} from "@orbitweb/common";
 import { GameService } from './game.service';
-import { ClientMessageRecieved, MessageDeserializer } from '@orbitweb/game-objects';
-import { Events } from '@orbitweb/renderer';
+
 
 export enum EventIO {
   CONNECT = 'connect',

@@ -29,6 +29,8 @@ export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMes
 
     new Spawner(context.boundries).spawnRandom(player);
 
+    player.position = {x: 100, y: 100};
+
     player.movementGoal = new MovementGoalIdle();
     //player.movementGoal = new MovementGoalFreeFly();
     player.fitting = new ShipFitting();

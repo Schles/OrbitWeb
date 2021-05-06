@@ -3,7 +3,6 @@ import {GameService} from "../../../service/game.service";
 import {ShipFitting} from "@orbitweb/common";
 import {ShipEquipment} from "@orbitweb/common";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Events} from "@orbitweb/renderer";
 import {PlayerService} from "../../../service/player.service";
 import {EquipmentSlotComponent} from "./equipment-slot/equipment-slot.component";
 
@@ -43,13 +42,13 @@ export class FittingComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    Events.loginPlayer.subscribe ( (val, b) => {
-      if (val.name === this.gameService.app().username) {
+    this.gameService.app().eventManager.on("UI_PLAYER_LOGIN").subscribe ( (value) => {
+      if (value.name === this.gameService.app().username) {
         this.loginEnabled = false;
       }
     })
 
-    Events.onPlayerKilled.subscribe( (name: string) => {
+    this.gameService.app().eventManager.on("UI_PLAYER_KILLED").subscribe( (name: string) => {
       if (undefined === this.gameService.app().username)
         this.loginEnabled = true;
     })

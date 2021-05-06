@@ -15,9 +15,7 @@ export class Camera {
   private _vip: Vector2;
 
   constructor(private view: Container) {
-
-   
-
+    
   }
 
   public setVIP(position: Vector2) {
@@ -25,10 +23,6 @@ export class Camera {
   }
 
   public setSize(w: number, h: number) {
-
-    if ( true )
-      return true;
-
     this.width = w;
     this.height = h;
 
@@ -59,8 +53,7 @@ export class Camera {
 
   public iterate(positions: Vector2[], delta: number) {
 
-    if ( true )
-      return;
+    //return true; 
 
     let rect: Rectangle;
     const p1 = {x: 0, y: 0};

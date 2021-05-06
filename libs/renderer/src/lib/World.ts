@@ -3,6 +3,7 @@ import { Emitter } from "./Emitter";
 import { TestFilter } from "./renderer/shader/filter/TestFilter";
 import { SceneGraph } from "./SceneGraph";
 import { ShaderGodRays } from "./shader/ShaderGodRays";
+import { AssetLoader } from "./util/AssetLoader";
 
 
 
@@ -16,6 +17,7 @@ export abstract class World extends SceneGraph{
     super(options);
 
     this.initWorld();
+    this.initShader();
   }
 
   public initWorld() {
@@ -58,6 +60,12 @@ export abstract class World extends SceneGraph{
 */
 
 
+  }
+
+  private initShader() {
+    this.assetLoader = new AssetLoader();
+    this.assetLoader.load(this.loader);    
+    AssetLoader.onLoaded.subscribe( (val) => { this.onShaderLoaded(val.loader, val.res)});
   }
 
 }

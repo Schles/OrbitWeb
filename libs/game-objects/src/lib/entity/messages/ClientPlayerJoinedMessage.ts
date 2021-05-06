@@ -1,15 +1,11 @@
-import {PlayerJoinedMessage} from "@orbitweb/common";
-
-
-import {Spaceship} from "@orbitweb/common";
-import {Factories} from "@orbitweb/common";
-import {ShipFitting} from "@orbitweb/common";
-
-import {EquipmentDeserializer} from "../../serialize/EquipmentDeserializer";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
+import { Factories, PlayerJoinedMessage, ShipFitting, Spaceship } from "@orbitweb/common";
 import { GameManager } from "../../GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
-import { Events } from "@orbitweb/renderer";
+import { SpaceshipGO } from "../../model/SpaceshipGO";
+import { EquipmentDeserializer } from "../../serialize/EquipmentDeserializer";
+
+
+
 
 export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoinedMessage> {
 
@@ -18,7 +14,6 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
   }
 
   onRecieve(context: GameManager) {
-    console.log("abc", this.message);
     let enemyGO: SpaceshipGO = context.players.find(value => {
       return value.id === this.message.source;
     });
@@ -26,28 +21,25 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     if (enemyGO === undefined) {
       const enemy: Spaceship = Factories.createSpaceship(this.message);
 
-      enemyGO =  new SpaceshipGO(enemy);
+      enemyGO = new SpaceshipGO(enemy);
       enemyGO.fitting = new ShipFitting();
 
       context.spawnPlayer(enemyGO);
 
-      enemyGO.fitting.fitting = this.message.fitting.fitting.map ( (fit) => {
+      enemyGO.fitting.fitting = this.message.fitting.fitting.map((fit) => {
         const fitGO = EquipmentDeserializer.deserialize(fit);
         fitGO?.onInit(enemyGO);
         return fitGO;
       });
 
       enemyGO.iterateGraphics();
-    } else {
-      //console.log("Bereits bekannt");
-    }
+    } 
 
-
-    if ( enemyGO.id === context.username) {
+    if (enemyGO.id === context.username) {
       context.username = enemyGO.id;
     }
 
-    Events.loginPlayer.emit( {
+    context.eventManager.emit("UI_PLAYER_LOGIN", {
       name: this.message.source,
       fitting: enemyGO.fitting,
       spaceship: enemyGO

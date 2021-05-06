@@ -1,4 +1,3 @@
-import {Camera} from "./renderer/Camera";
 import {Vector2} from "@orbitweb/common";
 import {EventEmitter} from "@angular/core";
 import {AssetLoader} from "./util/AssetLoader";
@@ -14,10 +13,11 @@ export abstract class SceneGraph extends Application {
 
   private _backgroundStage: Container;
   private _gameStage: Viewport;
+  private _postprocessStage: Container;
+
   private _uiStage: Container;
   private _structureStage: Container;
   private _playerStage: Container;
-  private _camera: Camera;
   public assetLoader: AssetLoader;
 
   
@@ -28,6 +28,10 @@ export abstract class SceneGraph extends Application {
 
   public get gameStage(): Viewport {
     return this._gameStage;
+  }
+
+  public get postprocessStage(): Container {
+    return this._postprocessStage;
   }
 
   public get playerStage(): Container {
@@ -42,23 +46,12 @@ export abstract class SceneGraph extends Application {
     return this._structureStage;
   }
 
-  public get camera(): Camera {
-    return this._camera;
-  }
-
-  public set camera(camera: Camera) {
-    this._camera = camera;
-  }
 
   constructor(options) {
     super(options);
 
     this.initScene();
-    this.initShader();
   }
-
-
-  public abstract onShaderLoaded(loader, res);
 
   public initScene() {
     console.log("initScene");
@@ -75,7 +68,7 @@ export abstract class SceneGraph extends Application {
 
     this._gameStage = new Container() as Viewport;
 
-    this._gameStage = new Container() as Viewport;
+    this._postprocessStage = new Container();
 
     this._uiStage = new Container();
     this._structureStage = new Container();
@@ -83,6 +76,7 @@ export abstract class SceneGraph extends Application {
 
     this.stage.addChild(this._backgroundStage);
     this.stage.addChild(this.gameStage);
+    this.stage.addChild(this._postprocessStage);
     this.stage.addChild(this.uiStage);
 
 
@@ -97,9 +91,5 @@ export abstract class SceneGraph extends Application {
 
   }
 
-  private initShader() {
-    this.assetLoader = new AssetLoader();
-    this.assetLoader.load(this.loader);    
-    AssetLoader.onLoaded.subscribe( (val) => { this.onShaderLoaded(val.loader, val.res)});
-  }
+
 }

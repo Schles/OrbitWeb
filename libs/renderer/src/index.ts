@@ -1,5 +1,5 @@
-export * from './lib/Events'
-export * from './lib/renderer/Camera'
+export * from './lib/camera/Camera'
+export * from './lib/camera/PlainCamera'
 
 export * from './lib/model/GameObject'
 

@@ -1,7 +1,6 @@
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
-import {PlayerKilledMessage} from "@orbitweb/common";
-import {Events} from "@orbitweb/renderer";
+import { PlayerKilledMessage } from "@orbitweb/common";
 import { GameManager } from "../../GameManager";
+import { ClientMessageRecieved } from "../../model/MessageRecieved";
 
 export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKilledMessage> {
 
@@ -12,9 +11,9 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
   onRecieve(context: GameManager) {
     const deadPlayer = context.players.find(value => value.id === this.message.source);
 
-    if ( deadPlayer !== undefined) {
+    if (deadPlayer !== undefined) {
       context.killPlayer(deadPlayer);
-      Events.onPlayerKilled.emit(deadPlayer.id);
+      context.eventManager.emit("UI_PLAYER_KILLED", deadPlayer.id);
     }
   }
 }

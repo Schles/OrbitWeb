@@ -1,13 +1,11 @@
 
-import { Camera, Events, ShaderGodRays } from "@orbitweb/renderer";
+import { ShaderGodRays } from "@orbitweb/renderer";
 import { Sprite, Texture } from "pixi.js";
 import { GameManager } from "./GameManager";
 
 
 
 export class OrbitWeb extends GameManager {
-
-
 
     public onInitGame() {
 
@@ -25,7 +23,6 @@ export class OrbitWeb extends GameManager {
     }
 
     public onViewReady() {
-        this.camera = new Camera(this.gameStage);
         this.camera.setSize(this.renderer.width, this.renderer.height);
     }
 
@@ -53,7 +50,7 @@ export class OrbitWeb extends GameManager {
 
         const godRayShader = new ShaderGodRays(res.godFrag.data, res.perlin.data, res.defaultVert.data, {})
 
-        //this.gameStage.filters = [godRayShader];
+        this.postprocessStage.filters = [godRayShader];
 
     }
 

@@ -1,10 +1,5 @@
 import {Injectable} from '@angular/core';
-
-
-import {Events} from "@orbitweb/renderer";
 import {ShipFitting} from "@orbitweb/common";
-import {PlayerLoginMessage} from "@orbitweb/common";
-
 import {GameService} from "./game.service";
 
 
@@ -14,7 +9,7 @@ import {GameService} from "./game.service";
 export class PlayerService { 
 
   constructor(private gameService: GameService) {
-    Events.onPlayerKilled.subscribe( (name: string) => {
+    this.gameService.app().eventManager.on("UI_PLAYER_KILLED").subscribe( (name: string) => {
       if (name === this.gameService.app().username)
         this.logout();
     })
