@@ -1,8 +1,8 @@
+import { PlayerUpdateMessage } from "@orbitweb/common";
+import { GameManager } from "../../manager/GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
-import {PlayerUpdateMessage} from "@orbitweb/common";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { GameManager } from "../../GameManager";
+import { SpaceshipGO } from "../../model/SpaceshipGO";
 
 export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdateMessage> {
 
@@ -29,7 +29,7 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
 
     //enemyGO.cannon.rotation = msg.gun_rotation;
 
-    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map( (fit: ShipEquipmentGO, index) => {
+    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map((fit: ShipEquipmentGO, index) => {
       fit.state = this.message.fitting.fitting[index].state;
       fit.remainingTime = this.message.fitting.fitting[index].remainingTime;
       return fit;
@@ -38,7 +38,7 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
     enemyGO.health = this.message.health;
     enemyGO.power = this.message.power;
 
-    if ( this.message.target !== undefined ) {
+    if (this.message.target !== undefined) {
       const target = context.players.find((p) => p.id === this.message.target);
 
       if (target !== undefined) {

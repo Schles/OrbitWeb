@@ -1,7 +1,7 @@
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
 import {ProjectileUpdateMessage} from "@orbitweb/common";
 import { ProjectileGO } from "../../model/ProjectileGO";
-import { GameManager } from "../../GameManager";
+import { GameManager } from "../../manager/GameManager";
 
 export class ClientProjectileUpdateMessage extends ClientMessageRecieved<ProjectileUpdateMessage> {
 

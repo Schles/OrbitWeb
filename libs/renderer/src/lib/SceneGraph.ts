@@ -1,6 +1,5 @@
 import {Vector2} from "@orbitweb/common";
 import {EventEmitter} from "@angular/core";
-import {AssetLoader} from "./util/AssetLoader";
 import { Application } from "@pixi/app";
 import { Container } from "pixi.js";
 
@@ -17,10 +16,7 @@ export abstract class SceneGraph extends Application {
 
   private _uiStage: Container;
   private _structureStage: Container;
-  private _playerStage: Container;
-  public assetLoader: AssetLoader;
-
-  
+  private _playerStage: Container;  
 
   public get backgroundStage(): Container {
     return this._backgroundStage;

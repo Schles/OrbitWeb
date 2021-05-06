@@ -1,8 +1,8 @@
 import { EventEmitter } from "@angular/core";
 import { LobbyQueryMessage, Message, PlayerLoginMessage, ShipFitting } from "@orbitweb/common";
+import { ClientMessageRecieved } from "../model/MessageRecieved";
+import { MessageDeserializer } from "../serialize/MessageDeserializer";
 import { GameManager } from "./GameManager";
-import { ClientMessageRecieved } from "./model/MessageRecieved";
-import { MessageDeserializer } from "./serialize/MessageDeserializer";
 
 export class NetworkManager {
 

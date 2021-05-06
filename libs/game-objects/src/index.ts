@@ -1,6 +1,6 @@
 
 export * from './lib/OrbitWeb';
-export * from './lib/GameManager';
+export * from './lib/manager/GameManager';
 
 export * from './lib/serialize/EquipmentDeserializer';
 export * from './lib/serialize/MessageDeserializer';

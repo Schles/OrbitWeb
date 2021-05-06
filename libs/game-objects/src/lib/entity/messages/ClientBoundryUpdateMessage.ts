@@ -1,6 +1,6 @@
 
 import {BoundryUpdateMessage} from "@orbitweb/common";
-import { GameManager } from "../../GameManager";
+import { GameManager } from "../../manager/GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
 
 export class ClientBoundryUpdateMessage extends ClientMessageRecieved<BoundryUpdateMessage> {

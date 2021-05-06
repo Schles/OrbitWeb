@@ -1,6 +1,7 @@
 import { EventEmitter } from "@angular/core";
 import { Observable, Observer, Subject } from "rxjs";
-import { Events } from "./model/Events";
+import { Events } from "../model/Events";
+
 
 
 type EventTypes = keyof Events;

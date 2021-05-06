@@ -1,5 +1,5 @@
 import { PlayerKilledMessage } from "@orbitweb/common";
-import { GameManager } from "../../GameManager";
+import { GameManager } from "../../manager/GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
 
 export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKilledMessage> {

@@ -16,6 +16,9 @@ interface GodrayFilterOptions {
 
 export class ShaderGodRays extends Filter {
 
+
+
+
     /** Default for constructior options. */
     public static readonly defaults: GodrayFilterOptions = {
       angle: 30,
@@ -45,9 +48,9 @@ export class ShaderGodRays extends Filter {
   private _angleLight: Point;
   private _angle = 0;
 
-  constructor(fragmentShader, shaderFragment, defaultVert, options) {
-    super(defaultVert, fragmentShader.replace('${perlin}', shaderFragment));
-/*
+  constructor(vertexShader, fragmentShader, options) {
+    super(vertexShader, fragmentShader);
+
 
     this.uniforms.dimensions = new Float32Array(2);
 
@@ -62,14 +65,14 @@ export class ShaderGodRays extends Filter {
     this.parallel = opts.parallel;
     this.center = opts.center;
     this.time = opts.time;
-*/
+
 
   }
 
   //FilterSystem
   apply(filterManager: any, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES): void
   {
-    /*
+    
       const { width, height } = input.filterFrame as Rectangle;
 
       this.uniforms.light = this.parallel ? this._angleLight : this.center;
@@ -83,7 +86,7 @@ export class ShaderGodRays extends Filter {
 
       // draw the filter...
       filterManager.applyFilter(this, input, output, clear);
-      */
+   
   }
 
   get angle(): number

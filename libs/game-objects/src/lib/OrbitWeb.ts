@@ -1,8 +1,6 @@
 
-import { ShaderGodRays } from "@orbitweb/renderer";
-import { Sprite, Texture } from "pixi.js";
-import { GameManager } from "./GameManager";
-
+import { BLEND_MODES, Sprite, Texture } from "pixi.js";
+import { GameManager } from "./manager/GameManager";
 
 
 export class OrbitWeb extends GameManager {
@@ -39,18 +37,24 @@ export class OrbitWeb extends GameManager {
 
         super.initWorld();
 
-        const sprite = this.gameStage.addChild(new Sprite(Texture.WHITE))
+        const sprite = this.postprocessStage.addChild(new Sprite(Texture.WHITE))
         sprite.tint = 0xff0000
         sprite.width = sprite.height = 100
         sprite.position.set(100, 100)
     }
 
-    public onShaderLoaded(loader, res) {
-        super.onShaderLoaded(loader, res);
+    public postShaderLoaded() {
+        super.postShaderLoaded();
 
-        const godRayShader = new ShaderGodRays(res.godFrag.data, res.perlin.data, res.defaultVert.data, {})
 
+        const godRayShader = this.shaderManager.createFilter("GodRay", {});
+
+        godRayShader.blendMode = BLEND_MODES.ADD;
+
+        this.postprocessStage.filterArea = this.renderer.screen;
         this.postprocessStage.filters = [godRayShader];
+
+        //this.sun.initShader(res.sun.data, this.renderer.screen);
 
     }
 

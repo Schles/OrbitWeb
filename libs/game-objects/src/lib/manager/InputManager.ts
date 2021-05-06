@@ -1,8 +1,9 @@
 import { Message, PlayerSelfKillMessage } from "@orbitweb/common";
 import { GameManager } from "./GameManager";
 import { CMath, DebugMessage, PlayerActionMessage, PlayerMoveToMessage, PlayerOrbitMessage, PlayerStructureMessage, Vector2 } from "@orbitweb/common";
-import { SpaceshipGO } from "./model/SpaceshipGO";
-import { StructureGO } from "./model/StructureGO";
+import { SpaceshipGO } from "../model/SpaceshipGO";
+import { StructureGO } from "../model/StructureGO";
+
 
 export class InputManager {
 

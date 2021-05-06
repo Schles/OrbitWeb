@@ -1,5 +1,5 @@
 import { Factories, PlayerJoinedMessage, ShipFitting, Spaceship } from "@orbitweb/common";
-import { GameManager } from "../../GameManager";
+import { GameManager } from "../../manager/GameManager";
 import { ClientMessageRecieved } from "../../model/MessageRecieved";
 import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { EquipmentDeserializer } from "../../serialize/EquipmentDeserializer";
