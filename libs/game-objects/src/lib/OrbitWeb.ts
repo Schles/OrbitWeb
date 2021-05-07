@@ -1,5 +1,6 @@
 
-import { BLEND_MODES, Sprite, Texture } from "pixi.js";
+import { LightShader } from "@orbitweb/renderer";
+import { BLEND_MODES, RenderTexture, Sprite, Texture } from "pixi.js";
 import { GameManager } from "./manager/GameManager";
 
 
@@ -27,32 +28,38 @@ export class OrbitWeb extends GameManager {
     public iterate(dT) {
         super.iterate(dT);
 
-        if (this.playerLocal !== undefined) {
-            this.iterateSelf(this.playerLocal, dT);
+        if ( this.lightShader) {
+            const mousePosition = this.renderer.plugins.interaction.mouse.global;
+            this.lightShader.iterate(mousePosition, undefined)            
         }
 
     }
 
+
+
     public initWorld() {
-
         super.initWorld();
-
-        const sprite = this.postprocessStage.addChild(new Sprite(Texture.WHITE))
-        sprite.tint = 0xff0000
-        sprite.width = sprite.height = 100
-        sprite.position.set(100, 100)
     }
+
+    private lightShader: LightShader;
 
     public postShaderLoaded() {
         super.postShaderLoaded();
 
 
         const godRayShader = this.shaderManager.createFilter("GodRay", {});
+        const lightShader = this.shaderManager.createFilter("Light", {});
 
         godRayShader.blendMode = BLEND_MODES.ADD;
+        lightShader.blendMode = BLEND_MODES.ADD;
 
-        this.postprocessStage.filterArea = this.renderer.screen;
-        this.postprocessStage.filters = [godRayShader];
+        this.gameStage.filterArea = this.renderer.screen;
+        this.gameStage.filters = [lightShader];
+
+        this.lightShader = <LightShader> lightShader;
+
+
+
 
         //this.sun.initShader(res.sun.data, this.renderer.screen);
 

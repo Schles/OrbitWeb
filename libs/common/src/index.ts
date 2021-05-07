@@ -11,6 +11,7 @@ export * from './lib/model/Spaceship';
 export * from './lib/model/Structure';
 //export * from './lib/model/TargetSkill';
 export * from './lib/model/TimedAbility';
+export * from './lib/model/GameIterable';
 
 // util
 export * from './lib/util/Factories';

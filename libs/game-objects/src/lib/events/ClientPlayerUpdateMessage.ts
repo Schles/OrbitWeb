@@ -1,8 +1,6 @@
 import { PlayerUpdateMessage } from "@orbitweb/common";
-import { GameManager } from "../../manager/GameManager";
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
-import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
+import { ClientMessageRecieved, GameManager, ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
+
 
 export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdateMessage> {
 
@@ -50,6 +48,6 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
 
     enemyGO.activationProgress = this.message.activationProgress;
 
-    enemyGO.iterateGraphics();
+    //enemyGO.iterateGraphics();
   }
 }

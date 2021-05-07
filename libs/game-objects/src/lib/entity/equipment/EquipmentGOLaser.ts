@@ -1,9 +1,8 @@
 
 import {ShipEquipment} from "@orbitweb/common";
 import { Container, Graphics, Sprite } from "pixi.js";
-import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { string2hex } from "@pixi/utils"
+import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
 
 
 export class EquipmentGOLaser extends ShipEquipmentGO {

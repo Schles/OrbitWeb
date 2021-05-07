@@ -1,58 +1,50 @@
-import {Spaceship} from "@orbitweb/common";
+import {GameIterable, Spaceship} from "@orbitweb/common";
 import {Physics} from "@orbitweb/common";
-import {CMath} from "@orbitweb/common";
-import {Vector2} from "@orbitweb/common";
-import { Container, Filter, Graphics, Matrix } from "pixi.js";
-import {NameplateGO} from "./NameplateGO";
+import { Container, Graphics } from "pixi.js";
 import { string2hex } from "@pixi/utils"
 
-export class SpaceshipGO extends Spaceship {
+import { NameplateContainer } from "@orbitweb/game-objects";
+import { TargetingLayer } from "../../ui/TargetingContainer";
+
+
+
+export class SpaceshipGO extends Spaceship implements GameIterable {
 
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;
 
   public gameObject: Container;
+  public nameplateContainer: NameplateContainer;
+  public targetContainer: TargetingLayer;
 
   public playerLayer: Container;
-  public uiLayer: Container;
   public equipmentLayer: Container;
 
-  public progressLayer: Graphics;
+  private progressLayer: Graphics;
   public health = 100;
 
   private iColor;
-
-
 
   constructor(spaceship: Spaceship) {
     super(spaceship.id, spaceship.color);
     this.gameObject = this.getGameObject();
     this.gameObject.filters = [];
-  }
 
-  private view: Matrix;
-  private model: Matrix
+    this.nameplateContainer = new NameplateContainer(this);
+    this.targetContainer = new TargetingLayer(0xFF0000);
 
-  private cameraCenterPoint;
-
-  public setCameraCenter(point) {
-    this.cameraCenterPoint = point;
-  }
-
-  public setMatrix(view: Matrix, model: Matrix) {
-    this.view = view;
-    this.model = model;
   }
 
   public iterate(delta: number) {
     Physics.iterate(this, delta);
 
     this.iterateGraphics();
+
+    this.fitting.fitting.forEach((fit) => {
+      fit.iterate(this, delta);
+    })
   }
 
-  private nameplate: NameplateGO;
-
-  private filter: Filter;
 
   public getGameObject(): Container {
     const parentObject: Container = new Container();
@@ -94,73 +86,16 @@ export class SpaceshipGO extends Spaceship {
     this.progressLayer = new Graphics();
     this.playerLayer.addChild(this.progressLayer);
 
-
-    // target
-
     this.equipmentLayer = new Graphics();
     this.equipmentLayer.filters = [];
 
-    // text
-
-    this.uiLayer = new Container();
-
-    this.nameplate = new NameplateGO(this);
-    /*
-
-     */
-
-
-    this.uiLayer.addChild(this.nameplate);
-
-
-
     parentObject.addChild(this.playerLayer);
-    parentObject.addChild(this.uiLayer);
     parentObject.addChild(this.equipmentLayer);
     return parentObject;
   }
 
-  private buildSixEck( pos: Vector2): number[] {
-    const len = 50;
 
-
-    const dir:Vector2 = {x: len, y: 0};
-
-    const toRad = (deg) => {
-      return deg / 180 * Math.PI;
-    };
-
-    const z = pos;
-    const a = CMath.add(pos, CMath.rotate(dir, 0));
-    const b = CMath.add(pos, CMath.rotate(dir, toRad(60)));
-    const c = CMath.add(pos, CMath.rotate(dir, toRad(120)));
-    const d = CMath.add(pos, CMath.rotate(dir, toRad(180)));
-    const e = CMath.add(pos, CMath.rotate(dir, toRad(240)));
-    const f = CMath.add(pos, CMath.rotate(dir, toRad(300)));
-
-    const buffer = [
-      z.x, z.y, 0,
-      a.x, a.y, 0,
-      b.x, b.y, 0,
-      c.x, c.y, 0,
-      d.x, d.y, 0,
-      e.x, e.y, 0,
-      f.x, f.y, 0];
-
-    //return buffer;
-
-    const b2 = [
-      pos.x, pos.y - len, 0,
-      pos.x, pos.y + len, 0,
-      pos.y - 2*len, pos.y, 0
-    ]
-
-    return b2;
-
-
-  }
-
-  public iterateGraphics() {
+  private iterateGraphics() {
     this.gameObject.x = this.position.x;
     this.gameObject.y = this.position.y;
 
@@ -174,15 +109,15 @@ export class SpaceshipGO extends Spaceship {
       this.progressLayer.endFill();
     }
 
-    this.nameplate.update(this);
+    this.nameplateContainer.update(this);
+
+    this.targetContainer.setSource(this);
+    this.targetContainer.iterate();
+  
     //this.nameplate.text = this.health.toFixed(0) + " " + this.id;
 
   }
 
-  public removeTarget() {
-    this.targetPlayer = undefined;
-    this.actionOrbitTarget = false;
-  }
 
   public invertColor(hex) {
     if (hex.indexOf('#') === 0) {

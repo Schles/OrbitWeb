@@ -1,23 +1,24 @@
+import { Spaceship } from "@orbitweb/common";
 import { Container, Graphics } from "pixi.js";
-import {SpaceshipGO} from "../model/SpaceshipGO";
 
-export class TargetLayer extends Container {
 
-  private source: SpaceshipGO;
-  private target: SpaceshipGO;
+export class TargetingLayer extends Container {
+
+  private source: Spaceship;
+  private target: Spaceship;
 
   private crossHair: Graphics;
 
   private crossHairRadius = 30.0;
-  private crossHairColor = 0xFF0000;
+  public crossHairColor = 0xFF0000;
   private crossHairAlpha = 0.4;
 
-  constructor() {
+  constructor(color) {
     super();
-
+    this.crossHairColor = color;
     this.crossHair = new Graphics();
 
-    const width = 1;
+    const width = 5;
 
     const length = 10;
 
@@ -39,11 +40,11 @@ export class TargetLayer extends Container {
 
   }
 
-  public setSource(spaceship: SpaceshipGO) {
+  public setSource(spaceship: Spaceship) {
     this.source = spaceship;
   }
 
-  public iterate(delta: number) {
+  public iterate() {
 
     if ( this.source !== undefined) {
 

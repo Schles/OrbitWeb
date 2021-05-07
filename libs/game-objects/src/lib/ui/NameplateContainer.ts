@@ -1,7 +1,7 @@
 import {Spaceship} from "@orbitweb/common";
 import { Container, Graphics, Text } from "pixi.js";
 
-export class NameplateGO extends Container {
+export class NameplateContainer extends Container {
 
   private namePlate: Text;
 
@@ -45,6 +45,9 @@ export class NameplateGO extends Container {
   public update(spaceship: Spaceship) {
     this.fillBar(this.health, spaceship.health, spaceship.maxHealth, 0xAAFFAA, 0xa91aff);
     this.fillBar(this.energy, spaceship.power, spaceship.energyCapacity, 0x2f2f9a, 0xa91aff);
+
+    this.position.x = spaceship.position.x;
+    this.position.y = spaceship.position.y;
   }
 
   private fillBar(bar: Graphics, value: number, max: number, color: number, bgcolor: number) {

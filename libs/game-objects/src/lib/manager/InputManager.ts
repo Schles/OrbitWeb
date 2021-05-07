@@ -1,8 +1,8 @@
 import { Message, PlayerSelfKillMessage } from "@orbitweb/common";
 import { GameManager } from "./GameManager";
 import { CMath, DebugMessage, PlayerActionMessage, PlayerMoveToMessage, PlayerOrbitMessage, PlayerStructureMessage, Vector2 } from "@orbitweb/common";
-import { SpaceshipGO } from "../model/SpaceshipGO";
-import { StructureGO } from "../model/StructureGO";
+import { SpaceshipGO, StructureGO } from "@orbitweb/game-objects";
+
 
 
 export class InputManager {
@@ -31,12 +31,11 @@ export class InputManager {
     }
 
     public onClick(event) {
-        console.log(event);
         this.canvasClicked(event);
     }
 
     private canvasClicked(event) {
-        let v = this.gameManager.gameStage.toLocal(event.data.global);
+        let v = this.gameManager.toLocal(event.data.global);
         
         const localPosition: Vector2 = {
             x: v.x,

@@ -1,7 +1,7 @@
 import { Container, Graphics } from "pixi.js";
-import { ProjectileGO } from "../../model/ProjectileGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
+
 import { string2hex } from "@pixi/utils"
+import { ProjectileGO, SpaceshipGO } from "@orbitweb/game-objects";
 
 export class Laser extends ProjectileGO {
   constructor(id: string, source: SpaceshipGO, target: SpaceshipGO) {

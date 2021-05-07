@@ -1,7 +1,7 @@
-import {Structure} from "@orbitweb/common";
+import {GameIterable, Structure} from "@orbitweb/common";
 import {SpaceshipEntity} from "./SpaceshipEntity";
 
-export class StructureEntity extends Structure {
+export class StructureEntity extends Structure implements GameIterable  {
   public destroy: boolean = false;
 
   constructor(x: number, y: number) {
@@ -10,6 +10,10 @@ export class StructureEntity extends Structure {
 
   public onActivateStructure(user: SpaceshipEntity) {
 
+  }
+
+  public iterate(delta: number) {
+    
   }
 
   public onDestroy() {

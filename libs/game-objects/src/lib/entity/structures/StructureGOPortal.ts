@@ -1,5 +1,6 @@
+import { StructureGO } from "@orbitweb/game-objects";
 import { Container, Graphics } from "pixi.js";
-import { StructureGO } from "../../model/StructureGO";
+
 
 
 export class StructureGOPortal extends StructureGO {

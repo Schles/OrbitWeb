@@ -4,8 +4,10 @@ import {SpaceshipGO} from "./SpaceshipGO";
 import {Physics} from "@orbitweb/common";
 import { Container, Graphics } from "pixi.js";
 import { string2hex } from "@pixi/utils"
+import { GameIterable } from "@orbitweb/common"
 
-export class ProjectileGO extends Projectile {
+
+export class ProjectileGO extends Projectile implements GameIterable {
 
   public gameObject: Container;
 
@@ -48,7 +50,7 @@ export class ProjectileGO extends Projectile {
     this.lineObject.lineTo(end.x, end.y);
   }
 
-  public iterPhysics() {
+  private iterPhysics() {
     this.gameObject.x = this.position.x;
     this.gameObject.y = this.position.y;
 

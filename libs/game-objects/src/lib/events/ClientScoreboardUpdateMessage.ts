@@ -1,6 +1,7 @@
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
+
 import {ScoreboardUpdateMessage} from "@orbitweb/common";
-import { GameManager } from "../../manager/GameManager";
+import { ClientMessageRecieved, GameManager } from "@orbitweb/game-objects";
+
 
 export class ClientScoreboardUpdateMessage extends ClientMessageRecieved<ScoreboardUpdateMessage> {
 

@@ -9,6 +9,7 @@ class ParticleEffect extends Particle {
   public sprite: Sprite;
 }
 
+export type ColoredParticle = Particle & { color: string};
 
 export class Emitter {
 
@@ -128,7 +129,7 @@ export class Emitter {
     })
   }
 
-  public emit(sources: { p: Particle, c: any}[]) {
+  public emit(sources: ColoredParticle[]) {
     sources.forEach( (spaceship) => {
 
 
@@ -136,16 +137,16 @@ export class Emitter {
 
           particle.timeToLive = particle.lifeTime;
 
-          particle.sprite.tint = string2hex(spaceship.c);
+          particle.sprite.tint = string2hex(spaceship.color);
 
           particle.position = {
-            x: spaceship.p.position.x,
-            y: spaceship.p.position.y
+            x: spaceship.position.x,
+            y: spaceship.position.y
           };
 
           particle.speed = {
-            x: -1 * spaceship.p.speed.x,
-            y: -1 * spaceship.p.speed.y
+            x: -1 * spaceship.speed.x,
+            y: -1 * spaceship.speed.y
           };
 
 

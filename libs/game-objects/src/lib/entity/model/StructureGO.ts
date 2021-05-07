@@ -1,7 +1,8 @@
-import {Structure} from "@orbitweb/common";
+import {GameIterable, Structure} from "@orbitweb/common";
 import { Container, Graphics } from "pixi.js";
 
-export class StructureGO extends Structure {
+
+export class StructureGO extends Structure implements GameIterable{
 
   public gameObject: Container;
 

@@ -1,6 +1,6 @@
+import { ProjectileGO, SpaceshipGO } from "@orbitweb/game-objects";
 import { Container, Graphics } from "pixi.js";
-import { ProjectileGO } from "../../model/ProjectileGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
+
 
 
 export class Rocket extends ProjectileGO {

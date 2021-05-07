@@ -1,6 +1,7 @@
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
+
 import {StructureDestroyMessage} from "@orbitweb/common";
-import { GameManager } from "../../manager/GameManager";
+import { ClientMessageRecieved, GameManager } from "@orbitweb/game-objects";
+
 
 export class ClientStructureDestroyMessage extends ClientMessageRecieved<StructureDestroyMessage> {
 

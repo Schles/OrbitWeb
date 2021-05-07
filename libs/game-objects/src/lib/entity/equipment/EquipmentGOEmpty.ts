@@ -1,7 +1,7 @@
 
 import {ShipEquipment} from "@orbitweb/common";
-import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
+import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
+
 
 export class EquipmentGOEmpty extends ShipEquipmentGO {
 

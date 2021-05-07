@@ -1,13 +1,10 @@
-import { EventEmitter } from "@angular/core";
-import { Observable, Observer, Subject } from "rxjs";
-import { Events } from "../model/Events";
+import { Subject } from "rxjs";
+import { UIEvents } from "../common/UIEvents";
 
-
-
-type EventTypes = keyof Events;
+type EventTypes = keyof UIEvents;
 
 type T = {
-    type: keyof Events,
+    type: keyof UIEvents,
     queue: Subject<any>,
 }
 
@@ -15,11 +12,11 @@ export class EventManager {
 
     private eventQueues: T[] = [];
     
-    public emit<Type extends keyof Events>(type: Type, value: Events[Type]) {
+    public emit<Type extends keyof UIEvents>(type: Type, value: UIEvents[Type]) {
         this.on(type).next(value);
     }
 
-    public on<Type extends keyof Events>(type: Type): Subject<Events[Type]> {
+    public on<Type extends keyof UIEvents>(type: Type): Subject<UIEvents[Type]> {
         let q = this.eventQueues.find( (v) => v.type === type);
 
         if ( q )

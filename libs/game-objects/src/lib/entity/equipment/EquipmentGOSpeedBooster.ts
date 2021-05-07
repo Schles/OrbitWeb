@@ -1,8 +1,7 @@
 import {ShipEquipment} from "@orbitweb/common";
 import { Filter } from "pixi.js";
-import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
 import { NoiseFilter } from "@pixi/filter-noise"
+import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
 
 export class EquipmentGOSpeedBooster extends ShipEquipmentGO {
   private filter: Filter;

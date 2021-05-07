@@ -14,12 +14,10 @@ export abstract class World extends SceneGraph {
   }
 
   public initWorld() {
-    console.log("initWorld");
-
     this.emitter = new Emitter(1000);
     this.emitter.init();
 
-    this.structureStage.addChild(this.emitter.getContainer());
+    this.fxStage.addChild(this.emitter.getContainer());
   }
 
   public postShaderLoaded() {

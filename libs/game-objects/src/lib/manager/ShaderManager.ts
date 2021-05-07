@@ -1,4 +1,4 @@
-import { ShaderGodRays } from "@orbitweb/renderer";
+import { LightShader, ShaderGodRays } from "@orbitweb/renderer";
 import { Filter } from "pixi.js";
 import { GameManager } from "./GameManager";
 
@@ -40,7 +40,7 @@ export class ShaderManager {
         },
         {
             name: "Light",
-            construct: undefined,
+            construct: LightShader.prototype.constructor,
             shader: {
                 v: "assets/shader/Default.vert",
                 f: "assets/shader/Light.frag"

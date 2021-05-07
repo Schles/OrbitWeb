@@ -1,8 +1,7 @@
-import { ClientMessageRecieved } from "../../model/MessageRecieved";
+
 import {StructureSpawnMessage} from "@orbitweb/common";
-import {StructureDeserializer} from "../../serialize/StructureDeserializer";
-import { StructureGO } from "../../model/StructureGO";
-import { GameManager } from "../../manager/GameManager";
+import { ClientMessageRecieved, GameManager, StructureDeserializer, StructureGO } from "@orbitweb/game-objects";
+
 
 export class ClientStructureSpawnMessage extends ClientMessageRecieved<StructureSpawnMessage> {
 

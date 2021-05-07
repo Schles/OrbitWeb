@@ -1,12 +1,12 @@
 import * as math from "mathjs";
-import {Cannon} from "@orbitweb/common";
+import {Cannon, GameIterable} from "@orbitweb/common";
 import {Spaceship} from "@orbitweb/common";
 import {CMath} from "@orbitweb/common";
 import {Vector2} from "@orbitweb/common";
 import {EventManager} from "../EventManager";
 
 
-export class CannonEntity extends Cannon {
+export class CannonEntity extends Cannon implements GameIterable {
 
 
   constructor(spaceship: Spaceship) {

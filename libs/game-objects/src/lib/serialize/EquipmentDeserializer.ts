@@ -1,15 +1,16 @@
 
 
 import {ShipEquipment} from "@orbitweb/common";
-import {EquipmentGOError} from "../entity/equipment/EquipmentGOError";
-import {EquipmentGOEmpty} from "../entity/equipment/EquipmentGOEmpty";
-import {EquipmentGOLaser} from "../entity/equipment/EquipmentGOLaser";
-import {EquipmentGONosferatu} from "../entity/equipment/EquipmentGONosferatu";
-import {EquipmentGORepair} from "../entity/equipment/EquipmentGORepair";
-import {EquipmentGORocketLauncher} from "../entity/equipment/EquipmentGORocketLauncher";
-import {EquipmentGOSpeedBooster} from "../entity/equipment/EquipmentGOSpeedBooster";
-import {EquipmentGOWebber} from "../entity/equipment/EquipmentGOWebber";
-import { ShipEquipmentGO } from "../model/ShipEquipmentGO";
+import {EquipmentGOError} from "@orbitweb/game-objects";
+import {EquipmentGOEmpty} from "@orbitweb/game-objects";
+import {EquipmentGOLaser} from "@orbitweb/game-objects";
+import {EquipmentGONosferatu} from "@orbitweb/game-objects";
+import {EquipmentGORepair} from "@orbitweb/game-objects";
+import {EquipmentGORocketLauncher} from "@orbitweb/game-objects";
+import {EquipmentGOSpeedBooster} from "@orbitweb/game-objects";
+import {EquipmentGOWebber} from "@orbitweb/game-objects";
+import { ShipEquipmentGO } from "@orbitweb/game-objects";
+
 
 //import * as eq from "../../entity/equipment";
 
@@ -29,7 +30,6 @@ const classes = {
 export class EquipmentDeserializer{
   static deserialize(shipEquipment: ShipEquipment): ShipEquipmentGO {
     return EquipmentDeserializer.create(shipEquipment);
-    //return undefined;
   }
 
   public static create(shipEquipment: ShipEquipment): ShipEquipmentGO {
@@ -38,7 +38,7 @@ export class EquipmentDeserializer{
       return new classes[name](shipEquipment);
     }
 
-    console.error("module not found", name);
+    console.debug("module not found", name);
     return new EquipmentGOError(shipEquipment);
 
   }

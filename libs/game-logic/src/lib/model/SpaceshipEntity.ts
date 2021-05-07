@@ -1,15 +1,12 @@
-import {Spaceship} from "@orbitweb/common";
-import {IPhysics} from "@orbitweb/game-engine";
-import { Physics } from "@orbitweb/game-engine";
+import {GameIterable, Spaceship} from "@orbitweb/common";
+import {Physics} from "@orbitweb/common";
 import {ShipEquipmentEntity} from "./ShipEquipmentEntity";
 import {CMath} from "@orbitweb/common";
 import {StructureEntity} from "./StructureEntity";
 import {MovementGoalFreeFly} from "../entity/movement/MovementGoalFreeFly";
 import {MovementGoal} from "./MovementGoal";
 
-export class SpaceshipEntity extends Spaceship {
-
-  private physics: IPhysics;
+export class SpaceshipEntity extends Spaceship implements GameIterable {
 
   
 
@@ -34,11 +31,12 @@ export class SpaceshipEntity extends Spaceship {
 
     this.movementGoal = new MovementGoalFreeFly();
 
-    this.physics = new Physics();
+
   }
 
   public iterate(delta: number) {
-    //this.physics.iterate(this, delta);
+    Physics.iterate(this, delta);
+
     this.activationProgress = 0;
     const input = this.movementGoal.iterate(this, delta);
 

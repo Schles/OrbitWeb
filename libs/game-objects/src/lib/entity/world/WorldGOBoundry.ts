@@ -1,7 +1,7 @@
 import {Rectangle} from "@orbitweb/common";
 import { Container, Graphics } from "pixi.js";
 
-export class BoundryGO {
+export class WorldGOBoundry {
 
   public gameObject: Container;
   public size: Rectangle

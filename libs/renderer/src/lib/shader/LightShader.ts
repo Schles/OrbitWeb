@@ -1,35 +1,10 @@
-import { CLEAR_MODES, DEG_TO_RAD, Point, Rectangle, RenderTexture } from "pixi.js";
+import { Vector2 } from "@orbitweb/common";
+import { CLEAR_MODES, Container, DEG_TO_RAD, FilterSystem, Point, Rectangle, RenderTexture } from "pixi.js";
 import { Filter } from "pixi.js";
+import { ShaderGodRays } from "./ShaderGodRays";
 
 
-
-
-interface GodrayFilterOptions {
-  angle: number;
-  gain: number;
-  lacunarity: number;
-  parallel: boolean;
-  time: number;
-  center: number[] | Point;
-  alpha: number;
-}
-
-export class ShaderGodRays extends Filter {
-
-
-
-
-    /** Default for constructior options. */
-    public static readonly defaults: GodrayFilterOptions = {
-      angle: 30,
-      gain: 0.5,
-      lacunarity: 2.5,
-      time: 0,
-      parallel: true,
-      center: [500, 500],
-      alpha: 1,
-  };
-
+export class LightShader extends Filter {
   /**
    * `true` if light rays are parallel (uses angle),
    * `false` to use the focal `center` point
@@ -47,14 +22,15 @@ export class ShaderGodRays extends Filter {
 
   private _angleLight: Point;
   private _angle = 0;
+ 
 
   constructor(vertexShader, fragmentShader, options) {
-    super(vertexShader, fragmentShader);
+    super(vertexShader, fragmentShader); 
 
 
     this.uniforms.dimensions = new Float32Array(2);
 
-    const opts: GodrayFilterOptions = Object.assign(ShaderGodRays.defaults, options);
+    const opts = Object.assign(ShaderGodRays.defaults, options);
 
 
     this._angleLight = new Point();
@@ -63,19 +39,14 @@ export class ShaderGodRays extends Filter {
     this.lacunarity = opts.lacunarity;
     this.alpha = opts.alpha;
     this.parallel = opts.parallel;
-    this.center = opts.center;
+    this.uniforms.light = [ 500, 500];
     this.time = opts.time;
-
 
   }
 
-  //FilterSystem
-  apply(filterManager: any, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES): void
-  {
-    
+  apply(filterManager: FilterSystem, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES): void
+  {       
       const { width, height } = input.filterFrame as Rectangle;
-
-      this.uniforms.light = this.parallel ? this._angleLight : this.center;
 
       this.uniforms.parallel = this.parallel;
       this.uniforms.dimensions[0] = width;
@@ -84,9 +55,16 @@ export class ShaderGodRays extends Filter {
       this.uniforms.time = this.time;
       this.uniforms.alpha = this.alpha;
 
-      // draw the filter...
-      filterManager.applyFilter(this, input, output, clear);
-   
+      filterManager.applyFilter(this, input, output, clear);   
+  }
+
+  private renderTex: RenderTexture;
+
+  public iterate(position: Vector2, gamestage: RenderTexture) {
+      this.uniforms.light = [position.x, position.y];
+      this.renderTex = gamestage;
+      //this.time += 0.1;
+      //this.alpha += 1
   }
 
   get angle(): number

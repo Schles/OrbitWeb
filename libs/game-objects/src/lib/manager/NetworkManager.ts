@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
 import { LobbyQueryMessage, Message, PlayerLoginMessage, ShipFitting } from "@orbitweb/common";
-import { ClientMessageRecieved } from "../model/MessageRecieved";
+import { ClientMessageRecieved } from "@orbitweb/game-objects";
 import { MessageDeserializer } from "../serialize/MessageDeserializer";
 import { GameManager } from "./GameManager";
 

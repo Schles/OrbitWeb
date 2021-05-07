@@ -1,8 +1,7 @@
 import {ShipEquipment} from "@orbitweb/common";
 import {CMath} from "@orbitweb/common";
+import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
 import { Graphics, Point } from "pixi.js";
-import { ShipEquipmentGO } from "../../model/ShipEquipmentGO";
-import { SpaceshipGO } from "../../model/SpaceshipGO";
 
 export class EquipmentGOWebber extends ShipEquipmentGO {
 
