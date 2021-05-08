@@ -17,7 +17,7 @@ export class ShadowMapperShader extends Filter {
     this.uniforms.dimensions = new Float32Array(2);     
 
     this._filter = new Filter();
-    this.sampleSize = 100;
+    this.sampleSize = 100.0;
     //this.blendMode = BLEND_MODES.SUBTRACT;
 
     this._filter.blendMode = BLEND_MODES.ADD;
@@ -34,18 +34,20 @@ export class ShadowMapperShader extends Filter {
       this.uniforms.aspect = height / width;
       
      
-      const target = filterManager.getFilterTexture();
+      const singleLightPass = filterManager.getFilterTexture();
       const target2 = filterManager.getFilterTexture();
 
         for( let i = 0; i < this.lights.length; i++) {
             this.uniforms.light = this.lights[i];
+            this.uniforms.radius = 100;
             
-            filterManager.applyFilter(this, input, target, 1);   
-            this._filter.apply(filterManager, target, target2, 0);         
+            filterManager.applyFilter(this, input, singleLightPass, 1);   
+            this._filter.apply(filterManager, singleLightPass, target2, 0);         
              
         }
-        this._filter.apply(filterManager, target2, output, 1);     
-        filterManager.returnFilterTexture(target);
+        this._filter.apply(filterManager, target2, output, 1);   
+
+        filterManager.returnFilterTexture(singleLightPass);
         filterManager.returnFilterTexture(target2);      
   }
 

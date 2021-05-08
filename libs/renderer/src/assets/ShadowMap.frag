@@ -1,12 +1,19 @@
+
 varying vec2 vTextureCoord;
+
 uniform sampler2D uSampler;
 uniform vec4 filterArea;
 uniform vec2 dimensions;
 
+uniform vec4 inputSize;
+uniform vec4 outputFrame;
+
 uniform vec2 light;
 uniform float aspect;
+uniform float radius;
 
-uniform int sampleSize;
+uniform float sampleSize;
+
 
 const int maxIter = 100;
 
@@ -17,7 +24,7 @@ bool isOccluded(void) {
 
     for(int i = 0; i < maxIter; ++i) {
 
-        float a = float(i) / float(sampleSize);
+        float a = float(i) / sampleSize;
 
         vec2 c;
         c.x = vTextureCoord.x + dx * a;
@@ -35,8 +42,21 @@ bool isOccluded(void) {
 
 void main(void) {
 
+    vec2 coord = vTextureCoord * filterArea.xy / dimensions.xy;
+    float dx = light.x / dimensions.x - coord.x;
+    float dy = light.y / dimensions.y - coord.y;
 
-    if(!isOccluded()) {
+    vec2 position = vTextureCoord * inputSize.xy + outputFrame.xy;
+    
+
+    float a = length(light - position);
+
+    bool isInRange = abs(dx) * dimensions.x < radius && abs(dy) * dimensions.y < radius;
+
+    isInRange = a < radius;
+
+    
+    if(!isOccluded() && isInRange ) {
         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     } else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);

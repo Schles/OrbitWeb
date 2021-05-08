@@ -53,8 +53,7 @@ export class MixedShader extends Filter {
     this.lights = [[500, 500], [0, 0]];
 
     this.filter = new Filter();
-    //this.blendMode = BLEND_MODES.DIFFERENCE
-
+    //this.blendMode = BLEND_MODES.SRC_OUT;
   }
 
   private filter: Filter;
@@ -74,7 +73,7 @@ export class MixedShader extends Filter {
 
       this.lightMapper.lights = this.lights;
       this.lightMapper.uniforms.shadowTexture = shadowTarget1;
-      this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
+      //this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
 
       
 
@@ -86,7 +85,8 @@ export class MixedShader extends Filter {
       this.uniforms.alpha = this.alpha;
       //this.uniforms.shadowTexture = shadowTarget;
 
-      //filterManager.applyFilter(this, lightTarget, output, CLEAR_MODES.NO);   
+      this.uniforms.shadowTexture = shadowTarget1;
+      filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);   
         
         //new Filter().apply(filterManager, lightTarget, output, 0);
       
