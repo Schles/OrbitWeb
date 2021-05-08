@@ -30,8 +30,7 @@ export class GarbageCollector {
 
     context.players.forEach( (player: SpaceshipEntity) => {
       if( player.health <= 0) {
-        //removePlayer.push(player);
-        player.health = 0;
+        removePlayer.push(player);
       } else if ( !player.isNPC ) {
         const lastPlayerAction = player.timestampLastActionMs ? player.timestampLastActionMs : 0;
         const timeSinceLastAction = now - lastPlayerAction;

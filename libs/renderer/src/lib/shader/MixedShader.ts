@@ -63,16 +63,15 @@ export class MixedShader extends Filter {
       const { width, height } = input.filterFrame as Rectangle;
 
       //const lightTarget = filterManager.getFilterTexture();
-      const shadowTarget1 = filterManager.getFilterTexture();
-      
-      
+      const shadowTarget = filterManager.getFilterTexture();
+    
       
       this._shadowMapperShader.lights = this.lights;
-      this._shadowMapperShader.apply(filterManager, input, shadowTarget1, CLEAR_MODES.NO, currentState);
+      this._shadowMapperShader.apply(filterManager, input, shadowTarget, CLEAR_MODES.NO, currentState);
       
 
       this.lightMapper.lights = this.lights;
-      this.lightMapper.uniforms.shadowTexture = shadowTarget1;
+      this.lightMapper.uniforms.shadowTexture = shadowTarget
       //this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
 
       
@@ -82,29 +81,18 @@ export class MixedShader extends Filter {
       this.uniforms.dimensions[1] = height;
       this.uniforms.aspect = height / width;
       this.uniforms.time = this.time;
-      this.uniforms.alpha = this.alpha;
-      //this.uniforms.shadowTexture = shadowTarget;
+      this.uniforms.alpha = this.alpha;      
 
-      this.uniforms.shadowTexture = shadowTarget1;
+      this.uniforms.shadowTexture = shadowTarget;
       filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);   
         
-        //new Filter().apply(filterManager, lightTarget, output, 0);
+        //new Filter().apply(filterManager, shadowTarget1, output, 0);
       
-        //filterManager.returnFilterTexture(lightTarget);
-      filterManager.returnFilterTexture(shadowTarget1);
+      filterManager.returnFilterTexture(shadowTarget);
       
       
       
   }  
-
-  public iterate(position: Vector2, gamestage: RenderTexture) {
-      
-      this.lights[0] = [position.x, position.y];
-      //this._shadowMapperShader.uniforms.light = [position.x, position.y];
-      //this.time += 1;
-      //this.alpha += 1
-  }
-
 
   set shadowMapperShader(val: ShadowMapperShader) {
       this._shadowMapperShader = val;

@@ -10,6 +10,7 @@ export class ShadowMapperShader extends Filter {
     public lights: number[][] | Point[];
 
     private _sampleSize: number = 100;
+    public radius: number = 100;
 
   constructor(vertexShader, fragmentShader, options) {
     super(vertexShader, fragmentShader); 
@@ -18,8 +19,8 @@ export class ShadowMapperShader extends Filter {
 
     this._filter = new Filter();
     this.sampleSize = 100.0;
-    //this.blendMode = BLEND_MODES.SUBTRACT;
-
+    this.radius = 200;
+  
     this._filter.blendMode = BLEND_MODES.ADD;
     
     
@@ -39,7 +40,7 @@ export class ShadowMapperShader extends Filter {
 
         for( let i = 0; i < this.lights.length; i++) {
             this.uniforms.light = this.lights[i];
-            this.uniforms.radius = 100;
+            this.uniforms.radius = this.radius;
             
             filterManager.applyFilter(this, input, singleLightPass, 1);   
             this._filter.apply(filterManager, singleLightPass, target2, 0);         

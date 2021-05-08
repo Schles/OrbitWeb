@@ -69,7 +69,7 @@ export class GameManager extends World {
 
   public onInitGame() {
     this.boundry = new WorldGOBoundry();
-    this.foregroundStage.addChild(this.boundry.gameObject);
+    this.gameStage.addChild(this.boundry.gameObject);
     
     this.camera = new Camera(this.foregroundStage);
   }

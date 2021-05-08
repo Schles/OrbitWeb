@@ -15,7 +15,7 @@ uniform float radius;
 uniform float sampleSize;
 
 
-const int maxIter = 100;
+const int maxIter = 300;
 
 bool isOccluded(void) {
     vec2 coord = vTextureCoord * filterArea.xy / dimensions.xy;
@@ -24,7 +24,7 @@ bool isOccluded(void) {
 
     for(int i = 0; i < maxIter; ++i) {
 
-        float a = float(i) / sampleSize;
+        float a = float(i) / float(maxIter);
 
         vec2 c;
         c.x = vTextureCoord.x + dx * a;

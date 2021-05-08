@@ -22,7 +22,7 @@ export class ShaderManager {
     
     private replacements: Replace[] = [
         {
-            source: ["assets/shader/GodRayShader.frag", "assets/shader/Light.frag", "assets/shader/Mixed.frag"],
+            source: ["assets/shader/Light.frag", "assets/shader/Mixed.frag"],
             query: "${perlin}",
             replaceWith: "assets/shader/Perlin.frag"
         }
@@ -30,14 +30,6 @@ export class ShaderManager {
 
 
     private prototypes: FilterHolder[] = [
-        {
-            name: "GodRay",
-            construct: ShaderGodRays.prototype.constructor,
-            shader: {
-                v: "assets/shader/Default.vert",
-                f: "assets/shader/GodRayShader.frag"
-            }
-        },
         {
             name: "Light",
             construct: LightShader.prototype.constructor,

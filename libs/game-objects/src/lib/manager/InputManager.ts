@@ -75,7 +75,7 @@ export class InputManager {
     }
 
     private onClickWorld(localPosition: Vector2) {
-        console.log("worldClicked", localPosition);
+        //console.log("worldClicked", localPosition);
         if (this.gameManager.playerLocal !== undefined) {
             this.send(new PlayerMoveToMessage(this.gameManager.playerLocal.id, localPosition));
         } else {

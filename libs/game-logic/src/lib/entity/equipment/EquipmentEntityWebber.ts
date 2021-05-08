@@ -17,10 +17,11 @@ export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
-
+/*
     this.targetPlayer = <SpaceshipEntity>parent.targetPlayer;
     this.absoluteChange = this.targetPlayer.maxSpeed * this.bonus;
     this.targetPlayer.maxSpeed -= this.absoluteChange;
+    */
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
@@ -30,6 +31,7 @@ export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {
       this.absoluteChange = 0.0;
       this.targetPlayer = undefined;
     }
+    
 
 
   }
