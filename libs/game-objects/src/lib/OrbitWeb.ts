@@ -1,5 +1,5 @@
 
-import { LightShader } from "@orbitweb/renderer";
+import { LightShader, MixedShader, ShadowMapperShader } from "@orbitweb/renderer";
 import { BLEND_MODES, RenderTexture, Sprite, Texture } from "pixi.js";
 import { GameManager } from "./manager/GameManager";
 
@@ -41,22 +41,33 @@ export class OrbitWeb extends GameManager {
         super.initWorld();
     }
 
-    private lightShader: LightShader;
-
+    private lightShader: MixedShader;
+ 
     public postShaderLoaded() {
         super.postShaderLoaded();
 
 
-        const godRayShader = this.shaderManager.createFilter("GodRay", {});
-        const lightShader = this.shaderManager.createFilter("Light", {});
+        
+        const lightShader = this.shaderManager.createFilter("Light", {}) as LightShader;
+        const shadowShader = this.shaderManager.createFilter("ShadowMapper", {}) as ShadowMapperShader;
+        const mixedShader = this.shaderManager.createFilter("MixedShader", {}) as MixedShader;
+    
+        
+        mixedShader.shadowMapperShader = shadowShader;        
+        mixedShader.lightMapper = lightShader;
 
-        godRayShader.blendMode = BLEND_MODES.ADD;
-        lightShader.blendMode = BLEND_MODES.ADD;
+        const sprite = this.gameStage.addChild(new Sprite(Texture.WHITE))
+        sprite.tint = 0xff0000
+        sprite.width = sprite.height = 100
+        sprite.position.set(-500, -100)
+
+        
+        
 
         this.gameStage.filterArea = this.renderer.screen;
-        this.gameStage.filters = [lightShader];
+        this.gameStage.filters = [mixedShader];
 
-        this.lightShader = <LightShader> lightShader;
+        this.lightShader = mixedShader;
 
 
 

@@ -1,4 +1,4 @@
-import { LightShader, ShaderGodRays } from "@orbitweb/renderer";
+import { LightShader, MixedShader, ShaderGodRays, ShadowMapperShader } from "@orbitweb/renderer";
 import { Filter } from "pixi.js";
 import { GameManager } from "./GameManager";
 
@@ -22,7 +22,7 @@ export class ShaderManager {
     
     private replacements: Replace[] = [
         {
-            source: ["assets/shader/GodRayShader.frag", "assets/shader/Light.frag"],
+            source: ["assets/shader/GodRayShader.frag", "assets/shader/Light.frag", "assets/shader/Mixed.frag"],
             query: "${perlin}",
             replaceWith: "assets/shader/Perlin.frag"
         }
@@ -44,6 +44,22 @@ export class ShaderManager {
             shader: {
                 v: "assets/shader/Default.vert",
                 f: "assets/shader/Light.frag"
+            }
+        },
+        {
+            name: "ShadowMapper",
+            construct: ShadowMapperShader.prototype.constructor,
+            shader: {
+                v: "assets/shader/Default.vert",
+                f: "assets/shader/ShadowMap.frag"
+            }
+        },
+        {
+            name: "MixedShader",
+            construct: MixedShader.prototype.constructor,
+            shader: {
+                v: "assets/shader/Default.vert",
+                f: "assets/shader/Mixed.frag"
             }
         }
     ];

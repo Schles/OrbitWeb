@@ -15,38 +15,10 @@ uniform float alpha;
 uniform vec2 sunPosition;
 uniform vec2 playerPosition;
 
+uniform sampler2D shadowTexture;
+
 ${perlin}
 
-
-bool sample(void) {
-    vec2 coord = vTextureCoord * filterArea.xy / dimensions.xy;
-    float dx = light.x / dimensions.x - coord.x;
-    float dy = light.y / dimensions.y - coord.y;
-
-
-    for ( int i = 0; i < 100; ++i){
-
-        float a;
-        a = float(i) * 0.01;
-
-        vec2 c;
-        c.x = vTextureCoord.x + dx * a;
-        c.y = vTextureCoord.y + dy * a ;
-
-        vec4 texture = texture2D(uSampler, c);
-
-    //if ( texture.r > 0.5) {
-        if ( texture.r > 0.0 || texture.g > 0.0 || texture.b > 0.0) {
-        return true;
-        }
-    }
-
-    
-
-    return false;
-
-
-}
 
 void main(void) {
     vec2 coord = vTextureCoord * filterArea.xy / dimensions.xy;
@@ -69,15 +41,20 @@ void main(void) {
     mist.a = 0.0;
     // apply user alpha
    // mist *= alpha;
-    vec4 texture = texture2D(uSampler, vTextureCoord);
 
     //if ( coord.x < 0.5 && coord.y < 0.5 ) {
-    if ( sample() ) {
+          //gl_FragColor = texture2D(shadowTexture, vTextureCoord);
+    
+    if ( texture2D(shadowTexture, vTextureCoord).r < 0.1 ) {
         gl_FragColor = texture2D(uSampler, vTextureCoord);
+        //gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
     } else {
         gl_FragColor = texture2D(uSampler, vTextureCoord) + mist;
+        //gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
         //gl_FragColor = texture2D(uSampler, vTextureCoord) + vec4(1.0, 1.0, 1.0, 1.0);
     }
+    
+        
 
 
 

@@ -22,6 +22,7 @@ export class NetworkServer {
   }
 
   public start() {
+    
     this.httpServer.listen(this.port);
     console.log('Running server on port %s', this.port);
   }
@@ -29,7 +30,7 @@ export class NetworkServer {
   private init() {
     this.io = new Server(this.httpServer, { 
       cors: {
-        origin: "http://localhost:4200",
+        origin: "*",
         methods: ["GET", "POST"]
       }
     });
@@ -46,7 +47,7 @@ export class NetworkServer {
   
 
   private onClientConnect(socket: Socket) {
-    console.log('Connected client on port %s.', this.port);
+    console.log('Connected client on port %s:%s.', socket.handshake.address, this.port);
 
     this.gameServer.activeConnectionCount++;
     this.gameServer.start();

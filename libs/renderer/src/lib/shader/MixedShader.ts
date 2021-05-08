@@ -1,11 +1,12 @@
 import { Vector2 } from "@orbitweb/common";
 import { BLEND_MODES, CLEAR_MODES, Container, DEG_TO_RAD, FilterState, FilterSystem, Point, Rectangle, RenderTexture } from "pixi.js";
 import { Filter } from "pixi.js";
+import { LightShader } from "./LightShader";
 import { ShaderGodRays } from "./ShaderGodRays";
 import { ShadowMapperShader } from "./ShadowMapperShader";
 
 
-export class LightShader extends Filter {
+export class MixedShader extends Filter {
   /**
    * `true` if light rays are parallel (uses angle),
    * `false` to use the focal `center` point
@@ -28,6 +29,7 @@ export class LightShader extends Filter {
 
 
     private _shadowMapperShader: ShadowMapperShader;
+    public lightMapper: LightShader;
 
 
   constructor(vertexShader, fragmentShader, options) {
@@ -45,35 +47,36 @@ export class LightShader extends Filter {
     this.lacunarity = opts.lacunarity;
     this.alpha = opts.alpha;
     this.parallel = opts.parallel;
+    this.uniforms.light = [ 500, 500];
     this.time = opts.time;
 
-    //this.blendMode = BLEND_MODES.ADD;
+    this.lights = [[500, 500], [0, 0]];
 
-    this._filter = new Filter();
-    this._filter.blendMode = BLEND_MODES.ADD;
+    this.filter = new Filter();
+    //this.blendMode = BLEND_MODES.DIFFERENCE
 
   }
 
-  private _filter: Filter;
+  private filter: Filter;
 
   apply(filterManager: FilterSystem, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES, currentState?: FilterState): void
   {       
       const { width, height } = input.filterFrame as Rectangle;
 
+      //const lightTarget = filterManager.getFilterTexture();
+      const shadowTarget1 = filterManager.getFilterTexture();
       
-/*
-      const shadowTarget = filterManager.getFilterTexture();
+      
       
       this._shadowMapperShader.lights = this.lights;
-      this._shadowMapperShader.apply(filterManager, input, shadowTarget, CLEAR_MODES.YES, currentState);
+      this._shadowMapperShader.apply(filterManager, input, shadowTarget1, CLEAR_MODES.NO, currentState);
+      
 
+      this.lightMapper.lights = this.lights;
+      this.lightMapper.uniforms.shadowTexture = shadowTarget1;
+      this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
 
-      const lightTarget = filterManager.getFilterTexture();
-*/
-
-
-      //const target = filterManager.getFilterTexture();
-      //const target2 = filterManager.getFilterTexture();
+      
 
       this.uniforms.parallel = this.parallel;
       this.uniforms.dimensions[0] = width;
@@ -81,28 +84,16 @@ export class LightShader extends Filter {
       this.uniforms.aspect = height / width;
       this.uniforms.time = this.time;
       this.uniforms.alpha = this.alpha;
-  //    this.uniforms.shadowTexture = shadowTarget;
+      //this.uniforms.shadowTexture = shadowTarget;
 
-
-    this.blendMode = BLEND_MODES.ADD;      
-  for( let i = 0; i < this.lights.length; i++) {
-    this.uniforms.light = this.lights[i];
-
-    filterManager.applyFilter(this, input, output, 0);   
-    //this._filter.apply(filterManager, target, target2, 0);   
-
-    //filterManager.applyFilter(this, input, target, 1);   
-    //this._filter.apply(filterManager, target, target2, 0);     
-    
-}
-
-    //this._filter.apply(filterManager, target2, output, 1);
-      
+      //filterManager.applyFilter(this, lightTarget, output, CLEAR_MODES.NO);   
         
-
-        //new Filter().apply(filterManager, shadowTarget, output, 0);
-      //filterManager.returnFilterTexture(target);
-      //filterManager.returnFilterTexture(target2);
+        //new Filter().apply(filterManager, lightTarget, output, 0);
+      
+        //filterManager.returnFilterTexture(lightTarget);
+      filterManager.returnFilterTexture(shadowTarget1);
+      
+      
       
   }  
 
