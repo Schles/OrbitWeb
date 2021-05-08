@@ -4,10 +4,11 @@ import { Server, Socket } from "socket.io";
 
 import {GameServer} from "./GameServer";
 import {Message} from "@orbitweb/common";
+import { environment } from '../environments/environment';
 
 export class NetworkServer {
-  public static readonly PORT:number = 8000;
-  private port: string | number;
+  
+  private port: number = environment.port;
 
   private io: Server;
   private gameServer: GameServer;
@@ -16,7 +17,6 @@ export class NetworkServer {
 
   constructor() {
     this.gameServer = new GameServer();
-    this.port = process.env.PORT || NetworkServer.PORT;
 
     this.init();  
   }

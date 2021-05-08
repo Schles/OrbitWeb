@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
 import {io} from 'socket.io-client';
 
-import {Message, ShipFitting} from "@orbitweb/common";
+import {Message} from "@orbitweb/common";
 import { GameService } from './game.service';
+import { environment } from '../../environments/environment';
+
+
 
 
 export enum EventIO {
@@ -17,11 +20,9 @@ export enum EventIO {
 export class NetworkService {
   private socket;
   private server_url: string;
-  private port = 8000;
+  private port = environment.port;
 
-  constructor(private gameService: GameService) {
-    //this.port = 49160;
-    
+  constructor(private gameService: GameService) {   
     this.server_url = 'http://' + document.location.hostname + ':' + this.port;
   }
 
