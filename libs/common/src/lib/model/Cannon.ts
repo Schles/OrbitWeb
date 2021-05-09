@@ -1,7 +1,6 @@
-import {Spaceship} from "./Spaceship";
+import { Spaceship } from './Spaceship';
 
 export class Cannon {
-
   public parent: Spaceship;
 
   public get targetPlayer(): Spaceship {

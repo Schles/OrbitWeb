@@ -1,34 +1,18 @@
-<div *ngIf="loginEnabled" class="headsup">
+<div *ngIf="loginEnabled" class="headsup"></div>
 
-</div>
+<div class="ui">
+  <app-fitting #fitting class="login"> </app-fitting>
 
-<div class="ui" >
-
-
-
-  <app-fitting #fitting class="login">
-
-  </app-fitting>
-
-  <app-headsup #headsUp>
-
-  </app-headsup>
-
-
+  <app-headsup #headsUp> </app-headsup>
 </div>
 
 <div class="scoreboard">
-  <app-scoreboard #scoreboard>
-
-  </app-scoreboard>
+  <app-scoreboard #scoreboard> </app-scoreboard>
 </div>
 
 <div class="tutorial">
-  Click on a player to select him as target! <br>
+  Click on a player to select him as target! <br />
   Click empty space to command your ship
 </div>
 
 <ng-content></ng-content>
-
-
-

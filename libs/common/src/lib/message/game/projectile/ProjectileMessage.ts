@@ -1,8 +1,8 @@
-import {Message} from "../../Message";
+import { Message } from '../../Message';
 
-export class ProjectileMessage extends Message{
+export class ProjectileMessage extends Message {
   constructor(public id: string) {
     super();
-    this.type = "projectileMessage";
+    this.type = 'projectileMessage';
   }
 }

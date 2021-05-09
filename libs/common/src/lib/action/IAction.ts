@@ -1,4 +1,4 @@
-import {Vector2} from "../util/VectorInterface";
+import { Vector2 } from '../util/VectorInterface';
 
 export class IAction {
   public targetEnemy?: boolean;

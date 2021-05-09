@@ -1,16 +1,13 @@
-import { Emitter } from "./Emitter";
-import { SceneGraph } from "./SceneGraph";
+import { Emitter } from './Emitter';
+import { SceneGraph } from './SceneGraph';
 
 export abstract class World extends SceneGraph {
-
   public emitter: Emitter;
 
   constructor(options) {
     super(options);
 
-
     this.initWorld();
-
   }
 
   public initWorld() {
@@ -20,8 +17,5 @@ export abstract class World extends SceneGraph {
     this.fxStage.addChild(this.emitter.getContainer());
   }
 
-  public postShaderLoaded() {
-
-  }
-
+  public postShaderLoaded() {}
 }

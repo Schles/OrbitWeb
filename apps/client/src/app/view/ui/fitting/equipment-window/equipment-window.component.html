@@ -1,8 +1,6 @@
-
 <div class="wrap">
   <div class="title">
-
-    <div class="name">{{equipment.name}}</div>
+    <div class="name">{{ equipment.name }}</div>
     <!--
     <div class="attribute">
       <span *ngIf="equipment.passive">Passive</span>
@@ -10,16 +8,15 @@
       <span *ngIf="equipment.action.targetSelf === true">onSelf</span>
     </div>
     -->
-    <div class="desc">{{description}}</div>
+    <div class="desc">{{ description }}</div>
   </div>
   <div class="attr">
+    <div class="buy">
+      <span>Cost:</span>
+      <span>{{ equipment.cpuCost }}</span>
+    </div>
 
-      <div class="buy">
-        <span>Cost:</span>
-        <span>{{equipment.cpuCost}}</span>
-      </div>
-
-      <!--
+    <!--
       <tr *ngIf="!equipment.passive">
         <td>{{equipment.powerCost}}</td><td>Energy</td>
       </tr>
@@ -27,9 +24,5 @@
         <td>{{equipment.cycleTime}}s</td><td>Cooldown</td>
       </tr>
       -->
-
   </div>
 </div>
-
-
-

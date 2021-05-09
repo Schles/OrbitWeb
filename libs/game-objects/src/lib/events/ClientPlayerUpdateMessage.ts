@@ -1,21 +1,22 @@
-import { PlayerUpdateMessage } from "@orbitweb/common";
-import { ClientMessageRecieved, GameManager, ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
-
+import { PlayerUpdateMessage } from '@orbitweb/common';
+import {
+  ClientMessageRecieved,
+  GameManager,
+  ShipEquipmentGO,
+  SpaceshipGO,
+} from '@orbitweb/game-objects';
 
 export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdateMessage> {
-
   constructor(message: PlayerUpdateMessage) {
     super(message);
   }
 
   onRecieve(context: GameManager) {
-    let enemyGO: SpaceshipGO = context.players.find(value => {
+    let enemyGO: SpaceshipGO = context.players.find((value) => {
       return value.id === this.message.source;
     });
 
-    if (enemyGO === undefined)
-      return;
-
+    if (enemyGO === undefined) return;
 
     enemyGO.position.x = this.message.x;
     enemyGO.position.y = this.message.y;
@@ -27,11 +28,13 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
 
     //enemyGO.cannon.rotation = msg.gun_rotation;
 
-    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map((fit: ShipEquipmentGO, index) => {
-      fit.state = this.message.fitting.fitting[index].state;
-      fit.remainingTime = this.message.fitting.fitting[index].remainingTime;
-      return fit;
-    });
+    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map(
+      (fit: ShipEquipmentGO, index) => {
+        fit.state = this.message.fitting.fitting[index].state;
+        fit.remainingTime = this.message.fitting.fitting[index].remainingTime;
+        return fit;
+      }
+    );
 
     enemyGO.health = this.message.health;
     enemyGO.power = this.message.power;

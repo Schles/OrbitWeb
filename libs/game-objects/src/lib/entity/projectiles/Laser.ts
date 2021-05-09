@@ -1,7 +1,7 @@
-import { Container, Graphics } from "pixi.js";
+import { Container, Graphics } from 'pixi.js';
 
-import { string2hex } from "@pixi/utils"
-import { ProjectileGO, SpaceshipGO } from "@orbitweb/game-objects";
+import { string2hex } from '@pixi/utils';
+import { ProjectileGO, SpaceshipGO } from '@orbitweb/game-objects';
 
 export class Laser extends ProjectileGO {
   constructor(id: string, source: SpaceshipGO, target: SpaceshipGO) {
@@ -12,21 +12,16 @@ export class Laser extends ProjectileGO {
   public iterate(delta) {
     super.iterate(delta);
 
-
     const c = string2hex(this.color);
     let lineWidth = 2;
 
     const progress = this.timeToLife / this.duration;
 
-    if ( progress > 0.6)
-      lineWidth = 2;
-    else if (progress > 0.3)
-      lineWidth = 1;
-    else
-      lineWidth = 3;
+    if (progress > 0.6) lineWidth = 2;
+    else if (progress > 0.3) lineWidth = 1;
+    else lineWidth = 3;
 
-    if ( this.target !== undefined) {
-
+    if (this.target !== undefined) {
       this.drawLine(this.source.position, this.target.position);
     }
   }
@@ -40,10 +35,4 @@ export class Laser extends ProjectileGO {
 
     return cannonCont;
   }
-
-
-
-
-
 }
-

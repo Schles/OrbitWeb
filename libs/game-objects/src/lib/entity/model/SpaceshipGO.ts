@@ -1,15 +1,12 @@
-import {GameIterable, Spaceship} from "@orbitweb/common";
-import {Physics} from "@orbitweb/common";
-import { Container, Graphics } from "pixi.js";
-import { string2hex } from "@pixi/utils"
+import { GameIterable, Spaceship } from '@orbitweb/common';
+import { Physics } from '@orbitweb/common';
+import { Container, Graphics } from 'pixi.js';
+import { string2hex } from '@pixi/utils';
 
-import { NameplateContainer } from "@orbitweb/game-objects";
-import { TargetingLayer } from "../../ui/TargetingContainer";
-
-
+import { NameplateContainer } from '@orbitweb/game-objects';
+import { TargetingLayer } from '../../ui/TargetingContainer';
 
 export class SpaceshipGO extends Spaceship implements GameIterable {
-
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;
 
@@ -31,8 +28,7 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     this.gameObject.filters = [];
 
     this.nameplateContainer = new NameplateContainer(this);
-    this.targetContainer = new TargetingLayer(0xFF0000);
-
+    this.targetContainer = new TargetingLayer(0xff0000);
   }
 
   public iterate(delta: number) {
@@ -42,9 +38,8 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
 
     this.fitting.fitting.forEach((fit) => {
       fit.iterate(this, delta);
-    })
+    });
   }
-
 
   public getGameObject(): Container {
     const parentObject: Container = new Container();
@@ -65,8 +60,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
 
     this.playerLayer.addChild(graphics);
 
-
-
     const look: Graphics = new Graphics();
     this.iColor = string2hex(this.invertColor(this.color));
     // Set the fill color
@@ -77,9 +70,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     look.drawRect(0, 0, 2, playerRadius);
 
     look.endFill();
-
-
-
 
     this.playerLayer.addChild(look);
 
@@ -94,7 +84,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     return parentObject;
   }
 
-
   private iterateGraphics() {
     this.gameObject.x = this.position.x;
     this.gameObject.y = this.position.y;
@@ -103,9 +92,13 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
 
     this.progressLayer.clear();
 
-    if ( this.activationProgress > 0) {
+    if (this.activationProgress > 0) {
       this.progressLayer.beginFill(this.iColor);
-      this.progressLayer.drawCircle(0, 0, this.activationProgress * this.radius);
+      this.progressLayer.drawCircle(
+        0,
+        0,
+        this.activationProgress * this.radius
+      );
       this.progressLayer.endFill();
     }
 
@@ -113,11 +106,9 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
 
     this.targetContainer.setSource(this);
     this.targetContainer.iterate();
-  
+
     //this.nameplate.text = this.health.toFixed(0) + " " + this.id;
-
   }
-
 
   public invertColor(hex) {
     if (hex.indexOf('#') === 0) {
@@ -142,5 +133,4 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     var zeros = new Array(len).join('0');
     return (zeros + str).slice(-len);
   }
-
 }

@@ -1,10 +1,8 @@
-import {ServerMessageRecieved} from "../../model/ServerMessageRecieved";
-import {GameLogic} from "../../GameLogic";
-import {PlayerOrbitMessage} from "@orbitweb/common";
-
+import { ServerMessageRecieved } from '../../model/ServerMessageRecieved';
+import { GameLogic } from '../../GameLogic';
+import { PlayerOrbitMessage } from '@orbitweb/common';
 
 export class ServerPlayerOrbitMessage extends ServerMessageRecieved<PlayerOrbitMessage> {
-
   constructor(message: PlayerOrbitMessage) {
     super(message);
   }
@@ -12,14 +10,12 @@ export class ServerPlayerOrbitMessage extends ServerMessageRecieved<PlayerOrbitM
   onRecieve(context: GameLogic) {
     const player = context.getPlayer(this.message.source);
 
-    if ( player !== undefined) {
+    if (player !== undefined) {
       const target = context.getPlayer(this.message.target);
-      if ( target !== undefined) {
+      if (target !== undefined) {
         player.targetPlayer = target;
         player.actionOrbitTarget = true;
       }
     }
   }
-
-
 }

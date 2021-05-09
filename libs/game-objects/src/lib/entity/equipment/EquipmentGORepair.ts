@@ -1,17 +1,13 @@
-import {ShipEquipment} from "@orbitweb/common";
-import { Sprite } from "pixi.js";
-import { string2hex } from "@pixi/utils"
-import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
+import { ShipEquipment } from '@orbitweb/common';
+import { Sprite } from 'pixi.js';
+import { string2hex } from '@pixi/utils';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
 
 export class EquipmentGORepair extends ShipEquipmentGO {
-
   private repairGraphic: Sprite;
-
-
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
-
 
     /*
     const sprite = PIXI.Sprite.from("assets/ShipATypeB.png");
@@ -25,7 +21,6 @@ export class EquipmentGORepair extends ShipEquipmentGO {
     */
   }
 
-
   onInit(parent: SpaceshipGO) {
     super.onInit(parent);
 
@@ -33,7 +28,7 @@ export class EquipmentGORepair extends ShipEquipmentGO {
     this.repairGraphic.tint = string2hex(parent.color);
     parent.gameObject.addChild(this.repairGraphic);
 
-/*
+    /*
     this.repairGraphic = new PIXI.Graphics;
     parent.gameObject.addChild(this.repairGraphic);
     this.repairGraphic.lineStyle(2, 0x00FF00);
@@ -45,9 +40,8 @@ export class EquipmentGORepair extends ShipEquipmentGO {
   iterate(parent: SpaceshipGO, delta: number) {
     super.iterate(parent, delta);
 
-    if ( this.state.active)
-      this.repairGraphic.rotation += 3 * delta;
-/*
+    if (this.state.active) this.repairGraphic.rotation += 3 * delta;
+    /*
     const a = (<AlphaFilter> this.filter).alpha;
 
     let alpha = (a + delta) % 1;
@@ -56,7 +50,6 @@ export class EquipmentGORepair extends ShipEquipmentGO {
 */
   }
 
-
   onDestroy(parent: SpaceshipGO) {
     super.onDestroy(parent);
 
@@ -64,14 +57,10 @@ export class EquipmentGORepair extends ShipEquipmentGO {
     this.repairGraphic = undefined;
   }
 
-
   protected onStartEquipment(parent: SpaceshipGO) {
     super.onStartEquipment(parent);
 
-
-
     this.repairGraphic.visible = true;
-
   }
 
   protected onEndEquipment(parent: SpaceshipGO) {
@@ -83,8 +72,7 @@ export class EquipmentGORepair extends ShipEquipmentGO {
   }
 
   public getGameObject(): Sprite {
-
-    const sprite = Sprite.from("assets/Shield.png");
+    const sprite = Sprite.from('assets/Shield.png');
 
     console.log(sprite);
     sprite.anchor.x = 0.5;

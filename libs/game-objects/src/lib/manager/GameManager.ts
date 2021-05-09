@@ -1,17 +1,14 @@
-import { GameIterable, Message } from "@orbitweb/common";
-import { ProjectileGO, SpaceshipGO, StructureGO } from "@orbitweb/game-objects";
-import { Camera, World } from "@orbitweb/renderer";
-import { WorldGOBoundry } from "../entity/world/WorldGOBoundry";
-import { WorldGOSun } from "../entity/world/WorldGOSun";
-import { EventManager } from "./EventManager";
-import { InputManager } from "./InputManager";
-import { NetworkManager } from "./NetworkManager";
-import { ShaderManager } from "./ShaderManager";
-
-
+import { GameIterable, Message } from '@orbitweb/common';
+import { ProjectileGO, SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
+import { Camera, World } from '@orbitweb/renderer';
+import { WorldGOBoundry } from '../entity/world/WorldGOBoundry';
+import { WorldGOSun } from '../entity/world/WorldGOSun';
+import { EventManager } from './EventManager';
+import { InputManager } from './InputManager';
+import { NetworkManager } from './NetworkManager';
+import { ShaderManager } from './ShaderManager';
 
 export class GameManager extends World {
-
   public players: SpaceshipGO[] = [];
   public projectiles: ProjectileGO[] = [];
   public structures: StructureGO[] = [];
@@ -31,7 +28,6 @@ export class GameManager extends World {
   public networkManager: NetworkManager;
   public eventManager: EventManager;
   public shaderManager: ShaderManager;
-
 
   public get camera(): Camera {
     return this._camera;
@@ -63,19 +59,17 @@ export class GameManager extends World {
     this.inputManager = new InputManager(this);
     this.shaderManager = new ShaderManager(this);
 
-
     this.onInitGame();
   }
 
   public onInitGame() {
     this.boundry = new WorldGOBoundry();
     this.gameStage.addChild(this.boundry.gameObject);
-    
+
     this.camera = new Camera(this.foregroundStage);
   }
 
   public initWorld() {
-
     this.sun = new WorldGOSun(this.backgroundStage);
 
     super.initWorld();
@@ -87,47 +81,48 @@ export class GameManager extends World {
     this.emitter.emit([...this.players, ...this.projectiles]);
     this.emitter.update(delta);
 
-    [... this.players, ...this.projectiles, ...this.structures].forEach ( (gameIter: GameIterable) => {
-      gameIter.iterate(delta);
-    });
+    [...this.players, ...this.projectiles, ...this.structures].forEach(
+      (gameIter: GameIterable) => {
+        gameIter.iterate(delta);
+      }
+    );
 
-    this.camera.iterate(this.players.map((v) => v.position), delta);
-    
+    this.camera.iterate(
+      this.players.map((v) => v.position),
+      delta
+    );
   }
 
   public toLocal(point) {
     return this.foregroundStage.toLocal(point);
   }
 
-
   public clear() {
-    const players: SpaceshipGO[] = this.players.map(p => p);
+    const players: SpaceshipGO[] = this.players.map((p) => p);
 
     players.forEach((p) => {
       //this.killPlayer(p);
       //TODO!
     });
 
-    const projectiles: ProjectileGO[] = this.projectiles.map(p => p);
+    const projectiles: ProjectileGO[] = this.projectiles.map((p) => p);
 
     projectiles.forEach((p) => {
-//      this.destroyProjectile(p);
+      //      this.destroyProjectile(p);
     });
 
-    const structures: StructureGO[] = this.structures.map(p => p);
+    const structures: StructureGO[] = this.structures.map((p) => p);
 
     structures.forEach((structureGO) => {
       this.gameStage.removeChild(structureGO.gameObject);
 
-      const p = this.structures.findIndex(value => value.id === structureGO.id);
+      const p = this.structures.findIndex(
+        (value) => value.id === structureGO.id
+      );
       if (p !== undefined) {
         structureGO.onDestroy();
         this.structures.splice(p, 1);
       }
     });
-
   }
-
-
-
 }

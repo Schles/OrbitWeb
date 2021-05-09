@@ -1,4 +1,3 @@
-
 export * from './lib/OrbitWeb';
 export * from './lib/manager/GameManager';
 
@@ -7,12 +6,11 @@ export * from './lib/serialize/MessageDeserializer';
 export * from './lib/serialize/StructureDeserializer';
 
 export * from './lib/common/MessageRecieved';
-export * from "./lib/ui/NameplateContainer";
-export * from "./lib/entity/model/ProjectileGO";
-export * from "./lib/entity/model/ShipEquipmentGO";
-export * from "./lib/entity/model/SpaceshipGO";
-export * from "./lib/entity/model/StructureGO";
-
+export * from './lib/ui/NameplateContainer';
+export * from './lib/entity/model/ProjectileGO';
+export * from './lib/entity/model/ShipEquipmentGO';
+export * from './lib/entity/model/SpaceshipGO';
+export * from './lib/entity/model/StructureGO';
 
 export * from './lib/entity/equipment/EquipmentGOEmpty';
 export * from './lib/entity/equipment/EquipmentGOError';
@@ -39,4 +37,3 @@ export * from './lib/entity/projectiles/Rocket';
 
 export * from './lib/entity/structures/StructureGOLoot';
 export * from './lib/entity/structures/StructureGOPortal';
-

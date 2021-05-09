@@ -1,19 +1,22 @@
-
-import {ProjectileUpdateMessage} from "@orbitweb/common";
-import { ClientMessageRecieved, GameManager, ProjectileGO } from "@orbitweb/game-objects";
-
+import { ProjectileUpdateMessage } from '@orbitweb/common';
+import {
+  ClientMessageRecieved,
+  GameManager,
+  ProjectileGO,
+} from '@orbitweb/game-objects';
 
 export class ClientProjectileUpdateMessage extends ClientMessageRecieved<ProjectileUpdateMessage> {
-
   constructor(message: ProjectileUpdateMessage) {
     super(message);
   }
 
   onRecieve(context: GameManager) {
     //console.log(msg);
-    const projectile: ProjectileGO = context.projectiles.find( (proj) => proj.id === this.message.id);
+    const projectile: ProjectileGO = context.projectiles.find(
+      (proj) => proj.id === this.message.id
+    );
 
-    if ( projectile === undefined) {
+    if (projectile === undefined) {
       return;
     }
 
@@ -24,6 +27,5 @@ export class ClientProjectileUpdateMessage extends ClientMessageRecieved<Project
     projectile.speed.y = this.message.speedY;
 
     projectile.rotation = this.message.rotation;
-
   }
 }

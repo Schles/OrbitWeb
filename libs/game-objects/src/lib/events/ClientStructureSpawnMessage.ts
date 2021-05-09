@@ -1,21 +1,25 @@
-
-import {StructureSpawnMessage} from "@orbitweb/common";
-import { ClientMessageRecieved, GameManager, StructureDeserializer, StructureGO } from "@orbitweb/game-objects";
-
+import { StructureSpawnMessage } from '@orbitweb/common';
+import {
+  ClientMessageRecieved,
+  GameManager,
+  StructureDeserializer,
+  StructureGO,
+} from '@orbitweb/game-objects';
 
 export class ClientStructureSpawnMessage extends ClientMessageRecieved<StructureSpawnMessage> {
-
   constructor(message: StructureSpawnMessage) {
     super(message);
   }
 
   onRecieve(context: GameManager) {
+    const structureGO = context.structures.find(
+      (structure) => structure.id === this.message.id
+    );
 
-    const structureGO = context.structures.find( (structure) => structure.id === this.message.id);
-
-
-    if ( structureGO === undefined) {
-      let structureGO: StructureGO = StructureDeserializer.deserialize(this.message);
+    if (structureGO === undefined) {
+      let structureGO: StructureGO = StructureDeserializer.deserialize(
+        this.message
+      );
 
       if (structureGO !== undefined) {
         context.structures.push(structureGO);
@@ -23,9 +27,8 @@ export class ClientStructureSpawnMessage extends ClientMessageRecieved<Structure
         structureGO.onInit();
         context.structureStage.addChild(structureGO.gameObject);
       }
-
     }
-/*
+    /*
     public spawnProjectile(projectile: ProjectileGO) {
 
         if ( this.projectiles.findIndex( (p) => p.id === projectile.id ) < 0) {

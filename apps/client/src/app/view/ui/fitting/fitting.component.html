@@ -1,38 +1,37 @@
 <div class="header flexWraps" [hidden]="!loginEnabled">
-  <div class="flexT" style="height:10px">
-
-  </div>
+  <div class="flexT" style="height: 10px"></div>
 
   <form class="flexT" [formGroup]="myForm">
-    <input [hidden]="true" type="checkbox" [formControlName]="'customEq'">
+    <input [hidden]="true" type="checkbox" [formControlName]="'customEq'" />
     <div class="login">
-
       <div class="name">
-        <input [formControlName]="'name'" placeholder="Name">
+        <input [formControlName]="'name'" placeholder="Name" />
       </div>
 
       <div class="spawn">
-        <button (click)="spawn()" type="submit" [disabled]="!isValid() || myForm.value.name.length === 0">Spawn</button>
+        <button
+          (click)="spawn()"
+          type="submit"
+          [disabled]="!isValid() || myForm.value.name.length === 0"
+        >
+          Spawn
+        </button>
       </div>
 
-      <div class="customFit" [ngClass]="{active: isCustomFit}" (click)="toggleCustomFit()" >
-          Equip
+      <div
+        class="customFit"
+        [ngClass]="{ active: isCustomFit }"
+        (click)="toggleCustomFit()"
+      >
+        Equip
       </div>
-
-
-
     </div>
   </form>
 
-
-  <div class="fitting flexWrap" >
-    <app-equipment-slot #fitting [hidden]="!myForm.value.customEq"></app-equipment-slot>
+  <div class="fitting flexWrap">
+    <app-equipment-slot
+      #fitting
+      [hidden]="!myForm.value.customEq"
+    ></app-equipment-slot>
   </div>
-
-
-
 </div>
-
-
-
-

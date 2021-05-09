@@ -1,13 +1,7 @@
-import {Particle} from "../model/Particle";
-
+import { Particle } from '../model/Particle';
 
 export class Physics {
-
-
-
-  constructor() {
-
-  }
+  constructor() {}
 
   public static iterate(particle: Particle, delta: number) {
     particle.position.x += particle.speed.x * delta;
@@ -26,10 +20,5 @@ export class Physics {
     particle.accel.y = 0;
   }
 
-  public static renderParticle() {
-
-  }
-
-
-
+  public static renderParticle() {}
 }

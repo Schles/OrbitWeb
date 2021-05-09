@@ -1,12 +1,11 @@
-import {Spaceship} from "../../../model/Spaceship";
-import {PlayerMessage} from "../../generic/PlayerMessage";
-import {ShipFitting} from "../../../model/ShipFitting";
+import { Spaceship } from '../../../model/Spaceship';
+import { PlayerMessage } from '../../generic/PlayerMessage';
+import { ShipFitting } from '../../../model/ShipFitting';
 
 export class PlayerUpdateMessage extends PlayerMessage {
   public color: string;
   public x;
   public y;
-
 
   public speedX: number;
   public speedY: number;
@@ -30,20 +29,23 @@ export class PlayerUpdateMessage extends PlayerMessage {
     this.speedY = spaceship.speed.y;
     this.rotation = spaceship.rotation;
     this.fitting = new ShipFitting();
-    this.fitting.fitting = spaceship.fitting.fitting.map( (fit) => {
-      return <any> {
+    this.fitting.fitting = spaceship.fitting.fitting.map((fit) => {
+      return <any>{
         name: fit.name,
         state: fit.state,
-        remainingTime: fit.remainingTime
-      }
+        remainingTime: fit.remainingTime,
+      };
     });
 
     this.health = spaceship.health;
     this.power = spaceship.power;
-    this.target = spaceship.targetPlayer !== undefined ? spaceship.targetPlayer.id : undefined;
+    this.target =
+      spaceship.targetPlayer !== undefined
+        ? spaceship.targetPlayer.id
+        : undefined;
 
     this.activationProgress = spaceship.activationProgress;
 
-    this.type = "playerUpdateMessage";
+    this.type = 'playerUpdateMessage';
   }
 }

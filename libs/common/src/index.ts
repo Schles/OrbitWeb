@@ -16,9 +16,9 @@ export * from './lib/model/GameIterable';
 // util
 export * from './lib/util/Factories';
 export * from './lib/util/VectorInterface';
-export * from './lib/util/CMath'
-export * from './lib/util/Util'
-export * from './lib/physics/Physics'
+export * from './lib/util/CMath';
+export * from './lib/util/Util';
+export * from './lib/physics/Physics';
 
 // messages
 export * from './lib/message/game/BoundryUpdateMessage';
@@ -59,5 +59,3 @@ export * from './lib/message/login/PlayerLoginMessage';
 export * from './lib/message/DebugMessage';
 export * from './lib/message/Message';
 export * from './lib/message/MessageFactory';
-
-

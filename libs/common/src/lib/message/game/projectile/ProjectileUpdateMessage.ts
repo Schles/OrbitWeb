@@ -1,8 +1,7 @@
-import {ProjectileMessage} from "./ProjectileMessage";
-import {Projectile} from "../../../model/Projectile";
+import { ProjectileMessage } from './ProjectileMessage';
+import { Projectile } from '../../../model/Projectile';
 
 export class ProjectileUpdateMessage extends ProjectileMessage {
-
   public x: number;
   public y: number;
 
@@ -22,6 +21,6 @@ export class ProjectileUpdateMessage extends ProjectileMessage {
 
     this.rotation = projectile.rotation;
 
-    this.type = "projectileUpdateMessage";
+    this.type = 'projectileUpdateMessage';
   }
 }

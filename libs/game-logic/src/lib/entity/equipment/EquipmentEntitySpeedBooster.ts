@@ -1,9 +1,8 @@
-import {ShipEquipmentEntity} from "../../model/ShipEquipmentEntity";
-import {ShipEquipment} from "@orbitweb/common";
-import {SpaceshipEntity} from "../../model/SpaceshipEntity";
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
+import { ShipEquipment } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
-
   private absoluteChange: number = 0;
 
   private bonus: number = 0.4;

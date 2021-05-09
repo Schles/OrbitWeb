@@ -1,9 +1,8 @@
-import {ShipEquipmentEntity} from "../../model/ShipEquipmentEntity";
-import {ShipEquipment} from "@orbitweb/common";
-import {SpaceshipEntity} from "../../model/SpaceshipEntity";
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
+import { ShipEquipment } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntityRepair extends ShipEquipmentEntity {
-
   public repairAmount = 30;
 
   constructor(shipEquipment: ShipEquipment) {

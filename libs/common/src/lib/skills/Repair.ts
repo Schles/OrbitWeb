@@ -1,5 +1,3 @@
-import {Skill} from "../model/Skill";
+import { Skill } from '../model/Skill';
 
-export class RepairSkill extends Skill {
-
-}
+export class RepairSkill extends Skill {}

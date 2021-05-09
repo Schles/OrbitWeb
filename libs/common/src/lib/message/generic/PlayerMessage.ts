@@ -1,8 +1,8 @@
-import {Message} from "../Message";
+import { Message } from '../Message';
 
-export class PlayerMessage extends Message{
+export class PlayerMessage extends Message {
   constructor(public source: string) {
     super();
-    this.type = "playerMessage";
+    this.type = 'playerMessage';
   }
 }

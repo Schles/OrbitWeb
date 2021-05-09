@@ -1,7 +1,6 @@
-import {ShipEquipment} from "./ShipEquipment";
+import { ShipEquipment } from './ShipEquipment';
 
 export class ShipFitting {
-  constructor() {
-  }
+  constructor() {}
   public fitting: ShipEquipment[] = [];
 }

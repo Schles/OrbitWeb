@@ -1,3 +1,3 @@
 export interface GameIterable {
-    iterate(delta: number);
+  iterate(delta: number);
 }

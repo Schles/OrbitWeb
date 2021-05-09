@@ -1,3 +1,3 @@
-import { HybridPhysics } from "./physics/HybridPhysics";
+import { HybridPhysics } from './physics/HybridPhysics';
 
-export class Physics extends HybridPhysics { }
+export class Physics extends HybridPhysics {}

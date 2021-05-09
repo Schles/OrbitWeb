@@ -1,8 +1,7 @@
-import {StructureMessage} from "./StructureMessage";
-import {Structure} from "../../../model/Structure";
+import { StructureMessage } from './StructureMessage';
+import { Structure } from '../../../model/Structure';
 
 export class StructureSpawnMessage extends StructureMessage {
-
   public x: number;
   public y: number;
   public structureType: string;
@@ -22,6 +21,6 @@ export class StructureSpawnMessage extends StructureMessage {
     this.info = structure.info;
 
     this.structureType = structure.type;
-    this.type = "structureSpawnMessage";
+    this.type = 'structureSpawnMessage';
   }
 }

@@ -1,14 +1,12 @@
-import {Rectangle} from "@orbitweb/common";
-import { Container, Graphics } from "pixi.js";
+import { Rectangle } from '@orbitweb/common';
+import { Container, Graphics } from 'pixi.js';
 
 export class WorldGOBoundry {
-
   public gameObject: Container;
-  public size: Rectangle
+  public size: Rectangle;
   protected lineObject: Graphics;
 
   constructor() {
-
     this.gameObject = this.getGameObject();
   }
 
@@ -19,19 +17,15 @@ export class WorldGOBoundry {
     const h = size.x2.y - size.x1.y;
 
     this.lineObject.clear();
-    this.lineObject.lineStyle(2, 0xF05E23);
-
+    this.lineObject.lineStyle(2, 0xf05e23);
 
     this.lineObject.drawRect(size.x1.x, size.x1.y, w, h);
     this.lineObject.endFill();
   }
 
-  public onDestroy() {
+  public onDestroy() {}
 
-  }
-
-  public iterate(delta: number) {
-  }
+  public iterate(delta: number) {}
 
   public getGameObject(): Container {
     const cannonCont: Container = new Container();
@@ -39,6 +33,4 @@ export class WorldGOBoundry {
     cannonCont.addChild(this.lineObject);
     return cannonCont;
   }
-
-
 }

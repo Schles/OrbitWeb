@@ -1,14 +1,19 @@
-import {GameIterable, Structure} from "@orbitweb/common";
-import { Container, Graphics } from "pixi.js";
+import { GameIterable, Structure } from '@orbitweb/common';
+import { Container, Graphics } from 'pixi.js';
 
-
-export class StructureGO extends Structure implements GameIterable{
-
+export class StructureGO extends Structure implements GameIterable {
   public gameObject: Container;
 
   protected lineObject: Graphics;
 
-  constructor(id: string, x: number, y: number, activationRange: number, activationDuration: number, info: string) {
+  constructor(
+    id: string,
+    x: number,
+    y: number,
+    activationRange: number,
+    activationDuration: number,
+    info: string
+  ) {
     super(x, y);
     this.id = id;
     this.activationRange = activationRange;
@@ -22,12 +27,9 @@ export class StructureGO extends Structure implements GameIterable{
     this.gameObject.y = this.position.y;
   }
 
-  public onDestroy() {
+  public onDestroy() {}
 
-  }
-
-  public iterate(delta: number) {
-  }
+  public iterate(delta: number) {}
 
   public getGameObject(): Container {
     const cannonCont: Container = new Container();
@@ -37,14 +39,12 @@ export class StructureGO extends Structure implements GameIterable{
     // Set the fill color
     //this.lineObject.lineStyle(5, 0xFF00FF);
 
-    this.lineObject.beginFill(0xAA33BB);
-    this.lineObject.drawCircle(0,0, 40);
+    this.lineObject.beginFill(0xaa33bb);
+    this.lineObject.drawCircle(0, 0, 40);
     this.lineObject.endFill();
 
     cannonCont.addChild(this.lineObject);
 
     return cannonCont;
   }
-
-
 }

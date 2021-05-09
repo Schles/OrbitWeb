@@ -6,44 +6,39 @@
 }
 
 .ship {
-
 }
 
 .equipment {
   display: flex;
 
   flex-direction: column;
-
-
-
-
 }
 
 .slot {
   width: 200px;
-  margin-top:5px;
+  margin-top: 5px;
 
   display: flex;
 
   .button {
     flex: 0 0 10px;
-    padding:5px;
+    padding: 5px;
   }
 
   .text {
-    color:white;
+    color: white;
     flex: 1 1 80%;
-    padding:5px;
+    padding: 5px;
   }
 }
 
 .active {
   color: white;
-  background-color:green;
+  background-color: green;
 
   .value {
     background-color: #2f2f9a;
-    color:white;
+    color: white;
   }
 }
 
@@ -61,16 +56,12 @@
   }
 }
 
-
 .container {
-
 }
 
 .capsule {
   user-select: none;
 }
-
-
 
 .progress {
   height: 2em;
@@ -106,7 +97,7 @@
 
 .speed {
   background-color: #a91aff;
-  color:white;
+  color: white;
   .value {
     background-color: #2f2f9a;
   }
@@ -114,10 +105,8 @@
 
 .energy {
   background-color: #a91aff;
-  color:white;
+  color: white;
   .value {
     background-color: #2f2f9a;
   }
 }
-
-

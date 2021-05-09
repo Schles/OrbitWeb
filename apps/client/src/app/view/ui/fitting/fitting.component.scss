@@ -1,19 +1,17 @@
 .equipmentWrapper {
-  height:400px;
+  height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
-
 
 .equipment {
   border: 1px solid black;
 }
 
-
 .equipmentSlot {
   width: 50px;
   height: 50px;
-  margin:2px;
+  margin: 2px;
   overflow: hidden;
   padding: 5px;
 }
@@ -29,10 +27,7 @@
   background-color: #412e8c;
 }
 
-
-
 .fitting {
-
   margin-bottom: 10px;
 }
 
@@ -41,10 +36,9 @@
 
   .login {
     width: 100%;
-    display:flex;
+    display: flex;
 
-    background-color: #FFC107;
-
+    background-color: #ffc107;
 
     .name {
       flex: 1 1 50%;
@@ -54,13 +48,11 @@
         padding: 5px;
         width: 90%;
       }
-
-
     }
 
     .spawn {
       flex: 1 1 20%;
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: center;
     }
@@ -70,31 +62,21 @@
       cursor: pointer;
       user-select: none;
 
-      color: purple;;
-        display:flex;
-        align-items: center;
-        justify-content: center;
-
+      color: purple;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .customFit.active {
-      background-color:purple;
+      background-color: purple;
       color: yellow;
     }
-
-
   }
-
 
   .fitting {
-    margin-top:10px;
+    margin-top: 10px;
   }
-
-
-
-
-
-
 
   margin-bottom: 10px;
 
@@ -112,6 +94,3 @@
 .flexT {
   flex: 1 1 auto;
 }
-
-
-

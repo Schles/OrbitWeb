@@ -1,28 +1,22 @@
 import * as math from 'mathjs';
 
-import {Tangents, Vector2, Vector3} from "@orbitweb/common";
-import {Particle} from "@orbitweb/common";
-
+import { Tangents, Vector2, Vector3 } from '@orbitweb/common';
+import { Particle } from '@orbitweb/common';
 
 export class CMath {
-
-  constructor() {
-
-  }
+  constructor() {}
 
   public static normalize3(vec: Vector3): Vector3 {
-    const res:number = <number> math.norm( [vec.x, vec.y, vec.z]);
-    return { x: vec.x / res, y: vec.y / res, z: vec.z / res};
+    const res: number = <number>math.norm([vec.x, vec.y, vec.z]);
+    return { x: vec.x / res, y: vec.y / res, z: vec.z / res };
   }
 
   public static normalize(vec: Vector2): Vector2 {
-    const res:number = <number> math.norm( [vec.x, vec.y]);
-    return { x: vec.x / res, y: vec.y / res};
+    const res: number = <number>math.norm([vec.x, vec.y]);
+    return { x: vec.x / res, y: vec.y / res };
   }
 
-  public static clamp(vec: Vector2) {
-
-  }
+  public static clamp(vec: Vector2) {}
 
   public static rotate(vec: Vector2, a: number): Vector2 {
     //const angle = a / 180 * math.pi;
@@ -30,12 +24,12 @@ export class CMath {
 
     return {
       x: math.cos(angle) * vec.x - math.sin(angle) * vec.y,
-      y: math.sin(angle) * vec.x + math.cos(angle) * vec.y
-    }
+      y: math.sin(angle) * vec.x + math.cos(angle) * vec.y,
+    };
   }
 
   public static angle(tDir: Vector2, orient: Vector2): number {
-/*
+    /*
     const dotProduct = math.dot( [tDir.x, tDir.y], [orient.x, orient.y])
 
     return math.acos(dotProduct / ( math.norm( [tDir.x, tDir.y]) * math.norm( [orient.x, orient.y])));
@@ -46,7 +40,7 @@ export class CMath {
     //float b = A.y - C.y;
     //float c = B.x - C.x;
     //float d = B.y - C.y;
-/*
+    /*
     const a = tDir.x;
     const b = tDir.y;
     const c = orient.x;
@@ -60,7 +54,6 @@ export class CMath {
 
     let angle = math.acos(this.dot(tDir, orient));
 
-
     const cross = this.cross(tDir, orient);
     /*
     if (dotProduct(Vn, cross) < 0) { // Or > 0
@@ -71,52 +64,51 @@ export class CMath {
 
     */
 
-    if (this.dot3( {x: 0, y: 0, z: 1}, cross) > 0) {
+    if (this.dot3({ x: 0, y: 0, z: 1 }, cross) > 0) {
       angle = -angle;
     }
 
-    if ( angle.hasOwnProperty("re")) {
+    if (angle.hasOwnProperty('re')) {
       //angle = angle.re;
-      console.error("winkel ist komplex!", angle);
+      console.error('winkel ist komplex!', angle);
       angle = 0;
     }
 
-
-    if (isNaN(angle))
-      return 0;
+    if (isNaN(angle)) return 0;
 
     return angle;
-
   }
 
   public static degree(tDir: Vector2, orient: Vector2): number {
+    const dotProduct: number = math.dot([tDir.x, tDir.y], [orient.x, orient.y]);
 
-        const dotProduct: number = math.dot( [tDir.x, tDir.y], [orient.x, orient.y])
+    const l_tDir: number = <number>math.norm([tDir.x, tDir.y]);
+    const l_orient: number = <number>math.norm([orient.x, orient.y]);
 
-        const l_tDir: number = <number> math.norm( [tDir.x, tDir.y]);
-        const l_orient: number = <number> math.norm( [orient.x, orient.y]);
-
-        return math.acos(dotProduct / ( l_tDir * l_orient));
-
-
+    return math.acos(dotProduct / (l_tDir * l_orient));
   }
 
-  public static constructTangent(center: Vector2, radius: number, point: Vector2): Tangents {
+  public static constructTangent(
+    center: Vector2,
+    radius: number,
+    point: Vector2
+  ): Tangents {
+    const b = math.sqrt(
+      (point.x - center.x) * (point.x - center.x) +
+        (point.y - center.y) * (point.y - center.y)
+    );
 
-    const b = math.sqrt((point.x - center.x) * (point.x - center.x) + (point.y - center.y) * (point.y - center.y));
-
-    if ( radius > b) {
+    if (radius > b) {
       // Inside circle
       return {
-        isInside: true
-      }
-    } else if ( radius === b) {
+        isInside: true,
+      };
+    } else if (radius === b) {
       // on tangent
       return {
-        isOnTangent: true
-      }
+        isOnTangent: true,
+      };
     } else {
-
       const th = math.acos(radius / b); //  # angle theta
       const d = math.atan2(point.y - center.y, point.x - center.x); //  # direction angle of point P from C
       const d1 = d + th; //  # direction angle of point T1 from C
@@ -129,9 +121,9 @@ export class CMath {
 
       return {
         tangents: {
-          t1: { x: T1x, y: T1y},
-          t2: { x: T2x, y: T2y},
-        }
+          t1: { x: T1x, y: T1y },
+          t2: { x: T2x, y: T2y },
+        },
       };
     }
   }
@@ -139,32 +131,32 @@ export class CMath {
   public static scale(v1: Vector2, scale: number): Vector2 {
     return {
       x: v1.x * scale,
-      y: v1.y * scale
-    }
+      y: v1.y * scale,
+    };
   }
 
   public static add(v1: Vector2, v2: Vector2): Vector2 {
     return {
       x: v1.x + v2.x,
-      y: v1.y + v2.y
-    }
+      y: v1.y + v2.y,
+    };
   }
 
   public static sub(v1: Vector2, v2: Vector2): Vector2 {
     return {
       x: v1.x - v2.x,
-      y: v1.y - v2.y
-    }
+      y: v1.y - v2.y,
+    };
   }
 
   public static len(v: Vector2): number {
-    return <number> math.norm( [v.x, v.y]);
+    return <number>math.norm([v.x, v.y]);
   }
 
   public static dot(v1: Vector2, v2: Vector2): number {
     const v1n = this.normalize(v1);
     const v2n = this.normalize(v2);
-    const res = math.dot( [v1n.x, v1n.y], [v2n.x, v2n.y]);
+    const res = math.dot([v1n.x, v1n.y], [v2n.x, v2n.y]);
 
     return res;
   }
@@ -181,12 +173,12 @@ export class CMath {
     const v1n = this.normalize3(v1);
     const v2n = this.normalize3(v2);
 
-    const res = math.cross( [v1n.x, v1n.y, v1n.z], [v2n.x, v2n.y, v2.z] );
+    const res = math.cross([v1n.x, v1n.y, v1n.z], [v2n.x, v2n.y, v2.z]);
 
     return {
       x: res[0],
       y: res[1],
-      z: res[2]
+      z: res[2],
     };
   }
 
@@ -194,52 +186,50 @@ export class CMath {
     const v1n = this.normalize(v1);
     const v2n = this.normalize(v2);
 
-    const res = math.cross( [v1n.x, v1n.y, 0], [v2n.x, v2n.y, 0] );
+    const res = math.cross([v1n.x, v1n.y, 0], [v2n.x, v2n.y, 0]);
 
     return {
       x: res[0],
       y: res[1],
-      z: res[2]
+      z: res[2],
     };
   }
 
-  public static isInsideCircle(center: Vector2, point: Vector2, radius:number): boolean {
-
+  public static isInsideCircle(
+    center: Vector2,
+    point: Vector2,
+    radius: number
+  ): boolean {
     const v = CMath.sub(point, center);
 
-    const distance: number = <number> math.norm( [v.x, v.y] );
+    const distance: number = <number>math.norm([v.x, v.y]);
 
     return distance < radius;
-
-
   }
 
-  public static getAngularVelocity(particle: Particle, target: Vector2): number {
-
-
-
+  public static getAngularVelocity(
+    particle: Particle,
+    target: Vector2
+  ): number {
     const r = {
       x: particle.position.x - target.x,
-      y: particle.position.y - target.y
+      y: particle.position.y - target.y,
     };
 
     // TODO: winkel nur zwischen 0 und 180 grad
     const alpha = CMath.angle(r, particle.speed);
 
-    const v_norm: number = <number> math.norm( [ particle.speed.x, particle.speed.y ]);
-    const r_norm: number = <number> math.norm( [ r.x, r.y ]);
+    const v_norm: number = <number>(
+      math.norm([particle.speed.x, particle.speed.y])
+    );
+    const r_norm: number = <number>math.norm([r.x, r.y]);
     //console.log(v_norm);
 
     //console.log(alpha * 180 / math.pi);
     //console.log(particle.speed);
 
-    const omega: number = v_norm * math.sin(alpha) / r_norm;
+    const omega: number = (v_norm * math.sin(alpha)) / r_norm;
 
     return math.abs(omega);
   }
-
-
-
-
-
 }

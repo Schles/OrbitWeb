@@ -1,51 +1,55 @@
-import {ShipEquipment} from "@orbitweb/common";
-import {SpaceshipEntity} from "./SpaceshipEntity";
+import { ShipEquipment } from '@orbitweb/common';
+import { SpaceshipEntity } from './SpaceshipEntity';
 
 export class ShipEquipmentEntity extends ShipEquipment {
-
   protected alreadyApplied: boolean = false;
   protected alreadyRemoved: boolean = false;
 
-
   constructor(shipEquipment: ShipEquipment) {
-    super(shipEquipment.name, shipEquipment.tier, shipEquipment.cpuCost, shipEquipment.powerCost, shipEquipment.cycleTime, shipEquipment.passive, shipEquipment.action);
+    super(
+      shipEquipment.name,
+      shipEquipment.tier,
+      shipEquipment.cpuCost,
+      shipEquipment.powerCost,
+      shipEquipment.cycleTime,
+      shipEquipment.passive,
+      shipEquipment.action
+    );
   }
 
   iterate(parent: SpaceshipEntity, delta: number) {
-    if ( this.passive )
-      return;
+    if (this.passive) return;
 
     super.iterate(parent, delta);
 
-    if (this.isOnCooldown())
-      return;
+    if (this.isOnCooldown()) return;
 
-    if ( this.state.active === false && this.state.pendingState === false) {
+    if (this.state.active === false && this.state.pendingState === false) {
       return;
     }
 
-//    this.state.active = this.state.pendingState;
+    //    this.state.active = this.state.pendingState;
 
     this.onUpdateEquipment(parent, delta);
-
   }
-
-
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     this.state.active = true;
   }
 
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
-    if ( this.state.active === false && this.state.pendingState === true) {
+    if (this.state.active === false && this.state.pendingState === true) {
       if (!this.canAfford(parent, delta)) {
         return;
       }
       this.payPower(parent);
       this.onStartEquipment(parent);
-    } else if ( this.state.active === true && this.state.pendingState === false) {
+    } else if (
+      this.state.active === true &&
+      this.state.pendingState === false
+    ) {
       this.onEndEquipment(parent);
-    } else if ( this.state.active === true && this.state.pendingState === true) {
+    } else if (this.state.active === true && this.state.pendingState === true) {
       this.onEndEquipment(parent);
 
       if (!this.canAfford(parent, delta)) {
@@ -53,9 +57,9 @@ export class ShipEquipmentEntity extends ShipEquipment {
       }
 
       this.payPower(parent);
-      this.onStartEquipment(parent)
+      this.onStartEquipment(parent);
     }
-/*
+    /*
     if (this.state.active && !this.alreadyApplied) {
       if (!this.canAfford(parent, delta)) {
         this.state.active = false;
@@ -110,7 +114,6 @@ export class ShipEquipmentEntity extends ShipEquipment {
     const price = this.powerCost;
 
     return parent.power >= price;
-
   }
 
   protected isOnCooldown(): boolean {
@@ -120,9 +123,8 @@ export class ShipEquipmentEntity extends ShipEquipment {
   onDestroy(parent: SpaceshipEntity) {
     super.onDestroy(parent);
 
-    if ( this.state.active) {
+    if (this.state.active) {
       this.onEndEquipment(parent);
     }
-
   }
 }

@@ -1,7 +1,7 @@
-import {Physics} from "@orbitweb/common";
-import {Particle} from "@orbitweb/common";
-import { ParticleContainer, Sprite } from "pixi.js";
-import { string2hex } from "@pixi/utils"
+import { Physics } from '@orbitweb/common';
+import { Particle } from '@orbitweb/common';
+import { ParticleContainer, Sprite } from 'pixi.js';
+import { string2hex } from '@pixi/utils';
 
 class ParticleEffect extends Particle {
   public timeToLive: number = 0;
@@ -9,10 +9,9 @@ class ParticleEffect extends Particle {
   public sprite: Sprite;
 }
 
-export type ColoredParticle = Particle & { color: string};
+export type ColoredParticle = Particle & { color: string };
 
 export class Emitter {
-
   private container: ParticleContainer;
 
   private size: number;
@@ -22,30 +21,26 @@ export class Emitter {
   private particleIterator: number = 0;
 
   constructor(size: number) {
-    this.container = new ParticleContainer( size, <any> {
+    this.container = new ParticleContainer(size, <any>{
       scale: true,
       position: true,
       rotation: true,
       uvs: true,
-      alpha: true
+      alpha: true,
     });
 
     this.size = size;
     this.particles = [];
-
   }
 
   public init() {
     const maggots = [];
 
-
-
     for (let i = 0; i < this.size; i++) {
-
       const particle: ParticleEffect = new ParticleEffect();
-      particle.sprite = Sprite.from("assets/Particle.jpg");
+      particle.sprite = Sprite.from('assets/Particle.jpg');
 
-      particle.sprite.tint = Math.random() * 0xE8D4CD;
+      particle.sprite.tint = Math.random() * 0xe8d4cd;
 
       // set the anchor point so the texture is centerd on the sprite
       particle.sprite.anchor.set(0.5);
@@ -60,7 +55,7 @@ export class Emitter {
       particle.sprite.tint = Math.random() * 0x808080;
       particle.lifeTime = 3;
       particle.timeToLive = 0;
-/*
+      /*
       particle.speed = {
         x: 4,
         y: 4
@@ -84,79 +79,63 @@ export class Emitter {
       this.particles.push(particle);
 
       this.container.addChild(particle.sprite);
-
     }
-
   }
 
   public getContainer(): ParticleContainer {
-    return this.container
+    return this.container;
   }
 
   public update(delta) {
-
-    this.particles.forEach( particle => {
+    this.particles.forEach((particle) => {
       Physics.iterate(particle, delta);
 
       particle.timeToLive -= delta;
 
-      if (particle.timeToLive < 0)
-        particle.timeToLive = 0;
-
+      if (particle.timeToLive < 0) particle.timeToLive = 0;
     });
 
     this.render();
   }
 
   public render() {
-    this.particles.forEach( value => {
-
-      if ( value.timeToLive === 0) {
+    this.particles.forEach((value) => {
+      if (value.timeToLive === 0) {
         value.sprite.alpha = 0;
       } else {
         value.sprite.alpha = value.timeToLive / value.lifeTime;
       }
 
-
-
       value.sprite.x = value.position.x;
       value.sprite.y = value.position.y;
 
       value.sprite.rotation = value.rotation;
-
-
-
-    })
+    });
   }
 
   public emit(sources: ColoredParticle[]) {
-    sources.forEach( (spaceship) => {
+    sources.forEach((spaceship) => {
+      const particle: ParticleEffect = this.particles[this.particleIterator];
 
+      particle.timeToLive = particle.lifeTime;
 
-          const particle: ParticleEffect = this.particles[this.particleIterator];
+      particle.sprite.tint = string2hex(spaceship.color);
 
-          particle.timeToLive = particle.lifeTime;
+      particle.position = {
+        x: spaceship.position.x,
+        y: spaceship.position.y,
+      };
 
-          particle.sprite.tint = string2hex(spaceship.color);
+      particle.speed = {
+        x: -1 * spaceship.speed.x,
+        y: -1 * spaceship.speed.y,
+      };
 
-          particle.position = {
-            x: spaceship.position.x,
-            y: spaceship.position.y
-          };
+      this.particleIterator++;
 
-          particle.speed = {
-            x: -1 * spaceship.speed.x,
-            y: -1 * spaceship.speed.y
-          };
-
-
-          this.particleIterator++;
-
-          if ( this.particleIterator >= this.size) {
-            this.particleIterator = 0;
-          }
-
-
+      if (this.particleIterator >= this.size) {
+        this.particleIterator = 0;
+      }
     });
   }
 }

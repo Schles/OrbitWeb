@@ -8,35 +8,33 @@
 }
 
 .login {
-  display:flex;
+  display: flex;
   flex: 1 1 auto;
   flex-flow: column;
 }
 
-
 .ui {
   left: 40px;
-  right:40px;
+  right: 40px;
   max-width: 300px;
   position: absolute;
   max-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-
 }
 
 .scoreboard {
   position: absolute;
   right: 0px;
-  color:white;
+  color: white;
 }
 
 .tutorial {
   position: absolute;
   right: 0px;
   bottom: 0px;
-  color:white;
+  color: white;
   text-align: right;
 }
 
@@ -44,7 +42,6 @@
   position: absolute;
   bottom: 0px;
 }
-
 
 /* width */
 ::-webkit-scrollbar {
@@ -65,4 +62,3 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-

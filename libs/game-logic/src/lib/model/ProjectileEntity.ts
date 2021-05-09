@@ -1,13 +1,14 @@
-import {GameIterable, Projectile} from "@orbitweb/common";
-import {SpaceshipEntity} from "./SpaceshipEntity";
+import { GameIterable, Projectile } from '@orbitweb/common';
+import { SpaceshipEntity } from './SpaceshipEntity';
 
-
-export class ProjectileEntity extends Projectile implements GameIterable  {
-
-  constructor(id: string, public source: SpaceshipEntity, public target: SpaceshipEntity) {
+export class ProjectileEntity extends Projectile implements GameIterable {
+  constructor(
+    id: string,
+    public source: SpaceshipEntity,
+    public target: SpaceshipEntity
+  ) {
     super(id, source.color);
   }
-
 
   public iterate(delta: number) {
     super.iterate(delta);

@@ -1,40 +1,38 @@
 <div *ngIf="mePlayer() !== undefined" class="header">
-
-
-
   <div class="ship">
-    <div style="color:white">{{mePlayer().id}} ({{getSpeed()}} m/s) <button class="capsule" (click)="selfKill()">Capsule</button></div>
-<!--
+    <div style="color: white">
+      {{ mePlayer().id }} ({{ getSpeed() }} m/s)
+      <button class="capsule" (click)="selfKill()">Capsule</button>
+    </div>
+    <!--
     <div class="progress energy slot" data-label="Energy" [attr.cost-label]="getEnergy()">
       <span class="value" [style.width.%]="getEnergyP()"></span>
     </div>
     -->
-
-
   </div>
 
   <div class="equipment">
-    <div *ngFor="let fit of mePlayer().fitting.fitting; let i = index" class="slot" >
-
+    <div
+      *ngFor="let fit of mePlayer().fitting.fitting; let i = index"
+      class="slot"
+    >
       <ng-container *ngIf="!fit.passive">
-        <div class="button"
-             (click)="onClick(i)"
-             [ngClass]="{
-                 active: fit.state.active && fit.state.pendingState,
-                 offline: !fit.state.active && !fit.state.pendingState,
-                 pending: fit.state.active != fit.state.pendingState}">
-          {{i + 1}}
+        <div
+          class="button"
+          (click)="onClick(i)"
+          [ngClass]="{
+            active: fit.state.active && fit.state.pendingState,
+            offline: !fit.state.active && !fit.state.pendingState,
+            pending: fit.state.active != fit.state.pendingState
+          }"
+        >
+          {{ i + 1 }}
         </div>
 
         <div class="text">
-          {{fit.name}}
+          {{ fit.name }}
         </div>
       </ng-container>
     </div>
   </div>
-
-
-
-
 </div>
-

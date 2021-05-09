@@ -1,5 +1,3 @@
-
-
 .powerCostWrapper {
   background-color: cornflowerblue;
   flex: 1 1 auto;
@@ -19,7 +17,6 @@
   line-height: 2em;
   left: 5px;
   right: 0;
-
 }
 
 .progress:after {
@@ -39,10 +36,10 @@
 
 .atk {
   .tierName {
-    background-color:red;
+    background-color: red;
   }
 
-  border:1px solid red;
+  border: 1px solid red;
 }
 
 .util {
@@ -50,7 +47,7 @@
     background-color: #7cc4ff;
   }
 
-  border:1px solid #7cc4ff;
+  border: 1px solid #7cc4ff;
 }
 
 .passive {
@@ -58,51 +55,41 @@
     background-color: grey;
   }
 
-  border:1px solid grey;
+  border: 1px solid grey;
 }
 
 .tierWrap {
-
   .tierName {
-    padding:5px;
-    margin:5px;
+    padding: 5px;
+    margin: 5px;
   }
 
   margin-top: 10px;
   margin-bottom: 10px;
 
   .fitted {
-
     display: flex;
     flex-wrap: wrap;
 
     .equipment {
       background-color: cornflowerblue;
       color: black;
-      margin:10px;
+      margin: 10px;
       display: flex;
 
       .name {
-        padding:5px;
+        padding: 5px;
       }
 
       .action {
-        padding:5px;
+        padding: 5px;
         color: cornflowerblue;
-        background-color:purple;
+        background-color: purple;
         font-weight: bold;
       }
-
     }
-
-
-
-
   }
-
-
 }
-
 
 .wrap {
   display: flex;
@@ -119,30 +106,26 @@
 }
 
 .potentialEquipment {
-
-
   .header {
-    display:flex;
-
+    display: flex;
 
     .name {
       flex: 1 1 100%;
-      padding:5px;
-      margin:5px;
+      padding: 5px;
+      margin: 5px;
       color: cornflowerblue;
       font-weight: bold;
     }
 
     .action {
-      padding:5px;
-      margin:5px;
+      padding: 5px;
+      margin: 5px;
       background-color: cornflowerblue;
       flex: 0 0 5%;
     }
   }
 
   .equipment {
-
-    padding:5px;
+    padding: 5px;
   }
 }

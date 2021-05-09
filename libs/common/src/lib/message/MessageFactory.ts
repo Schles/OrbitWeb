@@ -1,4 +1,4 @@
-import {Message} from "./Message";
+import { Message } from './Message';
 
 export class MessageFactory {
   public static create(message: Message): Message {

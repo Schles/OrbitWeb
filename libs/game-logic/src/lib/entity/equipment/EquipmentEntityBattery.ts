@@ -1,6 +1,6 @@
-import {ShipEquipmentEntity} from "../../model/ShipEquipmentEntity";
-import {ShipEquipment} from "@orbitweb/common";
-import {SpaceshipEntity} from "../../model/SpaceshipEntity";
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
+import { ShipEquipment } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntityBattery extends ShipEquipmentEntity {
   private bonusRate: number = 0.6;
@@ -12,8 +12,8 @@ export class EquipmentEntityBattery extends ShipEquipmentEntity {
   public onInit(parent: SpaceshipEntity) {
     super.onInit(parent);
 
-    parent.energyRechargeRate *= (1 + this.bonusRate);
+    parent.energyRechargeRate *= 1 + this.bonusRate;
   }
 
-  public iterate(parent: SpaceshipEntity, delta: number) { }
+  public iterate(parent: SpaceshipEntity, delta: number) {}
 }

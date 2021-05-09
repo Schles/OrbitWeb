@@ -1,19 +1,21 @@
-import {Vector2} from "@orbitweb/common";
-import {Projectile} from "@orbitweb/common";
-import {SpaceshipGO} from "./SpaceshipGO";
-import {Physics} from "@orbitweb/common";
-import { Container, Graphics } from "pixi.js";
-import { string2hex } from "@pixi/utils"
-import { GameIterable } from "@orbitweb/common"
-
+import { Vector2 } from '@orbitweb/common';
+import { Projectile } from '@orbitweb/common';
+import { SpaceshipGO } from './SpaceshipGO';
+import { Physics } from '@orbitweb/common';
+import { Container, Graphics } from 'pixi.js';
+import { string2hex } from '@pixi/utils';
+import { GameIterable } from '@orbitweb/common';
 
 export class ProjectileGO extends Projectile implements GameIterable {
-
   public gameObject: Container;
 
   protected lineObject: Graphics;
 
-  constructor(id: string, public source: SpaceshipGO, public target: SpaceshipGO) {
+  constructor(
+    id: string,
+    public source: SpaceshipGO,
+    public target: SpaceshipGO
+  ) {
     super(id, source.color);
 
     this.gameObject = this.getGameObject();
@@ -38,10 +40,7 @@ export class ProjectileGO extends Projectile implements GameIterable {
     return cannonCont;
   }
 
-
-
   public drawLine(start: Vector2, end: Vector2) {
-
     const c = string2hex(this.color);
 
     this.lineObject.clear();

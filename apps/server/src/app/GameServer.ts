@@ -1,33 +1,28 @@
-import {Message} from "@orbitweb/common";
-import {GameLogic} from "@orbitweb/game-logic";
+import { Message } from '@orbitweb/common';
+import { GameLogic } from '@orbitweb/game-logic';
 
 const gameloop = require('node-gameloop');
 
 export class GameServer extends GameLogic {
-
   public activeConnectionCount: number = 0;
 
   private gameLoopId: number;
 
   private tickRate: number = 1000 / 60;
 
-
   public onSend: (msg) => void;
 
   constructor() {
     super();
 
-    this.boundries.x1 = {x: -1200, y: -300};
-    this.boundries.x2 = {x: 600, y: 600};
-
+    this.boundries.x1 = { x: -1200, y: -300 };
+    this.boundries.x2 = { x: 600, y: 600 };
   }
 
-
   public stop() {
-    console.log("Server stoped:", this.gameLoopId);
+    console.log('Server stoped:', this.gameLoopId);
     gameloop.clearGameLoop(this.gameLoopId);
     this.gameLoopId = undefined;
-
   }
 
   public start() {
@@ -35,14 +30,13 @@ export class GameServer extends GameLogic {
       this.gameLoopId = gameloop.setGameLoop((delta) => {
         this.serverLoop(delta);
       }, this.tickRate);
-      console.log("Server started: ", this.gameLoopId);
+      console.log('Server started: ', this.gameLoopId);
     }
 
     if (this.players.length === 0) {
       this.spawnDefaultEnemy();
-      console.log("Enemy spawned");
+      console.log('Enemy spawned');
     }
-
   }
 
   public checkOnlineState(): boolean {
@@ -67,7 +61,6 @@ export class GameServer extends GameLogic {
   }
 
   public send(msg) {
-    this.onSend(msg);    
+    this.onSend(msg);
   }
-
 }

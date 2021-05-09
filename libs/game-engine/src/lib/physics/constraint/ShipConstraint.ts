@@ -1,8 +1,5 @@
-import {Particle} from "@orbitweb/common";
-
+import { Particle } from '@orbitweb/common';
 
 export class ShipConstraint {
-  public clamp(particle: Particle) {
-
-  }
+  public clamp(particle: Particle) {}
 }

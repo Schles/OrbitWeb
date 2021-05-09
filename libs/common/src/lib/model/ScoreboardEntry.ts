@@ -1,7 +1,3 @@
 export class ScoreboardEntry {
-  constructor(public name, public kills: number){
-
-
-  }
-
+  constructor(public name, public kills: number) {}
 }

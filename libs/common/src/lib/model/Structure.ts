@@ -1,4 +1,4 @@
-import {Vector2} from "../util/VectorInterface";
+import { Vector2 } from '../util/VectorInterface';
 
 export class Structure {
   public id: string;
@@ -16,8 +16,8 @@ export class Structure {
   constructor(x: number, y: number) {
     this.position = {
       x: x,
-      y: y
+      y: y,
     };
-    this.type = "structure";
+    this.type = 'structure';
   }
 }

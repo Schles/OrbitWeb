@@ -1,16 +1,15 @@
-import {StructureEntity} from "../../model/StructureEntity";
-import {SpaceshipEntity} from "../../model/SpaceshipEntity";
-import {Scoreboard} from "../../core/Scoreboard";
+import { StructureEntity } from '../../model/StructureEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { Scoreboard } from '../../core/Scoreboard';
 
 export class StructurePortalEntity extends StructureEntity {
   constructor(x: number, y: number, public scoreboard: Scoreboard) {
     super(x, y);
-    this.type = "Portal";
+    this.type = 'Portal';
     this.activationRange = 30;
     this.activationDuration = 30;
     this.isStatic = true;
   }
-
 
   onActivateStructure(user: SpaceshipEntity) {
     super.onActivateStructure(user);

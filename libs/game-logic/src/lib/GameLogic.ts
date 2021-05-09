@@ -1,21 +1,26 @@
-import { EnemySpawnMessage, GameIterable, Message, PlayerMessage, PlayerUpdateMessage, ProjectileSpawnMessage, ProjectileUpdateMessage, Rectangle } from "@orbitweb/common";
-import { CollisionDetection } from "../../../game-engine/src/lib/CollisionDetection";
-import { GarbageCollector } from "./core/GarbageCollector";
-import { Scoreboard } from "./core/Scoreboard";
-import { ServerEnemySpawnMessage } from "./entity/message/ServerEnemySpawnMessage";
-import { StructurePortalEntity } from "./entity/structures/StructurePortalEntity";
-import { EventManager } from "./EventManager";
-import { ProjectileEntity } from "./model/ProjectileEntity";
-import { SkillEntity } from "./model/SkillEntity";
-import { SpaceshipEntity } from "./model/SpaceshipEntity";
-import { StructureEntity } from "./model/StructureEntity";
-import { MessageDeserializer } from "./serialize/MessageDeserializer";
-
-
-
+import {
+  EnemySpawnMessage,
+  GameIterable,
+  Message,
+  PlayerMessage,
+  PlayerUpdateMessage,
+  ProjectileSpawnMessage,
+  ProjectileUpdateMessage,
+  Rectangle,
+} from '@orbitweb/common';
+import { CollisionDetection } from '../../../game-engine/src/lib/CollisionDetection';
+import { GarbageCollector } from './core/GarbageCollector';
+import { Scoreboard } from './core/Scoreboard';
+import { ServerEnemySpawnMessage } from './entity/message/ServerEnemySpawnMessage';
+import { StructurePortalEntity } from './entity/structures/StructurePortalEntity';
+import { EventManager } from './EventManager';
+import { ProjectileEntity } from './model/ProjectileEntity';
+import { SkillEntity } from './model/SkillEntity';
+import { SpaceshipEntity } from './model/SpaceshipEntity';
+import { StructureEntity } from './model/StructureEntity';
+import { MessageDeserializer } from './serialize/MessageDeserializer';
 
 export class GameLogic {
-
   public uniqueIterator: number = 0;
 
   public players: SpaceshipEntity[] = [];
@@ -35,35 +40,33 @@ export class GameLogic {
     },
     x2: {
       x: 2000,
-      y: 1000
-    }
+      y: 1000,
+    },
   };
 
   constructor() {
-
     this.scoreboard = new Scoreboard();
 
     this.spawnPortal(-700, 450);
 
-
     EventManager.shootProjectile.on('shootProjectile', (msg) => {
-      this.onShootProjectile(msg)
+      this.onShootProjectile(msg);
     });
 
     EventManager.shootProjectile.on('playerHit', (msg) => {
       this.onPlayerHit(msg);
     });
-
-
-
   }
 
   public gameLoop(delta: number) {
-
-
-    [...this.players, ...this.skills, ...this.structures, ...this.projectiles].forEach((gameIterable: GameIterable) => {
+    [
+      ...this.players,
+      ...this.skills,
+      ...this.structures,
+      ...this.projectiles,
+    ].forEach((gameIterable: GameIterable) => {
       gameIterable.iterate(delta);
-    })
+    });
 
     this.players.forEach((player) => {
       const msg = new PlayerUpdateMessage(player);
@@ -78,8 +81,7 @@ export class GameLogic {
     CollisionDetection.detect(this.players, this.structures, this.boundries);
   }
 
-  public send(msg) { }
-
+  public send(msg) {}
 
   public onMessage(msg: Message, broadCast, singleCast) {
     const serverMessage = MessageDeserializer.deserialize(msg);
@@ -95,14 +97,11 @@ export class GameLogic {
         spaceShip.timestampLastActionMs = new Date().getTime();
       }
     }
-
   }
 
   public getPlayer(name: string): SpaceshipEntity {
     return this.players.find((p) => p.id === name);
   }
-
-
 
   public getUniqueId(): number {
     return this.uniqueIterator++;
@@ -112,11 +111,11 @@ export class GameLogic {
     GarbageCollector.execute(this);
   }
 
-
   public spawnDefaultEnemy() {
-    const msg: ServerEnemySpawnMessage = new ServerEnemySpawnMessage(new EnemySpawnMessage("Enemy"));
+    const msg: ServerEnemySpawnMessage = new ServerEnemySpawnMessage(
+      new EnemySpawnMessage('Enemy')
+    );
     msg.onRecieve(this);
-
   }
 
   public spawnPortal(x: number, y: number) {
@@ -136,10 +135,11 @@ export class GameLogic {
 
     this.projectiles.push(projectileEntity);
 
-    const res: Message = new ProjectileSpawnMessage(projectileEntity, projectileEntity.source.id, projectileEntity.target.id);
+    const res: Message = new ProjectileSpawnMessage(
+      projectileEntity,
+      projectileEntity.source.id,
+      projectileEntity.target.id
+    );
     this.send(res);
   }
-
-
-
 }

@@ -1,8 +1,11 @@
-import { CLEAR_MODES, DEG_TO_RAD, Point, Rectangle, RenderTexture } from "pixi.js";
-import { Filter } from "pixi.js";
-
-
-
+import {
+  CLEAR_MODES,
+  DEG_TO_RAD,
+  Point,
+  Rectangle,
+  RenderTexture,
+} from 'pixi.js';
+import { Filter } from 'pixi.js';
 
 interface GodrayFilterOptions {
   angle: number;
@@ -15,19 +18,15 @@ interface GodrayFilterOptions {
 }
 
 export class ShaderGodRays extends Filter {
-
-
-
-
-    /** Default for constructior options. */
-    public static readonly defaults: GodrayFilterOptions = {
-      angle: 30,
-      gain: 0.5,
-      lacunarity: 2.5,
-      time: 0,
-      parallel: true,
-      center: [500, 500],
-      alpha: 1,
+  /** Default for constructior options. */
+  public static readonly defaults: GodrayFilterOptions = {
+    angle: 30,
+    gain: 0.5,
+    lacunarity: 2.5,
+    time: 0,
+    parallel: true,
+    center: [500, 500],
+    alpha: 1,
   };
 
   /**
@@ -51,11 +50,12 @@ export class ShaderGodRays extends Filter {
   constructor(vertexShader, fragmentShader, options) {
     super(vertexShader, fragmentShader);
 
-
     this.uniforms.dimensions = new Float32Array(2);
 
-    const opts: GodrayFilterOptions = Object.assign(ShaderGodRays.defaults, options);
-
+    const opts: GodrayFilterOptions = Object.assign(
+      ShaderGodRays.defaults,
+      options
+    );
 
     this._angleLight = new Point();
     this.angle = opts.angle;
@@ -65,42 +65,40 @@ export class ShaderGodRays extends Filter {
     this.parallel = opts.parallel;
     this.center = opts.center;
     this.time = opts.time;
-
-
   }
 
   //FilterSystem
-  apply(filterManager: any, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES): void
-  {
-    
-      const { width, height } = input.filterFrame as Rectangle;
+  apply(
+    filterManager: any,
+    input: RenderTexture,
+    output: RenderTexture,
+    clear: CLEAR_MODES
+  ): void {
+    const { width, height } = input.filterFrame as Rectangle;
 
-      this.uniforms.light = this.parallel ? this._angleLight : this.center;
+    this.uniforms.light = this.parallel ? this._angleLight : this.center;
 
-      this.uniforms.parallel = this.parallel;
-      this.uniforms.dimensions[0] = width;
-      this.uniforms.dimensions[1] = height;
-      this.uniforms.aspect = height / width;
-      this.uniforms.time = this.time;
-      this.uniforms.alpha = this.alpha;
+    this.uniforms.parallel = this.parallel;
+    this.uniforms.dimensions[0] = width;
+    this.uniforms.dimensions[1] = height;
+    this.uniforms.aspect = height / width;
+    this.uniforms.time = this.time;
+    this.uniforms.alpha = this.alpha;
 
-      // draw the filter...
-      filterManager.applyFilter(this, input, output, clear);
-   
+    // draw the filter...
+    filterManager.applyFilter(this, input, output, clear);
   }
 
-  get angle(): number
-  {
-      return this._angle;
+  get angle(): number {
+    return this._angle;
   }
-  set angle(value: number)
-  {
-      this._angle = value;
+  set angle(value: number) {
+    this._angle = value;
 
-      const radians = value * DEG_TO_RAD;
+    const radians = value * DEG_TO_RAD;
 
-      this._angleLight.x = Math.cos(radians);
-      this._angleLight.y = Math.sin(radians);
+    this._angleLight.x = Math.cos(radians);
+    this._angleLight.y = Math.sin(radians);
   }
 
   /**
@@ -110,13 +108,11 @@ export class ShaderGodRays extends Filter {
    * @member {number}
    * @default 0.5
    */
-  get gain(): number
-  {
-      return this.uniforms.gain;
+  get gain(): number {
+    return this.uniforms.gain;
   }
-  set gain(value: number)
-  {
-      this.uniforms.gain = value;
+  set gain(value: number) {
+    this.uniforms.gain = value;
   }
 
   /**
@@ -126,13 +122,11 @@ export class ShaderGodRays extends Filter {
    * @member {number}
    * @default 2.5
    */
-  get lacunarity(): number
-  {
-      return this.uniforms.lacunarity;
+  get lacunarity(): number {
+    return this.uniforms.lacunarity;
   }
-  set lacunarity(value: number)
-  {
-      this.uniforms.lacunarity = value;
+  set lacunarity(value: number) {
+    this.uniforms.lacunarity = value;
   }
 
   /**
@@ -140,13 +134,10 @@ export class ShaderGodRays extends Filter {
    * @member {number}
    * @default 1
    */
-  get alpha(): number
-  {
-      return this.uniforms.alpha;
+  get alpha(): number {
+    return this.uniforms.alpha;
   }
-  set alpha(value: number)
-  {
-      this.uniforms.alpha = value;
+  set alpha(value: number) {
+    this.uniforms.alpha = value;
   }
-
 }

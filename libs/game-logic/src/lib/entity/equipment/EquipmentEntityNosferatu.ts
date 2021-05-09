@@ -1,12 +1,10 @@
-import {ShipEquipment} from "@orbitweb/common";
-import {SpaceshipEntity} from "../../model/SpaceshipEntity";
-import {ShipEquipmentTargetEntity} from "../../model/ShipEquipmentTargetEntity";
+import { ShipEquipment } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 export class EquipmentEntityNosferatu extends ShipEquipmentTargetEntity {
-
   private drain: number = 40;
   private gain: number = 20;
-
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
@@ -25,7 +23,6 @@ export class EquipmentEntityNosferatu extends ShipEquipmentTargetEntity {
 
     parent.power += this.gain;
   }
-
 
   protected isTargetInRange(parent: SpaceshipEntity): boolean {
     //return parent.targetPlayer.power > this.drain && super.isTargetInRange(parent);

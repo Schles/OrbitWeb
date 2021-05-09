@@ -1,10 +1,19 @@
-import { Vector2 } from "@orbitweb/common";
-import { BLEND_MODES, CLEAR_MODES, Container, DEG_TO_RAD, FilterState, FilterSystem, Point, Rectangle, RenderTexture } from "pixi.js";
-import { Filter } from "pixi.js";
-import { LightShader } from "./LightShader";
-import { ShaderGodRays } from "./ShaderGodRays";
-import { ShadowMapperShader } from "./ShadowMapperShader";
-
+import { Vector2 } from '@orbitweb/common';
+import {
+  BLEND_MODES,
+  CLEAR_MODES,
+  Container,
+  DEG_TO_RAD,
+  FilterState,
+  FilterSystem,
+  Point,
+  Rectangle,
+  RenderTexture,
+} from 'pixi.js';
+import { Filter } from 'pixi.js';
+import { LightShader } from './LightShader';
+import { ShaderGodRays } from './ShaderGodRays';
+import { ShadowMapperShader } from './ShadowMapperShader';
 
 export class MixedShader extends Filter {
   /**
@@ -24,22 +33,18 @@ export class MixedShader extends Filter {
 
   private _angleLight: Point;
   private _angle = 0;
- 
+
   public lights: number[][] | Point[];
 
-
-    private _shadowMapperShader: ShadowMapperShader;
-    public lightMapper: LightShader;
-
+  private _shadowMapperShader: ShadowMapperShader;
+  public lightMapper: LightShader;
 
   constructor(vertexShader, fragmentShader, options) {
-    super(vertexShader, fragmentShader); 
-
+    super(vertexShader, fragmentShader);
 
     this.uniforms.dimensions = new Float32Array(2);
 
     const opts = Object.assign(ShaderGodRays.defaults, options);
-
 
     this._angleLight = new Point();
     this.angle = opts.angle;
@@ -47,10 +52,13 @@ export class MixedShader extends Filter {
     this.lacunarity = opts.lacunarity;
     this.alpha = opts.alpha;
     this.parallel = opts.parallel;
-    this.uniforms.light = [ 500, 500];
+    this.uniforms.light = [500, 500];
     this.time = opts.time;
 
-    this.lights = [[500, 500], [0, 0]];
+    this.lights = [
+      [500, 500],
+      [0, 0],
+    ];
 
     this.filter = new Filter();
     //this.blendMode = BLEND_MODES.SRC_OUT;
@@ -58,58 +66,60 @@ export class MixedShader extends Filter {
 
   private filter: Filter;
 
-  apply(filterManager: FilterSystem, input: RenderTexture, output: RenderTexture, clear: CLEAR_MODES, currentState?: FilterState): void
-  {       
-      const { width, height } = input.filterFrame as Rectangle;
+  apply(
+    filterManager: FilterSystem,
+    input: RenderTexture,
+    output: RenderTexture,
+    clear: CLEAR_MODES,
+    currentState?: FilterState
+  ): void {
+    const { width, height } = input.filterFrame as Rectangle;
 
-      //const lightTarget = filterManager.getFilterTexture();
-      const shadowTarget = filterManager.getFilterTexture();
-    
-      
-      this._shadowMapperShader.lights = this.lights;
-      this._shadowMapperShader.apply(filterManager, input, shadowTarget, CLEAR_MODES.NO, currentState);
-      
+    //const lightTarget = filterManager.getFilterTexture();
+    const shadowTarget = filterManager.getFilterTexture();
 
-      this.lightMapper.lights = this.lights;
-      this.lightMapper.uniforms.shadowTexture = shadowTarget
-      //this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
+    this._shadowMapperShader.lights = this.lights;
+    this._shadowMapperShader.apply(
+      filterManager,
+      input,
+      shadowTarget,
+      CLEAR_MODES.NO,
+      currentState
+    );
 
-      
+    this.lightMapper.lights = this.lights;
+    this.lightMapper.uniforms.shadowTexture = shadowTarget;
+    //this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
 
-      this.uniforms.parallel = this.parallel;
-      this.uniforms.dimensions[0] = width;
-      this.uniforms.dimensions[1] = height;
-      this.uniforms.aspect = height / width;
-      this.uniforms.time = this.time;
-      this.uniforms.alpha = this.alpha;      
+    this.uniforms.parallel = this.parallel;
+    this.uniforms.dimensions[0] = width;
+    this.uniforms.dimensions[1] = height;
+    this.uniforms.aspect = height / width;
+    this.uniforms.time = this.time;
+    this.uniforms.alpha = this.alpha;
 
-      this.uniforms.shadowTexture = shadowTarget;
-      filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);   
-        
-        //new Filter().apply(filterManager, shadowTarget1, output, 0);
-      
-      filterManager.returnFilterTexture(shadowTarget);
-      
-      
-      
-  }  
+    this.uniforms.shadowTexture = shadowTarget;
+    filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);
+
+    //new Filter().apply(filterManager, shadowTarget1, output, 0);
+
+    filterManager.returnFilterTexture(shadowTarget);
+  }
 
   set shadowMapperShader(val: ShadowMapperShader) {
-      this._shadowMapperShader = val;
+    this._shadowMapperShader = val;
   }
 
-  get angle(): number
-  {
-      return this._angle;
+  get angle(): number {
+    return this._angle;
   }
-  set angle(value: number)
-  {
-      this._angle = value;
+  set angle(value: number) {
+    this._angle = value;
 
-      const radians = value * DEG_TO_RAD;
+    const radians = value * DEG_TO_RAD;
 
-      this._angleLight.x = Math.cos(radians);
-      this._angleLight.y = Math.sin(radians);
+    this._angleLight.x = Math.cos(radians);
+    this._angleLight.y = Math.sin(radians);
   }
 
   /**
@@ -119,13 +129,11 @@ export class MixedShader extends Filter {
    * @member {number}
    * @default 0.5
    */
-  get gain(): number
-  {
-      return this.uniforms.gain;
+  get gain(): number {
+    return this.uniforms.gain;
   }
-  set gain(value: number)
-  {
-      this.uniforms.gain = value;
+  set gain(value: number) {
+    this.uniforms.gain = value;
   }
 
   /**
@@ -135,13 +143,11 @@ export class MixedShader extends Filter {
    * @member {number}
    * @default 2.5
    */
-  get lacunarity(): number
-  {
-      return this.uniforms.lacunarity;
+  get lacunarity(): number {
+    return this.uniforms.lacunarity;
   }
-  set lacunarity(value: number)
-  {
-      this.uniforms.lacunarity = value;
+  set lacunarity(value: number) {
+    this.uniforms.lacunarity = value;
   }
 
   /**
@@ -149,13 +155,10 @@ export class MixedShader extends Filter {
    * @member {number}
    * @default 1
    */
-  get alpha(): number
-  {
-      return this.uniforms.alpha;
+  get alpha(): number {
+    return this.uniforms.alpha;
   }
-  set alpha(value: number)
-  {
-      this.uniforms.alpha = value;
+  set alpha(value: number) {
+    this.uniforms.alpha = value;
   }
-
 }

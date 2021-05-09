@@ -1,155 +1,179 @@
-import {Particle} from "@orbitweb/common";
-import {Structure} from "@orbitweb/common";
-import {Rectangle} from "@orbitweb/common";
-import {CollisionParticleWall} from "./collision/CollisionParticleWall";
-import {CMath} from "@orbitweb/common";
-import {CollisionParticleParticle} from "./collision/CollisionParticleParticle";
+import { Particle } from '@orbitweb/common';
+import { Structure } from '@orbitweb/common';
+import { Rectangle } from '@orbitweb/common';
+import { CollisionParticleWall } from './collision/CollisionParticleWall';
+import { CMath } from '@orbitweb/common';
+import { CollisionParticleParticle } from './collision/CollisionParticleParticle';
 
 export class CollisionDetection {
-
-  public static detect(particles: Particle[], structures: Structure[], boundries: Rectangle) {
-    particles.forEach( (particle) => {
+  public static detect(
+    particles: Particle[],
+    structures: Structure[],
+    boundries: Rectangle
+  ) {
+    particles.forEach((particle) => {
       this.checkBoundries(particle, boundries);
-    })
+    });
 
     this.partitionSpace(particles, boundries, 10);
   }
 
   public static checkBoundries(particle: Particle, boundry: Rectangle) {
-    if ( particle.position.x - particle.radius < boundry.x1.x) {
-      CollisionParticleWall.collide(particle,{x: 1, y: 0}, boundry.x1.x - ( particle.position.x - particle.radius));
+    if (particle.position.x - particle.radius < boundry.x1.x) {
+      CollisionParticleWall.collide(
+        particle,
+        { x: 1, y: 0 },
+        boundry.x1.x - (particle.position.x - particle.radius)
+      );
     }
 
-    if ( particle.position.x + particle.radius > boundry.x2.x) {
-      CollisionParticleWall.collide(particle,{x: -1, y: 0}, (particle.position.x + particle.radius) - boundry.x2.x);
+    if (particle.position.x + particle.radius > boundry.x2.x) {
+      CollisionParticleWall.collide(
+        particle,
+        { x: -1, y: 0 },
+        particle.position.x + particle.radius - boundry.x2.x
+      );
     }
 
-    if ( particle.position.y - particle.radius < boundry.x1.y) {
-      CollisionParticleWall.collide(particle,{x: 0, y: 1}, boundry.x1.y - ( particle.position.y - particle.radius));
+    if (particle.position.y - particle.radius < boundry.x1.y) {
+      CollisionParticleWall.collide(
+        particle,
+        { x: 0, y: 1 },
+        boundry.x1.y - (particle.position.y - particle.radius)
+      );
     }
 
-    if ( particle.position.y + particle.radius > boundry.x2.y) {
-      CollisionParticleWall.collide(particle,{x: 0, y: -1}, (particle.position.y + particle.radius) - boundry.x2.y);
+    if (particle.position.y + particle.radius > boundry.x2.y) {
+      CollisionParticleWall.collide(
+        particle,
+        { x: 0, y: -1 },
+        particle.position.y + particle.radius - boundry.x2.y
+      );
     }
-
   }
 
-  public static partitionSpace(particles: Particle[], boundry: Rectangle, depth: number) {
+  public static partitionSpace(
+    particles: Particle[],
+    boundry: Rectangle,
+    depth: number
+  ) {
     const r1c = 10;
     const r2c = 10;
 
+    if (particles.length < 2) return;
 
-      if (particles.length < 2)
-        return;
+    if (particles.length === 2) {
+      const distanceBetweenCircles: number = CMath.len(
+        CMath.sub(particles[0].position, particles[1].position)
+      );
 
-      if ( particles.length === 2) {
+      //        console.log(distanceBetweenCircles);
 
+      if (distanceBetweenCircles < r1c + r2c) {
+        const penDepth = r1c + r2c - distanceBetweenCircles;
 
-        const distanceBetweenCircles: number = CMath.len(CMath.sub(particles[0].position, particles[1].position))  ;
+        CollisionParticleParticle.collide(particles[0], particles[1], penDepth);
+      }
 
-//        console.log(distanceBetweenCircles);
+      return;
+    }
 
-        if ( distanceBetweenCircles < (r1c + r2c)) {
-          const penDepth = r1c + r2c - distanceBetweenCircles;
+    if (depth === 0) {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const distanceBetweenCircles: number = CMath.len(
+            CMath.sub(particles[i].position, particles[j].position)
+          );
 
-          CollisionParticleParticle.collide(particles[0], particles[1], penDepth);
+          if (distanceBetweenCircles < r1c + r2c) {
+            const penDepth = r1c + r2c - distanceBetweenCircles;
+
+            CollisionParticleParticle.collide(
+              particles[i],
+              particles[j],
+              penDepth
+            );
+          }
         }
-
-        return;
       }
+      return;
+    }
 
-      if ( depth === 0) {
-        for ( let i = 0; i < particles.length; i++) {
-          for (let j = i + 1 ; j < particles.length; j++) {
-            const distanceBetweenCircles: number = CMath.len(CMath.sub(particles[i].position, particles[j].position))  ;
+    const w = boundry.x2.x - boundry.x1.x;
+    const h = boundry.x2.y - boundry.x1.y;
 
-            if ( distanceBetweenCircles < (r1c + r2c)) {
-              const penDepth = r1c + r2c - distanceBetweenCircles;
+    let r1: Rectangle;
+    let r2: Rectangle;
 
-              CollisionParticleParticle.collide(particles[i], particles[j], penDepth);
-            }
-          }
-        }
-        return;
-      }
+    if (w > h) {
+      r1 = {
+        x1: {
+          x: boundry.x1.x,
+          y: boundry.x1.y,
+        },
+        x2: {
+          x: boundry.x1.x + w / 2,
+          y: boundry.x2.y,
+        },
+      };
 
-      const w = boundry.x2.x - boundry.x1.x;
-      const h = boundry.x2.y - boundry.x1.y;
+      r2 = {
+        x1: {
+          x: boundry.x1.x + w / 2,
+          y: boundry.x1.y,
+        },
+        x2: {
+          x: boundry.x2.x,
+          y: boundry.x2.y,
+        },
+      };
+    } else {
+      r1 = {
+        x1: {
+          x: boundry.x1.x,
+          y: boundry.x1.y,
+        },
+        x2: {
+          x: boundry.x2.x,
+          y: boundry.x1.y + h / 2,
+        },
+      };
 
-      let r1: Rectangle;
-      let r2: Rectangle;
+      r2 = {
+        x1: {
+          x: boundry.x1.x,
+          y: boundry.x1.y + h / 2,
+        },
+        x2: {
+          x: boundry.x2.x,
+          y: boundry.x2.y,
+        },
+      };
+    }
 
-      if ( w > h) {
-        r1 = {
-          x1: {
-            x: boundry.x1.x,
-            y: boundry.x1.y,
-          },
-          x2: {
-            x: boundry.x1.x + w/2,
-            y: boundry.x2.y
-          }
-        };
+    const s1: Particle[] = [];
+    const s2: Particle[] = [];
 
-        r2 = {
-          x1: {
-            x: boundry.x1.x + w/2,
-            y: boundry.x1.y,
-          },
-          x2: {
-            x: boundry.x2.x,
-            y: boundry.x2.y
-          }
-        };
-      } else {
-        r1 = {
-          x1: {
-            x: boundry.x1.x,
-            y: boundry.x1.y,
-          },
-          x2: {
-            x: boundry.x2.x,
-            y: boundry.x1.y + h/2
-          }
-        };
+    particles.forEach((particle) => {
+      if (this.isInRectangle(particle, r1)) s1.push(particle);
+      else s2.push(particle);
+    });
 
-        r2 = {
-          x1: {
-            x: boundry.x1.x,
-            y: boundry.x1.y + h/2,
-          },
-          x2: {
-            x: boundry.x2.x,
-            y: boundry.x2.y
-          }
-        };
-      }
-
-
-      const s1: Particle[] = [];
-      const s2: Particle[] = [];
-
-      particles.forEach( (particle) => {
-        if (this.isInRectangle(particle, r1))
-          s1.push(particle);
-        else
-          s2.push(particle);
-      });
-
-      this.partitionSpace(s1, r1, depth - 1);
-      this.partitionSpace(s2, r2, depth - 1);
-
-
+    this.partitionSpace(s1, r1, depth - 1);
+    this.partitionSpace(s2, r2, depth - 1);
   }
 
-
-
   public static isInRectangle(particle: Particle, boundry: Rectangle): boolean {
-    if (particle.position.x >= boundry.x1.x && particle.position.x <= boundry.x2.x) {
-      if ( particle.position.y >= boundry.x1.y && particle.position.y <= boundry.x2.y)
+    if (
+      particle.position.x >= boundry.x1.x &&
+      particle.position.x <= boundry.x2.x
+    ) {
+      if (
+        particle.position.y >= boundry.x1.y &&
+        particle.position.y <= boundry.x2.y
+      )
         return true;
     }
     return false;
   }
-
 }

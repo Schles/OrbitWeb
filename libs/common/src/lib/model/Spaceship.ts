@@ -1,20 +1,18 @@
-import {Particle} from "./Particle";
-import {Vector2} from "../util/VectorInterface";
-import {ShipFitting} from "./ShipFitting";
-import {Structure} from "./Structure";
-import {Inventory} from "./Inventory";
-
+import { Particle } from './Particle';
+import { Vector2 } from '../util/VectorInterface';
+import { ShipFitting } from './ShipFitting';
+import { Structure } from './Structure';
+import { Inventory } from './Inventory';
 
 export class Spaceship extends Particle {
-
   public id;
 
   public maxSpeed: number = 50;
 
   public health = 100;
-  public maxHealth:number = 150;
+  public maxHealth: number = 150;
 
-  public color: string = "#00FF00";
+  public color: string = '#00FF00';
 
   public curSpeedDEP: number = 0;
 
@@ -47,7 +45,7 @@ export class Spaceship extends Particle {
 
   public set targetPlayer(target: Spaceship) {
     this._targetPlayer = target;
-  };
+  }
 
   public get targetPlayer(): Spaceship {
     return this._targetPlayer;
@@ -67,7 +65,6 @@ export class Spaceship extends Particle {
     return this.maxSpeed / (this.timeToMaxSpeed * this.mass);
   }
 
-
   constructor(id, color) {
     super();
     this.id = id;
@@ -79,12 +76,7 @@ export class Spaceship extends Particle {
     this.actionOrbitTarget = false;
   }
 
+  public onInit() {}
 
-  public onInit() {
-
-  }
-
-  public onDestroy() {
-
-  }
+  public onDestroy() {}
 }

@@ -1,12 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.component.html',
-  styleUrls: ['./progress-bar.component.scss']
+  styleUrls: ['./progress-bar.component.scss'],
 })
 export class ProgressBarComponent implements OnInit {
-
   @Input() public title: string;
   @Input() public desc: string;
 
@@ -16,15 +15,13 @@ export class ProgressBarComponent implements OnInit {
   @Input() public set currentValue(val: number) {
     this._currentValue = val;
 
-    const p = val * 100 / this.maxValue;
+    const p = (val * 100) / this.maxValue;
     this.pValue = p <= 100 ? p : 100;
   }
 
   public pValue: number;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

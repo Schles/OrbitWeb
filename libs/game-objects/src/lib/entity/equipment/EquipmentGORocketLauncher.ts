@@ -1,17 +1,14 @@
-import {ShipEquipment} from "@orbitweb/common";
-import { Container, Graphics } from "pixi.js";
-import { string2hex } from "@pixi/utils"
-import { ShipEquipmentGO, SpaceshipGO } from "@orbitweb/game-objects";
+import { ShipEquipment } from '@orbitweb/common';
+import { Container, Graphics } from 'pixi.js';
+import { string2hex } from '@pixi/utils';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
 
 export class EquipmentGORocketLauncher extends ShipEquipmentGO {
-
   private gameObject: Container;
 
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment);
   }
-
-
 
   onInit(parent: SpaceshipGO) {
     super.onInit(parent);
@@ -25,7 +22,7 @@ export class EquipmentGORocketLauncher extends ShipEquipmentGO {
 
     this.gameObject.rotation = this.state.rotation;
 
-/*
+    /*
 
 
     if ( this.state.active) {
@@ -42,7 +39,6 @@ export class EquipmentGORocketLauncher extends ShipEquipmentGO {
     */
   }
 
-
   onDestroy(parent: SpaceshipGO) {
     super.onDestroy(parent);
 
@@ -55,7 +51,7 @@ export class EquipmentGORocketLauncher extends ShipEquipmentGO {
 
     const cannon: Graphics = new Graphics();
 
-    const c = string2hex("#AA55FF");
+    const c = string2hex('#AA55FF');
 
     // Set the fill color
 
@@ -71,7 +67,6 @@ export class EquipmentGORocketLauncher extends ShipEquipmentGO {
     look.endFill();
 
     cannonCont.addChild(look);
-
 
     return cannonCont;
   }
