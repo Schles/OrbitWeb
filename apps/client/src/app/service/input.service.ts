@@ -43,7 +43,6 @@ export class InputService {
   }
 
   public keyPressed(key) {
-    console.log(key);
     this.gameService.app().inputManager.onKeyDown(key);
   }
 }

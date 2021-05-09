@@ -25,8 +25,6 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
     this.maxAimAngle = value?.custom?.maxAimAngle
       ? value.custom.maxAimAngle
       : 0.2;
-
-    console.log(this.maxOmega);
   }
 
   public iterate(parent: SpaceshipEntity, delta: number) {

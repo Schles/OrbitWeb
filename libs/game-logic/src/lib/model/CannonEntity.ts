@@ -48,8 +48,7 @@ export class CannonEntity extends Cannon implements GameIterable {
     );
     const angle = CMath.angle(targetVector, this.getOrientation());
 
-    if (math.abs(angle) < this.maxAimAngle) {
-      console.log('shoot');
+    if (math.abs(angle) < this.maxAimAngle) {      
       this.remainingCooldown = this.cooldownDuration;
 
       //this.projectile.drawLine( {x: 0, y:0}, {x: 100, y: 100});
@@ -76,7 +75,7 @@ export class CannonEntity extends Cannon implements GameIterable {
           y: start.y + n.y * this.range,
         };
 
-        console.log('verfehlt');
+      
       } else {
         // Getroffen
         //        Game.playerHit.emit( { target: <Spaceship> this.targetPlayer, damage: this.damage });

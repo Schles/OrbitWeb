@@ -82,7 +82,6 @@ export class EquipmentSlotComponent implements OnInit {
 
   public addEquipment(tier: number, equipment: ShipEquipmentDB) {
     const list = this.tierList.find((i) => i.tier === tier);
-    console.log('list', tier);
     if (list !== undefined) {
       list.fitting.push(equipment);
       this.addTier = 0;

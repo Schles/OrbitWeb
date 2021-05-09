@@ -139,8 +139,6 @@ export class Camera {
 
     const distanceToCenter = CMath.len(CMath.sub(center, vip));
 
-    console.log(distanceToCenter);
-
     if (distanceToCenter < this.maxCameraRange) {
     } else {
     }

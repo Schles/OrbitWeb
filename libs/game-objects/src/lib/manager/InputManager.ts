@@ -105,7 +105,6 @@ export class InputManager {
   }
 
   public debugPressed(key) {
-    console.log(key);
     const userName = this.gameManager.playerLocal;
     if (userName !== undefined) {
       const msg = new DebugMessage();

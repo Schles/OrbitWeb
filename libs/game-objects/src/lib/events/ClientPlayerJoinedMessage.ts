@@ -24,7 +24,9 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       player.onInit();
       context.playerStage.addChild(player.gameObject);
       context.uiStage.addChild(player.nameplateContainer);
-      context.uiStage.addChild(player.targetContainer);
+      
+      if ( player.id === context.username)
+        context.uiStage.addChild(player.targetContainer);
 
       player.fitting.fitting = this.message.fitting.fitting.map((fit) => {
         const fitGO = EquipmentDeserializer.deserialize(fit);

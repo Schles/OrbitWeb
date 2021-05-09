@@ -74,7 +74,7 @@ export class EquipmentGORepair extends ShipEquipmentGO {
   public getGameObject(): Sprite {
     const sprite = Sprite.from('assets/Shield.png');
 
-    console.log(sprite);
+  
     sprite.anchor.x = 0.5;
     sprite.anchor.y = 0.5;
     sprite.scale.x = 0.1;

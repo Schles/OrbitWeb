@@ -10,12 +10,10 @@ export class Mine extends ProjectileGO {
     private targetPosition: Vector2
   ) {
     super(id, source);
-    console.log('mine', targetPosition);
   }
 
   onInit() {
     super.onInit();
-    console.log('bin da');
 
     this.gameObject.x = this.targetPosition.x;
     this.gameObject.y = this.targetPosition.y;
@@ -23,8 +21,7 @@ export class Mine extends ProjectileGO {
 
   public iterate(delta) {
     //super.iterate(delta);
-
-    console.log('mine');
+  
   }
 
   public getGameObject(): Container {

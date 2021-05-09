@@ -17,7 +17,6 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
     const source = context.players.find((p) => p.id === this.message.source);
 
     if (source !== undefined) {
-      console.log(this.message);
       let projectileGO: ProjectileGO;
       if (this.message.projType === 'rocketProjectile') {
         projectileGO = new Rocket(this.message.id, source);
