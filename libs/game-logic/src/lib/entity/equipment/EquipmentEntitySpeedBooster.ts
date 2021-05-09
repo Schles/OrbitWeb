@@ -1,14 +1,15 @@
 import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
   private absoluteChange: number = 0;
 
-  private bonus: number = 0.4;
+  private bonus: number;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
+    this.bonus = value?.bonusRate ? value.bonusRate : 0.4;
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {

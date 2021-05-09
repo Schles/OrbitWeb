@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Repair",
+        "cpuCost": 10,
+        "powerCost": 30,
+        "cycleTime": 15,
+        "action": {
+            "targetSelf": true
+        },
+        "value": {
+            "absolute": 10
+        },
+        "meta": {
+            "desc": "Self Heal for energy cost.",
+            "icon": ""
+        }
+    },
+    {
+        "name": "Webber",
+        "cpuCost": 15,
+        "powerCost": 10,
+        "cycleTime": 10,
+        "action": {
+            "targetEnemy": true
+        },
+        "value": {
+            "range": 4000
+        },
+        "meta": {
+            "desc": "Slows the target ship on activation.",
+            "icon": ""
+        }
+    },
+    {
+        "name": "SpeedBooster",
+        "cpuCost": 70,
+        "powerCost": 30,
+        "cycleTime": 6,
+        "action": {
+            "targetSelf": true
+        },
+        "value":{
+            "bonusRate": 0.6
+        },
+        "meta": {
+            "desc": "Increased Speed for high energy cost.",
+            "icon": ""
+        }
+    }
+
+    
+]

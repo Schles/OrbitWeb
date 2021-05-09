@@ -1,4 +1,4 @@
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
 import * as math from 'mathjs';
@@ -12,9 +12,15 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
   private maxAimAngle: number = 0.2;
   private damage: number = 5;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
-    this.range = 400;
+    this.range = value?.range ? value.range : 400;
+    this.damage = value?.absolute ? value.absolute : 5;
+    this.maxOmega = value?.custom?.maxOmega ? value.custom.maxOmega : 0.4;
+    this.maxAimAngle = value?.custom?.maxAimAngle ? value.custom.maxAimAngle : 0.2;
+    
+    console.log(this.maxOmega);
+
   }
 
   public iterate(parent: SpaceshipEntity, delta: number) {

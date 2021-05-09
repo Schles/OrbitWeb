@@ -1,17 +1,16 @@
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {
   private absoluteChange: number = 0;
 
-  private bonus: number = 0.4;
 
   private targetPlayer: SpaceshipEntity;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
-    this.range = 250;
+    this.range = value?.range ? value.range : 250;
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {

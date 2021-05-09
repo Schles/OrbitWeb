@@ -22,11 +22,14 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
 
       player = new SpaceshipEntity(sp);
       player.fitting = new ShipFitting();
-      player.fitting.fitting = this.message.fitting.fitting.map((fit) => {
+      player.fitting.fitting = this.message.fitting.fitting.reduce((acc, fit) => {
         const eq = EquipmentDeserializer.deserialize(fit);
-        eq.onInit(player);
-        return eq;
-      });
+        if ( eq) {
+          eq.onInit(player);  
+          acc.push(eq);
+        }
+        return acc;
+      }, []);
 
       new Spawner(context.boundries).spawnRandom(player);
 

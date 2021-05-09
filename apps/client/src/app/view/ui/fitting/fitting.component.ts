@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { GameService } from '../../../service/game.service';
-import { ShipFitting } from '@orbitweb/common';
+import { AssetManager, ShipFitting } from '@orbitweb/common';
 import { ShipEquipment } from '@orbitweb/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PlayerService } from '../../../service/player.service';
@@ -13,10 +13,6 @@ import { EquipmentSlotComponent } from './equipment-slot/equipment-slot.componen
 })
 export class FittingComponent implements OnInit, AfterViewInit {
   @ViewChild(EquipmentSlotComponent) fittingComponent: EquipmentSlotComponent;
-
-  public get database(): ShipEquipment[] {
-    return this.gameService.fittingDB.db;
-  }
 
   public myForm;
 
@@ -77,7 +73,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
     if (this.myForm.value.customEq) {
       shipFitting.fitting = this.fittingComponent.getFitting();
     } else {
-      shipFitting.fitting = this.gameService.fittingDB.getSet('default');
+      shipFitting.fitting = AssetManager.getDefaultFitting();
     }
 
     this.gameService

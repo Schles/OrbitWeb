@@ -1,5 +1,5 @@
 import { ShipEquipmentEntity } from '../model/ShipEquipmentEntity';
-import { ShipEquipment } from '@orbitweb/common';
+import { AssetManager, ShipEquipment } from '@orbitweb/common';
 
 import { EquipmentEntityLaser } from '../entity/equipment/EquipmentEntityLaser';
 import { EquipmentEntitySpeedBooster } from '../entity/equipment/EquipmentEntitySpeedBooster';
@@ -17,25 +17,28 @@ export class EquipmentDeserializer {
       return undefined;
     }
 
+
+    const value = AssetManager.getValue(shipEquipment.name);
+
     switch (shipEquipment.name) {
       case 'Empty':
         return new EquipmentEntityEmpty(shipEquipment);
       case 'Repair':
-        return new EquipmentEntityRepair(shipEquipment);
+        return new EquipmentEntityRepair(shipEquipment, value);
       case 'Webber':
-        return new EquipmentEntityWebber(shipEquipment);
+        return new EquipmentEntityWebber(shipEquipment, value);
       case 'Laser':
-        return new EquipmentEntityLaser(shipEquipment);
+        return new EquipmentEntityLaser(shipEquipment, value);
       case 'Battery':
-        return new EquipmentEntityBattery(shipEquipment);
+        return new EquipmentEntityBattery(shipEquipment, value);
       case 'SpeedBooster':
-        return new EquipmentEntitySpeedBooster(shipEquipment);
+        return new EquipmentEntitySpeedBooster(shipEquipment, value);
       case 'Nosferatu':
-        return new EquipmentEntityNosferatu(shipEquipment);
+        return new EquipmentEntityNosferatu(shipEquipment, value);
       case 'RocketLauncher':
-        return new EquipmentEntityRocketLauncher(shipEquipment);
+        return new EquipmentEntityRocketLauncher(shipEquipment, value);
       case 'Mass':
-        return new EquipmentEntityMass(shipEquipment);
+        return new EquipmentEntityMass(shipEquipment, value);
     }
     return undefined;
   }

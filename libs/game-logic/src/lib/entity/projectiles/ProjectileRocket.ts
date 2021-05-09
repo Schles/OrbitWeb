@@ -1,21 +1,27 @@
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { Physics } from '@orbitweb/common';
+import { Physics, ShipEquipmentDBValue } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 import { Particle } from '@orbitweb/common';
 
 export class ProjectileRocket extends ProjectileEntity {
-  private minDistanceToExplode: number = 30.0;
-  private maxSpeed: number = 40;
-  private damage: number = 10;
-  private flightTime: number = 15;
+  private minDistanceToExplode: number;
+  private maxSpeed: number;
+  private damage: number;
+  
 
-  constructor(id: string, source: SpaceshipEntity, target: SpaceshipEntity) {
+  constructor(id: string, source: SpaceshipEntity, target: SpaceshipEntity, value: ShipEquipmentDBValue) {
     super(id, source, target);
     this.type = 'rocketProjectile';
-    this.duration = 20;
-    this.timeToLife = this.flightTime;
+    this.duration = 20; // Still used? 
+
+    this.damage = value?.absolute ? value.absolute : 10;
+    this.minDistanceToExplode = value?.custom?.minDistanceToExplode ? value.custom.minDistanceToExplode : 30;
+    this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 15; 
+    this.maxSpeed = value?.custom?.maxSpeed ? value.custom.maxSpeed : 40;
+
+    
   }
 
   onInit() {

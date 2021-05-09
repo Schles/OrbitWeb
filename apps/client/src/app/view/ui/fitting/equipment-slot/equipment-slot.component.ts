@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ShipEquipment } from '@orbitweb/common';
+import { AssetManager, ShipEquipment, ShipEquipmentDB, ShipEquipmentDBMeta } from '@orbitweb/common';
 import { GameService } from '../../../../service/game.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class EquipmentSlotComponent implements OnInit {
   public tierList: {
     tier: number;
     name: string;
-    fitting: ShipEquipment[];
+    fitting: ShipEquipmentDB[];
   }[] = [
     {
       tier: 1,
@@ -46,23 +46,22 @@ export class EquipmentSlotComponent implements OnInit {
 
   public getFitting(): ShipEquipment[] {
     return this.tierList.reduce((acc, cur) => {
+      
       cur.fitting.forEach((fit) => {
-        acc.push(fit);
+        acc.push(AssetManager.dirtyFactory(cur.tier, fit));
       });
       return acc;
     }, []);
   }
 
-  public get database(): ShipEquipment[] {
-    return this.gameService.fittingDB.db;
+
+  public getDescription(tier: number, name: string): ShipEquipmentDBMeta {
+    
+    return AssetManager.getShipEquipmentMeta(tier, name);
   }
 
-  public getDescription(name: string): string {
-    return this.gameService.fittingDB.getDescription(name);
-  }
-
-  public getAllEquipment(tier: number): ShipEquipment[] {
-    return this.database.filter((eq) => eq.tier === tier);
+  public getAllEquipment(tier: number): ShipEquipmentDB[] {
+    return AssetManager.getShipEquipment(tier);
   }
 
   public getCPUP() {
@@ -79,8 +78,9 @@ export class EquipmentSlotComponent implements OnInit {
     this.tierList.find((o) => o.tier === tier).fitting.splice(index, 1);
   }
 
-  public addEquipment(equipment: ShipEquipment) {
-    const list = this.tierList.find((tier) => tier.tier === equipment.tier);
+  public addEquipment(tier: number, equipment: ShipEquipmentDB) {
+    const list = this.tierList.find((i) => i.tier === tier);
+    console.log("list", tier);
     if (list !== undefined) {
       list.fitting.push(equipment);
       this.addTier = 0;

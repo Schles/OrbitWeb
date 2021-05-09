@@ -1,21 +1,23 @@
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 export class EquipmentEntityNosferatu extends ShipEquipmentTargetEntity {
-  private drain: number = 40;
-  private gain: number = 20;
+  private drain: number;
+  private gain: number;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
 
-    this.range = 150;
+    this.range = value?.range ? value.range : 150;
+    this.drain = value?.custom?.drain ? value.custom.drain : 40;
+    this.gain = value?.custom?.gain ? value.custom.gain : 20;
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
 
-    (<SpaceshipEntity>parent.targetPlayer).power -= this.drain;
+    (<SpaceshipEntity>parent?.targetPlayer).power -= this.drain;
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {

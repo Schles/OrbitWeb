@@ -1,12 +1,14 @@
 import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntityBattery extends ShipEquipmentEntity {
-  private bonusRate: number = 0.6;
+  private bonusRate: number;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
+
+    this.bonusRate = value?.bonusRate ? value.bonusRate : 0.6;
   }
 
   public onInit(parent: SpaceshipEntity) {

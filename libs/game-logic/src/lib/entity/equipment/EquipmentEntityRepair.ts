@@ -1,13 +1,14 @@
 import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
-import { ShipEquipment } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntityRepair extends ShipEquipmentEntity {
-  public repairAmount = 30;
+  public repairAmount;
 
-  constructor(shipEquipment: ShipEquipment) {
+  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
-    this.powerCost = 1;
+    
+    this.repairAmount = value?.absolute ? value.absolute : 30;
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {

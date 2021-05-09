@@ -20,6 +20,8 @@ export * from './lib/util/CMath';
 export * from './lib/util/Util';
 export * from './lib/physics/Physics';
 
+export * from './lib/database/AssetManager'
+
 // messages
 export * from './lib/message/game/BoundryUpdateMessage';
 export * from './lib/message/game/ScoreboardUpdateMessage';
