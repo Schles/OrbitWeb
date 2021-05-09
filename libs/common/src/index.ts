@@ -17,6 +17,7 @@ export * from './lib/model/GameIterable';
 export * from './lib/util/Factories';
 export * from './lib/util/VectorInterface';
 export * from './lib/util/CMath';
+export * from './lib/util/CGame';
 export * from './lib/util/Util';
 export * from './lib/physics/Physics';
 

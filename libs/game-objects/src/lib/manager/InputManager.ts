@@ -25,16 +25,30 @@ export class InputManager {
 
   public onKeyDown(key: number) {
     const userName = this.gameManager.playerLocal;
-    if (userName !== undefined && key >= 0) {
-      const msg = new PlayerActionMessage(userName.id, key - 1);
-      if (msg !== undefined) {
-        this.send(msg);
+    if (userName !== undefined) {
+      if ( key === -1) {
+        this.onClickPlayer(undefined);
+      } else {
+        const msg = new PlayerActionMessage(userName.id, key - 1);
+        if (msg !== undefined) {
+          this.send(msg);
+        }
       }
+      
     }
   }
 
-  public onClick(event) {
+  public onMouseDown(event) {
+
+  }
+
+
+  public onMouseUp(event) {
     this.canvasClicked(event);
+  }
+
+  public onClick(event) {
+    
   }
 
   private canvasClicked(event) {
@@ -54,7 +68,7 @@ export class InputManager {
     );
 
     if (clickedPlayer !== undefined) {
-      this.onClickPlayer(clickedPlayer);
+ 
     } else if (clickedStructure !== undefined) {
       this.onClickStructure(clickedStructure);
     } else {
@@ -63,20 +77,18 @@ export class InputManager {
   }
 
   private onClickPlayer(target: SpaceshipGO) {
-    if (target.id === this.gameManager.playerLocal?.id) {
+    if (target?.id === this.gameManager.playerLocal?.id) {
       console.log('self');
     } else {
       this.send(
-        new PlayerOrbitMessage(this.gameManager.playerLocal.id, target.id)
+        new PlayerOrbitMessage(this.gameManager.playerLocal.id, target?.id)
       );
     }
   }
 
   private onClickStructure(target: StructureGO) {
     if (this.gameManager.playerLocal !== undefined) {
-      this.send(
-        new PlayerStructureMessage(this.gameManager.playerLocal.id, target.id)
-      );
+      this.send(new PlayerStructureMessage(this.gameManager.playerLocal.id, target.id));
     } else {
       console.log('no player');
     }
@@ -88,6 +100,10 @@ export class InputManager {
       this.send(
         new PlayerMoveToMessage(this.gameManager.playerLocal.id, localPosition)
       );
+
+      const len = CMath.len(localPosition);
+
+      this.gameManager.orbitContainer.targetOrbit = len;
     } else {
       console.log('no player');
     }

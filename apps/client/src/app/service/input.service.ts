@@ -13,11 +13,18 @@ export class InputService {
     this.gameService
       .app()
       .renderer.plugins.interaction.on('pointerup', (event) => {
-        this.gameService.app().inputManager.onClick(event);
+        //this.gameService.app().inputManager.onClick(event);
+        this.gameService.app().inputManager.onMouseUp(event);
+      });
+
+      this.gameService
+      .app()
+      .renderer.plugins.interaction.on('pointerdown', (event) => {
+        this.gameService.app().inputManager.onMouseDown(event);
       });
 
     window.addEventListener('keydown', (event) => {
-      if (this.playerService.isLoggedIn()) {
+      if (this.playerService.isLoggedIn()) {        
         if (event.key === '1') {
           this.keyPressed(1);
         } else if (event.key === '2') {

@@ -1,8 +1,9 @@
-import { GameIterable, Message } from '@orbitweb/common';
+import { GameIterable, Message, Spaceship } from '@orbitweb/common';
 import { ProjectileGO, SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
 import { Camera, World } from '@orbitweb/renderer';
 import { WorldGOBoundry } from '../entity/world/WorldGOBoundry';
 import { WorldGOSun } from '../entity/world/WorldGOSun';
+import { TargetOrbitContainer } from '../ui/TargetOrbitContainer';
 import { EventManager } from './EventManager';
 import { InputManager } from './InputManager';
 import { NetworkManager } from './NetworkManager';
@@ -21,7 +22,7 @@ export class GameManager extends World {
 
   public send: (msg: Message) => void;
 
-  public playerLocal: SpaceshipGO;
+  private _playerLocal: SpaceshipGO;
   protected _username: string;
 
   public inputManager: InputManager;
@@ -47,9 +48,21 @@ export class GameManager extends World {
     this.playerLocal = this.players.find((p) => p.id === this._username);
   }
 
+  public set playerLocal(val: SpaceshipGO) {
+    this._playerLocal = val;
+    this.orbitContainer.setSource(this._playerLocal);
+  }
+
+  public get playerLocal(): SpaceshipGO {
+    return this._playerLocal;
+  }
+
+
   public get username(): string {
     return this._username;
   }
+
+  public orbitContainer: TargetOrbitContainer;
 
   constructor(options) {
     super(options);

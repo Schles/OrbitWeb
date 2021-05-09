@@ -1,4 +1,4 @@
-import { Vector2 } from '@orbitweb/common';
+import { AssetManager, Vector2 } from '@orbitweb/common';
 import {
   BLEND_MODES,
   CLEAR_MODES,
@@ -22,14 +22,13 @@ export class MixedShader extends Filter {
    */
   public parallel = true;
 
+  public lightDistance: number;
+
   /**
    * The position of the emitting point for light rays
    * only used if `parallel` is set to `false`.
    */
   public center: number[] | Point;
-
-  /** The current time. */
-  public time = 0;
 
   private _angleLight: Point;
   private _angle = 0;
@@ -52,16 +51,13 @@ export class MixedShader extends Filter {
     this.lacunarity = opts.lacunarity;
     this.alpha = opts.alpha;
     this.parallel = opts.parallel;
-    this.uniforms.light = [500, 500];
-    this.time = opts.time;
+    this.uniforms.light = [];
+    this.uniforms.minSize = AssetManager.config.world.minRadius;
+    this.uniforms.maxSize = AssetManager.config.world.maxRadius;
 
-    this.lights = [
-      [500, 500],
-      [0, 0],
-    ];
+    this.lightDistance = AssetManager.config.world.lightDistance;
 
     this.filter = new Filter();
-    //this.blendMode = BLEND_MODES.SRC_OUT;
   }
 
   private filter: Filter;
@@ -78,6 +74,7 @@ export class MixedShader extends Filter {
     //const lightTarget = filterManager.getFilterTexture();
     const shadowTarget = filterManager.getFilterTexture();
 
+    this._shadowMapperShader.radius = this.lightDistance;
     this._shadowMapperShader.lights = this.lights;
     this._shadowMapperShader.apply(
       filterManager,
@@ -95,8 +92,8 @@ export class MixedShader extends Filter {
     this.uniforms.dimensions[0] = width;
     this.uniforms.dimensions[1] = height;
     this.uniforms.aspect = height / width;
-    this.uniforms.time = this.time;
     this.uniforms.alpha = this.alpha;
+    this.uniforms.light = this.lights[0];
 
     this.uniforms.shadowTexture = shadowTarget;
     filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);

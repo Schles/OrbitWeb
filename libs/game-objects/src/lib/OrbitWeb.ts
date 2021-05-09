@@ -6,10 +6,19 @@ import {
 } from '@orbitweb/renderer';
 import { BLEND_MODES, RenderTexture, Sprite, Texture } from 'pixi.js';
 import { GameManager } from './manager/GameManager';
+import { TargetOrbitContainer } from './ui/TargetOrbitContainer';
 
 export class OrbitWeb extends GameManager {
+
+
+  
+
   public onInitGame() {
     super.onInitGame();
+
+
+    this.orbitContainer = new TargetOrbitContainer(0xFF0000);
+    this.uiStage.addChild(this.orbitContainer);
 
     this.OnResizeWindow.subscribe((size) => {
       this.camera.setSize(size.x, size.y);
@@ -31,6 +40,9 @@ export class OrbitWeb extends GameManager {
 
   public iterate(dT) {
     super.iterate(dT);
+
+
+    this.orbitContainer.iterate(dT);
 
     if (this.lightShader) {
       const mousePosition = this.renderer.plugins.interaction.mouse.global;

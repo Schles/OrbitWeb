@@ -1,0 +1,11 @@
+{
+    "world": {
+        "minRadius": 100,
+        "maxRadius": 450,
+        "lightDistance": 600
+    },
+    "player": {
+        "maxOrbitChange": 30,
+        "maxOmega": 30
+    }
+}

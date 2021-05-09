@@ -4,7 +4,8 @@ import { PhysicsInput } from '@orbitweb/game-engine';
 import { MovementGoalFreeFly } from './MovementGoalFreeFly';
 
 import * as math from 'mathjs';
-import { Vector2 } from '@orbitweb/common';
+import { AssetManager, CGame, Vector2 } from '@orbitweb/common';
+import { timingSafeEqual } from 'node:crypto';
 
 export class MovementGoalOrbit extends MovementGoal {
 
@@ -12,7 +13,8 @@ export class MovementGoalOrbit extends MovementGoal {
 
   constructor(public center: Vector2, distance: number) {
     super();
-    this.distance = Math.max(100, Math.min(400, distance));
+    //this.distance = Math.max(AssetManager.config.world.minRadius, Math.min(400, distance));
+    this.distance = CGame.clamp(distance, AssetManager.config.world.minRadius, AssetManager.config.world.maxRadius);
   }
 
   iterate(player: SpaceshipEntity, deltaTime: number): PhysicsInput {
@@ -46,7 +48,7 @@ export class MovementGoalOrbit extends MovementGoal {
 
 
       if ( delta > 5) {
-        player.orbitRadius -= clamp(player.orbitRadius - this.distance, 30) * deltaTime;
+        player.orbitRadius -= clamp(player.orbitRadius - this.distance, AssetManager.config.player.maxOrbitChange) * deltaTime;
       }
 
       //player.orbitRadius = this.distance;
