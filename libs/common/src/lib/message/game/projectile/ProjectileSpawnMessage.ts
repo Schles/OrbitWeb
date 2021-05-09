@@ -6,10 +6,7 @@ export class ProjectileSpawnMessage extends ProjectileMessage {
   public x: number;
   public y: number;
 
-  constructor(
-    projectile: Projectile,
-    public source: string,
-  ) {
+  constructor(projectile: Projectile, public source: string) {
     super(projectile.id);
 
     this.x = projectile.position.x;

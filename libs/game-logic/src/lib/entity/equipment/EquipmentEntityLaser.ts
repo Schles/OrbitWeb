@@ -1,4 +1,8 @@
-import { ShipEquipment, ShipEquipmentDBValue, Spaceship } from '@orbitweb/common';
+import {
+  ShipEquipment,
+  ShipEquipmentDBValue,
+  Spaceship,
+} from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
 import * as math from 'mathjs';
@@ -18,10 +22,11 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
     this.range = value?.range ? value.range : 400;
     this.damage = value?.absolute ? value.absolute : 5;
     this.maxOmega = value?.custom?.maxOmega ? value.custom.maxOmega : 0.4;
-    this.maxAimAngle = value?.custom?.maxAimAngle ? value.custom.maxAimAngle : 0.2;
-    
-    console.log(this.maxOmega);
+    this.maxAimAngle = value?.custom?.maxAimAngle
+      ? value.custom.maxAimAngle
+      : 0.2;
 
+    console.log(this.maxOmega);
   }
 
   public iterate(parent: SpaceshipEntity, delta: number) {
@@ -83,16 +88,13 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
     const length = math.norm([v.x, v.y]);
 
-    const target: SpaceshipEntity =  <SpaceshipEntity>parent.targetPlayer;
+    const target: SpaceshipEntity = <SpaceshipEntity>parent.targetPlayer;
 
     target.takeDamage(this.damage, parent);
 
-    const proj: ProjectileEntity = new ProjectileEntity(
-      undefined,
-      parent,  
-    );
+    const proj: ProjectileEntity = new ProjectileEntity(undefined, parent);
 
-    proj.type = "laserProjectile";
+    proj.type = 'laserProjectile';
     proj.position = target.position;
 
     EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });

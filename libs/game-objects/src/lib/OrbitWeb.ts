@@ -9,15 +9,10 @@ import { GameManager } from './manager/GameManager';
 import { TargetOrbitContainer } from './ui/TargetOrbitContainer';
 
 export class OrbitWeb extends GameManager {
-
-
-  
-
   public onInitGame() {
     super.onInitGame();
 
-
-    this.orbitContainer = new TargetOrbitContainer(0xFF0000);
+    this.orbitContainer = new TargetOrbitContainer(0xff0000);
     this.uiStage.addChild(this.orbitContainer);
 
     this.OnResizeWindow.subscribe((size) => {
@@ -41,13 +36,12 @@ export class OrbitWeb extends GameManager {
   public iterate(dT) {
     super.iterate(dT);
 
-
     this.orbitContainer.iterate(dT);
 
     if (this.lightShader) {
       const mousePosition = this.renderer.plugins.interaction.mouse.global;
 
-      let lights: any[] = [{position: { x:0, y:0}, rotation: 0}]
+      let lights: any[] = [{ position: { x: 0, y: 0 }, rotation: 0 }]
         .map((v) => {
           return {
             x: v.position.x,

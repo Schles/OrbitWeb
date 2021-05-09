@@ -13,12 +13,9 @@ export class Laser extends ProjectileGO {
   public iterate(delta) {
     super.iterate(delta);
 
-
-
-
     const c = string2hex(this.color);
     let lineWidth = 2;
-console.log("ITTER", this.target);
+    console.log('ITTER', this.target);
     const progress = this.timeToLife / this.duration;
 
     if (progress > 0.6) lineWidth = 2;

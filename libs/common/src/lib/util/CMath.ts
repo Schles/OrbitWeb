@@ -74,7 +74,6 @@ export class CMath {
       angle = 0;
     }
 
-
     if (isNaN(angle)) return 0;
 
     return angle;

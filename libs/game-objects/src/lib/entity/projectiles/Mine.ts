@@ -4,31 +4,33 @@ import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 
 export class Mine extends ProjectileGO {
-  constructor(id: string, source: SpaceshipGO, private targetPosition: Vector2) {
+  constructor(
+    id: string,
+    source: SpaceshipGO,
+    private targetPosition: Vector2
+  ) {
     super(id, source);
-    console.log("mine", targetPosition);
+    console.log('mine', targetPosition);
   }
 
   onInit() {
     super.onInit();
-      console.log("bin da");
+    console.log('bin da');
 
     this.gameObject.x = this.targetPosition.x;
     this.gameObject.y = this.targetPosition.y;
-
   }
 
   public iterate(delta) {
     //super.iterate(delta);
 
-     console.log("mine");
+    console.log('mine');
   }
 
   public getGameObject(): Container {
     const cannonCont: Container = new Container();
 
     this.lineObject = new Graphics();
-
 
     const c = string2hex(this.source.color);
 

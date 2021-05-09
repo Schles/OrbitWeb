@@ -8,13 +8,16 @@ import { AssetManager, CGame, Vector2 } from '@orbitweb/common';
 import { timingSafeEqual } from 'node:crypto';
 
 export class MovementGoalOrbit extends MovementGoal {
-
   public distance: number;
 
   constructor(public center: Vector2, distance: number) {
     super();
     //this.distance = Math.max(AssetManager.config.world.minRadius, Math.min(400, distance));
-    this.distance = CGame.clamp(distance, AssetManager.config.world.minRadius, AssetManager.config.world.maxRadius);
+    this.distance = CGame.clamp(
+      distance,
+      AssetManager.config.world.minRadius,
+      AssetManager.config.world.maxRadius
+    );
   }
 
   iterate(player: SpaceshipEntity, deltaTime: number): PhysicsInput {
@@ -32,28 +35,24 @@ export class MovementGoalOrbit extends MovementGoal {
     );
 */
 
-      player.targetPosition = this.center;
-      
+    player.targetPosition = this.center;
 
+    const delta = Math.abs(player.orbitRadius - this.distance);
 
+    const clamp = (delta, max): number => {
+      return Math.sign(delta) * Math.min(Math.abs(delta), max);
+    };
 
+    if (delta > 5) {
+      player.orbitRadius -=
+        clamp(
+          player.orbitRadius - this.distance,
+          AssetManager.config.player.maxOrbitChange
+        ) * deltaTime;
+    }
 
-
-      const delta = Math.abs(player.orbitRadius - this.distance);
-
-
-      const clamp = (delta, max): number => {
-        return Math.sign(delta) * Math.min(Math.abs(delta), max);
-      }
-
-
-      if ( delta > 5) {
-        player.orbitRadius -= clamp(player.orbitRadius - this.distance, AssetManager.config.player.maxOrbitChange) * deltaTime;
-      }
-
-      //player.orbitRadius = this.distance;
-      //console.log("target", this.distance, player.orbitRadius);
-      
+    //player.orbitRadius = this.distance;
+    //console.log("target", this.distance, player.orbitRadius);
 
     return {
       a: {

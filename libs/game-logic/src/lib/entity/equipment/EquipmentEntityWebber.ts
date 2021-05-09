@@ -16,15 +16,13 @@ export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
-    
+
     this.targetPlayer = <SpaceshipEntity>parent.targetPlayer;
-    if ( this.targetPlayer ) {
-      
+    if (this.targetPlayer) {
       this.absoluteChange = this.targetPlayer.maxOmega * this.malus;
-      console.log("abc", this.absoluteChange);
+      console.log('abc', this.absoluteChange);
       this.targetPlayer.maxOmega -= this.absoluteChange;
     }
-    
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {

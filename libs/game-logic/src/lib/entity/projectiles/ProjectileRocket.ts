@@ -10,18 +10,22 @@ export class ProjectileRocket extends ProjectileEntity {
   private maxSpeed: number;
   private damage: number;
 
-
-  constructor(id: string, source: SpaceshipEntity, private target: SpaceshipEntity, value: ShipEquipmentDBValue) {
+  constructor(
+    id: string,
+    source: SpaceshipEntity,
+    private target: SpaceshipEntity,
+    value: ShipEquipmentDBValue
+  ) {
     super(id, source);
     this.type = 'rocketProjectile';
-    this.duration = 20; // Still used? 
+    this.duration = 20; // Still used?
 
     this.damage = value?.absolute ? value.absolute : 10;
-    this.minDistanceToExplode = value?.custom?.minDistanceToExplode ? value.custom.minDistanceToExplode : 30;
-    this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 15; 
+    this.minDistanceToExplode = value?.custom?.minDistanceToExplode
+      ? value.custom.minDistanceToExplode
+      : 30;
+    this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 15;
     this.maxSpeed = value?.custom?.maxSpeed ? value.custom.maxSpeed : 40;
-
-    
   }
 
   onInit() {

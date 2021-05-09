@@ -12,11 +12,14 @@ export class TargetOrbitContainer extends Container {
   public crossHairColor = 0xff0000;
   private crossHairAlpha = 0.4;
 
-
   private _targetOrbit: number;
 
-  public set targetOrbit(val: number) {    
-    this._targetOrbit = CGame.clamp(val, AssetManager.config.world.minRadius, AssetManager.config.world.maxRadius);
+  public set targetOrbit(val: number) {
+    this._targetOrbit = CGame.clamp(
+      val,
+      AssetManager.config.world.minRadius,
+      AssetManager.config.world.maxRadius
+    );
     this.draw(this._targetOrbit);
   }
 
@@ -30,7 +33,7 @@ export class TargetOrbitContainer extends Container {
     const length = 10;
 
     this.draw(300);
-    
+
     this.crossHair.visible = true;
 
     this.addChild(this.crossHair);
@@ -41,29 +44,23 @@ export class TargetOrbitContainer extends Container {
     this.crossHair.lineStyle(2, this.crossHairColor, this.crossHairAlpha);
     this.crossHair.drawCircle(0, 0, radius);
     this.crossHair.endFill();
-
   }
 
   public setSource(spaceship: Spaceship) {
     this.source = spaceship;
-    
-    if ( spaceship)
-      this.crossHairColor = string2hex(spaceship.color);
-    
+
+    if (spaceship) this.crossHairColor = string2hex(spaceship.color);
   }
 
   public iterate(delta: number) {
-
-
-    if ( this.source ) {
+    if (this.source) {
       const len = CMath.len(this.source.position);
-      
+
       const delta = Math.abs(this._targetOrbit - len);
-      
 
       let alpha = delta / 30;
 
-      if ( delta < 10) {  
+      if (delta < 10) {
         alpha = delta / 100;
       }
 

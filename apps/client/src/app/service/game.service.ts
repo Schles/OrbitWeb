@@ -13,7 +13,7 @@ export class GameService {
         width: window.innerWidth,
         height: window.innerHeight,
         antialias: true,
-      }); 
+      });
     });
   }
 

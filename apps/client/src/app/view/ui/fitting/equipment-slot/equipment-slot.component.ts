@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AssetManager, ShipEquipment, ShipEquipmentDB, ShipEquipmentDBMeta } from '@orbitweb/common';
+import {
+  AssetManager,
+  ShipEquipment,
+  ShipEquipmentDB,
+  ShipEquipmentDBMeta,
+} from '@orbitweb/common';
 import { GameService } from '../../../../service/game.service';
 
 @Component({
@@ -46,7 +51,6 @@ export class EquipmentSlotComponent implements OnInit {
 
   public getFitting(): ShipEquipment[] {
     return this.tierList.reduce((acc, cur) => {
-      
       cur.fitting.forEach((fit) => {
         acc.push(AssetManager.dirtyFactory(cur.tier, fit));
       });
@@ -54,9 +58,7 @@ export class EquipmentSlotComponent implements OnInit {
     }, []);
   }
 
-
   public getDescription(tier: number, name: string): ShipEquipmentDBMeta {
-    
     return AssetManager.getShipEquipmentMeta(tier, name);
   }
 
@@ -80,7 +82,7 @@ export class EquipmentSlotComponent implements OnInit {
 
   public addEquipment(tier: number, equipment: ShipEquipmentDB) {
     const list = this.tierList.find((i) => i.tier === tier);
-    console.log("list", tier);
+    console.log('list', tier);
     if (list !== undefined) {
       list.fitting.push(equipment);
       this.addTier = 0;
@@ -95,5 +97,11 @@ export class EquipmentSlotComponent implements OnInit {
       }, 0);
       return acc;
     }, 0);
+  }
+
+  public isAllowedToAddMore(tier: number): boolean {
+    if (tier === 1) return this.tierList[0].fitting.length < 1;
+    else if (tier === 2) return this.tierList[1].fitting.length < 2;
+    else return false;
   }
 }

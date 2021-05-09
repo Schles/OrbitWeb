@@ -12,19 +12,23 @@ export class ProjectileMine extends ProjectileEntity {
   private damage: number;
   private targetPosition: Vector2;
 
-  constructor(id: string, source: SpaceshipEntity, value: ShipEquipmentDBValue) {
+  constructor(
+    id: string,
+    source: SpaceshipEntity,
+    value: ShipEquipmentDBValue
+  ) {
     super(id, source);
     this.type = 'mineProjectile';
-    this.duration = 20; // Still used? 
+    this.duration = 20; // Still used?
 
     this.targetPosition = source.position;
 
     this.damage = value?.absolute ? value.absolute : 10;
-    this.minDistanceToExplode = value?.custom?.minDistanceToExplode ? value.custom.minDistanceToExplode : 30;
+    this.minDistanceToExplode = value?.custom?.minDistanceToExplode
+      ? value.custom.minDistanceToExplode
+      : 30;
     this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 150;
     this.maxSpeed = value?.custom?.maxSpeed ? value.custom.maxSpeed : 40;
-
-
   }
 
   onInit() {
@@ -45,19 +49,20 @@ export class ProjectileMine extends ProjectileEntity {
 
     const players: SpaceshipEntity[] = this.context.players;
 
-    const targetPlayer = players.filter((p) => p.id !== this.source.id).find((p) => {
-      const len = CMath.len(CMath.sub(p.position, this.position));
+    const targetPlayer = players
+      .filter((p) => p.id !== this.source.id)
+      .find((p) => {
+        const len = CMath.len(CMath.sub(p.position, this.position));
 
-      if (len < this.minDistanceToExplode) {
-        return p;
-      }
-    });
+        if (len < this.minDistanceToExplode) {
+          return p;
+        }
+      });
 
     if (targetPlayer) {
-
       targetPlayer.takeDamage(this.damage, this.source);
       this.timeToLife = 0;
-      console.log("HIT", targetPlayer.id);
+      console.log('HIT', targetPlayer.id);
       return;
     }
   }

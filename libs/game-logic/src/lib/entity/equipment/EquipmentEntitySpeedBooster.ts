@@ -16,7 +16,7 @@ export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
     super.onStartEquipment(parent);
 
     this.absoluteChange = parent.maxOmega * this.bonus;
-    console.log(parent.maxOmega)
+    console.log(parent.maxOmega);
     parent.maxOmega += this.absoluteChange;
   }
 

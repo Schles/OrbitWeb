@@ -57,7 +57,6 @@ export class GameManager extends World {
     return this._playerLocal;
   }
 
-
   public get username(): string {
     return this._username;
   }
@@ -83,14 +82,10 @@ export class GameManager extends World {
   }
 
   public initWorld() {
-    this.sun = new WorldGOSun(this.backgroundStage);
-
     super.initWorld();
   }
 
   public iterate(delta: number) {
-    this.sun.iterate(delta);
-
     this.emitter.emit([...this.players, ...this.projectiles]);
     this.emitter.update(delta);
 

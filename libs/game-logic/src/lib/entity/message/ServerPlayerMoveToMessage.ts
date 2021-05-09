@@ -16,14 +16,11 @@ export class ServerPlayerMoveToMessage extends ServerMessageRecieved<PlayerMoveT
     if (player && this.message.position) {
       const dir = CMath.sub(this.message.position, player.position);
 
-
       const m = CMath.len(this.message.position);
 
-
-      
       //const reqAngle = CMath.angle(dir, { x: 0, y: 1 });
-      
-      player.movementGoal = new MovementGoalOrbit({x: 0, y: 0}, m);
+
+      player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, m);
     }
   }
 }

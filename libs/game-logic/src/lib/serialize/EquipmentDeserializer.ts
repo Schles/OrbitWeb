@@ -19,7 +19,6 @@ export class EquipmentDeserializer {
       return undefined;
     }
 
-
     const value = AssetManager.getValue(shipEquipment.name);
 
     switch (shipEquipment.name) {

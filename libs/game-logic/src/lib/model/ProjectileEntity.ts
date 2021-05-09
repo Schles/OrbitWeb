@@ -2,10 +2,7 @@ import { GameIterable, Projectile } from '@orbitweb/common';
 import { SpaceshipEntity } from './SpaceshipEntity';
 
 export class ProjectileEntity extends Projectile implements GameIterable {
-  constructor(
-    id: string,
-    public source: SpaceshipEntity,
-  ) {
+  constructor(id: string, public source: SpaceshipEntity) {
     super(id, source.color);
   }
 

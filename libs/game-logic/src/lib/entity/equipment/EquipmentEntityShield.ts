@@ -8,15 +8,14 @@ export class EquipmentEntityShield extends ShipEquipmentEntity {
 
   constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
-    
+
     this.amount = value?.absolute ? value.absolute : 1;
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
-    
+
     parent.resistance += this.amount;
-    
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {

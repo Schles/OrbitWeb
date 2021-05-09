@@ -60,20 +60,17 @@ export class GameLogic {
   }
 
   public gameLoop(delta: number) {
-    [
-      ...this.players,
-      ...this.skills,
-      ...this.structures,
-    ].forEach((gameIterable: GameIterable) => {
-      gameIterable.iterate(delta);
+    [...this.players, ...this.skills, ...this.structures].forEach(
+      (gameIterable: GameIterable) => {
+        gameIterable.iterate(delta);
+      }
+    );
+
+    this.projectiles.forEach((p) => {
+      if (p.type === 'mineProjectile') (<ProjectileMine>p).context = this;
+
+      p.iterate(delta);
     });
-
-    this.projectiles.forEach ( p => {
-      if (p.type === "mineProjectile")
-        (<ProjectileMine> p).context = this;
-
-      p.iterate(delta);  
-    })
 
     this.players.forEach((player) => {
       const msg = new PlayerUpdateMessage(player);
@@ -144,7 +141,7 @@ export class GameLogic {
 
     const res: Message = new ProjectileSpawnMessage(
       projectileEntity,
-      projectileEntity.source.id,
+      projectileEntity.source.id
     );
     this.send(res);
   }

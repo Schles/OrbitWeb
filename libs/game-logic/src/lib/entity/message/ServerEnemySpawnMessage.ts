@@ -27,7 +27,7 @@ export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMes
 
     player.position = { x: 100, y: 100 };
 
-    player.movementGoal = new MovementGoalOrbit({x:0, y: 0}, 100);
+    player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, 100);
     //player.movementGoal = new MovementGoalFreeFly();
     player.fitting = new ShipFitting();
 

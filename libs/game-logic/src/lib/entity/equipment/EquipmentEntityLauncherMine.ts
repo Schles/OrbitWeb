@@ -6,9 +6,11 @@ import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity
 import { ProjectileMine } from '../projectiles/ProjectileMine';
 import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 
-
 export class EquipmentEntityLauncherMine extends ShipEquipmentEntity {
-  constructor(shipEquipment: ShipEquipment, private value: ShipEquipmentDBValue) {
+  constructor(
+    shipEquipment: ShipEquipment,
+    private value: ShipEquipmentDBValue
+  ) {
     super(shipEquipment);
   }
 
@@ -23,5 +25,4 @@ export class EquipmentEntityLauncherMine extends ShipEquipmentEntity {
 
     EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
   }
-
 }

@@ -15,46 +15,45 @@ export class ServerPlayerOrbitMessage extends ServerMessageRecieved<PlayerOrbitM
       // target is beeing igored, cycle instead through all players (TAB Targeting)
       //const target = context.getPlayer(this.message.target);
 
-
       let nextTarget;
 
-      if ( !player.targetPlayer) {
+      if (!player.targetPlayer) {
         // find any next
         nextTarget = this.nextTarget(context, -1);
       } else {
-        const indexCurrentTarget = context.players.findIndex ( (p) => p.id === player.targetPlayer.id)
+        const indexCurrentTarget = context.players.findIndex(
+          (p) => p.id === player.targetPlayer.id
+        );
 
-        nextTarget = this.nextTarget(context, indexCurrentTarget); 
-      }      
-      
+        nextTarget = this.nextTarget(context, indexCurrentTarget);
+      }
+
       if (nextTarget !== undefined) {
         player.targetPlayer = nextTarget;
         player.actionOrbitTarget = true;
       }
-      
-     
     }
   }
 
-  
-
-  private nextTarget(context: GameLogic, currentIndex: number): SpaceshipEntity {
+  private nextTarget(
+    context: GameLogic,
+    currentIndex: number
+  ): SpaceshipEntity {
     let nextTarget;
     const player = context.getPlayer(this.message.source);
 
-    for ( let i = 0; i < 2; i++) {
+    for (let i = 0; i < 2; i++) {
       const nextIndex = (currentIndex + i + 1) % context.players.length;
       nextTarget = context.players[nextIndex];
 
-      if ( nextTarget.id === player.id ) {
+      if (nextTarget.id === player.id) {
         nextTarget = undefined;
         continue;
       } else {
         break;
-      }          
+      }
     }
 
     return nextTarget;
-
   }
 }

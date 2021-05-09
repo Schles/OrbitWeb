@@ -6,7 +6,10 @@ import { ProjectileRocket } from '../projectiles/ProjectileRocket';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 export class EquipmentEntityRocketLauncher extends ShipEquipmentTargetEntity {
-  constructor(shipEquipment: ShipEquipment, private value: ShipEquipmentDBValue) {
+  constructor(
+    shipEquipment: ShipEquipment,
+    private value: ShipEquipmentDBValue
+  ) {
     super(shipEquipment);
   }
 

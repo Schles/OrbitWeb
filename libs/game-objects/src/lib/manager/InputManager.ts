@@ -26,7 +26,7 @@ export class InputManager {
   public onKeyDown(key: number) {
     const userName = this.gameManager.playerLocal;
     if (userName !== undefined) {
-      if ( key === -1) {
+      if (key === -1) {
         this.onClickPlayer(undefined);
       } else {
         const msg = new PlayerActionMessage(userName.id, key - 1);
@@ -34,22 +34,16 @@ export class InputManager {
           this.send(msg);
         }
       }
-      
     }
   }
 
-  public onMouseDown(event) {
-
-  }
-
+  public onMouseDown(event) {}
 
   public onMouseUp(event) {
     this.canvasClicked(event);
   }
 
-  public onClick(event) {
-    
-  }
+  public onClick(event) {}
 
   private canvasClicked(event) {
     let v = this.gameManager.toLocal(event.data.global);
@@ -68,7 +62,6 @@ export class InputManager {
     );
 
     if (clickedPlayer !== undefined) {
- 
     } else if (clickedStructure !== undefined) {
       this.onClickStructure(clickedStructure);
     } else {
@@ -88,7 +81,9 @@ export class InputManager {
 
   private onClickStructure(target: StructureGO) {
     if (this.gameManager.playerLocal !== undefined) {
-      this.send(new PlayerStructureMessage(this.gameManager.playerLocal.id, target.id));
+      this.send(
+        new PlayerStructureMessage(this.gameManager.playerLocal.id, target.id)
+      );
     } else {
       console.log('no player');
     }

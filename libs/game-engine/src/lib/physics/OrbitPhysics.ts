@@ -22,22 +22,19 @@ export class OrbitPhysics extends IPhysics {
     }
 
     //return particle.speed;
-  } 
+  }
 
   public iterate(spaceship: Spaceship, delta) {
-    
-
-    const dir = {x: 0, y: 1};
+    const dir = { x: 0, y: 1 };
 
     const omega = 100 * spaceship.maxOmega;
 
-    spaceship.rotation += omega / spaceship.orbitRadius * delta;
-  
+    spaceship.rotation += (omega / spaceship.orbitRadius) * delta;
 
-    spaceship.position = CMath.scale(CMath.rotate(dir, spaceship.rotation), spaceship.orbitRadius);
-
-
-
+    spaceship.position = CMath.scale(
+      CMath.rotate(dir, spaceship.rotation),
+      spaceship.orbitRadius
+    );
 
     /*
     super.iterate(spaceship, delta);

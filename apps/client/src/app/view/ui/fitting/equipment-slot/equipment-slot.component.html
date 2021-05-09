@@ -36,11 +36,7 @@
         <div
           class="add equipment"
           (click)="addTier = tierObj.tier"
-          *ngIf="
-            addTier !== tierObj.tier &&
-            tierObj.fitting.length < 3 &&
-            this.getFitting().length < 5
-          "
+          *ngIf="isAllowedToAddMore(tierObj.tier)"
         >
           <div class="name">Add</div>
         </div>

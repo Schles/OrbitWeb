@@ -7,7 +7,7 @@ export class EquipmentEntityRepair extends ShipEquipmentEntity {
 
   constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
-    
+
     this.repairAmount = value?.absolute ? value.absolute : 30;
   }
 

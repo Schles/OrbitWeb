@@ -1,86 +1,84 @@
 [
-    {
-        "name": "Laser",
-        "cpuCost": 8,
-        "powerCost": 20,
-        "cycleTime": 5,
-        "action": {
-            "targetEnemy": true
-        },
-        "value": {
-            "absolute": 5,
-            "range": 1000,
-            "custom": {
-                "maxOmega": 0.6,
-                "maxAimAngle": 0.6
-            }
-        },
-        "meta": {
-            "desc": "Shoots at the target. Needs to be in range and aligned for the shot.",
-            "icon": ""
-        }
+  {
+    "name": "Laser",
+    "cpuCost": 8,
+    "powerCost": 20,
+    "cycleTime": 5,
+    "action": {
+      "targetEnemy": true
     },
-    {
-        "name": "RocketLauncher",
-        "cpuCost": 5,
-        "powerCost": 5,
-        "cycleTime": 2.5,
-        "action": {
-            "targetEnemy": true
-        },
-        "value": {
-            "absolute": 10,
-            "custom": {
-                "minDistanceToExplode": 30,
-                "timeToLife": 15,
-                "maxSpeed": 40
-            }
-        },
-        "meta": {
-            "desc": "Fires rockets which follows the target. Explode after 10s or reached the target.",
-            "icon": ""
-        }
+    "value": {
+      "absolute": 5,
+      "range": 1000,
+      "custom": {
+        "maxOmega": 0.6,
+        "maxAimAngle": 0.6
+      }
     },
-    {
-        "name": "Nosferatu",
-        "disabled": true,
-        "cpuCost": 10,
-        "powerCost": 60,
-        "cycleTime": 15,
-        "action": {
-            "targetEnemy": true
-        },
-        "value": {
-            "range": 400,
-            "custom": {
-                "drain": 45,
-                "gain": 22
-            }
-        },
-        "meta": {
-            "desc": "Steals target energy.",
-            "icon": ""
-        }
-    },
-    {
-        "name": "MineLauncher",
-        "cpuCost": 8,
-        "powerCost": 20,
-        "cycleTime": 5,
-        "action": {
-            
-        },
-        "value": {
-            "absolute": 5,
-            "range": 1000,
-            "custom": {
-                "maxOmega": 0.6,
-                "maxAimAngle": 0.6
-            }
-        },
-        "meta": {
-            "desc": "Place deadly Traps.",
-            "icon": ""
-        }
+    "meta": {
+      "desc": "Shoots at the target. Needs to be in range and aligned for the shot.",
+      "icon": ""
     }
+  },
+  {
+    "name": "RocketLauncher",
+    "cpuCost": 5,
+    "powerCost": 5,
+    "cycleTime": 2.5,
+    "action": {
+      "targetEnemy": true
+    },
+    "value": {
+      "absolute": 10,
+      "custom": {
+        "minDistanceToExplode": 30,
+        "timeToLife": 15,
+        "maxSpeed": 40
+      }
+    },
+    "meta": {
+      "desc": "Fires rockets which follows the target. Explode after 10s or reached the target.",
+      "icon": ""
+    }
+  },
+  {
+    "name": "Nosferatu",
+    "disabled": true,
+    "cpuCost": 10,
+    "powerCost": 60,
+    "cycleTime": 15,
+    "action": {
+      "targetEnemy": true
+    },
+    "value": {
+      "range": 400,
+      "custom": {
+        "drain": 45,
+        "gain": 22
+      }
+    },
+    "meta": {
+      "desc": "Steals target energy.",
+      "icon": ""
+    }
+  },
+  {
+    "name": "MineLauncher",
+    "cpuCost": 8,
+    "powerCost": 20,
+    "cycleTime": 5,
+    "action": {},
+    "value": {
+      "absolute": 5,
+      "range": 1000,
+      "custom": {
+        "maxOmega": 0.6,
+        "maxAimAngle": 0.6
+      }
+    },
+    "meta": {
+      "desc": "Place deadly Traps.",
+      "icon": ""
+    }
+  }
 ]

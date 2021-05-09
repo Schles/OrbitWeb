@@ -66,7 +66,7 @@ export class Camera {
     this.view.scale.y = scale;
 
     let focusPoint = this.focusPoint(positions, this._vip);
-    focusPoint = {x: 0, y: 0};
+    focusPoint = { x: 0, y: 0 };
 
     if (this.localCenterPoint) {
       const disVector: Vector2 = CMath.sub(focusPoint, this.localCenterPoint);

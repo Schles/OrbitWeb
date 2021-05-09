@@ -17,14 +17,14 @@ export class InputService {
         this.gameService.app().inputManager.onMouseUp(event);
       });
 
-      this.gameService
+    this.gameService
       .app()
       .renderer.plugins.interaction.on('pointerdown', (event) => {
         this.gameService.app().inputManager.onMouseDown(event);
       });
 
     window.addEventListener('keydown', (event) => {
-      if (this.playerService.isLoggedIn()) {        
+      if (this.playerService.isLoggedIn()) {
         if (event.key === '1') {
           this.keyPressed(1);
         } else if (event.key === '2') {

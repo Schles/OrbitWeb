@@ -24,22 +24,23 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
       player = new SpaceshipEntity(sp);
       player.fitting = new ShipFitting();
 
-      player.movementGoal = new MovementGoalOrbit({x:0, y: 0}, 150);
-      
+      player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, 150);
 
-      player.fitting.fitting = this.message.fitting.fitting.reduce((acc, fit) => {
-        const eq = EquipmentDeserializer.deserialize(fit);
-        if ( eq) {
-          eq.onInit(player);  
-          acc.push(eq);
-        } else {
-          
-        }
-        return acc;
-      }, []);
+      player.fitting.fitting = this.message.fitting.fitting.reduce(
+        (acc, fit) => {
+          const eq = EquipmentDeserializer.deserialize(fit);
+          if (eq) {
+            eq.onInit(player);
+            acc.push(eq);
+          } else {
+          }
+          return acc;
+        },
+        []
+      );
 
       new Spawner(context.boundries).spawnRandom(player);
-      player.position = {x: 150, y: 150};
+      player.position = { x: 150, y: 150 };
       player.onInit();
       context.players.push(player);
     }

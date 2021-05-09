@@ -32,7 +32,7 @@ export class NetworkService {
     this.socket.on('connect', () => {
       console.log('connected');
       this.gameService.app().networkManager.sendHandler = (data: Message) => {
-        console.log("sending", data);
+        console.log('sending', data);
         this.socket.emit('message', data);
       };
 

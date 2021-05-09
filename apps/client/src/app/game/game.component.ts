@@ -38,12 +38,10 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize')
   public resize() {
-    this.gameService
-      .app()
-      .OnResizeWindow.emit({
-        x: this.gameService.app().renderer.width,
-        y: this.gameService.app().renderer.height,
-      });
+    this.gameService.app().OnResizeWindow.emit({
+      x: this.gameService.app().renderer.width,
+      y: this.gameService.app().renderer.height,
+    });
   }
 
   public ngAfterViewInit(): void {

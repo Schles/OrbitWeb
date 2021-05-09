@@ -11,10 +11,7 @@ export class ProjectileGO extends Projectile implements GameIterable {
 
   protected lineObject: Graphics;
 
-  constructor(
-    id: string,
-    public source: SpaceshipGO,
-  ) {
+  constructor(id: string, public source: SpaceshipGO) {
     super(id, source.color);
 
     this.gameObject = this.getGameObject();
