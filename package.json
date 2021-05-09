@@ -10,7 +10,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:docker": "docker build -t orbit-server .",
-    "start:docker": "docker run -d orbit-server",
+    "start:docker": "docker run -p 8000:8000 -d --restart on-failure orbit-server",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
