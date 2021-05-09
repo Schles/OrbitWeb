@@ -35,7 +35,7 @@ export class OrbitWeb extends GameManager {
     if (this.lightShader) {
       const mousePosition = this.renderer.plugins.interaction.mouse.global;
 
-      let lights: any[] = [...this.players]
+      let lights: any[] = [{position: { x:0, y:0}, rotation: 0}]
         .map((v) => {
           return {
             x: v.position.x,

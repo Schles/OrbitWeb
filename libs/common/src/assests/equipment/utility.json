@@ -24,7 +24,8 @@
             "targetEnemy": true
         },
         "value": {
-            "range": 4000
+            "range": 4000,
+            "bonusRate": 0.3
         },
         "meta": {
             "desc": "Slows the target ship on activation.",
@@ -40,7 +41,7 @@
             "targetSelf": true
         },
         "value":{
-            "bonusRate": 0.6
+            "bonusRate": 0.4
         },
         "meta": {
             "desc": "Increased Speed for high energy cost.",

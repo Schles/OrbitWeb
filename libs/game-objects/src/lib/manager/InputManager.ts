@@ -25,7 +25,7 @@ export class InputManager {
 
   public onKeyDown(key: number) {
     const userName = this.gameManager.playerLocal;
-    if (userName !== undefined) {
+    if (userName !== undefined && key >= 0) {
       const msg = new PlayerActionMessage(userName.id, key - 1);
       if (msg !== undefined) {
         this.send(msg);

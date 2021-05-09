@@ -8,6 +8,7 @@ import { EquipmentDeserializer } from '../../serialize/EquipmentDeserializer';
 
 import { Spawner } from '../../core/Spawner';
 import { getRandomColor } from '@orbitweb/common';
+import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
 
 export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoinedMessage> {
   constructor(message: PlayerJoinedMessage) {
@@ -22,6 +23,10 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
 
       player = new SpaceshipEntity(sp);
       player.fitting = new ShipFitting();
+
+      player.movementGoal = new MovementGoalOrbit({x:0, y: 0}, 150);
+      
+
       player.fitting.fitting = this.message.fitting.fitting.reduce((acc, fit) => {
         const eq = EquipmentDeserializer.deserialize(fit);
         if ( eq) {
@@ -32,7 +37,7 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
       }, []);
 
       new Spawner(context.boundries).spawnRandom(player);
-
+      player.position = {x: 150, y: 150};
       player.onInit();
       context.players.push(player);
     }

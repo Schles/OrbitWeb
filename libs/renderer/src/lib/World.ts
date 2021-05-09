@@ -14,7 +14,7 @@ export abstract class World extends SceneGraph {
     this.emitter = new Emitter(1000);
     this.emitter.init();
 
-    this.fxStage.addChild(this.emitter.getContainer());
+    this.uiStage.addChild(this.emitter.getContainer());
   }
 
   public postShaderLoaded() {}

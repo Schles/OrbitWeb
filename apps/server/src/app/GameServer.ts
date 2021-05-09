@@ -15,8 +15,8 @@ export class GameServer extends GameLogic {
   constructor() {
     super();
 
-    this.boundries.x1 = { x: -1200, y: -300 };
-    this.boundries.x2 = { x: 600, y: 600 };
+    this.boundries.x1 = { x: -1200, y: -1000 };
+    this.boundries.x2 = { x: 1200, y: 1200 };
   }
 
   public stop() {

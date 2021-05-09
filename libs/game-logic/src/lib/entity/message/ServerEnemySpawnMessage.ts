@@ -10,6 +10,7 @@ import { MovementGoalIdle } from '../movement/MovementGoalIdle';
 import { ShipEquipment } from '@orbitweb/common';
 import { getRandomColor } from '@orbitweb/common';
 import { Spawner } from '../../core/Spawner';
+import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
 
 export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMessage> {
   constructor(message: EnemySpawnMessage) {
@@ -26,7 +27,7 @@ export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMes
 
     player.position = { x: 100, y: 100 };
 
-    player.movementGoal = new MovementGoalIdle();
+    player.movementGoal = new MovementGoalOrbit({x:0, y: 0}, 100);
     //player.movementGoal = new MovementGoalFreeFly();
     player.fitting = new ShipFitting();
 

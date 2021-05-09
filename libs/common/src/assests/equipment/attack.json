@@ -9,10 +9,10 @@
         },
         "value": {
             "absolute": 5,
-            "range": 400,
+            "range": 1000,
             "custom": {
-                "maxOmega": 0.2,
-                "maxAimAngle": 0.2
+                "maxOmega": 0.6,
+                "maxAimAngle": 0.6
             }
         },
         "meta": {

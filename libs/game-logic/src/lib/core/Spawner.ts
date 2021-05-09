@@ -54,12 +54,12 @@ export class Spawner {
         boundries.x1.y +
         Math.floor(yRand * Math.floor(boundries.x2.y - boundries.x1.y)),
     };
-
+/*
     const angle = CMath.angle(CMath.sub(center, pos), { x: 0, y: 1 });
-
+*/
     return {
       pos: pos,
-      rotation: angle,
+      rotation: 0,
     };
   }
 }

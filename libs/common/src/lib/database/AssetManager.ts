@@ -27,7 +27,7 @@ export class AssetManager {
             this.dirtyFactory(1, this.findEquipment("RocketLauncher")),
             this.dirtyFactory(1, this.findEquipment("Laser")),
             this.dirtyFactory(2, this.findEquipment("SpeedBooster")),
-            this.dirtyFactory(3, this.findEquipment("Mass")),
+            this.dirtyFactory(2, this.findEquipment("Webber")),
             this.dirtyFactory(3, this.findEquipment("Mass"))
         ];
     }

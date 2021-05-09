@@ -78,7 +78,7 @@ export class GameLogic {
       this.send(msg);
     });
 
-    CollisionDetection.detect(this.players, this.structures, this.boundries);
+    CollisionDetection.detect([], this.structures, this.boundries);
   }
 
   public send(msg) {}

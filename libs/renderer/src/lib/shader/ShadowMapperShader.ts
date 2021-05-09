@@ -18,7 +18,7 @@ export class ShadowMapperShader extends Filter {
   public lights: number[][] | Point[];
 
   private _sampleSize: number = 100;
-  public radius: number = 100;
+  public radius: number = 600;
 
   constructor(vertexShader, fragmentShader, options) {
     super(vertexShader, fragmentShader);
@@ -27,7 +27,7 @@ export class ShadowMapperShader extends Filter {
 
     this._filter = new Filter();
     this.sampleSize = 100.0;
-    this.radius = 200;
+    this.radius = 600;
 
     this._filter.blendMode = BLEND_MODES.ADD;
   }

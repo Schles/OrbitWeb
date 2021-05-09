@@ -1,10 +1,10 @@
 import { GameIterable, Spaceship } from '@orbitweb/common';
-import { Physics } from '@orbitweb/common';
 import { ShipEquipmentEntity } from './ShipEquipmentEntity';
 import { CMath } from '@orbitweb/common';
 import { StructureEntity } from './StructureEntity';
 import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 import { MovementGoal } from './MovementGoal';
+import { Physics } from '@orbitweb/game-engine';
 
 export class SpaceshipEntity extends Spaceship implements GameIterable {
   public lastHitBy: SpaceshipEntity;
@@ -29,10 +29,13 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
   }
 
   public iterate(delta: number) {
-    Physics.iterate(this, delta);
+    const physics = new Physics();
+    physics.iterate(this, delta);
 
     this.activationProgress = 0;
     const input = this.movementGoal.iterate(this, delta);
+    /*
+    
 
     this.accel = input.a;
     this.omega = input.r;
@@ -43,7 +46,7 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
       this.speed.y =
         (this.speed.y * input.vCap * this.maxSpeed) / this.curSpeed;
     }
-
+*/
     this.iterateStructure(delta);
 
     this.power += this.energyRechargeRate * delta;
