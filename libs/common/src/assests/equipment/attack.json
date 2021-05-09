@@ -43,6 +43,7 @@
     },
     {
         "name": "Nosferatu",
+        "disabled": true,
         "cpuCost": 10,
         "powerCost": 60,
         "cycleTime": 15,
@@ -58,6 +59,27 @@
         },
         "meta": {
             "desc": "Steals target energy.",
+            "icon": ""
+        }
+    },
+    {
+        "name": "MineLauncher",
+        "cpuCost": 8,
+        "powerCost": 20,
+        "cycleTime": 5,
+        "action": {
+            
+        },
+        "value": {
+            "absolute": 5,
+            "range": 1000,
+            "custom": {
+                "maxOmega": 0.6,
+                "maxAimAngle": 0.6
+            }
+        },
+        "meta": {
+            "desc": "Place deadly Traps.",
             "icon": ""
         }
     }

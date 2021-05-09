@@ -1,4 +1,4 @@
-import { GameIterable, Spaceship } from '@orbitweb/common';
+import { CGame, GameIterable, Spaceship } from '@orbitweb/common';
 import { ShipEquipmentEntity } from './ShipEquipmentEntity';
 import { CMath } from '@orbitweb/common';
 import { StructureEntity } from './StructureEntity';
@@ -78,5 +78,13 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
     } else {
       this.activationTime = 0;
     }
+  }
+
+  public takeDamage(value: number, source?: SpaceshipEntity) {
+    let damageTaken = value - this.resistance * value;
+    let clampedDamageTaken = CGame.clamp(damageTaken, 0, 100);
+
+    this.health -= clampedDamageTaken;
+    this.lastHitBy = source;
   }
 }

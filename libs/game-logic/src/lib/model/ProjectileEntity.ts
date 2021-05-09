@@ -5,7 +5,6 @@ export class ProjectileEntity extends Projectile implements GameIterable {
   constructor(
     id: string,
     public source: SpaceshipEntity,
-    public target: SpaceshipEntity
   ) {
     super(id, source.color);
   }

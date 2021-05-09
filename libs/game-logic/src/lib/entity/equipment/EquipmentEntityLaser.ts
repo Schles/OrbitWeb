@@ -1,4 +1,4 @@
-import { ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
+import { ShipEquipment, ShipEquipmentDBValue, Spaceship } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
 import * as math from 'mathjs';
@@ -6,6 +6,7 @@ import { Vector2 } from '@orbitweb/common';
 import { EventManager } from '../../EventManager';
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
+import { ProjectileRocket } from '../projectiles/ProjectileRocket';
 
 export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
   private maxOmega = 0.4;
@@ -82,14 +83,18 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
     const length = math.norm([v.x, v.y]);
 
-    parent.targetPlayer.health -= this.damage;
-    (<SpaceshipEntity>parent.targetPlayer).lastHitBy = parent;
+    const target: SpaceshipEntity =  <SpaceshipEntity>parent.targetPlayer;
+
+    target.takeDamage(this.damage, parent);
 
     const proj: ProjectileEntity = new ProjectileEntity(
       undefined,
-      parent,
-      <SpaceshipEntity>parent.targetPlayer
+      parent,  
     );
+
+    proj.type = "laserProjectile";
+    proj.position = target.position;
+
     EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
   }
 

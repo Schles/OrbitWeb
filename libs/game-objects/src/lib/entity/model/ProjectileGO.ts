@@ -14,7 +14,6 @@ export class ProjectileGO extends Projectile implements GameIterable {
   constructor(
     id: string,
     public source: SpaceshipGO,
-    public target: SpaceshipGO
   ) {
     super(id, source.color);
 
@@ -33,9 +32,9 @@ export class ProjectileGO extends Projectile implements GameIterable {
 
     // Set the fill color
     //this.lineObject.lineStyle(5, 0xFF00FF);
-    cannonCont.addChild(this.lineObject);
+    //cannonCont.addChild(this.lineObject);
 
-    this.drawLine(this.source.position, this.target.position);
+    //this.drawLine(this.source.position, this.target.position);
 
     return cannonCont;
   }

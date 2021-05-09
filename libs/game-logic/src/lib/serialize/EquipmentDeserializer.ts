@@ -10,6 +10,8 @@ import { EquipmentEntityEmpty } from '../entity/equipment/EquipmentEntityEmpty';
 import { EquipmentEntityBattery } from '../entity/equipment/EquipmentEntityBattery';
 import { EquipmentEntityNosferatu } from '../entity/equipment/EquipmentEntityNosferatu';
 import { EquipmentEntityMass } from '../entity/equipment/EquipmentEntityMass';
+import { EquipmentEntityShield } from '../entity/equipment/EquipmentEntityShield';
+import { EquipmentEntityLauncherMine } from '../entity/equipment/EquipmentEntityLauncherMine';
 
 export class EquipmentDeserializer {
   public static deserialize(shipEquipment: ShipEquipment): ShipEquipmentEntity {
@@ -37,6 +39,10 @@ export class EquipmentDeserializer {
         return new EquipmentEntityNosferatu(shipEquipment, value);
       case 'RocketLauncher':
         return new EquipmentEntityRocketLauncher(shipEquipment, value);
+      case 'MineLauncher':
+        return new EquipmentEntityLauncherMine(shipEquipment, value);
+      case 'Shield':
+        return new EquipmentEntityShield(shipEquipment, value);
       case 'Mass':
         return new EquipmentEntityMass(shipEquipment, value);
     }

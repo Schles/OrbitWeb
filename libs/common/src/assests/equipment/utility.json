@@ -16,6 +16,21 @@
         }
     },
     {
+        "name": "Shield",
+        "cpuCost": 15,
+        "powerCost": 10,
+        "cycleTime": 10,
+        "action": {
+            "targetSelf": true
+        },
+        "value": {
+        },
+        "meta": {
+            "desc": "Prevents all Damage taken.",
+            "icon": ""
+        }
+    },
+    {
         "name": "Webber",
         "cpuCost": 15,
         "powerCost": 10,

@@ -32,6 +32,8 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
         if ( eq) {
           eq.onInit(player);  
           acc.push(eq);
+        } else {
+          
         }
         return acc;
       }, []);

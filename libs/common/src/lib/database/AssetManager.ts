@@ -6,7 +6,7 @@ import { IAction } from "../action/IAction";
 import { ShipEquipment } from "../model/ShipEquipment";
 
 
-export type ShipEquipmentDB = { name: string, cpuCost: number, powerCost: number, cycleTime: number, action: IAction, value?: ShipEquipmentDBValue };
+export type ShipEquipmentDB = { name: string, disabled?: boolean, cpuCost: number, powerCost: number, cycleTime: number, action: IAction, value?: ShipEquipmentDBValue };
 export type ShipEquipmentDBValue = { range?: number, bonusRate?: number, absolute?: number, custom?: any }
 export type ShipEquipmentDBMeta = { name: string, meta: { desc: string } };
 
@@ -14,7 +14,9 @@ export type WorldDB = { world: { minRadius: number, maxRadius: number, lightDist
 
 export class AssetManager {
     public static getShipEquipment(tier: number): ShipEquipmentDB[] {
-        return this.getTier(tier);
+        return this.getTier(tier).filter( (p) => {
+            return !p?.disabled;
+        });
     }
 
     public static getShipEquipmentMeta(tier: number, name: string): ShipEquipmentDBMeta {
@@ -28,9 +30,10 @@ export class AssetManager {
         return [
             this.dirtyFactory(1, this.findEquipment("RocketLauncher")),
             this.dirtyFactory(1, this.findEquipment("Laser")),
+            this.dirtyFactory(1, this.findEquipment("MineLauncher")),
             this.dirtyFactory(2, this.findEquipment("SpeedBooster")),
             this.dirtyFactory(2, this.findEquipment("Webber")),
-            this.dirtyFactory(3, this.findEquipment("Mass"))
+            
         ];
     }
 

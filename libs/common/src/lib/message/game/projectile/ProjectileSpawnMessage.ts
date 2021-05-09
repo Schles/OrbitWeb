@@ -9,7 +9,6 @@ export class ProjectileSpawnMessage extends ProjectileMessage {
   constructor(
     projectile: Projectile,
     public source: string,
-    public target: string
   ) {
     super(projectile.id);
 

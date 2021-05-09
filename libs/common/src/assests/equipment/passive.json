@@ -1,6 +1,7 @@
 [
     {
         "name": "Battery",
+        "disabled": true,
         "cpuCost": 4,
         "powerCost": 40,
         "cycleTime": 0,
@@ -16,6 +17,7 @@
     {
         "name": "Mass",
         "cpuCost": 3,
+        "disabled": true,
         "powerCost": 40,
         "cycleTime": 0,
         "action": {},

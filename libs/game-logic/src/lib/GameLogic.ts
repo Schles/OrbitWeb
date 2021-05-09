@@ -12,6 +12,7 @@ import { CollisionDetection } from '../../../game-engine/src/lib/CollisionDetect
 import { GarbageCollector } from './core/GarbageCollector';
 import { Scoreboard } from './core/Scoreboard';
 import { ServerEnemySpawnMessage } from './entity/message/ServerEnemySpawnMessage';
+import { ProjectileMine } from './entity/projectiles/ProjectileMine';
 import { StructurePortalEntity } from './entity/structures/StructurePortalEntity';
 import { EventManager } from './EventManager';
 import { ProjectileEntity } from './model/ProjectileEntity';
@@ -63,10 +64,16 @@ export class GameLogic {
       ...this.players,
       ...this.skills,
       ...this.structures,
-      ...this.projectiles,
     ].forEach((gameIterable: GameIterable) => {
       gameIterable.iterate(delta);
     });
+
+    this.projectiles.forEach ( p => {
+      if (p.type === "mineProjectile")
+        (<ProjectileMine> p).context = this;
+
+      p.iterate(delta);  
+    })
 
     this.players.forEach((player) => {
       const msg = new PlayerUpdateMessage(player);
@@ -138,7 +145,6 @@ export class GameLogic {
     const res: Message = new ProjectileSpawnMessage(
       projectileEntity,
       projectileEntity.source.id,
-      projectileEntity.target.id
     );
     this.send(res);
   }

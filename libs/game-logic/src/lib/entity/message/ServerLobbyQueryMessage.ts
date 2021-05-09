@@ -22,7 +22,6 @@ export class ServerLobbyQueryMessage extends ServerMessageRecieved<LobbyQueryMes
       const resmsg1: ProjectileSpawnMessage = new ProjectileSpawnMessage(
         proj,
         proj.source.id,
-        proj.target.id
       );
       context.send(resmsg1);
     });

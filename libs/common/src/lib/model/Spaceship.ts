@@ -41,6 +41,8 @@ export class Spaceship extends Particle {
   public isNPC: boolean = false;
   public maxIdleTimeMs: number = 30 * 60 * 1000;
 
+  public resistance: number = 0;
+
   private _targetPlayer: Spaceship;
 
   public set targetPlayer(target: Spaceship) {
