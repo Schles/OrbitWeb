@@ -1,12 +1,12 @@
 import { EventEmitter } from '@angular/core';
 import {
+  GameFactory,
   LobbyQueryMessage,
   Message,
   PlayerLoginMessage,
-  ShipFitting,
+  ShipFitting
 } from '@orbitweb/common';
 import { ClientMessageRecieved } from '@orbitweb/game-objects';
-import { MessageDeserializer } from '../serialize/MessageDeserializer';
 import { GameManager } from './GameManager';
 
 export class NetworkManager {
@@ -23,9 +23,15 @@ export class NetworkManager {
     });
 
     this.onMessage.subscribe((message: Message) => {
+
+      const msg: ClientMessageRecieved<any> = GameFactory.instantiateClientEvent(message);
+
+/*
       const msg: ClientMessageRecieved<any> = MessageDeserializer.deserialize(
-        message
+        events
       );
+
+ */
       msg?.onRecieve(this.gameManager);
     });
   }

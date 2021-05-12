@@ -1,17 +1,17 @@
 import {
   EnemySpawnMessage,
+  GameFactory,
   GameIterable,
   Message,
   PlayerMessage,
   PlayerUpdateMessage,
   ProjectileSpawnMessage,
   ProjectileUpdateMessage,
-  Rectangle,
+  Rectangle
 } from '@orbitweb/common';
 import { CollisionDetection } from '../../../game-engine/src/lib/CollisionDetection';
 import { GarbageCollector } from './core/GarbageCollector';
 import { Scoreboard } from './core/Scoreboard';
-import { ServerEnemySpawnMessage } from './entity/message/ServerEnemySpawnMessage';
 import { ProjectileMine } from './entity/projectiles/ProjectileMine';
 import { StructurePortalEntity } from './entity/structures/StructurePortalEntity';
 import { EventManager } from './EventManager';
@@ -19,7 +19,6 @@ import { ProjectileEntity } from './model/ProjectileEntity';
 import { SkillEntity } from './model/SkillEntity';
 import { SpaceshipEntity } from './model/SpaceshipEntity';
 import { StructureEntity } from './model/StructureEntity';
-import { MessageDeserializer } from './serialize/MessageDeserializer';
 
 export class GameLogic {
   public uniqueIterator: number = 0;
@@ -88,7 +87,7 @@ export class GameLogic {
   public send(msg) {}
 
   public onMessage(msg: Message, broadCast, singleCast) {
-    const serverMessage = MessageDeserializer.deserialize(msg);
+    const serverMessage = GameFactory.instantiateServerEvent(msg);
 
     if (serverMessage) {
       serverMessage.onRecieve(this);
@@ -116,11 +115,16 @@ export class GameLogic {
   }
 
   public spawnDefaultEnemy() {
+    this.onMessage(new EnemySpawnMessage("Enemy"), false, false);
+    /*
     const msg: ServerEnemySpawnMessage = new ServerEnemySpawnMessage(
       new EnemySpawnMessage('Enemy')
     );
     msg.onRecieve(this);
+    */
+
   }
+
 
   public spawnPortal(x: number, y: number) {
     let structure = new StructurePortalEntity(x, y, this.scoreboard);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PlayerService } from './player.service';
 import { GameService } from './game.service';
+import { EquipManager } from '../../../../../libs/common/src/lib/database/EquipManager';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,7 @@ export class InputService {
         } else if (event.key === '5') {
           this.keyPressed(5);
         } else if (event.key === ' ') {
+          console.log(EquipManager.test);
           this.keyPressed(-1);
         }
       }

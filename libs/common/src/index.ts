@@ -13,6 +13,9 @@ export * from './lib/model/Structure';
 export * from './lib/model/TimedAbility';
 export * from './lib/model/GameIterable';
 
+export * from './lib/factories/GameFactory'
+export * from './lib/factories/Decorators'
+
 // util
 export * from './lib/util/Factories';
 export * from './lib/util/VectorInterface';

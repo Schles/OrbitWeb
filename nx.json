@@ -18,6 +18,8 @@
     "game-logic": { "tags": [] },
     "game-engine": { "tags": [] },
     "renderer": { "tags": [] },
-    "game-objects": { "tags": [] }
+    "game-objects": { "tags": [] },
+    "client-entities": { "tags": [] },
+    "server-entities": { "tags": [] }
   }
 }

@@ -1,4 +1,4 @@
-import { Vector2 } from '@orbitweb/common';
+import { Client, Vector2 } from '@orbitweb/common';
 import { Projectile } from '@orbitweb/common';
 import { SpaceshipGO } from './SpaceshipGO';
 import { Physics } from '@orbitweb/common';
@@ -6,6 +6,8 @@ import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 import { GameIterable } from '@orbitweb/common';
 
+
+@Client("EQUIP", "Projectile")
 export class ProjectileGO extends Projectile implements GameIterable {
   public gameObject: Container;
 

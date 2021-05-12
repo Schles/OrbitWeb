@@ -2,8 +2,9 @@ import { Container, Graphics } from 'pixi.js';
 
 import { string2hex } from '@pixi/utils';
 import { ProjectileGO, SpaceshipGO } from '@orbitweb/game-objects';
-import { Vector2 } from '@orbitweb/common';
+import { Client, Vector2 } from '@orbitweb/common';
 
+@Client("PROJECTILE", "Laser")
 export class Laser extends ProjectileGO {
   constructor(id: string, source: SpaceshipGO, private target: Vector2) {
     super(id, source);

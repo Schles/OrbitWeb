@@ -281,6 +281,48 @@
           }
         }
       }
+    },
+    "client-entities": {
+      "root": "entities/client",
+      "sourceRoot": "entities/clients/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["entities/client/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/entities/client"],
+          "options": {
+            "jestConfig": "entities/client/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "server-entities": {
+      "root": "entities/server",
+      "sourceRoot": "entities/server/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["entities/server/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/entities/server"],
+          "options": {
+            "jestConfig": "entities/server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

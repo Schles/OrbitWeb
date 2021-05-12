@@ -19,8 +19,11 @@
       "@orbitweb/game-logic": ["libs/game-logic/src/index.ts"],
       "@orbitweb/game-engine": ["libs/game-engine/src/index.ts"],
       "@orbitweb/renderer": ["libs/renderer/src/index.ts"],
-      "@orbitweb/game-objects": ["libs/game-objects/src/index.ts"]
+      "@orbitweb/game-objects": ["libs/game-objects/src/index.ts"],
+      "@orbitweb/client-entities": ["entities/client/src/index.ts"],
+      "@orbitweb/server-entities": ["entities/server/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "include": ["entities/client/src/**/*"]
 }
