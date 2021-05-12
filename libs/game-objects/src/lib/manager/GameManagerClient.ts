@@ -1,4 +1,4 @@
-import { GameIterable, Message, Spaceship } from '@orbitweb/common';
+import { GameIterable, GameManager, Message, Spaceship } from '@orbitweb/common';
 import { ProjectileGO, SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
 import { Camera, World } from '@orbitweb/renderer';
 import { WorldGOBoundry } from '../entity/world/WorldGOBoundry';
@@ -9,11 +9,17 @@ import { InputManager } from './InputManager';
 import { NetworkManager } from './NetworkManager';
 import { ShaderManager } from './ShaderManager';
 
-export class GameManager extends World {
+
+export class GameManagerClient extends GameManager {
   public players: SpaceshipGO[] = [];
   public projectiles: ProjectileGO[] = [];
   public structures: StructureGO[] = [];
   public skills: any[] = [];
+
+  public postShaderLoaded() {}
+
+
+  public renderer: World;
 
   public sun: WorldGOSun;
   public boundry: WorldGOBoundry;
@@ -64,7 +70,9 @@ export class GameManager extends World {
   public orbitContainer: TargetOrbitContainer;
 
   constructor(options) {
-    super(options);
+    //super(options);
+    super();
+    this.renderer = new World(options);
 
     this.eventManager = new EventManager();
     this.networkManager = new NetworkManager(this);
@@ -76,18 +84,18 @@ export class GameManager extends World {
 
   public onInitGame() {
     this.boundry = new WorldGOBoundry();
-    this.gameStage.addChild(this.boundry.gameObject);
+    this.renderer.gameStage.addChild(this.boundry.gameObject);
 
-    this.camera = new Camera(this.foregroundStage);
+    this.camera = new Camera(this.renderer.foregroundStage);
   }
 
   public initWorld() {
-    super.initWorld();
+    this.renderer.initWorld();
   }
 
   public iterate(delta: number) {
-    this.emitter.emit([...this.players, ...this.projectiles]);
-    this.emitter.update(delta);
+    this.renderer.emitter.emit([...this.players, ...this.projectiles]);
+    this.renderer.emitter.update(delta);
 
     [...this.players, ...this.projectiles, ...this.structures].forEach(
       (gameIter: GameIterable) => {
@@ -102,7 +110,7 @@ export class GameManager extends World {
   }
 
   public toLocal(point) {
-    return this.foregroundStage.toLocal(point);
+    return this.renderer.foregroundStage.toLocal(point);
   }
 
   public clear() {
@@ -122,7 +130,7 @@ export class GameManager extends World {
     const structures: StructureGO[] = this.structures.map((p) => p);
 
     structures.forEach((structureGO) => {
-      this.gameStage.removeChild(structureGO.gameObject);
+      this.renderer.gameStage.removeChild(structureGO.gameObject);
 
       const p = this.structures.findIndex(
         (value) => value.id === structureGO.id

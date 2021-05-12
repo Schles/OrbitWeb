@@ -1,7 +1,7 @@
 import { Client, ProjectileSpawnMessage } from '@orbitweb/common';
 import {
   ClientMessageRecieved,
-  GameManager,
+  GameManagerClient,
   Laser,
   ProjectileGO,
   Rocket,
@@ -14,7 +14,7 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     const source = context.players.find((p) => p.id === this.message.source);
 
     if (source !== undefined) {
@@ -39,7 +39,7 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
         context.projectiles.push(projectileGO);
 
         projectileGO.onInit();
-        context.fxStage.addChild(projectileGO.gameObject);
+        context.renderer.fxStage.addChild(projectileGO.gameObject);
       }
     }
   }

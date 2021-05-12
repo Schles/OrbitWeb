@@ -1,7 +1,7 @@
 import {
   EnemySpawnMessage,
   GameFactory,
-  GameIterable,
+  GameIterable, GameManager,
   Message,
   PlayerMessage,
   PlayerUpdateMessage,
@@ -20,16 +20,9 @@ import { SkillEntity } from './model/SkillEntity';
 import { SpaceshipEntity } from './model/SpaceshipEntity';
 import { StructureEntity } from './model/StructureEntity';
 
-export class GameLogic {
+export class GameLogic extends GameManager {
   public uniqueIterator: number = 0;
 
-  public players: SpaceshipEntity[] = [];
-
-  public skills: SkillEntity[] = [];
-
-  public projectiles: ProjectileEntity[] = [];
-
-  public structures: StructureEntity[] = [];
 
   public scoreboard: Scoreboard;
 
@@ -45,6 +38,7 @@ export class GameLogic {
   };
 
   constructor() {
+    super();
     this.scoreboard = new Scoreboard();
 
     this.spawnPortal(-700, 450);

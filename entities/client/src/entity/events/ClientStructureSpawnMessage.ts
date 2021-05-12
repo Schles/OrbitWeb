@@ -1,7 +1,7 @@
 import { Client, GameFactory, StructureSpawnMessage } from '@orbitweb/common';
 import {
   ClientMessageRecieved,
-  GameManager,
+  GameManagerClient,
   StructureGO,
 } from '@orbitweb/game-objects';
 
@@ -11,7 +11,7 @@ export class ClientStructureSpawnMessage extends ClientMessageRecieved<Structure
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     const structureGO = context.structures.find(
       (structure) => structure.id === this.message.id
     );
@@ -23,7 +23,7 @@ export class ClientStructureSpawnMessage extends ClientMessageRecieved<Structure
         context.structures.push(structureGO);
 
         structureGO.onInit();
-        context.structureStage.addChild(structureGO.gameObject);
+        context.renderer.structureStage.addChild(structureGO.gameObject);
       }
     }
     /*

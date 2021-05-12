@@ -1,5 +1,4 @@
-import { Message } from '@orbitweb/common';
-import { GameManager } from '../manager/GameManager';
+import { GameManager, Message } from '@orbitweb/common';
 
 
 export class ClientMessageRecieved<T extends Message> {

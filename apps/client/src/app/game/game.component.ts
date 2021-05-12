@@ -33,14 +33,14 @@ export class GameComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.pixiContainer.nativeElement.appendChild(this.gameService.app().view); // this places our pixi application onto the viewable document
+    this.pixiContainer.nativeElement.appendChild(this.gameService.app().renderer.view); // this places our pixi application onto the viewable document
   }
 
   @HostListener('window:resize')
   public resize() {
-    this.gameService.app().OnResizeWindow.emit({
-      x: this.gameService.app().renderer.width,
-      y: this.gameService.app().renderer.height,
+    this.gameService.app().renderer.OnResizeWindow.emit({
+      x: this.gameService.app().renderer.renderer.width,
+      y: this.gameService.app().renderer.renderer.height,
     });
   }
 

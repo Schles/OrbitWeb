@@ -1,5 +1,5 @@
 import { Client, ProjectileDestroyMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManager } from '@orbitweb/game-objects';
+import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
 
 @Client("EVENT", "projectileDestroyMessage")
 export class ClientProjectileDestroyMessage extends ClientMessageRecieved<ProjectileDestroyMessage> {
@@ -7,14 +7,14 @@ export class ClientProjectileDestroyMessage extends ClientMessageRecieved<Projec
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     const projectile = context.projectiles.find(
       (p) => p.id === this.message.id
     );
 
     if (projectile !== undefined) {
       if (context.projectiles.findIndex((p) => p.id === projectile.id) > -1) {
-        context.fxStage.removeChild(projectile.gameObject);
+        context.renderer.fxStage.removeChild(projectile.gameObject);
 
         const p = context.projectiles.findIndex(
           (value) => value.id === projectile.id

@@ -30,8 +30,8 @@ export class HeadsupComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.gameService.app().ticker.add((delta) => {
-      const dT = this.gameService.app().ticker.elapsedMS / 1000;
+    this.gameService.app().renderer.ticker.add((delta) => {
+      const dT = this.gameService.app().renderer.ticker.elapsedMS / 1000;
       this.iterate(dT);
     });
   }

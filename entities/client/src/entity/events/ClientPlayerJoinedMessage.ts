@@ -1,7 +1,7 @@
 import { Client, Factories, GameFactory, PlayerJoinedMessage, ShipFitting } from '@orbitweb/common';
 import {
   ClientMessageRecieved, EquipmentGOError,
-  GameManager,
+  GameManagerClient,
   SpaceshipGO
 } from '@orbitweb/game-objects';
 
@@ -12,7 +12,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     let player: SpaceshipGO = context.players.find((value) => {
       return value.id === this.message.source;
     });
@@ -23,11 +23,11 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
 
       context.players.push(player);
       player.onInit();
-      context.playerStage.addChild(player.gameObject);
-      context.uiStage.addChild(player.nameplateContainer);
+      context.renderer.playerStage.addChild(player.gameObject);
+      context.renderer.uiStage.addChild(player.nameplateContainer);
       
       if ( player.id === context.username)
-        context.uiStage.addChild(player.targetContainer);
+        context.renderer.uiStage.addChild(player.targetContainer);
 
       player.fitting.fitting = this.message.fitting.fitting.map((fit) => {
         const fitGO = GameFactory.instatiateClientEquip(fit);

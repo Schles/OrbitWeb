@@ -5,29 +5,29 @@ import {
   ShadowMapperShader,
 } from '@orbitweb/renderer';
 import { BLEND_MODES, RenderTexture, Sprite, Texture } from 'pixi.js';
-import { GameManager } from './manager/GameManager';
+import { GameManagerClient } from './manager/GameManagerClient';
 import { TargetOrbitContainer } from './ui/TargetOrbitContainer';
 
-export class OrbitWeb extends GameManager {
+export class OrbitWeb extends GameManagerClient {
   public onInitGame() {
     super.onInitGame();
 
     this.orbitContainer = new TargetOrbitContainer(0xff0000);
-    this.uiStage.addChild(this.orbitContainer);
+    this.renderer.uiStage.addChild(this.orbitContainer);
 
-    this.OnResizeWindow.subscribe((size) => {
+    this.renderer.OnResizeWindow.subscribe((size) => {
       this.camera.setSize(size.x, size.y);
-      this.renderer.resize(size.x, size.y);
+      this.renderer.renderer.resize(size.x, size.y);
     });
 
-    this.ticker.add((delta) => {
-      const dT = this.ticker.elapsedMS / 1000;
+    this.renderer.ticker.add((delta) => {
+      const dT = this.renderer.ticker.elapsedMS / 1000;
       this.iterate(dT);
     });
   }
 
   public onViewReady() {
-    this.camera.setSize(this.renderer.width, this.renderer.height);
+    this.camera.setSize(this.renderer.renderer.width, this.renderer.renderer.height);
   }
 
   private x = 0;
@@ -39,7 +39,7 @@ export class OrbitWeb extends GameManager {
     this.orbitContainer.iterate(dT);
 
     if (this.lightShader) {
-      const mousePosition = this.renderer.plugins.interaction.mouse.global;
+      const mousePosition = this.renderer.renderer.plugins.interaction.mouse.global;
 
       let lights: any[] = [{ position: { x: 0, y: 0 }, rotation: 0 }]
         .map((v) => {
@@ -50,7 +50,7 @@ export class OrbitWeb extends GameManager {
           };
         })
         .map((p) => {
-          const a = this.foregroundStage.toGlobal(p);
+          const a = this.renderer.foregroundStage.toGlobal(p);
           return {
             x: a.x,
             y: a.y,
@@ -93,8 +93,8 @@ export class OrbitWeb extends GameManager {
     mixedShader.shadowMapperShader = shadowShader;
     mixedShader.lightMapper = lightShader;
 
-    this.gameStage.filterArea = this.renderer.screen;
-    this.gameStage.filters = [mixedShader];
+    this.renderer.gameStage.filterArea = this.renderer.screen;
+    this.renderer.gameStage.filters = [mixedShader];
 
     this.lightShader = mixedShader;
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PlayerService } from './player.service';
 import { GameService } from './game.service';
-import { EquipManager } from '../../../../../libs/common/src/lib/database/EquipManager';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +12,14 @@ export class InputService {
   ) {
     this.gameService
       .app()
-      .renderer.plugins.interaction.on('pointerup', (event) => {
+      .renderer.renderer.plugins.interaction.on('pointerup', (event) => {
         //this.gameService.app().inputManager.onClick(event);
         this.gameService.app().inputManager.onMouseUp(event);
       });
 
     this.gameService
       .app()
-      .renderer.plugins.interaction.on('pointerdown', (event) => {
+      .renderer.renderer.plugins.interaction.on('pointerdown', (event) => {
         this.gameService.app().inputManager.onMouseDown(event);
       });
 
@@ -37,7 +36,6 @@ export class InputService {
         } else if (event.key === '5') {
           this.keyPressed(5);
         } else if (event.key === ' ') {
-          console.log(EquipManager.test);
           this.keyPressed(-1);
         }
       }

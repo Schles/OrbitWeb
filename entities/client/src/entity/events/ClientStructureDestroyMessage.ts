@@ -1,5 +1,5 @@
 import { Client, StructureDestroyMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManager } from '@orbitweb/game-objects';
+import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
 
 @Client("EVENT", "structureDestroyMessage")
 export class ClientStructureDestroyMessage extends ClientMessageRecieved<StructureDestroyMessage> {
@@ -7,13 +7,13 @@ export class ClientStructureDestroyMessage extends ClientMessageRecieved<Structu
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     const structureGO = context.structures.find(
       (structure) => structure.id === this.message.id
     );
 
     if (structureGO !== undefined) {
-      context.structureStage.removeChild(structureGO.gameObject);
+      context.renderer.structureStage.removeChild(structureGO.gameObject);
 
       const p = context.structures.findIndex(
         (value) => value.id === structureGO.id

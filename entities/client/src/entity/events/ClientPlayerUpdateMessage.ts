@@ -1,7 +1,7 @@
 import { Client, PlayerUpdateMessage } from '@orbitweb/common';
 import {
   ClientMessageRecieved,
-  GameManager,
+  GameManagerClient,
   ShipEquipmentGO,
   SpaceshipGO,
 } from '@orbitweb/game-objects';
@@ -12,7 +12,7 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     let enemyGO: SpaceshipGO = context.players.find((value) => {
       return value.id === this.message.source;
     });

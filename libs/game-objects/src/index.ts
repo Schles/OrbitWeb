@@ -1,5 +1,5 @@
 export * from './lib/OrbitWeb';
-export * from './lib/manager/GameManager';
+export * from './lib/manager/GameManagerClient';
 
 export * from './lib/common/MessageRecieved';
 export * from './lib/ui/NameplateContainer';

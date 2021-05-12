@@ -1,5 +1,5 @@
 import { Client, ScoreboardUpdateMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManager } from '@orbitweb/game-objects';
+import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
 
 @Client("EVENT", "scoreboardUpdateMessage")
 export class ClientScoreboardUpdateMessage extends ClientMessageRecieved<ScoreboardUpdateMessage> {
@@ -7,7 +7,7 @@ export class ClientScoreboardUpdateMessage extends ClientMessageRecieved<Scorebo
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     //this.ui.scoreboard.scoreboard = (<ScoreboardUpdateMessage> events).entries;
   }
 }

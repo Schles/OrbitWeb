@@ -1,22 +1,22 @@
 import { Client, PlayerKilledMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManager } from '@orbitweb/game-objects';
+import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
 
-//@Client("EVENT", "playerKilledMessage")
+@Client("EVENT", "playerKilledMessage")
 export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKilledMessage> {
   constructor(message: PlayerKilledMessage) {
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     const deadPlayer = context.players.find(
       (value) => value.id === this.message.source
     );
 
     if (deadPlayer !== undefined) {
-      context.playerStage.removeChild(deadPlayer.gameObject);
-      context.uiStage.removeChild(deadPlayer.nameplateContainer);
+      context.renderer.playerStage.removeChild(deadPlayer.gameObject);
+      context.renderer.uiStage.removeChild(deadPlayer.nameplateContainer);
       if ( deadPlayer.id === context.username)
-        context.uiStage.removeChild(deadPlayer.targetContainer);
+        context.renderer.uiStage.removeChild(deadPlayer.targetContainer);
 
       const p = context.players.findIndex(
         (value) => value.id === deadPlayer.id

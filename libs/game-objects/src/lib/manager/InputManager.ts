@@ -1,5 +1,5 @@
 import { Message, PlayerSelfKillMessage } from '@orbitweb/common';
-import { GameManager } from './GameManager';
+import { GameManagerClient } from './GameManagerClient';
 import {
   CMath,
   DebugMessage,
@@ -12,7 +12,7 @@ import {
 import { SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
 
 export class InputManager {
-  constructor(private gameManager: GameManager) {}
+  constructor(private gameManager: GameManagerClient) {}
 
   public onSelfkill() {
     const playerName = this.gameManager.playerLocal;

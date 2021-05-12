@@ -44,7 +44,7 @@ export class AssetManager {
   public static getDefaultFitting(): ShipEquipment[] {
     return [
       this.dirtyFactory(1, this.findEquipment('RocketLauncher')),
-      this.dirtyFactory(1, this.findEquipment('Laser')),
+      this.dirtyFactory(1, this.findEquipment('Bomb')),
       this.dirtyFactory(1, this.findEquipment('MineLauncher')),
       this.dirtyFactory(2, this.findEquipment('SpeedBooster')),
       this.dirtyFactory(2, this.findEquipment('Webber')),

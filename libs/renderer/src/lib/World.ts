@@ -1,7 +1,7 @@
 import { Emitter } from './Emitter';
 import { SceneGraph } from './SceneGraph';
 
-export abstract class World extends SceneGraph {
+export  class World extends SceneGraph {
   public emitter: Emitter;
 
   constructor(options) {
@@ -17,5 +17,4 @@ export abstract class World extends SceneGraph {
     this.uiStage.addChild(this.emitter.getContainer());
   }
 
-  public postShaderLoaded() {}
 }

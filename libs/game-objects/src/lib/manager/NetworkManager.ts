@@ -7,7 +7,7 @@ import {
   ShipFitting
 } from '@orbitweb/common';
 import { ClientMessageRecieved } from '@orbitweb/game-objects';
-import { GameManager } from './GameManager';
+import { GameManagerClient } from './GameManagerClient';
 
 export class NetworkManager {
   public onConnect: EventEmitter<any> = new EventEmitter<any>();
@@ -16,7 +16,7 @@ export class NetworkManager {
 
   public sendHandler: (msg: Message) => void;
 
-  constructor(private gameManager: GameManager) {
+  constructor(private gameManager: GameManagerClient) {
     this.onConnect.subscribe(() => {
       this.gameManager.clear();
       this.send(new LobbyQueryMessage());

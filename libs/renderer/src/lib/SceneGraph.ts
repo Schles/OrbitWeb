@@ -6,9 +6,9 @@ import { Container } from 'pixi.js';
 export abstract class SceneGraph extends Application {
   public OnResizeWindow: EventEmitter<Vector2> = new EventEmitter<Vector2>();
 
-  protected backgroundStage: Container;
-  protected foregroundStage: Container;
-  protected gameStage: Container;
+  public backgroundStage: Container;
+  public foregroundStage: Container;
+  public gameStage: Container;
 
   public playerStage: Container;
   public uiStage: Container;

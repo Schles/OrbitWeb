@@ -1,11 +1,10 @@
 import {
   LightShader,
   MixedShader,
-  ShaderGodRays,
   ShadowMapperShader,
 } from '@orbitweb/renderer';
 import { Filter } from 'pixi.js';
-import { GameManager } from './GameManager';
+import { GameManagerClient } from './GameManagerClient';
 
 type FilterHolder = {
   name: string;
@@ -60,7 +59,7 @@ export class ShaderManager {
 
   private resources: Map<string, string> = new Map();
 
-  constructor(private gameManager: GameManager) {
+  constructor(private gameManager: GameManagerClient) {
     let resources: string[] = [];
 
     resources = this.prototypes.reduce((acc, cur) => {
@@ -79,10 +78,10 @@ export class ShaderManager {
     }, resources);
 
     resources.forEach((res) => {
-      this.gameManager.loader.add(res, res);
+      this.gameManager.renderer.loader.add(res, res);
     });
 
-    this.gameManager.loader.load((loader, res) => {
+    this.gameManager.renderer.loader.load((loader, res) => {
       for (let key in res) {
         let data = res[key].data;
 

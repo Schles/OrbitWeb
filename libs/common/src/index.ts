@@ -65,3 +65,5 @@ export * from './lib/message/login/PlayerLoginMessage';
 export * from './lib/message/DebugMessage';
 export * from './lib/message/Message';
 export * from './lib/message/MessageFactory';
+
+export * from './lib/manager/GameManager'

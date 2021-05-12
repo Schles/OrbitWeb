@@ -1,7 +1,7 @@
 import { Client, ProjectileUpdateMessage } from '@orbitweb/common';
 import {
   ClientMessageRecieved,
-  GameManager,
+  GameManagerClient,
   ProjectileGO,
 } from '@orbitweb/game-objects';
 
@@ -11,7 +11,7 @@ export class ClientProjectileUpdateMessage extends ClientMessageRecieved<Project
     super(message);
   }
 
-  onRecieve(context: GameManager) {
+  onRecieve(context: GameManagerClient) {
     //console.log(msg);
     const projectile: ProjectileGO = context.projectiles.find(
       (proj) => proj.id === this.message.id
