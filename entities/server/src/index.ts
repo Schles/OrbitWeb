@@ -10,6 +10,7 @@ export * from "./entity/equipment/EquipmentEntityRocketLauncher"
 export * from "./entity/equipment/EquipmentEntityShield"
 export * from "./entity/equipment/EquipmentEntitySpeedBooster"
 export * from "./entity/equipment/EquipmentEntityWebber"
+export * from "./entity/equipment/EquipmentEntityBomb"
 
 export * from "./entity/events/ServerDebugMessage"
 export * from "./entity/events/ServerEnemySpawnMessage"

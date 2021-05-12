@@ -8,6 +8,7 @@ export * from "./entity/equipment/EquipmentGORepair"
 export * from "./entity/equipment/EquipmentGONosferatu"
 export * from "./entity/equipment/EquipmentGOSpeedBooster"
 export * from "./entity/equipment/EquipmentGOWebber"
+export * from "./entity/equipment/EquipmentGOBomb"
 
 
 /* Structures */
