@@ -3,6 +3,7 @@ import { Spaceship } from './Spaceship';
 
 export interface ShipEquipmentState {
   active: boolean;
+  cooldown: boolean;
   pendingState: boolean;
   rotation: number;
 }
@@ -10,18 +11,22 @@ export interface ShipEquipmentState {
 export class ShipEquipment {
   public state: ShipEquipmentState = {
     active: false,
+    cooldown: false,
     pendingState: false,
     rotation: 0,
   };
 
   public remainingTime;
 
+  public isOnCooldown : boolean = false;
+  public isCasting: boolean = false;
+
   constructor(
     public name: string,
     public tier: number,
     public cpuCost: number,
-    public powerCost: number,
-    public cycleTime: number,
+    public castTime: number,
+    public cooldownTime: number,
     public passive: boolean,
     public action: IAction
   ) {

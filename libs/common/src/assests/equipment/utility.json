@@ -2,8 +2,8 @@
   {
     "name": "Repair",
     "cpuCost": 10,
-    "powerCost": 30,
-    "cycleTime": 15,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {
       "targetSelf": true
     },
@@ -18,8 +18,8 @@
   {
     "name": "Shield",
     "cpuCost": 15,
-    "powerCost": 10,
-    "cycleTime": 10,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {
       "targetSelf": true
     },
@@ -32,8 +32,8 @@
   {
     "name": "Webber",
     "cpuCost": 15,
-    "powerCost": 10,
-    "cycleTime": 10,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {
       "targetEnemy": true
     },
@@ -49,8 +49,8 @@
   {
     "name": "SpeedBooster",
     "cpuCost": 70,
-    "powerCost": 30,
-    "cycleTime": 6,
+    "castTime": 5,
+    "cooldownTime": 3,
     "action": {
       "targetSelf": true
     },

@@ -3,8 +3,8 @@
     "name": "Battery",
     "disabled": true,
     "cpuCost": 4,
-    "powerCost": 40,
-    "cycleTime": 0,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {},
     "value": {
       "bonusRate": 20
@@ -18,8 +18,8 @@
     "name": "Mass",
     "cpuCost": 3,
     "disabled": true,
-    "powerCost": 40,
-    "cycleTime": 0,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {},
     "value": {
       "bonusRate": 2

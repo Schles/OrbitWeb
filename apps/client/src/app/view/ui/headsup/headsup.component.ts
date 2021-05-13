@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameService } from '../../../service/game.service';
-import { CMath } from '@orbitweb/common';
+import { CGame, CMath } from '@orbitweb/common';
 import { SpaceshipGO } from '@orbitweb/game-objects';
 import { PlayerSelfKillMessage } from '@orbitweb/common';
 import { ShipEquipment } from '@orbitweb/common';
@@ -41,6 +41,8 @@ export class HeadsupComponent implements OnInit {
   }
 
   public onClick(index) {
+    const a = this.mePlayer() as SpaceshipGO;
+    console.log(index);
     this.inputService.keyPressed(index + 1);
   }
 
@@ -50,13 +52,15 @@ export class HeadsupComponent implements OnInit {
       return;
     }
 
+
+
     const v = CMath.len(ownPlayer.speed);
     this.speedUI = Number.parseInt(v.toFixed(0));
     this.powerUI = Number.parseInt(ownPlayer.power.toFixed(0));
   }
 
   public getCDP(fit: ShipEquipment) {
-    const r = (fit.remainingTime * 100) / fit.cycleTime;
+    const r = (fit.remainingTime * 100) / fit.cooldownTime;
 
     return r;
   }
@@ -99,5 +103,27 @@ export class HeadsupComponent implements OnInit {
   public selfKill() {
     console.log('kill');
     this.gameService.app().inputManager.onSelfkill();
+  }
+
+  public progress(fit: ShipEquipment): number {
+
+    const percentage = (value: number, max: number): number => {
+      if ( max === 0)
+        return 1;
+
+      return value / max;
+
+    }
+
+
+    let res = 0;
+
+    if ( fit.state.active === true) {
+      res = 1 - percentage(fit.remainingTime, fit.castTime);
+    } else if ( fit.state.cooldown === true ) {
+      res = percentage(fit.remainingTime, fit.cooldownTime);
+    }
+
+    return CGame.clamp(res, 0, 1);
   }
 }

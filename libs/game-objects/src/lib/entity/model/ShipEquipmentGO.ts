@@ -6,15 +6,7 @@ export class ShipEquipmentGO extends ShipEquipment {
   private alreadyRemoved: boolean = false;
 
   constructor(shipEquipment: ShipEquipment) {
-    super(
-      shipEquipment.name,
-      shipEquipment.tier,
-      shipEquipment.cpuCost,
-      shipEquipment.powerCost,
-      shipEquipment.cycleTime,
-      shipEquipment.passive,
-      shipEquipment.action
-    );
+    super(shipEquipment.name, shipEquipment.tier, shipEquipment.cpuCost, shipEquipment.castTime, shipEquipment.cooldownTime, shipEquipment.passive, shipEquipment.action);
   }
 
   iterate(parent: SpaceshipGO, delta: number) {

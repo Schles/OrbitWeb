@@ -9,8 +9,8 @@ export type ShipEquipmentDB = {
   name: string;
   disabled?: boolean;
   cpuCost: number;
-  powerCost: number;
-  cycleTime: number;
+  castTime: number;
+  cooldownTime: number;
   action: IAction;
   value?: ShipEquipmentDBValue;
 };
@@ -63,15 +63,7 @@ export class AssetManager {
     tier: number,
     equip: ShipEquipmentDB
   ): ShipEquipment {
-    return new ShipEquipment(
-      equip.name,
-      tier,
-      equip.cpuCost,
-      equip.powerCost,
-      equip.cycleTime,
-      tier < 3 ? false : true,
-      equip.action
-    );
+    return new ShipEquipment(equip.name, tier, equip.cpuCost, equip.castTime, equip.cooldownTime, tier < 3 ? false : true, equip.action);
   }
 
   public static getValue(name: string): ShipEquipmentDBValue {

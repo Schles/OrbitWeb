@@ -5,16 +5,10 @@ export class ShipEquipmentEntity extends ShipEquipment {
   protected alreadyApplied: boolean = false;
   protected alreadyRemoved: boolean = false;
 
+
+
   constructor(shipEquipment: ShipEquipment) {
-    super(
-      shipEquipment.name,
-      shipEquipment.tier,
-      shipEquipment.cpuCost,
-      shipEquipment.powerCost,
-      shipEquipment.cycleTime,
-      shipEquipment.passive,
-      shipEquipment.action
-    );
+    super(shipEquipment.name, shipEquipment.tier, shipEquipment.cpuCost, shipEquipment.castTime, shipEquipment.cooldownTime, shipEquipment.passive, shipEquipment.action);
   }
 
   iterate(parent: SpaceshipEntity, delta: number) {
@@ -22,9 +16,10 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
     super.iterate(parent, delta);
 
-    if (this.isOnCooldown()) return;
+    if ( this.hasCooldown()) return;
+    if ( this.hasCasting()) return;
 
-    if (this.state.active === false && this.state.pendingState === false) {
+    if (this.state.active === false && this.state.pendingState === false && this.state.cooldown === false) {
       return;
     }
 
@@ -33,91 +28,48 @@ export class ShipEquipmentEntity extends ShipEquipment {
     this.onUpdateEquipment(parent, delta);
   }
 
-  protected onStartEquipment(parent: SpaceshipEntity) {
-    this.state.active = true;
-  }
+
 
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
-    if (this.state.active === false && this.state.pendingState === true) {
-      if (!this.canAfford(parent, delta)) {
-        return;
-      }
-      this.payPower(parent);
+    if ( !this.isCasting && !this.isOnCooldown && this.state.pendingState) {
       this.onStartEquipment(parent);
-    } else if (
-      this.state.active === true &&
-      this.state.pendingState === false
-    ) {
+    } else if ( this.isCasting && !this.isOnCooldown) {
       this.onEndEquipment(parent);
-    } else if (this.state.active === true && this.state.pendingState === true) {
-      this.onEndEquipment(parent);
-
-      if (!this.canAfford(parent, delta)) {
-        return;
-      }
-
-      this.payPower(parent);
-      this.onStartEquipment(parent);
+    } else if ( !this.isCasting && this.isOnCooldown) {
+      this.isOnCooldown = false;
+      this.state.cooldown = false;
     }
-    /*
-    if (this.state.active && !this.alreadyApplied) {
-      if (!this.canAfford(parent, delta)) {
-        this.state.active = false;
-        this.state.pendingState = false;
-        return;
-      }
+  }
 
-      // First start
+  protected onStartEquipment(parent: SpaceshipEntity) {
+    this.isCasting = true;
+    this.remainingTime = this.castTime;
+    this.state.active = this.hasCasting();
 
-      this.alreadyApplied = true;
-      this.alreadyRemoved = false;
+    this.isOnCooldown = false;
+    this.state.cooldown = this.hasCooldown();
 
-      //this.payPower(parent);
-      //this.remainingTime = this.cycleTime;
-      this.onStartEquipment(parent);
-    } else if ( this.state.active && this.alreadyApplied) {
-      // Reapply
-
-      this.onEndEquipment(parent);
-
-      if (!this.canAfford(parent, delta)) {
-        this.state.active = false;
-        this.state.pendingState = false;
-        return;
-      }
-
-      this.alreadyRemoved = false;
-
-      //this.payPower(parent);
-      //this.remainingTime = this.cycleTime;
-      this.onStartEquipment(parent);
-
-    } else if ( !this.state.active) {
-      this.alreadyRemoved = true;
-      this.alreadyApplied = false;
-      this.onEndEquipment(parent);
-    }
-
- */
+    console.log("start", this.name, this.remainingTime, this.state);
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
-    this.state.active = false;
+    this.isCasting = false;
+    this.state.active = this.hasCasting();
+
+    this.isOnCooldown = true;
+    this.remainingTime = this.cooldownTime;
+
+    this.state.cooldown = this.hasCooldown();
+
+    console.log("stop", this.name, this.remainingTime, this.state);
   }
 
-  protected payPower(parent: SpaceshipEntity) {
-    parent.power -= this.powerCost;
-    this.remainingTime = this.cycleTime;
+  protected hasCooldown(): boolean {
+    return this.isOnCooldown && this.remainingTime > 0;
   }
 
-  protected canAfford(parent: SpaceshipEntity, delta: number): boolean {
-    const price = this.powerCost;
-
-    return parent.power >= price;
-  }
-
-  protected isOnCooldown(): boolean {
-    return this.remainingTime > 0;
+  protected hasCasting(): boolean {
+    return this.isCasting && this.remainingTime > 0;
   }
 
   onDestroy(parent: SpaceshipEntity) {

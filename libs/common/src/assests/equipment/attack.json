@@ -2,8 +2,8 @@
   {
     "name": "Laser",
     "cpuCost": 8,
-    "powerCost": 20,
-    "cycleTime": 5,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {
       "targetEnemy": true
     },
@@ -23,8 +23,8 @@
   {
     "name": "RocketLauncher",
     "cpuCost": 5,
-    "powerCost": 5,
-    "cycleTime": 2.5,
+    "castTime": 40,
+    "cooldownTime": 3,
     "action": {
       "targetEnemy": true
     },
@@ -45,8 +45,8 @@
     "name": "Nosferatu",
     "disabled": true,
     "cpuCost": 10,
-    "powerCost": 60,
-    "cycleTime": 15,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {
       "targetEnemy": true
     },
@@ -65,8 +65,8 @@
   {
     "name": "MineLauncher",
     "cpuCost": 8,
-    "powerCost": 0,
-    "cycleTime": 5,
+    "castTime": 40,
+    "cooldownTime": 0,
     "action": {},
     "value": {
       "absolute": 5,
@@ -86,8 +86,8 @@
   {
     "name": "Bomb",
     "cpuCost": 8,
-    "powerCost": 1,
-    "cycleTime": 1,
+    "castTime": 40,
+    "cooldownTime": 5,
     "action": {},
     "value": {
       "absolute": 5,

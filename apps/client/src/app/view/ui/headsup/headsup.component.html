@@ -20,18 +20,27 @@
         <div
           class="button"
           (click)="onClick(i)"
+          class='cont'
           [ngClass]="{
-            active: fit.state.active && fit.state.pendingState,
-            offline: !fit.state.active && !fit.state.pendingState,
-            pending: fit.state.active != fit.state.pendingState
+            offline: !fit.state.pendingState,
+            online: fit.state.pendingState
           }"
         >
           {{ i + 1 }}
         </div>
 
+
+
+
         <div class="text">
           {{ fit.name }}
         </div>
+
+        <div class="progressBar">
+          <div class='inner' [ngClass]='{ active: fit.state.active && !fit.state.cooldown,
+            cooldown: !fit.state.active && fit.state.cooldown}' [style.width]='progress(fit) * 100 + "%"'></div>
+        </div>
+
       </ng-container>
     </div>
   </div>

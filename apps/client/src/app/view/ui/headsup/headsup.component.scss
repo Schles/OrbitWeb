@@ -8,6 +8,8 @@
 .ship {
 }
 
+
+
 .equipment {
   display: flex;
 
@@ -15,21 +17,35 @@
 }
 
 .slot {
-  width: 200px;
   margin-top: 5px;
 
   display: flex;
 
-  .button {
-    flex: 0 0 10px;
-    padding: 5px;
+  .cont {
+    flex: 0 0 40px;
+    border: 1px solid white;
+    display:flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .text {
     color: white;
-    flex: 1 1 80%;
+    flex: 1 0 auto;
     padding: 5px;
   }
+
+  .progressBar {
+    flex: 0 0 100px;
+    height: 20px;
+
+
+    .inner {
+      background-color:white;
+      height: 20px;
+    }
+  }
+
 }
 
 .active {
@@ -44,16 +60,27 @@
 
 .offline {
   color: white;
+}
+
+.online {
+  color: black;
+  background-color: white;
+}
+
+.value {
   background-color: #2f2f9a;
 }
 
-.pending {
-  color: white;
-  background-color: #ff971b;
 
-  .value {
-    background-color: #2f2f9a;
-  }
+
+.pending {
+  border: 1px solid #ff971b;
+
+
+}
+
+.cooldown {
+  background-color: red !important;
 }
 
 .container {
@@ -63,31 +90,6 @@
   user-select: none;
 }
 
-.progress {
-  height: 2em;
-  width: 100%;
-  font-size: 14px;
-
-  position: relative;
-}
-.progress:before {
-  content: attr(data-label);
-  position: absolute;
-  text-align: left;
-  line-height: 2em;
-  left: 5px;
-  right: 0;
-  font-weight: bold;
-}
-
-.progress:after {
-  content: attr(cost-label);
-  position: absolute;
-  text-align: right;
-  line-height: 2em;
-  left: 0;
-  right: 5px;
-}
 
 .value {
   //background-color: #7cc4ff;
@@ -110,3 +112,6 @@
     background-color: #2f2f9a;
   }
 }
+
+
+
