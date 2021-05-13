@@ -1,4 +1,4 @@
-import { CMath, Vector2 } from '@orbitweb/common';
+import { AssetManager, CMath, Vector2 } from '@orbitweb/common';
 import {
   LightShader,
   MixedShader,
@@ -18,6 +18,8 @@ export class OrbitWeb extends GameManagerClient {
     this.renderer.OnResizeWindow.subscribe((size) => {
       this.camera.setSize(size.x, size.y);
       this.renderer.renderer.resize(size.x, size.y);
+
+      this.rerenderArena();
     });
 
     this.renderer.ticker.add((delta) => {
@@ -26,8 +28,14 @@ export class OrbitWeb extends GameManagerClient {
     });
   }
 
+  public rerenderArena() {
+    const globalPoint = this.toGlobal({x:0, y:0});
+    this.goArena.setSize(globalPoint, AssetManager.config.world);
+  }
+
   public onViewReady() {
     this.camera.setSize(this.renderer.renderer.width, this.renderer.renderer.height);
+
   }
 
   private x = 0;
@@ -35,6 +43,7 @@ export class OrbitWeb extends GameManagerClient {
 
   public iterate(dT) {
     super.iterate(dT);
+
 
     this.orbitContainer.iterate(dT);
 

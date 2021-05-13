@@ -14,7 +14,7 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
 
     if (deadPlayer !== undefined) {
       context.renderer.playerStage.removeChild(deadPlayer.gameObject);
-      context.renderer.uiStage.removeChild(deadPlayer.nameplateContainer);
+
       if ( deadPlayer.id === context.username)
         context.renderer.uiStage.removeChild(deadPlayer.targetContainer);
 

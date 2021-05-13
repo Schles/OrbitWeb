@@ -6,6 +6,8 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 
 import { GameService } from '../../service/game.service';
 import { PlayerService } from '../../service/player.service';
+import { SpaceshipGO } from '@orbitweb/game-objects';
+import { Vector2 } from '@orbitweb/common';
 
 @Component({
   selector: 'app-ui',
@@ -29,7 +31,13 @@ export class UiComponent implements OnInit {
 
   ngOnInit() {}
 
-  public test() {}
+  public get players(): SpaceshipGO[] {
+    return this.gameService.app().players as SpaceshipGO[];
+  }
+
+  public toGlobal(position: Vector2) {
+    return this.gameService.app().renderer.foregroundStage.toGlobal(position);
+  }
 
   /*
   public addKill(name: string) {

@@ -5,6 +5,7 @@ import { StructureEntity } from './StructureEntity';
 import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 import { MovementGoal } from './MovementGoal';
 import { Physics } from '@orbitweb/game-engine';
+import { EventLogMessage } from '../../../../common/src/lib/message/game/player/EventLogMessage';
 
 export class SpaceshipEntity extends Spaceship implements GameIterable {
   public lastHitBy: SpaceshipEntity;
@@ -80,11 +81,17 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
     }
   }
 
-  public takeDamage(value: number, source?: SpaceshipEntity) {
+  public takeDamage(value: number, source?: SpaceshipEntity): number {
     let damageTaken = value - this.resistance * value;
     let clampedDamageTaken = CGame.clamp(damageTaken, 0, 100);
 
+
+
+
+
     this.health -= clampedDamageTaken;
     this.lastHitBy = source;
+
+    return clampedDamageTaken;
   }
 }

@@ -113,7 +113,7 @@ export class GarbageCollector {
     // Projectiles
     const removeProjectiles: ProjectileEntity[] = [];
 
-    context.projectiles.forEach((value) => {
+    context.projectiles.forEach((value: ProjectileEntity) => {
       if (value.timeToLife <= 0) removeProjectiles.push(value);
     });
 
@@ -149,11 +149,11 @@ export class GarbageCollector {
       }
     });
 
-    removeStructures.forEach((value) => {
+    removeStructures.forEach((value: StructureEntity) => {
       const index = context.structures.findIndex(
         (value1) => value1.id === value.id
       );
-      context.structures[index].onDestroy();
+      //context.structures[index].onDestroy(); // TODO
       context.structures.splice(index, 1);
 
       context.players.forEach((player) => {

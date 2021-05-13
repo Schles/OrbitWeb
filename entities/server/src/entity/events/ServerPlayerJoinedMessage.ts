@@ -14,7 +14,7 @@ export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoine
   }
 
   onRecieve(context: GameLogic) {
-    let player = context.players.find((p) => p.id === this.message.source);
+    let player = context.players.find((p: SpaceshipEntity) => p.id === this.message.source);
 
     if (player === undefined) {
       const sp = new Spaceship(this.message.source, getRandomColor());

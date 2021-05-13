@@ -1,4 +1,4 @@
-import { BoundryUpdateMessage, Client } from '@orbitweb/common';
+import { AssetManager, BoundryUpdateMessage, Client } from '@orbitweb/common';
 import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
 
 @Client("EVENT", "boundryUpdateMessage")
@@ -8,6 +8,6 @@ export class ClientBoundryUpdateMessage extends ClientMessageRecieved<BoundryUpd
   }
 
   onRecieve(context: GameManagerClient) {
-    context.boundry.setSize(this.message.boundry);
+
   }
 }

@@ -3,7 +3,6 @@ import { Physics } from '@orbitweb/common';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 
-import { NameplateContainer } from '@orbitweb/game-objects';
 import { TargetingLayer } from '../../ui/TargetingContainer';
 
 export class SpaceshipGO extends Spaceship implements GameIterable {
@@ -11,7 +10,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
   public actionKeepAtRange: boolean = false;
 
   public gameObject: Container;
-  public nameplateContainer: NameplateContainer;
   public targetContainer: TargetingLayer;
 
   public playerLayer: Container;
@@ -27,7 +25,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     this.gameObject = this.getGameObject();
     this.gameObject.filters = [];
 
-    this.nameplateContainer = new NameplateContainer(this);
     this.targetContainer = new TargetingLayer(0xff0000);
   }
 
@@ -102,7 +99,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
       this.progressLayer.endFill();
     }
 
-    this.nameplateContainer.update(this);
 
     this.targetContainer.setSource(this);
     this.targetContainer.iterate();

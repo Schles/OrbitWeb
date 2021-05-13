@@ -13,6 +13,7 @@ import { EquipmentWindowComponent } from './view/ui/fitting/equipment-window/equ
 import { ScoreboardComponent } from './view/ui/scoreboard/scoreboard.component';
 import { GameComponent } from './game/game.component';
 import { EquipmentSlotComponent } from './view/ui/fitting/equipment-slot/equipment-slot.component';
+import { NameplateComponent } from './view/ui/nameplate/nameplate.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { EquipmentSlotComponent } from './view/ui/fitting/equipment-slot/equipme
     EquipmentWindowComponent,
     ScoreboardComponent,
     GameComponent,
+    NameplateComponent,
     EquipmentSlotComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],

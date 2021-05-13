@@ -1,7 +1,9 @@
 Cashed in:
 <table>
-  <tr *ngFor="let score of _scoreboard">
-    <td>{{ score.name }}</td>
-    <td>{{ score.kills }}</td>
+  <tr *ngFor="let log of eventLog | slice: 0: 10">
+    <td *ngIf='log.logType === "PLAYER_DAMAGE_TAKEN"'>
+      {{log.message.source}} - {{ log.message.equipmentSource }} - {{log.message.damageTaken}} - {{log.message.target}}
+    </td>
+
   </tr>
 </table>

@@ -79,7 +79,7 @@ export class InputManager {
   private onClickWorld(lPosition: Vector2) {
     //console.log("worldClicked", localPosition);
     if (this.gameManager.playerLocal !== undefined) {
-      const lanes = 3;
+      const lanes = AssetManager.config.world.lanes;
 
       const localPosition = lPosition;
 

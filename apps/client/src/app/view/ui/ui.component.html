@@ -15,4 +15,10 @@
   Click empty space to command your ship
 </div>
 
+<div class="nameplates">
+  <div *ngFor='let player of players'>
+    <app-nameplate [spaceship]='player' [globalPosition]='toGlobal(player.position)'></app-nameplate>
+  </div>
+</div>
+
 <ng-content></ng-content>

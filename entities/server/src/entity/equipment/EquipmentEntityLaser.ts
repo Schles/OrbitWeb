@@ -4,6 +4,7 @@ import * as math from 'mathjs';
 import { EventManager } from '../../../../../libs/game-logic/src/lib/EventManager';
 import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
 import { ShipEquipmentTargetEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentTargetEntity';
+import { EventLogMessage } from '../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
 
 @Server("EQUIP", "Laser")
 export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
@@ -82,7 +83,9 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
     const target: SpaceshipEntity = <SpaceshipEntity>parent.targetPlayer;
 
-    target.takeDamage(this.damage, parent);
+    const dmgTaken = target.takeDamage(this.damage, parent);
+
+
 
     const proj: ProjectileEntity = new ProjectileEntity(undefined, parent);
 

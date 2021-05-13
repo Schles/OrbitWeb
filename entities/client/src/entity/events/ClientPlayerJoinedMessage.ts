@@ -24,7 +24,6 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       context.players.push(player);
       player.onInit();
       context.renderer.playerStage.addChild(player.gameObject);
-      context.renderer.uiStage.addChild(player.nameplateContainer);
       
       if ( player.id === context.username)
         context.renderer.uiStage.addChild(player.targetContainer);

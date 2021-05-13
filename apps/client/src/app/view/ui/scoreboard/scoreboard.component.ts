@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ScoreboardEntry } from '@orbitweb/common';
-import { ScoreboardUpdateMessage } from '@orbitweb/common';
 import { GameService } from '../../../service/game.service';
+import { EventLogMessage } from '../../../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
 
 @Component({
   selector: 'app-scoreboard',
@@ -9,24 +8,15 @@ import { GameService } from '../../../service/game.service';
   styleUrls: ['./scoreboard.component.scss'],
 })
 export class ScoreboardComponent implements OnInit {
-  public _scoreboard: ScoreboardEntry[];
+  public eventLog: EventLogMessage<any>[] = [];
 
-  @Input() public set scoreboard(val: ScoreboardEntry[]) {
-    this._scoreboard = val.sort((a, b) => {
-      return b.kills - a.kills;
-    });
-  }
-
-  public get scoreboard(): ScoreboardEntry[] {
-    return this._scoreboard;
-  }
 
   constructor(private gameService: GameService) {}
 
   ngOnInit() {
-    this.gameService.app().networkManager.onMessage.subscribe((msg) => {
-      if (msg.type === 'scoreboardUpdateMessage') {
-        this.scoreboard = (<ScoreboardUpdateMessage>msg).entries;
+    this.gameService.app().networkManager.onMessage.subscribe((msg: EventLogMessage<any>) => {
+      if (msg.type === 'eventLogMessage') {
+        this.eventLog.unshift(msg);
       }
     });
   }

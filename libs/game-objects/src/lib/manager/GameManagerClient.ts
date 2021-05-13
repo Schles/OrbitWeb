@@ -8,7 +8,7 @@ import {
 } from '@orbitweb/common';
 import { ProjectileGO, SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
 import { Camera, World } from '@orbitweb/renderer';
-import { WorldGOBoundry } from '../entity/world/WorldGOBoundry';
+import { WorldGOArena } from '../entity/world/WorldGOArena';
 import { WorldGOSun } from '../entity/world/WorldGOSun';
 import { TargetOrbitContainer } from '../ui/TargetOrbitContainer';
 import { EventManager } from './EventManager';
@@ -34,7 +34,7 @@ export class GameManagerClient extends GameManager {
   public renderer: World;
 
   public sun: WorldGOSun;
-  public boundry: WorldGOBoundry;
+  public goArena: WorldGOArena;
 
   private _camera: Camera;
 
@@ -97,8 +97,10 @@ export class GameManagerClient extends GameManager {
   }
 
   public onInitGame() {
-    this.boundry = new WorldGOBoundry();
-    this.renderer.gameStage.addChild(this.boundry.gameObject);
+    this.goArena = new WorldGOArena();
+    this.renderer.backgroundStage.addChild(this.goArena.gameObject);
+
+
 
     this.camera = new Camera(this.renderer.foregroundStage);
   }
@@ -136,6 +138,10 @@ export class GameManagerClient extends GameManager {
 
   public toLocal(point) {
     return this.renderer.foregroundStage.toLocal(point);
+  }
+
+  public toGlobal(point) {
+    return this.renderer.foregroundStage.toGlobal(point);
   }
 
   public clear() {
