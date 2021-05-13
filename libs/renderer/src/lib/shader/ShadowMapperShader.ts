@@ -11,14 +11,14 @@ import {
   RenderTexture,
 } from 'pixi.js';
 import { Filter } from 'pixi.js';
+import { LightSource } from '../model/LightSource';
 
 export class ShadowMapperShader extends Filter {
   private _filter: Filter;
 
-  public lights: number[][] | Point[];
+  public lights: LightSource[];
 
   private _sampleSize: number = 100;
-  public radius: number;
 
   constructor(vertexShader, fragmentShader, options) {
     super(vertexShader, fragmentShader);
@@ -27,7 +27,6 @@ export class ShadowMapperShader extends Filter {
 
     this._filter = new Filter();
     this.sampleSize = 100.0;
-    this.radius;
 
     this._filter.blendMode = BLEND_MODES.ADD;
   }
@@ -49,8 +48,8 @@ export class ShadowMapperShader extends Filter {
     const target2 = filterManager.getFilterTexture();
 
     for (let i = 0; i < this.lights.length; i++) {
-      this.uniforms.light = this.lights[i];
-      this.uniforms.radius = this.radius;
+      this.uniforms.light = this.lights[i].position;
+      this.uniforms.radius = this.lights[i].progress * this.lights[i].radius;
 
       filterManager.applyFilter(this, input, singleLightPass, 1);
       this._filter.apply(filterManager, singleLightPass, target2, 0);

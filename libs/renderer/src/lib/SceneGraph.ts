@@ -36,9 +36,9 @@ export abstract class SceneGraph extends Application {
 
     this.foregroundStage.addChild(this.gameStage);
     this.foregroundStage.addChild(this.uiStage);
+    this.foregroundStage.addChild(this.fxStage);
 
     this.gameStage.addChild(this.structureStage);
-    this.gameStage.addChild(this.fxStage);
     this.gameStage.addChild(this.playerStage);
   }
 }

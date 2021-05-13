@@ -7,7 +7,6 @@ import { string2hex } from '@pixi/utils';
 import { GameIterable } from '@orbitweb/common';
 
 
-@Client("EQUIP", "Projectile")
 export class ProjectileGO extends Projectile implements GameIterable {
   public gameObject: Container;
 

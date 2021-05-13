@@ -1,4 +1,4 @@
-import { Message, PlayerSelfKillMessage } from '@orbitweb/common';
+import { AssetManager, CGame, Message, PlayerSelfKillMessage } from '@orbitweb/common';
 import { GameManagerClient } from './GameManagerClient';
 import {
   CMath,
@@ -53,20 +53,7 @@ export class InputManager {
       y: v.y,
     };
 
-    const clickedPlayer = this.gameManager.players.find((ship) =>
-      CMath.isInsideCircle(ship.position, localPosition, 50)
-    );
-
-    const clickedStructure = this.gameManager.structures.find((structure) =>
-      CMath.isInsideCircle(structure.position, localPosition, 50)
-    );
-
-    if (clickedPlayer !== undefined) {
-    } else if (clickedStructure !== undefined) {
-      this.onClickStructure(clickedStructure);
-    } else {
-      this.onClickWorld(localPosition);
-    }
+    this.onClickWorld(localPosition);
   }
 
   private onClickPlayer(target: SpaceshipGO) {
@@ -89,19 +76,64 @@ export class InputManager {
     }
   }
 
-  private onClickWorld(localPosition: Vector2) {
+  private onClickWorld(lPosition: Vector2) {
     //console.log("worldClicked", localPosition);
     if (this.gameManager.playerLocal !== undefined) {
-      this.send(
-        new PlayerMoveToMessage(this.gameManager.playerLocal.id, localPosition)
-      );
+      const lanes = 3;
+
+      const localPosition = lPosition;
 
       const len = CMath.len(localPosition);
 
-      this.gameManager.orbitContainer.targetOrbit = len;
+      console.log(localPosition);
+
+      const dir = CMath.normalize(localPosition);
+
+      const b = len - AssetManager.config.world.minRadius;
+
+      let c = b / (AssetManager.config.world.maxRadius - AssetManager.config.world.minRadius);
+      c = CGame.clamp(c, 0, 1);
+
+
+      const findLane = (value, lanes) => {
+        const delta = 1 / lanes;
+
+        for ( let i = 0; i < lanes - 1; i++) {
+            if ( value < (i+1) * delta)
+              return i;
+        }
+
+        return lanes - 1;
+      }
+
+      const d = findLane(c,lanes) / lanes + 1 / (2 * lanes);
+
+      const e = d * (AssetManager.config.world.maxRadius - AssetManager.config.world.minRadius) + AssetManager.config.world.minRadius;
+
+console.log("---------------", d);
+      const a = len;
+      const target = CMath.scale(dir, e);
+
+      //AssetManager.config.world.
+
+
+
+
+
+
+
+      this.send(
+        new PlayerMoveToMessage(this.gameManager.playerLocal.id, target)
+      );
+
+      this.gameManager.orbitContainer.targetOrbit = CMath.len(target);
     } else {
       console.log('no player');
     }
+  }
+
+  private findLane(position: Vector2): number {
+    return 2;
   }
 
   public debugPressed(key) {

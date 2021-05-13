@@ -14,6 +14,7 @@ import { Filter } from 'pixi.js';
 import { LightShader } from './LightShader';
 import { ShaderGodRays } from './ShaderGodRays';
 import { ShadowMapperShader } from './ShadowMapperShader';
+import { LightSource } from '../model/LightSource';
 
 export class MixedShader extends Filter {
   /**
@@ -21,8 +22,6 @@ export class MixedShader extends Filter {
    * `false` to use the focal `center` point
    */
   public parallel = true;
-
-  public lightDistance: number;
 
   /**
    * The position of the emitting point for light rays
@@ -33,7 +32,7 @@ export class MixedShader extends Filter {
   private _angleLight: Point;
   private _angle = 0;
 
-  public lights: number[][] | Point[];
+  public lights: LightSource[];
 
   private _shadowMapperShader: ShadowMapperShader;
   public lightMapper: LightShader;
@@ -55,7 +54,6 @@ export class MixedShader extends Filter {
     this.uniforms.minSize = AssetManager.config.world.minRadius;
     this.uniforms.maxSize = AssetManager.config.world.maxRadius;
 
-    this.lightDistance = AssetManager.config.world.lightDistance;
 
     this.filter = new Filter();
   }
@@ -74,7 +72,6 @@ export class MixedShader extends Filter {
     //const lightTarget = filterManager.getFilterTexture();
     const shadowTarget = filterManager.getFilterTexture();
 
-    this._shadowMapperShader.radius = this.lightDistance;
     this._shadowMapperShader.lights = this.lights;
     this._shadowMapperShader.apply(
       filterManager,
@@ -84,7 +81,7 @@ export class MixedShader extends Filter {
       currentState
     );
 
-    this.lightMapper.lights = this.lights;
+    //this.lightMapper.lights = this.lights;
     this.lightMapper.uniforms.shadowTexture = shadowTarget;
     //this.lightMapper.apply(filterManager, input, output, CLEAR_MODES.NO)
 
@@ -93,12 +90,12 @@ export class MixedShader extends Filter {
     this.uniforms.dimensions[1] = height;
     this.uniforms.aspect = height / width;
     this.uniforms.alpha = this.alpha;
-    this.uniforms.light = this.lights[0];
+    //this.uniforms.light = this.lights[0];
 
     this.uniforms.shadowTexture = shadowTarget;
     filterManager.applyFilter(this, input, output, CLEAR_MODES.NO);
 
-    //new Filter().apply(filterManager, shadowTarget1, output, 0);
+    //new Filter().apply(filterManager, shadowTarget, output, 0);
 
     filterManager.returnFilterTexture(shadowTarget);
   }

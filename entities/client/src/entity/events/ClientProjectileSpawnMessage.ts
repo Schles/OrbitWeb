@@ -1,12 +1,10 @@
-import { Client, ProjectileSpawnMessage } from '@orbitweb/common';
+import { AssetManager, Client, GameFactory, ProjectileSpawnMessage } from '@orbitweb/common';
 import {
   ClientMessageRecieved,
   GameManagerClient,
   Laser,
   ProjectileGO,
-  Rocket,
 } from '@orbitweb/game-objects';
-import { Mine } from '../../../../../libs/game-objects/src/lib/entity/projectiles/Mine';
 
 @Client("EVENT", "projectileSpawnMessage")
 export class ClientProjectileSpawnMessage extends ClientMessageRecieved<ProjectileSpawnMessage> {
@@ -19,27 +17,22 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
 
     if (source !== undefined) {
       let projectileGO: ProjectileGO;
-      if (this.message.projType === 'rocketProjectile') {
-        projectileGO = new Rocket(this.message.id, source);
-      } else if (this.message.projType === 'mineProjectile') {
-        projectileGO = new Mine(this.message.id, source, {
-          x: this.message.x,
-          y: this.message.y,
-        });
-      } else if (this.message.projType === 'laserProjectile') {
+      if (this.message.projType === 'laser') {
         projectileGO = new Laser(this.message.id, source, {
           x: this.message.x,
           y: this.message.y,
         });
       } else {
-        projectileGO = new ProjectileGO(this.message.id, source);
+        const config = AssetManager.getValue(this.message.projType);
+        projectileGO = GameFactory.instantiate('CLIENT', 'PROJECTILE', this.message.projType, this.message, source, config);
       }
+
 
       if (context.projectiles.findIndex((p) => p.id === projectileGO.id) < 0) {
         context.projectiles.push(projectileGO);
 
         projectileGO.onInit();
-        context.renderer.fxStage.addChild(projectileGO.gameObject);
+        context.renderer.gameStage.addChild(projectileGO.gameObject);
       }
     }
   }

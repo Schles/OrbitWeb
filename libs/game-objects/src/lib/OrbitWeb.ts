@@ -64,8 +64,21 @@ export class OrbitWeb extends GameManagerClient {
             y: p.y + a.y,
           };
         });
-      this.lightShader.lights = [...lights.map((p) => [p.x, p.y])];
+      //this.lightShader.lights = [...lights.map((p) => { return {position: p, radius: 100}})];
+      this.lightShader.lights = this.lights
     }
+
+    this.lights.forEach( (l) => {
+      l.iterate(dT);
+    });
+
+    this.lights = this.lights.reduce( ( acc, cur) => {
+      if( cur.timeToLife > 0)
+        acc.push(cur);
+      return acc;
+    }, []);
+
+
   }
 
   public initWorld() {

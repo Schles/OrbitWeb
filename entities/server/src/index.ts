@@ -21,3 +21,7 @@ export * from "./entity/events/ServerPlayerMoveToMessage"
 export * from "./entity/events/ServerPlayerOrbitMessage"
 export * from "./entity/events/ServerPlayerSelfKillMessage"
 export * from "./entity/events/ServerPlayerStructureMessage"
+
+export * from "./entity/projectiles/ProjectileMine"
+export * from "./entity/projectiles/ProjectileBomb"
+export * from "./entity/projectiles/ProjectileRocket"

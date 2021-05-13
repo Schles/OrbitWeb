@@ -65,7 +65,7 @@
   {
     "name": "MineLauncher",
     "cpuCost": 8,
-    "powerCost": 20,
+    "powerCost": 0,
     "cycleTime": 5,
     "action": {},
     "value": {
@@ -73,7 +73,9 @@
       "range": 1000,
       "custom": {
         "maxOmega": 0.6,
-        "maxAimAngle": 0.6
+        "damageRange": 200,
+        "maxAimAngle": 0.6,
+        "timeToLife": 5
       }
     },
     "meta": {
@@ -84,15 +86,14 @@
   {
     "name": "Bomb",
     "cpuCost": 8,
-    "powerCost": 20,
-    "cycleTime": 5,
+    "powerCost": 1,
+    "cycleTime": 1,
     "action": {},
     "value": {
       "absolute": 5,
       "range": 1000,
       "custom": {
-        "maxOmega": 0.6,
-        "maxAimAngle": 0.6
+        "damageRange": 200
       }
     },
     "meta": {

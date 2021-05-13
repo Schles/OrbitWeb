@@ -1,4 +1,11 @@
-import { GameIterable, GameManager, Message, Spaceship } from '@orbitweb/common';
+import {
+  GameIterable,
+  GameManager,
+  Message,
+  PlayerKilledMessage,
+  ProjectileDestroyMessage,
+  Spaceship, StructureDestroyMessage
+} from '@orbitweb/common';
 import { ProjectileGO, SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
 import { Camera, World } from '@orbitweb/renderer';
 import { WorldGOBoundry } from '../entity/world/WorldGOBoundry';
@@ -8,13 +15,18 @@ import { EventManager } from './EventManager';
 import { InputManager } from './InputManager';
 import { NetworkManager } from './NetworkManager';
 import { ShaderManager } from './ShaderManager';
+import { FXEffect } from '../../../../renderer/src/lib/fx/Effect';
+import { LightSource } from '../../../../renderer/src/lib/model/LightSource';
 
 
 export class GameManagerClient extends GameManager {
   public players: SpaceshipGO[] = [];
   public projectiles: ProjectileGO[] = [];
   public structures: StructureGO[] = [];
+  public fxEfects: FXEffect[] = [];
   public skills: any[] = [];
+
+  public lights: LightSource[] = [];
 
   public postShaderLoaded() {}
 
@@ -35,6 +47,7 @@ export class GameManagerClient extends GameManager {
   public networkManager: NetworkManager;
   public eventManager: EventManager;
   public shaderManager: ShaderManager;
+
 
   public get camera(): Camera {
     return this._camera;
@@ -79,6 +92,7 @@ export class GameManagerClient extends GameManager {
     this.inputManager = new InputManager(this);
     this.shaderManager = new ShaderManager(this);
 
+
     this.onInitGame();
   }
 
@@ -103,6 +117,17 @@ export class GameManagerClient extends GameManager {
       }
     );
 
+    this.fxEfects.forEach( (effect) => {
+      effect.iterate(delta);
+    })
+
+    this.fxEfects.filter( (effect) => effect.timeToLife <= 0).forEach( (effect) => {
+      this.renderer.fxStage.removeChild(effect.gameObject);
+
+    });
+
+    this.fxEfects = this.fxEfects.filter( (effect) => effect.timeToLife > 0);
+
     this.camera.iterate(
       this.players.map((v) => v.position),
       delta
@@ -115,30 +140,22 @@ export class GameManagerClient extends GameManager {
 
   public clear() {
     const players: SpaceshipGO[] = this.players.map((p) => p);
-
     players.forEach((p) => {
-      //this.killPlayer(p);
-      //TODO!
+      this.networkManager.onMessage.emit(new PlayerKilledMessage(p, undefined));
     });
 
     const projectiles: ProjectileGO[] = this.projectiles.map((p) => p);
-
     projectiles.forEach((p) => {
-      //      this.destroyProjectile(p);
+      this.networkManager.onMessage.emit(new ProjectileDestroyMessage(p));
     });
 
     const structures: StructureGO[] = this.structures.map((p) => p);
-
-    structures.forEach((structureGO) => {
-      this.renderer.gameStage.removeChild(structureGO.gameObject);
-
-      const p = this.structures.findIndex(
-        (value) => value.id === structureGO.id
-      );
-      if (p !== undefined) {
-        structureGO.onDestroy();
-        this.structures.splice(p, 1);
-      }
+    structures.forEach((p) => {
+      this.networkManager.onMessage.emit(new StructureDestroyMessage(p));
     });
+  }
+  public addFXEffect(effect: FXEffect) {
+    this.renderer.fxStage.addChild(effect.gameObject);
+    this.fxEfects.push(effect);
   }
 }

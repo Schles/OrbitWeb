@@ -8,7 +8,4 @@ export * from './lib/entity/model/ShipEquipmentGO';
 export * from './lib/entity/model/SpaceshipGO';
 export * from './lib/entity/model/StructureGO';
 
-export * from './lib/entity/projectiles/Laser';
-export * from './lib/entity/projectiles/Rocket';
-
 export * from '@orbitweb/client-entities'

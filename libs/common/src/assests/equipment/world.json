@@ -2,7 +2,8 @@
   "world": {
     "minRadius": 100,
     "maxRadius": 450,
-    "lightDistance": 600
+    "lightDistance": 600,
+    "lanes": 3
   },
   "player": {
     "maxOrbitChange": 30,

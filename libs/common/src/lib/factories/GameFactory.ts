@@ -2,8 +2,11 @@ import { ShipEquipment } from '../model/ShipEquipment';
 import { StructureSpawnMessage } from '../message/game/structures/StructureSpawnMessage';
 import { Message } from '../message/Message';
 import { AssetManager } from '../database/AssetManager';
+import { ProjectileSpawnMessage } from '../message/game/projectile/ProjectileSpawnMessage';
 
 export type FactoryTypes = "EQUIP" | "STRUCTURE" | "PROJECTILE" | "EVENT";
+
+export type Authority = "CLIENT" | "SERVER";
 
 export class GameFactory {
 
@@ -27,7 +30,30 @@ export class GameFactory {
     this.server.get(type).set(name, constructor);
   }
 
+
+
   public static instantiateClientStructure(message: StructureSpawnMessage): any {
+
+  }
+
+  public static instantiate(authority: Authority, type: FactoryTypes, name: string, ...params: any): any {
+
+    const map = authority === "CLIENT" ? this.client : this.server;
+
+    const constructor = map.get(type)?.get(name);
+
+
+
+    if ( constructor ){
+      //console.log("instantiate:", authority, type, name, params);
+      return new constructor(...params);
+    }
+
+    console.log("Cant instantiate:", authority, type, name, params);
+    return undefined;
+  }
+
+  public static instantiateClientProjectile(message: ProjectileSpawnMessage): any {
 
   }
 

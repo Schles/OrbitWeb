@@ -12,13 +12,12 @@ import {
 import { CollisionDetection } from '../../../game-engine/src/lib/CollisionDetection';
 import { GarbageCollector } from './core/GarbageCollector';
 import { Scoreboard } from './core/Scoreboard';
-import { ProjectileMine } from './entity/projectiles/ProjectileMine';
+
 import { StructurePortalEntity } from './entity/structures/StructurePortalEntity';
 import { EventManager } from './EventManager';
 import { ProjectileEntity } from './model/ProjectileEntity';
-import { SkillEntity } from './model/SkillEntity';
 import { SpaceshipEntity } from './model/SpaceshipEntity';
-import { StructureEntity } from './model/StructureEntity';
+
 
 export class GameLogic extends GameManager {
   public uniqueIterator: number = 0;
@@ -59,10 +58,8 @@ export class GameLogic extends GameManager {
       }
     );
 
-    this.projectiles.forEach((p) => {
-      if (p.type === 'mineProjectile') (<ProjectileMine>p).context = this;
-
-      p.iterate(delta);
+    this.projectiles.forEach((p: ProjectileEntity) => {
+      p.iterateContext(delta, this);
     });
 
     this.players.forEach((player) => {
@@ -97,7 +94,7 @@ export class GameLogic extends GameManager {
   }
 
   public getPlayer(name: string): SpaceshipEntity {
-    return this.players.find((p) => p.id === name);
+    return this.players.find((p) => p.id === name) as SpaceshipEntity;
   }
 
   public getUniqueId(): number {

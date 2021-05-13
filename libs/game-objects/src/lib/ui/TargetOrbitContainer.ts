@@ -41,7 +41,8 @@ export class TargetOrbitContainer extends Container {
 
   private draw(radius: number) {
     this.crossHair.clear();
-    this.crossHair.lineStyle(2, this.crossHairColor, this.crossHairAlpha);
+    const width = (AssetManager.config.world.maxRadius - AssetManager.config.world.minRadius) / AssetManager.config.world.lanes;
+    this.crossHair.lineStyle(width, this.crossHairColor, this.crossHairAlpha);
     this.crossHair.drawCircle(0, 0, radius);
     this.crossHair.endFill();
   }
@@ -64,20 +65,7 @@ export class TargetOrbitContainer extends Container {
         alpha = delta / 100;
       }
 
-      this.alpha = alpha;
+      this.alpha = CGame.clamp(alpha, 0.1,0.3);
     }
-    /*
-    if (this.source !== undefined) {
-      if (this.source.targetPlayer !== undefined) {
-        this.crossHair.visible = true;
-        this.crossHair.x = this.source.targetPlayer.position.x;
-        this.crossHair.y = this.source.targetPlayer.position.y;
-      } else {
-        this.crossHair.visible = false;
-      }
-    } else {
-      this.crossHair.visible = false;
-    }
-    */
   }
 }

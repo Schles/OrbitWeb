@@ -1,22 +1,25 @@
-import { Vector2 } from '@orbitweb/common';
+import { Client, ProjectileSpawnMessage, ShipEquipmentDBValue, Vector2 } from '@orbitweb/common';
 import { ProjectileGO, SpaceshipGO } from '@orbitweb/game-objects';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 
-export class Mine extends ProjectileGO {
+@Client("PROJECTILE", "Mine")
+export class ProjectileGOMine extends ProjectileGO {
   constructor(
-    id: string,
+    private msg: ProjectileSpawnMessage,
     source: SpaceshipGO,
-    private targetPosition: Vector2
+    value: ShipEquipmentDBValue
   ) {
-    super(id, source);
+    super(msg.id, source);
   }
 
   onInit() {
     super.onInit();
 
-    this.gameObject.x = this.targetPosition.x;
-    this.gameObject.y = this.targetPosition.y;
+    this.gameObject.x = this.msg.x;
+    this.gameObject.y = this.msg.y;
+    this.radius = this.msg.radius;
+    console.log(this.radius);
   }
 
   public iterate(delta) {

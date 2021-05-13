@@ -8,6 +8,7 @@ import { ScoreboardUpdateMessage } from '@orbitweb/common';
 import { BoundryUpdateMessage } from '@orbitweb/common';
 import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
 import { GameLogic } from '../../../../../libs/game-logic/src';
+import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
 
 @Server("EVENT", "lobbyQueryMessage")
 export class ServerLobbyQueryMessage extends ServerMessageRecieved<LobbyQueryMessage> {
@@ -21,7 +22,7 @@ export class ServerLobbyQueryMessage extends ServerMessageRecieved<LobbyQueryMes
       context.send(resmsg);
     });
 
-    context.projectiles.forEach((proj) => {
+    context.projectiles.forEach((proj: ProjectileEntity) => {
       const resmsg1: ProjectileSpawnMessage = new ProjectileSpawnMessage(
         proj,
         proj.source.id

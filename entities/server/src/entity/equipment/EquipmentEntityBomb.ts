@@ -1,20 +1,23 @@
 import { ShipEquipmentEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentEntity';
-import { Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
+import { GameFactory, Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
+
+import { EventManager } from '../../../../../libs/game-logic/src';
+
 
 @Server("EQUIP", "Bomb")
 export class EquipmentEntityBomb extends ShipEquipmentEntity {
-  public repairAmount;
-
-  constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
+  constructor(shipEquipment: ShipEquipment, private value: ShipEquipmentDBValue) {
     super(shipEquipment);
-
-    this.repairAmount = value?.absolute ? value.absolute : 30;
   }
 
-  protected onEndEquipment(parent: SpaceshipEntity) {
-    super.onEndEquipment(parent);
 
-    parent.health += this.repairAmount;
+  protected onStartEquipment(parent: SpaceshipEntity) {
+    super.onStartEquipment(parent);
+
+    const proj: ProjectileEntity = GameFactory.instantiate("SERVER", "PROJECTILE", "Bomb", parent, this.value)
+    EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
   }
+
 }

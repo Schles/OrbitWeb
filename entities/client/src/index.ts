@@ -11,6 +11,13 @@ export * from "./entity/equipment/EquipmentGOWebber"
 export * from "./entity/equipment/EquipmentGOBomb"
 
 
+/* Projectile */
+
+export * from "./entity/projectiles/ProjectileGOBomb"
+export * from "./entity/projectiles/ProjectileGORocket"
+export * from "./entity/projectiles/ProjectileGOMine"
+export * from "./entity/projectiles/Laser"
+
 /* Structures */
 export * from "./entity/structures/StructureGOLoot"
 export * from "./entity/structures/StructureGOPortal"
