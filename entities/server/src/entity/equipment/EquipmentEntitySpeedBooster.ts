@@ -16,14 +16,14 @@ export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
 
-    this.absoluteChange = parent.maxOmega * this.bonus;
-    parent.maxOmega += this.absoluteChange;
+    this.absoluteChange = parent.omega * this.bonus;
+    parent.omega += this.absoluteChange;
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
     super.onEndEquipment(parent);
 
-    parent.maxOmega -= this.absoluteChange;
+    parent.omega -= this.absoluteChange;
     this.absoluteChange = 0;
   }
 }

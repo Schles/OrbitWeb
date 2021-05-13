@@ -1,4 +1,5 @@
 import {
+  AssetManager,
   GameIterable,
   GameManager,
   Message,
@@ -164,4 +165,10 @@ export class GameManagerClient extends GameManager {
     this.renderer.fxStage.addChild(effect.gameObject);
     this.fxEfects.push(effect);
   }
+
+  public rerenderArena() {
+    const globalPoint = this.toGlobal({x:0, y:0});
+    this.goArena.setSize(globalPoint, AssetManager.config.world);
+  }
+
 }

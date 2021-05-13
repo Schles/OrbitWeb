@@ -8,6 +8,7 @@ import { GameService } from '../../service/game.service';
 import { PlayerService } from '../../service/player.service';
 import { SpaceshipGO } from '@orbitweb/game-objects';
 import { Vector2 } from '@orbitweb/common';
+import { EventLogMessage } from '../../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
 
 @Component({
   selector: 'app-ui',
@@ -24,12 +25,21 @@ export class UiComponent implements OnInit {
 
   public loginEnabled: boolean = false;
 
+  public displayEvents = [];
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    this.gameService.app().networkManager.onMessage.subscribe((msg: EventLogMessage<any>) => {
+      if (msg.type === 'eventLogMessage') {
+        //console.log()
+      }
+    });
+  }
 
   public get players(): SpaceshipGO[] {
     return this.gameService.app().players as SpaceshipGO[];
@@ -38,6 +48,8 @@ export class UiComponent implements OnInit {
   public toGlobal(position: Vector2) {
     return this.gameService.app().renderer.foregroundStage.toGlobal(position);
   }
+
+
 
   /*
   public addKill(name: string) {

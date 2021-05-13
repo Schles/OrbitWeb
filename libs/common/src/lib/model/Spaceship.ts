@@ -3,6 +3,7 @@ import { Vector2 } from '../util/VectorInterface';
 import { ShipFitting } from './ShipFitting';
 import { Structure } from './Structure';
 import { Inventory } from './Inventory';
+import { AssetManager } from '../database/AssetManager';
 
 export class Spaceship extends Particle {
   public id;
@@ -71,6 +72,7 @@ export class Spaceship extends Particle {
     super();
     this.id = id;
     this.color = color;
+    this.omega = AssetManager.config.player.baseOmega;
   }
 
   public removeTarget() {

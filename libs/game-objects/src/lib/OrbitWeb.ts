@@ -28,14 +28,9 @@ export class OrbitWeb extends GameManagerClient {
     });
   }
 
-  public rerenderArena() {
-    const globalPoint = this.toGlobal({x:0, y:0});
-    this.goArena.setSize(globalPoint, AssetManager.config.world);
-  }
 
   public onViewReady() {
     this.camera.setSize(this.renderer.renderer.width, this.renderer.renderer.height);
-
   }
 
   private x = 0;

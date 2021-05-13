@@ -32,7 +32,7 @@ export type ShipEquipmentDBMeta = { name: string; meta: { desc: string } };
 
 export type WorldDB = {
   world: { minRadius: number; maxRadius: number; lanes: number, lightDistance: number };
-  player: { maxOrbitChange: number; maxOmega: number };
+  player: { maxOrbitChange: number; maxOmega: number; baseOmega: number };
 };
 
 export class AssetManager {

@@ -17,6 +17,8 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       return value.id === this.message.source;
     });
 
+
+
     if (player === undefined) {
       player = new SpaceshipGO(Factories.createSpaceship(this.message));
       player.fitting = new ShipFitting();
@@ -51,5 +53,9 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       fitting: player.fitting,
       spaceship: player,
     });
+
+    // TODO DIRTY!
+    context.iterate(0);
+    context.rerenderArena();
   }
 }
