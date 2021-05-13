@@ -18,6 +18,13 @@
         </button>
       </div>
 
+      <div
+        class="customFit"
+        [ngClass]="{ active: isCustomFit }"
+        (click)="toggleCustomFit()"
+      >
+        Equip
+      </div>
     </div>
   </form>
 

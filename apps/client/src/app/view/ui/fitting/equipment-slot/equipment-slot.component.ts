@@ -43,7 +43,22 @@ export class EquipmentSlotComponent implements OnInit {
 
   constructor(private gameService: GameService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    if ( AssetManager.config.debug) {
+
+    }
+
+    this.tierList = this.tierList.map( tl => {
+      const eq = AssetManager.getShipEquipment(tl.tier)[0];
+
+      if (eq)
+        tl.fitting.push(eq);
+
+      return tl;
+    });
+
+  }
 
   public isValid(): boolean {
     return this.cpuCost <= this.equipmentCPUCapacity;
@@ -58,9 +73,6 @@ export class EquipmentSlotComponent implements OnInit {
     }, []);
   }
 
-  public getDescription(tier: number, name: string): ShipEquipmentDBMeta {
-    return AssetManager.getShipEquipmentMeta(tier, name);
-  }
 
   public getAllEquipment(tier: number): ShipEquipmentDB[] {
     return AssetManager.getShipEquipment(tier);
@@ -72,18 +84,10 @@ export class EquipmentSlotComponent implements OnInit {
     return p <= 100 ? p : 100;
   }
 
-  public removeEquipment(
-    equipment: ShipEquipment,
-    tier: number,
-    index: number
-  ) {
-    this.tierList.find((o) => o.tier === tier).fitting.splice(index, 1);
-  }
-
   public addEquipment(tier: number, equipment: ShipEquipmentDB) {
     const list = this.tierList.find((i) => i.tier === tier);
     if (list !== undefined) {
-      list.fitting.push(equipment);
+      list.fitting = [equipment];
       this.addTier = 0;
     }
   }
@@ -102,5 +106,9 @@ export class EquipmentSlotComponent implements OnInit {
     if (tier === 1) return this.tierList[0].fitting.length < 1;
     else if (tier === 2) return this.tierList[1].fitting.length < 2;
     else return false;
+  }
+
+  isCurrentlyEquipped(tier: number, equipment: ShipEquipmentDB) {
+    return this.tierList.find( (t) => t.tier === tier).fitting.findIndex( ( fit) => fit.name === equipment.name) >= 0
   }
 }

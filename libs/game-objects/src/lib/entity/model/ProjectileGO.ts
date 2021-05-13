@@ -9,7 +9,7 @@ import { GameIterable } from '@orbitweb/common';
 
 export class ProjectileGO extends Projectile implements GameIterable {
   public gameObject: Container;
-
+  public damageRange: number = 30;
   protected lineObject: Graphics;
 
   constructor(id: string, public source: SpaceshipGO) {

@@ -31,6 +31,7 @@
   },
   {
     "name": "Webber",
+    "disabled": true,
     "cpuCost": 15,
     "castTime": 40,
     "cooldownTime": 0,
@@ -47,15 +48,31 @@
     }
   },
   {
-    "name": "SpeedBooster",
+    "name": "Afterburner",
     "cpuCost": 70,
     "castTime": 5,
-    "cooldownTime": 3,
+    "cooldownTime": 0,
     "action": {
       "targetSelf": true
     },
     "value": {
-      "bonusRate": 0.4
+      "bonusRate": 0.5
+    },
+    "meta": {
+      "desc": "Increased Speed slow",
+      "icon": ""
+    }
+  },
+  {
+    "name": "SpeedBooster",
+    "cpuCost": 70,
+    "castTime": 7,
+    "cooldownTime": 15,
+    "action": {
+      "targetSelf": true
+    },
+    "value": {
+      "bonusRate": 1.2
     },
     "meta": {
       "desc": "Increased Speed for high energy cost.",

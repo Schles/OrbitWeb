@@ -1,4 +1,5 @@
 {
+  "debug": true,
   "world": {
     "minRadius": 100,
     "maxRadius": 450,

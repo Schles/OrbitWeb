@@ -5,12 +5,18 @@ import { string2hex } from '@pixi/utils';
 
 @Client("PROJECTILE", "Mine")
 export class ProjectileGOMine extends ProjectileGO {
+
   constructor(
     private msg: ProjectileSpawnMessage,
     source: SpaceshipGO,
     value: ShipEquipmentDBValue
   ) {
     super(msg.id, source);
+    console.error("val", value);
+    this.radius = value?.range ? value.range : 30;
+    this.damageRange = value?.custom?.damageRange ? value.custom.damageRange : 30;
+
+    this.drawMine();
   }
 
   onInit() {
@@ -18,7 +24,6 @@ export class ProjectileGOMine extends ProjectileGO {
 
     this.gameObject.x = this.msg.x;
     this.gameObject.y = this.msg.y;
-    this.radius = this.msg.radius;
     console.log(this.radius);
   }
 
@@ -27,16 +32,25 @@ export class ProjectileGOMine extends ProjectileGO {
   
   }
 
+  private drawMine() {
+
+    const c = string2hex(this.source.color);
+
+
+    this.lineObject.beginFill(c, 1.0);
+    this.lineObject.drawCircle(0, 0, 10);
+    this.lineObject.endFill();
+
+    this.lineObject.lineStyle(1, c, 1.0);
+    this.lineObject.drawCircle(0, 0, this.radius);
+    this.lineObject.endFill();
+
+  }
+
   public getGameObject(): Container {
     const cannonCont: Container = new Container();
 
     this.lineObject = new Graphics();
-
-    const c = string2hex(this.source.color);
-
-    this.lineObject.beginFill(c, 1.0);
-    this.lineObject.drawRect(-10, -10, 20, 20);
-    this.lineObject.endFill();
 
     cannonCont.addChild(this.lineObject);
     return cannonCont;

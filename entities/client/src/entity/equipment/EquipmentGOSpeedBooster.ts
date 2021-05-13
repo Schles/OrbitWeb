@@ -3,6 +3,7 @@ import { Filter } from 'pixi.js';
 import { NoiseFilter } from '@pixi/filter-noise';
 import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
 
+@Client("EQUIP", "Afterburner")
 @Client("EQUIP", "SpeedBooster")
 export class EquipmentGOSpeedBooster extends ShipEquipmentGO {
   private filter: Filter;

@@ -16,13 +16,18 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
     super.iterate(parent, delta);
 
-    if ( this.hasCooldown()) return;
-    if ( this.hasCasting()) return;
 
+    if ( this.hasCasting() && this.state.pendingState) return;
+
+
+    if ( this.hasCooldown()) return;
+/*
     if (this.state.active === false && this.state.pendingState === false && this.state.cooldown === false) {
+      console.log(this.isCasting, this.isOnCooldown, this.state.pendingState);
+      console.log("exit");
       return;
     }
-
+*/
     //    this.state.active = this.state.pendingState;
 
     this.onUpdateEquipment(parent, delta);
@@ -31,11 +36,13 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
 
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
+
     if ( !this.isCasting && !this.isOnCooldown && this.state.pendingState) {
       this.onStartEquipment(parent);
-    } else if ( this.isCasting && !this.isOnCooldown) {
+    } else if ( this.isCasting && (!this.isOnCooldown || !this.state.pendingState)) {
       this.onEndEquipment(parent);
     } else if ( !this.isCasting && this.isOnCooldown) {
+      console.log(this.isCasting, this.isOnCooldown, this.state.pendingState);
       this.isOnCooldown = false;
       this.state.cooldown = false;
     }

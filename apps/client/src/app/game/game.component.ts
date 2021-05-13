@@ -50,17 +50,6 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     this.gameService.app().networkManager.onConnect.subscribe(() => {
       this.ui.loginEnabled = true;
-
-      const shipFitting: ShipFitting = new ShipFitting();
-
-
-      shipFitting.fitting = AssetManager.getDefaultFitting();
-
-
-      this.gameService
-        .app()
-        .networkManager.login("Debug", shipFitting);
-
     });
 
     this.networkService.connect();

@@ -42,14 +42,16 @@ export class ProjectileRocket extends ProjectileEntity {
   iterate(delta: number) {
     super.iterate(delta);
 
-    const distVector = CMath.sub(this.target.position, this.position);
-    const dir: Vector2 = CMath.normalize(distVector);
-    const angle: number = CMath.angle(dir, { x: 1, y: 0 });
+    if ( this.target ) {
 
-    this.rotation = angle;
+      const distVector = CMath.sub(this.target.position, this.position);
+      const dir: Vector2 = CMath.normalize(distVector);
+      const angle: number = CMath.angle(dir, { x: 1, y: 0 });
 
-    this.speed = CMath.scale(dir, this.maxSpeed);
+      this.rotation = angle;
 
+      this.speed = CMath.scale(dir, this.maxSpeed);
+    }
     Physics.iterate(this, delta);
   }
 

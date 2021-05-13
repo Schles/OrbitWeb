@@ -2,6 +2,7 @@
   {
     "name": "Laser",
     "cpuCost": 8,
+    "disabled": true,
     "castTime": 40,
     "cooldownTime": 0,
     "action": {
@@ -23,7 +24,7 @@
   {
     "name": "RocketLauncher",
     "cpuCost": 5,
-    "castTime": 40,
+    "castTime": 0,
     "cooldownTime": 3,
     "action": {
       "targetEnemy": true
@@ -65,17 +66,15 @@
   {
     "name": "MineLauncher",
     "cpuCost": 8,
-    "castTime": 40,
-    "cooldownTime": 0,
+    "castTime": 0,
+    "cooldownTime": 10,
     "action": {},
     "value": {
       "absolute": 5,
-      "range": 1000,
+      "range": 100,
       "custom": {
-        "maxOmega": 0.6,
-        "damageRange": 200,
-        "maxAimAngle": 0.6,
-        "timeToLife": 5
+        "damageRange": 300,
+        "timeToLife": 20
       }
     },
     "meta": {

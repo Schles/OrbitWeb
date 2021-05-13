@@ -1,0 +1,96 @@
+.equipmentWrapper {
+  height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.equipment {
+  border: 1px solid black;
+}
+
+.equipmentSlot {
+  width: 50px;
+  height: 50px;
+  margin: 2px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.empty {
+  border: 1px solid black;
+  background-color: grey;
+}
+
+.filled {
+  border: 2px solid #e47400;
+  color: #e47400;
+  background-color: #412e8c;
+}
+
+.fitting {
+  margin-bottom: 10px;
+}
+
+.header {
+  //max-width: 400px;
+
+  .login {
+    width: 100%;
+    display: flex;
+
+    background-color: #ffc107;
+
+    .name {
+      flex: 1 1 50%;
+
+      input {
+        background-color: white;
+        padding: 5px;
+        width: 90%;
+      }
+    }
+
+    .spawn {
+      flex: 1 1 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .customFit {
+      flex: 1 1 20%;
+      cursor: pointer;
+      user-select: none;
+
+      color: purple;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .customFit.active {
+      background-color: purple;
+      color: yellow;
+    }
+  }
+
+  .fitting {
+    margin-top: 10px;
+  }
+
+  margin-bottom: 10px;
+
+  form {
+    display: flex;
+  }
+}
+
+.flexWrap {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+}
+
+.flexT {
+  flex: 1 1 auto;
+}

@@ -2,6 +2,7 @@ import { ShipEquipmentEntity } from '../../../../../libs/game-logic/src/lib/mode
 import { Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
 
+@Server("EQUIP", "Afterburner")
 @Server("EQUIP", "SpeedBooster")
 export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
   private absoluteChange: number = 0;

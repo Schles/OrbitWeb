@@ -23,7 +23,7 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
           y: this.message.y,
         });
       } else {
-        const config = AssetManager.getValue(this.message.projType);
+        const config = AssetManager.getValue(this.message.projType+"Launcher");
         projectileGO = GameFactory.instantiate('CLIENT', 'PROJECTILE', this.message.projType, this.message, source, config);
       }
 

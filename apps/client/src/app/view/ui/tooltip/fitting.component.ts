@@ -70,8 +70,11 @@ export class FittingComponent implements OnInit, AfterViewInit {
   public spawn() {
     const shipFitting: ShipFitting = new ShipFitting();
 
-
+    if (this.myForm.value.customEq) {
       shipFitting.fitting = this.fittingComponent.getFitting();
+    } else {
+      shipFitting.fitting = AssetManager.getDefaultFitting();
+    }
 
     this.gameService
       .app()

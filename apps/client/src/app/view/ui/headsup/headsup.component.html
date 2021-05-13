@@ -42,6 +42,26 @@
         </div>
 
       </ng-container>
+
+
+
+    </div>
+    <div class="slot">
+      <div class='cont' [ngClass]='{
+        online: mePlayer().targetPlayer !== undefined,
+        offline: mePlayer().targetPlayer === undefined
+        }'>
+
+        Space
+      </div>
+
+      <div class='text'>
+        Target
+      </div>
+
+      <div class='progressBar' style='color: white'>
+        {{mePlayer().targetPlayer?.id}}
+      </div>
     </div>
   </div>
 </div>

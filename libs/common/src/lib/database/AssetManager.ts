@@ -8,6 +8,7 @@ import { ShipEquipment } from '../model/ShipEquipment';
 export type ShipEquipmentDB = {
   name: string;
   disabled?: boolean;
+  base?: string;
   cpuCost: number;
   castTime: number;
   cooldownTime: number;
@@ -31,6 +32,7 @@ export type ProjectileDB = {
 export type ShipEquipmentDBMeta = { name: string; meta: { desc: string } };
 
 export type WorldDB = {
+  debug: boolean,
   world: { minRadius: number; maxRadius: number; lanes: number, lightDistance: number };
   player: { maxOrbitChange: number; maxOmega: number; baseOmega: number };
 };
@@ -49,7 +51,7 @@ export class AssetManager {
     return this.getTierMeta(tier).find((p) => p.name === name);
   }
 
-  public static getDefaultFitting(): ShipEquipment[] {
+  public static getDefaultFitting(): ShipEquipmentDB[] {
     return [
       this.dirtyFactory(1, this.findEquipment('RocketLauncher')),
       this.dirtyFactory(1, this.findEquipment('Bomb')),
