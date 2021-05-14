@@ -6,8 +6,8 @@ import { Client, ProjectileSpawnMessage, ShipEquipmentDBValue } from '@orbitweb/
 export class ProjectileGOBomb extends ProjectileGO {
   constructor(private msg: ProjectileSpawnMessage, source: SpaceshipGO, value: ShipEquipmentDBValue) {
     super(msg.id, source);
-console.log(value);
-    this.radius = value?.range ? value.range : 30;
+
+    this.radius = value?.projectile ? value.projectile.damageRange : 30;
     this.damageRange = this.radius;
   }
 

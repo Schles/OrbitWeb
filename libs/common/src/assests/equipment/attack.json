@@ -1,7 +1,6 @@
 [
   {
     "name": "Laser",
-    "cpuCost": 8,
     "disabled": true,
     "castTime": 40,
     "cooldownTime": 0,
@@ -23,17 +22,18 @@
   },
   {
     "name": "RocketLauncher",
-    "cpuCost": 5,
     "castTime": 0,
     "cooldownTime": 3,
     "action": {
       "targetEnemy": true
     },
     "value": {
-      "absolute": 10,
-      "custom": {
-        "minDistanceToExplode": 30,
+      "projectile": {
         "timeToLife": 15,
+        "damage": 10,
+        "damageRange": 30
+      },
+      "custom": {
         "maxSpeed": 40
       }
     },
@@ -45,7 +45,6 @@
   {
     "name": "Nosferatu",
     "disabled": true,
-    "cpuCost": 10,
     "castTime": 40,
     "cooldownTime": 0,
     "action": {
@@ -65,17 +64,19 @@
   },
   {
     "name": "MineLauncher",
-    "cpuCost": 8,
     "castTime": 0,
     "cooldownTime": 10,
     "action": {},
+    "projectile": {
+
+    },
     "value": {
-      "absolute": 5,
-      "range": 100,
-      "custom": {
-        "damageRange": 300,
-        "timeToLife": 20
-      }
+      "projectile": {
+        "timeToLife": 20,
+        "damage": 5,
+        "damageRange": 300
+      },
+      "range": 50
     },
     "meta": {
       "desc": "Place deadly Traps.",
@@ -84,19 +85,18 @@
   },
   {
     "name": "BombLauncher",
-    "cpuCost": 8,
     "castTime": 0,
     "cooldownTime": 5,
     "action": {},
     "value": {
-      "absolute": 5,
-      "range": 200,
-      "custom": {
+      "projectile": {
+        "timeToLife": 0,
+        "damage": 8,
         "damageRange": 200
       }
     },
     "meta": {
-      "desc": "AoE Dmg",
+      "desc": "Area of effect damage",
       "icon": ""
     }
   }

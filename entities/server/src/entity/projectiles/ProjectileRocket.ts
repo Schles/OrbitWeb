@@ -17,13 +17,13 @@ export class ProjectileRocket extends ProjectileEntity {
   ) {
     super(undefined, source);
     this.type = 'Rocket';
-    this.duration = 20; // Still used?
 
-    this.damage = value?.absolute ? value.absolute : 10;
-    this.range = value?.custom?.minDistanceToExplode
-      ? value.custom.minDistanceToExplode
-      : 30;
-    this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 15;
+    if ( value.projectile) {
+      this.damage = value.projectile.damage;
+      this.range = value.projectile.damageRange;
+      this.timeToLife = value.projectile.timeToLife;
+    }
+
     this.maxSpeed = value?.custom?.maxSpeed ? value.custom.maxSpeed : 40;
   }
 

@@ -14,7 +14,7 @@ export class ProjectileGOMine extends ProjectileGO {
     super(msg.id, source);
 
     this.radius = value?.range ? value.range : 30;
-    this.damageRange = value?.custom?.damageRange ? value.custom.damageRange : 30;
+    this.damageRange = value?.projectile ? value.projectile.damageRange : 30;
 
     this.drawMine();
   }

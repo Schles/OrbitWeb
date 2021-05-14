@@ -9,7 +9,6 @@ export type ShipEquipmentDB = {
   name: string;
   disabled?: boolean;
   base?: string;
-  cpuCost: number;
   castTime: number;
   cooldownTime: number;
   action: IAction;
@@ -27,7 +26,6 @@ export type ProjectileDB = {
   timeToLife: number;
   damage: number;
   damageRange: number;
-  activationRange: number;
 };
 export type ShipEquipmentDBMeta = { name: string; meta: { desc: string } };
 
@@ -65,7 +63,7 @@ export class AssetManager {
     tier: number,
     equip: ShipEquipmentDB
   ): ShipEquipment {
-    return new ShipEquipment(equip.name, tier, equip.cpuCost, equip.castTime, equip.cooldownTime, tier < 3 ? false : true, equip.action);
+    return new ShipEquipment(equip.name, tier, equip.castTime, equip.cooldownTime, tier < 3 ? false : true, equip.action);
   }
 
   public static getValue(name: string): ShipEquipmentDBValue {

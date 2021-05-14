@@ -54,7 +54,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
   public isValid() {
     if (this.fittingComponent === undefined) return true;
 
-    return this.myForm.value.customEq ? this.fittingComponent.isValid() : true;
+    return true;
   }
 
   public toggleCustomFit() {

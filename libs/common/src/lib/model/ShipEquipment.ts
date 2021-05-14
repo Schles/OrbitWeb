@@ -24,7 +24,6 @@ export class ShipEquipment {
   constructor(
     public name: string,
     public tier: number,
-    public cpuCost: number,
     public castTime: number,
     public cooldownTime: number,
     public passive: boolean,

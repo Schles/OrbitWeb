@@ -62,10 +62,6 @@ export class EquipmentSlotComponent implements OnInit {
 
   }
 
-  public isValid(): boolean {
-    return this.cpuCost <= this.equipmentCPUCapacity;
-  }
-
   public getFitting(): ShipEquipment[] {
     return this.tierList.reduce((acc, cur) => {
       cur.fitting.forEach((fit) => {
@@ -80,11 +76,6 @@ export class EquipmentSlotComponent implements OnInit {
     return AssetManager.getShipEquipment(tier);
   }
 
-  public getCPUP() {
-    const p = (this.cpuCost * 100) / this.equipmentCPUCapacity;
-
-    return p <= 100 ? p : 100;
-  }
 
   public addEquipment(tier: number, equipment: ShipEquipmentDB) {
     const list = this.tierList.find((i) => i.tier === tier);
@@ -94,15 +85,6 @@ export class EquipmentSlotComponent implements OnInit {
     }
   }
 
-  public get cpuCost() {
-    return this.tierList.reduce((acc, cur) => {
-      acc += cur.fitting.reduce((a, c) => {
-        a += c.cpuCost;
-        return a;
-      }, 0);
-      return acc;
-    }, 0);
-  }
 
   public isAllowedToAddMore(tier: number): boolean {
     if (tier === 1) return this.tierList[0].fitting.length < 1;

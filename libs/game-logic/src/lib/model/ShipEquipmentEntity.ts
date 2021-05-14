@@ -7,7 +7,7 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
 
   constructor(shipEquipment: ShipEquipment) {
-    super(shipEquipment.name, shipEquipment.tier, shipEquipment.cpuCost, shipEquipment.castTime, shipEquipment.cooldownTime, shipEquipment.passive, shipEquipment.action);
+    super(shipEquipment.name, shipEquipment.tier, shipEquipment.castTime, shipEquipment.cooldownTime, shipEquipment.passive, shipEquipment.action);
   }
 
   iterate(parent: SpaceshipEntity, delta: number) {

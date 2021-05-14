@@ -22,12 +22,17 @@ export class ProjectileBomb extends ProjectileEntity {
 
     this.targetPosition = source.position;
 
-    this.damage = value?.absolute ? value.absolute : 10;
-    this.range = value?.custom?.damageRange
-      ? value.custom.damageRange
-      : 30;
-    this.timeToLife = 0;
-    this.maxSpeed = value?.custom?.maxSpeed ? value.custom.maxSpeed : 40;
+    console.log(value);
+
+    if ( value.projectile) {
+      this.damage = value.projectile.damage;
+      this.range = value.projectile.damageRange;
+      this.timeToLife = 0;
+    }
+
+
+
+
 
     this.position.x = this.source.position.x;
     this.position.y = this.source.position.y;

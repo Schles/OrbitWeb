@@ -29,7 +29,7 @@ export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMes
     //player.movementGoal = new MovementGoalFreeFly();
     player.fitting = new ShipFitting();
 
-    const eq = new ShipEquipment('Loot', 3, 0, 0, 1, true, {});
+    const eq = new ShipEquipment('Loot', 3, 0, 1, true, {});
     player.fitting.fitting.push(eq);
 
     player.onInit();

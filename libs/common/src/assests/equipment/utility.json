@@ -1,8 +1,7 @@
 [
   {
     "name": "Repair",
-    "cpuCost": 10,
-    "castTime": 40,
+    "castTime": 25,
     "cooldownTime": 0,
     "action": {
       "targetSelf": true
@@ -17,7 +16,6 @@
   },
   {
     "name": "Shield",
-    "cpuCost": 15,
     "castTime": 3,
     "cooldownTime": 30,
     "action": {
@@ -32,7 +30,6 @@
   {
     "name": "Webber",
     "disabled": true,
-    "cpuCost": 15,
     "castTime": 40,
     "cooldownTime": 0,
     "action": {
@@ -49,7 +46,6 @@
   },
   {
     "name": "Afterburner",
-    "cpuCost": 70,
     "castTime": 5,
     "cooldownTime": 0,
     "action": {
@@ -65,7 +61,6 @@
   },
   {
     "name": "SpeedBooster",
-    "cpuCost": 70,
     "castTime": 7,
     "cooldownTime": 15,
     "action": {

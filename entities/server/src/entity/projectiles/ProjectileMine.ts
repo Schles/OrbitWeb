@@ -16,10 +16,13 @@ export class ProjectileMine extends ProjectileEntity {
     super(undefined, source);
     this.type = 'Mine'
 
-    this.damage = value?.absolute ? value.absolute : 10;
+    if ( value.projectile) {
+      this.damage = value.projectile.damage;
+      this.damageRange = value.projectile.damageRange;
+      this.timeToLife = value.projectile.timeToLife;
+    }
+
     this.range = value?.range ? value.range : 30;
-    this.damageRange = value?.custom?.damageRange ? value.custom.damageRange : this.range;
-    this.timeToLife = value?.custom?.timeToLife ? value.custom.timeToLife : 150;
 
     this.position.x = this.source.position.x;
     this.position.y = this.source.position.y;
