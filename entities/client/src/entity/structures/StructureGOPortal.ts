@@ -1,4 +1,4 @@
-import { StructureGO } from '@orbitweb/game-objects';
+import { StructureGO } from '@orbitweb/client-entities';
 import { Container, Graphics } from 'pixi.js';
 import { Client } from '@orbitweb/common';
 

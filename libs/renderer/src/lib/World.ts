@@ -1,8 +1,11 @@
 import { Emitter } from './Emitter';
 import { SceneGraph } from './SceneGraph';
+import { LightSource } from './model/LightSource';
 
 export  class World extends SceneGraph {
   public emitter: Emitter;
+
+  public lights: LightSource[] = [];
 
   constructor(options) {
     super(options);

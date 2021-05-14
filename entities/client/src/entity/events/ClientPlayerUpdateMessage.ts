@@ -1,35 +1,32 @@
-import { Client, PlayerUpdateMessage } from '@orbitweb/common';
-import {
-  ClientMessageRecieved,
-  GameManagerClient,
-  ShipEquipmentGO,
-  SpaceshipGO,
-} from '@orbitweb/game-objects';
+import { Client, MessageRecieved, GameManager, PlayerUpdateMessage } from '@orbitweb/common';
+import { SpaceshipGO } from '../../model/SpaceshipGO';
+import { ShipEquipmentGO } from '../../model/ShipEquipmentGO';
+
 
 @Client("EVENT", "playerUpdateMessage")
-export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdateMessage> {
+export class ClientPlayerUpdateMessage extends MessageRecieved<PlayerUpdateMessage> {
   constructor(message: PlayerUpdateMessage) {
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
-    let enemyGO: SpaceshipGO = context.players.find((value) => {
+  onRecieve(context: GameManager) {
+    const player: SpaceshipGO = context.players.find((value) => {
       return value.id === this.message.source;
-    });
+    }) as SpaceshipGO;
 
-    if (enemyGO === undefined) return;
+    if (player === undefined) return;
 
-    enemyGO.position.x = this.message.x;
-    enemyGO.position.y = this.message.y;
+    player.position.x = this.message.x;
+    player.position.y = this.message.y;
 
-    enemyGO.speed.x = this.message.speedX;
-    enemyGO.speed.y = this.message.speedY;
+    player.speed.x = this.message.speedX;
+    player.speed.y = this.message.speedY;
 
-    enemyGO.rotation = this.message.rotation;
+    player.rotation = this.message.rotation;
 
-    //enemyGO.cannon.rotation = msg.gun_rotation;
+    //player.cannon.rotation = msg.gun_rotation;
 
-    enemyGO.fitting.fitting = enemyGO.fitting.fitting.map(
+    player.fitting.fitting = player.fitting.fitting.map(
       (fit: ShipEquipmentGO, index) => {
         fit.state = this.message.fitting.fitting[index].state;
         fit.remainingTime = this.message.fitting.fitting[index].remainingTime;
@@ -37,21 +34,21 @@ export class ClientPlayerUpdateMessage extends ClientMessageRecieved<PlayerUpdat
       }
     );
 
-    enemyGO.health = this.message.health;
-    enemyGO.power = this.message.power;
+    player.health = this.message.health;
+    player.power = this.message.power;
 
     if (this.message.target !== undefined) {
       const target = context.players.find((p) => p.id === this.message.target);
 
       if (target !== undefined) {
-        enemyGO.targetPlayer = target;
+        player.targetPlayer = target;
       }
     } else {
-      enemyGO.targetPlayer = undefined;
+      player.targetPlayer = undefined;
     }
 
-    enemyGO.activationProgress = this.message.activationProgress;
+    player.activationProgress = this.message.activationProgress;
 
-    //enemyGO.iterateGraphics();
+    //player.iterateGraphics();
   }
 }

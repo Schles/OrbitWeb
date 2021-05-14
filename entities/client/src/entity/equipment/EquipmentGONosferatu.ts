@@ -1,6 +1,6 @@
 import { Client, ShipEquipment } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 import { Graphics, Point } from 'pixi.js';
 
 @Client("EQUIP", "Nosferatu")

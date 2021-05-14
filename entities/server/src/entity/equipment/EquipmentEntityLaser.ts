@@ -1,10 +1,10 @@
 import { CMath, Server, ShipEquipment, ShipEquipmentDBValue, Vector2 } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import * as math from 'mathjs';
 import { EventManager } from '../../../../../libs/game-logic/src/lib/EventManager';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
-import { ShipEquipmentTargetEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentTargetEntity';
-import { EventLogMessage } from '../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
+import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
+
 
 @Server("EQUIP", "Laser")
 export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
@@ -61,12 +61,6 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
   }
 
   private shoot(parent: SpaceshipEntity) {
-    const targetVector = CMath.sub(
-      parent.targetPlayer.position,
-      parent.position
-    );
-    const angle = CMath.angle(targetVector, this.getOrientation(parent));
-
     const start: Vector2 = {
       x: parent.position.x,
       y: parent.position.y,
@@ -79,13 +73,9 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
     const v: Vector2 = CMath.sub(end, start);
 
-    const length = math.norm([v.x, v.y]);
-
     const target: SpaceshipEntity = <SpaceshipEntity>parent.targetPlayer;
 
     const dmgTaken = target.takeDamage(this.damage, parent);
-
-
 
     const proj: ProjectileEntity = new ProjectileEntity(undefined, parent);
 

@@ -1,10 +1,17 @@
-import { AssetManager, Client, GameFactory, ProjectileSpawnMessage } from '@orbitweb/common';
 import {
-  ClientMessageRecieved,
-  GameManagerClient,
-  Laser,
-  ProjectileGO,
-} from '@orbitweb/game-objects';
+  AssetManager,
+  Client,
+  MessageRecieved,
+  GameFactory,
+  GameManager,
+  ProjectileSpawnMessage
+} from '@orbitweb/common';
+import { SpaceshipGO } from '../../model/SpaceshipGO';
+import { ProjectileGO } from '../../model/ProjectileGO';
+import { Laser } from '../projectiles/Laser';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
+import { World } from '@orbitweb/renderer';
+
 
 @Client("EVENT", "projectileSpawnMessage")
 export class ClientProjectileSpawnMessage extends ClientMessageRecieved<ProjectileSpawnMessage> {
@@ -12,8 +19,10 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
-    const source = context.players.find((p) => p.id === this.message.source);
+
+  onRecieveWithRenderer(context: GameManager, renderer: World) {
+
+    const source = context.players.find((p) => p.id === this.message.source) as SpaceshipGO;
 
     if (source !== undefined) {
       let projectileGO: ProjectileGO;
@@ -32,7 +41,7 @@ export class ClientProjectileSpawnMessage extends ClientMessageRecieved<Projecti
         context.projectiles.push(projectileGO);
 
         projectileGO.onInit();
-        context.renderer.gameStage.addChild(projectileGO.gameObject);
+        renderer.gameStage.addChild(projectileGO.gameObject);
       }
     }
   }

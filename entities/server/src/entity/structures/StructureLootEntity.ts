@@ -1,5 +1,5 @@
-import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { StructureEntity } from '../../model/StructureEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { Inventory, Server } from '@orbitweb/common';
 
 @Server("STRUCTURE", "Loot")

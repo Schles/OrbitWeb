@@ -1,17 +1,15 @@
-import { PlayerOrbitMessage, Server, Spaceship } from '@orbitweb/common';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { GameManager, MessageRecieved, PlayerOrbitMessage, Server } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 
 @Server("EVENT", "playerOrbitMessage")
-export class ServerPlayerOrbitMessage extends ServerMessageRecieved<PlayerOrbitMessage> {
+export class ServerPlayerOrbitMessage extends MessageRecieved<PlayerOrbitMessage> {
   constructor(message: PlayerOrbitMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
-    const player = context.getPlayer(this.message.source);
+  onRecieve(context: GameManager) {
+    const player = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     if (player !== undefined) {
       // target is beeing igored, cycle instead through all players (TAB Targeting)
@@ -38,11 +36,11 @@ export class ServerPlayerOrbitMessage extends ServerMessageRecieved<PlayerOrbitM
   }
 
   private nextTarget(
-    context: GameLogic,
+    context: GameManager,
     currentIndex: number
   ): SpaceshipEntity {
     let nextTarget;
-    const player = context.getPlayer(this.message.source);
+    const player = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     for (let i = 0; i < 2; i++) {
       const nextIndex = (currentIndex + i + 1) % context.players.length;

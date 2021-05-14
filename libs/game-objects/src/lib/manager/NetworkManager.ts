@@ -6,8 +6,9 @@ import {
   PlayerLoginMessage,
   ShipFitting
 } from '@orbitweb/common';
-import { ClientMessageRecieved } from '@orbitweb/game-objects';
+import { MessageRecieved } from '@orbitweb/common';
 import { GameManagerClient } from './GameManagerClient';
+import { ClientMessageRecieved } from '../../../../../entities/client/src/model/ClientMessageRecieved';
 
 export class NetworkManager {
   public onConnect: EventEmitter<any> = new EventEmitter<any>();
@@ -32,7 +33,7 @@ export class NetworkManager {
       );
 
  */
-      msg?.onRecieve(this.gameManager);
+      msg?.onRecieveWithRenderer(this.gameManager, this.gameManager.renderer);
     });
   }
 

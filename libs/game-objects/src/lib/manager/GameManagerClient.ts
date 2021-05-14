@@ -12,12 +12,12 @@ import { Camera, World } from '@orbitweb/renderer';
 import { WorldGOArena } from '../entity/world/WorldGOArena';
 import { WorldGOSun } from '../entity/world/WorldGOSun';
 import { TargetOrbitContainer } from '../ui/TargetOrbitContainer';
-import { EventManager } from './EventManager';
+import { EventManager } from '../../../../common/src/lib/manager/EventManager';
 import { InputManager } from './InputManager';
 import { NetworkManager } from './NetworkManager';
 import { ShaderManager } from './ShaderManager';
 import { FXEffect } from '../../../../renderer/src/lib/fx/Effect';
-import { LightSource } from '../../../../renderer/src/lib/model/LightSource';
+
 
 
 export class GameManagerClient extends GameManager {
@@ -27,10 +27,7 @@ export class GameManagerClient extends GameManager {
   public fxEfects: FXEffect[] = [];
   public skills: any[] = [];
 
-  public lights: LightSource[] = [];
-
   public postShaderLoaded() {}
-
 
   public renderer: World;
 
@@ -159,10 +156,6 @@ export class GameManagerClient extends GameManager {
     structures.forEach((p) => {
       this.networkManager.onMessage.emit(new StructureDestroyMessage(p));
     });
-  }
-  public addFXEffect(effect: FXEffect) {
-    this.renderer.fxStage.addChild(effect.gameObject);
-    this.fxEfects.push(effect);
   }
 
   public rerenderArena() {

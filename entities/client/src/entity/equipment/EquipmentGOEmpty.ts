@@ -1,5 +1,5 @@
 import { ShipEquipment } from '@orbitweb/common';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 
 export class EquipmentGOEmpty extends ShipEquipmentGO {
   constructor(shipEquipment: ShipEquipment) {

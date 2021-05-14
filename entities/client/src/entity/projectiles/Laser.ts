@@ -1,7 +1,7 @@
 import { Container, Graphics } from 'pixi.js';
 
 import { string2hex } from '@pixi/utils';
-import { ProjectileGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ProjectileGO, SpaceshipGO } from '@orbitweb/client-entities';
 import { Client, Vector2 } from '@orbitweb/common';
 
 @Client("PROJECTILE", "Laser")

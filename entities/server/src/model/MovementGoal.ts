@@ -1,7 +1,7 @@
 import { SpaceshipEntity } from './SpaceshipEntity';
 import { PhysicsInput } from '@orbitweb/game-engine';
 import * as math from 'mathjs';
-import { MovementGoalFreeFly } from '../movement/MovementGoalFreeFly';
+import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 
 export class MovementGoal {
   constructor() {}

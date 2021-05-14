@@ -1,18 +1,16 @@
 
+import { GameManager, MessageRecieved, PlayerSelfKillMessage, Server } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
-
-import { PlayerSelfKillMessage, Server } from '@orbitweb/common';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic } from '../../../../../libs/game-logic/src';
 
 @Server("EVENT", "playerSelfKillMessage")
-export class ServerPlayerSelfKillMessage extends ServerMessageRecieved<PlayerSelfKillMessage> {
+export class ServerPlayerSelfKillMessage extends MessageRecieved<PlayerSelfKillMessage> {
   constructor(message: PlayerSelfKillMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
-    const player = context.getPlayer(this.message.source);
+  onRecieve(context: GameManager) {
+    const player = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     if (player !== undefined) {
       player.health = 0;

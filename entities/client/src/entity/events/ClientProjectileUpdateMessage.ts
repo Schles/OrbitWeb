@@ -1,21 +1,17 @@
-import { Client, ProjectileUpdateMessage } from '@orbitweb/common';
-import {
-  ClientMessageRecieved,
-  GameManagerClient,
-  ProjectileGO,
-} from '@orbitweb/game-objects';
+import { Client, MessageRecieved, GameManager, ProjectileUpdateMessage } from '@orbitweb/common';
+import { ProjectileGO } from '../../model/ProjectileGO';
 
 @Client("EVENT", "projectileUpdateMessage")
-export class ClientProjectileUpdateMessage extends ClientMessageRecieved<ProjectileUpdateMessage> {
+export class ClientProjectileUpdateMessage extends MessageRecieved<ProjectileUpdateMessage> {
   constructor(message: ProjectileUpdateMessage) {
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
+  onRecieve(context: GameManager) {
     //console.log(msg);
     const projectile: ProjectileGO = context.projectiles.find(
       (proj) => proj.id === this.message.id
-    );
+    ) as ProjectileGO;
 
     if (projectile === undefined) {
       return;

@@ -1,8 +1,8 @@
 
-import { CMath, Physics, Server, ShipEquipmentDBValue } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
-import { GameLogic } from '../../../../../libs/game-logic/src';
+import { CMath, GameManager, Server, ShipEquipmentDBValue } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
+
 
 @Server("PROJECTILE", "Mine")
 export class ProjectileMine extends ProjectileEntity {
@@ -30,7 +30,7 @@ export class ProjectileMine extends ProjectileEntity {
   }
 
 
-  iterateContext(delta: number, context: GameLogic) {
+  iterateContext(delta: number, context: GameManager) {
     const targets = (context.players as SpaceshipEntity[])
       .filter( (p) => this.isInRange(p));
 

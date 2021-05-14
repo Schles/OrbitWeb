@@ -1,6 +1,7 @@
-import { StructureGO } from '@orbitweb/game-objects';
+
 import { Container, Graphics, Text } from 'pixi.js';
 import { Client } from '@orbitweb/common';
+import { StructureGO } from '@orbitweb/client-entities';
 
 @Client("STRUCTURE", "Loot")
 export class StructureGOLoot extends StructureGO {

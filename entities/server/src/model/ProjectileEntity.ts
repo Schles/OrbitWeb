@@ -1,7 +1,7 @@
-import { CMath, GameIterable, Projectile } from '@orbitweb/common';
+import { CMath, EventLogMessage, GameIterable, GameManager, Projectile } from '@orbitweb/common';
 import { SpaceshipEntity } from './SpaceshipEntity';
 import { GameLogic } from '@orbitweb/game-logic';
-import { EventLogMessage } from '../../../../common/src/lib/message/game/player/EventLogMessage';
+
 
 export class ProjectileEntity extends Projectile implements GameIterable {
 
@@ -12,7 +12,7 @@ export class ProjectileEntity extends Projectile implements GameIterable {
     super(id, source.color);
   }
 
-  public iterateContext(delta: number, context: GameLogic) {
+  public iterateContext(delta: number, context: GameManager) {
     const targets = (context.players as SpaceshipEntity[])
       .filter( (p) => this.isInRange(p));
 
@@ -30,7 +30,7 @@ export class ProjectileEntity extends Projectile implements GameIterable {
     return len < this.range;
   }
 
-  protected takeHit(player: SpaceshipEntity, context: GameLogic): void {
+  protected takeHit(player: SpaceshipEntity, context: GameManager): void {
     const dmgTaken = player.takeDamage(this.damage, this.source);
     const eventLog = new EventLogMessage("PLAYER_DAMAGE_TAKEN", {damageTaken: dmgTaken, equipmentSource: this.type, source: this.source.id, target: player.id});
     context.send(eventLog);

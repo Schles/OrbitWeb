@@ -1,11 +1,12 @@
-import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { Scoreboard } from '../../../../../libs/game-logic/src/lib/core/Scoreboard';
+import { StructureEntity } from '../../model/StructureEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+
 import { Server } from '@orbitweb/common';
+
 
 @Server("STRUCTURE", "Portal")
 export class StructurePortalEntity extends StructureEntity {
-  constructor(x: number, y: number, public scoreboard: Scoreboard) {
+  constructor(x: number, y: number, public scoreboard: any) {
     super(x, y);
     this.type = 'Portal';
     this.activationRange = 30;

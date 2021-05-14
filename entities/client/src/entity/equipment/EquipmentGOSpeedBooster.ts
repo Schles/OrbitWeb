@@ -1,7 +1,7 @@
 import { Client, ShipEquipment } from '@orbitweb/common';
 import { Filter } from 'pixi.js';
 import { NoiseFilter } from '@pixi/filter-noise';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 
 @Client("EQUIP", "Afterburner")
 @Client("EQUIP", "SpeedBooster")

@@ -3,8 +3,8 @@ import { Physics, Server, ShipEquipmentDBValue } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 import { Particle } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
 
 @Server("PROJECTILE", "Rocket")
 export class ProjectileRocket extends ProjectileEntity {

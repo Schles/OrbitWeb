@@ -1,18 +1,16 @@
-
-import { PlayerActionMessage, PlayerOrbitMessage, Server } from '@orbitweb/common';
+import { GameManager, MessageRecieved, PlayerActionMessage, PlayerOrbitMessage, Server } from '@orbitweb/common';
 import { ShipEquipment } from '@orbitweb/common';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic, ServerPlayerOrbitMessage } from '../../../../../libs/game-logic/src';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ServerPlayerOrbitMessage } from './ServerPlayerOrbitMessage';
 
 @Server("EVENT", "playerActionMessage")
-export class ServerPlayerActionMessage extends ServerMessageRecieved<PlayerActionMessage> {
+export class ServerPlayerActionMessage extends MessageRecieved<PlayerActionMessage> {
   constructor(message: PlayerActionMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
-    const player: SpaceshipEntity = context.getPlayer(this.message.source);
+  onRecieve(context: GameManager) {
+    const player: SpaceshipEntity = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     if (player === undefined) {
       console.error('Action from unkown user', this.message);

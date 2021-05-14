@@ -1,4 +1,4 @@
-import { GameLogic } from '../GameLogic';
+import { GameLogic } from '../../../../libs/game-logic/src/lib/GameLogic';
 import { Message } from '@orbitweb/common';
 
 export class ServerMessageRecieved<T extends Message> {

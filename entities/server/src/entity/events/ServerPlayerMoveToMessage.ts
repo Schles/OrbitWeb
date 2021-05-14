@@ -1,26 +1,20 @@
 
-import { CMath, PlayerMoveToMessage, Server } from '@orbitweb/common';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
+import { CMath, GameManager, MessageRecieved, PlayerMoveToMessage, Server } from '@orbitweb/common';
+import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 
 @Server("EVENT", "playerMoveToMessage")
-export class ServerPlayerMoveToMessage extends ServerMessageRecieved<PlayerMoveToMessage> {
+export class ServerPlayerMoveToMessage extends MessageRecieved<PlayerMoveToMessage> {
   constructor(message: PlayerMoveToMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
-    const player = context.getPlayer(this.message.source);
+  onRecieve(context: GameManager) {
+    const player = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     if (player && this.message.position) {
-      const dir = CMath.sub(this.message.position, player.position);
-
       const m = CMath.len(this.message.position);
-
-      //const reqAngle = CMath.angle(dir, { x: 0, y: 1 });
-
       player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, m);
     }
   }

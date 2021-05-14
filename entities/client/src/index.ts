@@ -1,3 +1,10 @@
+export * from "./model/StructureGO"
+export * from "./model/ProjectileGO"
+export * from "./model/ShipEquipmentGO"
+export * from "./model/SpaceshipGO"
+
+
+
 /* Equipment */
 
 export * from "./entity/equipment/EquipmentGOLaser"

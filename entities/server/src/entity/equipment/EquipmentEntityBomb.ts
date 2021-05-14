@@ -1,7 +1,7 @@
-import { ShipEquipmentEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentEntity';
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 import { GameFactory, Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
 
 import { EventManager } from '../../../../../libs/game-logic/src';
 

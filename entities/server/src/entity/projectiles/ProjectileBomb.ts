@@ -1,16 +1,11 @@
 
-import { Physics, Server, ShipEquipmentDBValue } from '@orbitweb/common';
+import { Server, ShipEquipmentDBValue } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
-import { GameLogic } from '@orbitweb/game-logic';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 @Server("PROJECTILE", "Bomb")
 export class ProjectileBomb extends ProjectileEntity {
-  private minDistanceToExplode: number;
-  private maxSpeed: number;
-
-
   private targetPosition: Vector2;
 
   constructor(
@@ -21,8 +16,6 @@ export class ProjectileBomb extends ProjectileEntity {
     this.type = 'Bomb';
 
     this.targetPosition = source.position;
-
-    console.log(value);
 
     if ( value.projectile) {
       this.damage = value.projectile.damage;

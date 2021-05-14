@@ -10,7 +10,7 @@ import {
   Vector2,
 } from '@orbitweb/common';
 import { SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
-import { EventManager } from './EventManager';
+import { EventManager } from '../../../../common/src/lib/manager/EventManager';
 
 export class InputManager {
 

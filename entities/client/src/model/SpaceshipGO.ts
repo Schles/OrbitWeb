@@ -3,8 +3,6 @@ import { Physics } from '@orbitweb/common';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 
-import { TargetingLayer } from '../../ui/TargetingContainer';
-
 export class SpaceshipGO extends Spaceship implements GameIterable {
   public actionOrbitTarget: boolean = false;
   public actionKeepAtRange: boolean = false;

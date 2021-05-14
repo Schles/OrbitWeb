@@ -1,6 +1,6 @@
 import { Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { ShipEquipmentTargetEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentTargetEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 @Server("EQUIP", "Webber")
 export class EquipmentEntityWebber extends ShipEquipmentTargetEntity {

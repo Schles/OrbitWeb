@@ -1,8 +1,8 @@
 import { GameFactory, Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { EventManager } from '../../../../../libs/game-logic/src/lib/EventManager';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
-import { ShipEquipmentEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 
 @Server("EQUIP", "MineLauncher")
 export class EquipmentEntityLauncherMine extends ShipEquipmentEntity {

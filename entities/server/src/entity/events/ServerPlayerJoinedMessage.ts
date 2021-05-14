@@ -1,19 +1,25 @@
+import {
+  GameFactory, GameManager,
+  getRandomColor,
+  MessageRecieved,
+  PlayerJoinedMessage,
+  Server,
+  ShipFitting,
+  Spaceship
+} from '@orbitweb/common';
 
-import { GameFactory, getRandomColor, PlayerJoinedMessage, Server, ShipFitting, Spaceship } from '@orbitweb/common';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { Spawner } from '../../../../../libs/game-logic/src/lib/core/Spawner';
+import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
 
 
 @Server("EVENT", "playerLoginMessage")
-export class ServerPlayerJoinedMessage extends ServerMessageRecieved<PlayerJoinedMessage> {
+export class ServerPlayerJoinedMessage extends MessageRecieved<PlayerJoinedMessage> {
   constructor(message: PlayerJoinedMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
+  onRecieve(context: GameManager) {
     let player = context.players.find((p: SpaceshipEntity) => p.id === this.message.source) as SpaceshipEntity
 
     if (player === undefined) {

@@ -2,10 +2,10 @@ import { CGame, GameIterable, Spaceship } from '@orbitweb/common';
 import { ShipEquipmentEntity } from './ShipEquipmentEntity';
 import { CMath } from '@orbitweb/common';
 import { StructureEntity } from './StructureEntity';
-import { MovementGoalFreeFly } from '../movement/MovementGoalFreeFly';
+import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 import { MovementGoal } from './MovementGoal';
 import { Physics } from '@orbitweb/game-engine';
-import { EventLogMessage } from '../../../../common/src/lib/message/game/player/EventLogMessage';
+import { EventLogMessage } from '../../../../libs/common/src/lib/message/game/player/EventLogMessage';
 
 export class SpaceshipEntity extends Spaceship implements GameIterable {
   public lastHitBy: SpaceshipEntity;

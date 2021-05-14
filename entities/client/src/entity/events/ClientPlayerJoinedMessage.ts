@@ -1,9 +1,16 @@
-import { Client, Factories, GameFactory, PlayerJoinedMessage, ShipFitting } from '@orbitweb/common';
 import {
-  ClientMessageRecieved, EquipmentGOError,
-  GameManagerClient,
-  SpaceshipGO
-} from '@orbitweb/game-objects';
+  Client,
+  MessageRecieved,
+  Factories,
+  GameFactory,
+  GameManager,
+  PlayerJoinedMessage,
+  ShipFitting
+} from '@orbitweb/common';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
+import { World } from '@orbitweb/renderer';
+import { SpaceshipGO } from '../../model/SpaceshipGO';
+import { EquipmentGOError } from '../equipment/EquipmentGOError';
 
 
 @Client("EVENT", "playerJoinedMessage")
@@ -12,10 +19,12 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
+
+  onRecieveWithRenderer(context: GameManager, renderer: World) {
+
     let player: SpaceshipGO = context.players.find((value) => {
       return value.id === this.message.source;
-    });
+    }) as SpaceshipGO;
 
 
 
@@ -25,7 +34,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
 
       context.players.push(player);
       player.onInit();
-      context.renderer.playerStage.addChild(player.gameObject);
+      renderer.playerStage.addChild(player.gameObject);
 
       player.fitting.fitting = this.message.fitting.fitting.map((fit) => {
         const fitGO = GameFactory.instatiateClientEquip(fit);
@@ -40,11 +49,11 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
 
       //player.iterateGraphics();
     }
-
+/*
     if (player.id === context.username) {
       context.username = player.id; // Dirty retrigger of setter;)
     }
-
+*/
     context.eventManager.emit('UI_PLAYER_LOGIN', {
       name: this.message.source,
       fitting: player.fitting,
@@ -52,7 +61,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     });
 
     // TODO DIRTY!
-    context.iterate(0);
-    context.rerenderArena();
+    //context.iterate(0);
+    //context.rerenderArena();
   }
 }

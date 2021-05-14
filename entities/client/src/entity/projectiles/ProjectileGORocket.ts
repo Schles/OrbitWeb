@@ -1,4 +1,4 @@
-import { ProjectileGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ProjectileGO, SpaceshipGO } from '@orbitweb/client-entities';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 import { Client, ProjectileSpawnMessage, ShipEquipmentDBValue } from '@orbitweb/common';

@@ -1,22 +1,18 @@
 
-import { PlayerJoinedMessage, Server } from '@orbitweb/common';
+import { GameManager, MessageRecieved, PlayerJoinedMessage, Server } from '@orbitweb/common';
 
 import { LobbyQueryMessage } from '@orbitweb/common';
 import { ProjectileSpawnMessage } from '@orbitweb/common';
 import { StructureSpawnMessage } from '@orbitweb/common';
-import { ScoreboardUpdateMessage } from '@orbitweb/common';
-import { BoundryUpdateMessage } from '@orbitweb/common';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/ProjectileEntity';
+import { ProjectileEntity } from '../../model/ProjectileEntity';
 
 @Server("EVENT", "lobbyQueryMessage")
-export class ServerLobbyQueryMessage extends ServerMessageRecieved<LobbyQueryMessage> {
+export class ServerLobbyQueryMessage extends MessageRecieved<LobbyQueryMessage> {
   constructor(message: LobbyQueryMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
+  onRecieve(context: GameManager) {
     context.players.forEach((player) => {
       const resmsg: PlayerJoinedMessage = new PlayerJoinedMessage(player);
       context.send(resmsg);
@@ -36,11 +32,5 @@ export class ServerLobbyQueryMessage extends ServerMessageRecieved<LobbyQueryMes
       );
       context.send(resmsg2);
     });
-
-    const ansmsg = new ScoreboardUpdateMessage(context.scoreboard.scoreboard);
-    context.send(ansmsg);
-
-    const boundryMsg = new BoundryUpdateMessage(context.boundries);
-    context.send(boundryMsg);
   }
 }

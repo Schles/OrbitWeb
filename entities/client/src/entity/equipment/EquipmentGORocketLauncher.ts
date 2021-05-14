@@ -1,7 +1,7 @@
 import { Client, ShipEquipment } from '@orbitweb/common';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 
 @Client("EQUIP", "RocketLauncher")
 export class EquipmentGORocketLauncher extends ShipEquipmentGO {

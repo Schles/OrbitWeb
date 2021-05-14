@@ -1,5 +1,7 @@
-import { Client, PlayerKilledMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
+import { MessageRecieved, Client, GameManager, PlayerKilledMessage } from '@orbitweb/common';
+import { SpaceshipGO } from '../../model/SpaceshipGO';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
+import { World } from '@orbitweb/renderer';
 
 @Client("EVENT", "playerKilledMessage")
 export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKilledMessage> {
@@ -7,13 +9,14 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
+
+  onRecieveWithRenderer(context: GameManager, renderer: World) {
     const deadPlayer = context.players.find(
       (value) => value.id === this.message.source
-    );
+    ) as SpaceshipGO;
 
     if (deadPlayer !== undefined) {
-      context.renderer.playerStage.removeChild(deadPlayer.gameObject);
+      renderer.playerStage.removeChild(deadPlayer.gameObject);
 
       const p = context.players.findIndex(
         (value) => value.id === deadPlayer.id

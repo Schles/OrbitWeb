@@ -1,8 +1,11 @@
-import { Client, ProjectileDestroyMessage } from '@orbitweb/common';
-import { ClientMessageRecieved, GameManagerClient } from '@orbitweb/game-objects';
+import { Client, MessageRecieved, GameManager, ProjectileDestroyMessage } from '@orbitweb/common';
+
 import { FXEffect } from '../../../../../libs/renderer/src/lib/fx/Effect';
 import { FXExplosion } from '../../../../../libs/renderer/src/lib/fx/FXExplosion';
 import { LightSource } from '../../../../../libs/renderer/src/lib/model/LightSource';
+import { ProjectileGO } from '../../model/ProjectileGO';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
+import { World } from '@orbitweb/renderer';
 
 @Client("EVENT", "projectileDestroyMessage")
 export class ClientProjectileDestroyMessage extends ClientMessageRecieved<ProjectileDestroyMessage> {
@@ -10,28 +13,18 @@ export class ClientProjectileDestroyMessage extends ClientMessageRecieved<Projec
     super(message);
   }
 
-  onRecieve(context: GameManagerClient) {
+
+  onRecieveWithRenderer(context: GameManager, renderer: World) {
     const projectile = context.projectiles.find(
       (p) => p.id === this.message.id
-    );
+    ) as ProjectileGO;
 
     if (projectile !== undefined) {
       if (context.projectiles.findIndex((p) => p.id === projectile.id) > -1) {
-        context.renderer.gameStage.removeChild(projectile.gameObject);
+        renderer.gameStage.removeChild(projectile.gameObject);
 
-        const fxEffect: FXEffect = new FXExplosion(projectile.position, 0.1, projectile.radius);
-
-        context.addFXEffect(fxEffect);
-
-        let a = projectile.position;
-
-
-
-
-
-        const localP = context.renderer.foregroundStage.toGlobal(a);;
-
-        context.lights.push( new LightSource(localP, projectile.damageRange,  0.5));
+        const localP = renderer.foregroundStage.toGlobal(projectile.position);
+        renderer.lights.push( new LightSource(localP, projectile.damageRange,  0.5));
 
 
         const p = context.projectiles.findIndex(

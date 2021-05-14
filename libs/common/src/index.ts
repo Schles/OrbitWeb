@@ -58,6 +58,7 @@ export * from './lib/message/game/structures/StructureSpawnMessage';
 
 export * from './lib/message/generic/PlayerMessage';
 export * from './lib/message/generic/PlayerTargetMessage';
+export * from './lib/message/generic/MessageRecieved';
 
 export * from './lib/message/login/LobbyQueryMessage';
 export * from './lib/message/login/PlayerLoginMessage';
@@ -67,3 +68,5 @@ export * from './lib/message/Message';
 export * from './lib/message/MessageFactory';
 
 export * from './lib/manager/GameManager'
+
+export * from './lib/message/game/player/EventLogMessage'

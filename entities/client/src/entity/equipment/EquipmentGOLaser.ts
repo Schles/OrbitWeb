@@ -1,7 +1,7 @@
 import { Client, ShipEquipment } from '@orbitweb/common';
 import { Container, Graphics, Sprite } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 
 
 @Client("EQUIP", "Laser")

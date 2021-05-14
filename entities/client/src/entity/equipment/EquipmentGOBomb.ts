@@ -1,8 +1,10 @@
 import { ShipEquipment } from '@orbitweb/common';
 import { Sprite } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
-import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/game-objects';
+import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 import { Client } from '@orbitweb/common';
+
+
 
 
 @Client("EQUIP", "BombLauncher")

@@ -1,9 +1,9 @@
-import { MovementGoal } from '../model/MovementGoal';
+import { MovementGoal } from '../../model/MovementGoal';
 import { PhysicsInput } from '@orbitweb/game-engine';
-import { SpaceshipEntity } from '../model/SpaceshipEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
 
-export class MovementGoalFreeFly extends MovementGoal {
+export class MovementGoalIdle extends MovementGoal {
   constructor() {
     super();
   }
@@ -14,8 +14,8 @@ export class MovementGoalFreeFly extends MovementGoal {
     return {
       r: 0,
       a: {
-        x: dir.x * player.acceleration,
-        y: dir.y * player.acceleration,
+        x: 0,
+        y: 0,
       },
       vCap: 1,
     };

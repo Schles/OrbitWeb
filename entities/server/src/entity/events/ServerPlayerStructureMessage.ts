@@ -1,19 +1,18 @@
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { PlayerStructureMessage, Server } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
-import { MovementGoalUseStructure } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalUseStructure';
+
+import { GameManager, MessageRecieved, PlayerStructureMessage, Server } from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { StructureEntity } from '../../model/StructureEntity';
+import { MovementGoalUseStructure } from '../movement/MovementGoalUseStructure';
 
 
 @Server("EVENT", "playerStructureMessage")
-export class ServerPlayerStructureMessage extends ServerMessageRecieved<PlayerStructureMessage> {
+export class ServerPlayerStructureMessage extends MessageRecieved<PlayerStructureMessage> {
   constructor(message: PlayerStructureMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
-    const player: SpaceshipEntity = context.getPlayer(this.message.source);
+  onRecieve(context: GameManager) {
+    const player = context.players.find( (p) => p.id === this.message.source) as SpaceshipEntity;
 
     const structure: StructureEntity = context.structures.find((structure) => {
       return structure.id === this.message.structureId;

@@ -1,21 +1,29 @@
 
 
 
-import { EnemySpawnMessage, getRandomColor, Server, ShipEquipment, ShipFitting, Spaceship } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import {
+  EnemySpawnMessage,
+  GameManager,
+  getRandomColor, MessageRecieved,
+  Server,
+  ShipEquipment,
+  ShipFitting,
+  Spaceship
+} from '@orbitweb/common';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { Spawner } from '../../../../../libs/game-logic/src/lib/core/Spawner';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic } from '../../../../../libs/game-logic/src';
+import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
+
+
 
 
 @Server("EVENT", "enemyJoinedMessage")
-export class ServerEnemySpawnMessage extends ServerMessageRecieved<EnemySpawnMessage> {
+export class ServerEnemySpawnMessage extends MessageRecieved<EnemySpawnMessage> {
   constructor(message: EnemySpawnMessage) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
+  onRecieve(context: GameManager) {
     const sp = new Spaceship('Enemy', getRandomColor());
 
     const player = new SpaceshipEntity(sp);

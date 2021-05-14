@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { UIEvents } from '../common/UIEvents';
+import { UIEvents } from '../../../../game-objects/src/lib/common/UIEvents';
 
 type EventTypes = keyof UIEvents;
 

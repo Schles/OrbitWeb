@@ -1,6 +1,6 @@
-import { ShipEquipmentEntity } from '../../../../../libs/game-logic/src/lib/model/ShipEquipmentEntity';
+import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 import { ShipEquipment } from '@orbitweb/common';
-import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
 export class EquipmentEntityError extends ShipEquipmentEntity {
   constructor(shipEquipment: ShipEquipment) {

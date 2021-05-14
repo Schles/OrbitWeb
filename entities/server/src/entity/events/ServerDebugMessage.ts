@@ -1,15 +1,13 @@
-import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { GameLogic } from '../../../../../libs/game-logic/src';
-import { Server } from '@orbitweb/common';
+import { GameManager, MessageRecieved, Server } from '@orbitweb/common';
 
 
 @Server("EVENT", "debugMessage")
-export class ServerDebugMessage extends ServerMessageRecieved<any> {
+export class ServerDebugMessage extends MessageRecieved<any> {
   constructor(message: any) {
     super(message);
   }
 
-  onRecieve(context: GameLogic) {
+  onRecieve(context: GameManager) {
     context.players.forEach((player) => {
       player.speed = { x: 0, y: 0 };
 

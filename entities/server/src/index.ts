@@ -1,3 +1,13 @@
+
+export * from "./model/CannonEntity"
+export * from "./model/ProjectileEntity"
+export * from "./model/ServerMessageRecieved"
+export * from "./model/ShipEquipmentEntity"
+export * from "./model/SpaceshipEntity"
+export * from "./model/ShipEquipmentTargetEntity"
+export * from "./model/SkillEntity"
+export * from "./model/StructureEntity"
+
 export * from "./entity/equipment/EquipmentEntityError"
 export * from "./entity/equipment/EquipmentEntityLauncherMine"
 export * from "./entity/equipment/EquipmentEntityEmpty"

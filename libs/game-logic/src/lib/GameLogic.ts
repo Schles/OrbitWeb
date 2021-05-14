@@ -15,8 +15,8 @@ import { Scoreboard } from './core/Scoreboard';
 
 import { StructurePortalEntity } from '../../../../entities/server/src/entity/structures/StructurePortalEntity';
 import { EventManager } from './EventManager';
-import { ProjectileEntity } from './model/ProjectileEntity';
-import { SpaceshipEntity } from './model/SpaceshipEntity';
+import { ProjectileEntity } from '../../../../entities/server/src/model/ProjectileEntity';
+import { SpaceshipEntity } from '../../../../entities/server/src/model/SpaceshipEntity';
 
 
 export class GameLogic extends GameManager {
