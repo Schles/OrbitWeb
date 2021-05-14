@@ -9,7 +9,6 @@ import {
 } from '@orbitweb/common';
 
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { Spawner } from '../../../../../libs/game-logic/src/lib/core/Spawner';
 import { MovementGoalOrbit } from '../movement/MovementGoalOrbit';
 
 
@@ -44,7 +43,6 @@ export class ServerPlayerJoinedMessage extends MessageRecieved<PlayerJoinedMessa
         []
       );
 
-      new Spawner(context.boundries).spawnRandom(player);
       player.position = { x: 150, y: 150 };
       player.onInit();
       context.players.push(player);

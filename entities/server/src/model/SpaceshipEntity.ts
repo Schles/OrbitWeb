@@ -5,7 +5,6 @@ import { StructureEntity } from './StructureEntity';
 import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 import { MovementGoal } from './MovementGoal';
 import { Physics } from '@orbitweb/game-engine';
-import { EventLogMessage } from '../../../../libs/common/src/lib/message/game/player/EventLogMessage';
 
 export class SpaceshipEntity extends Spaceship implements GameIterable {
   public lastHitBy: SpaceshipEntity;

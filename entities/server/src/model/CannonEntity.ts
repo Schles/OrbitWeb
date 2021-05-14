@@ -3,7 +3,6 @@ import { Cannon, GameIterable } from '@orbitweb/common';
 import { Spaceship } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
-import { EventManager } from '../../../../libs/game-logic/src/lib/EventManager';
 
 export class CannonEntity extends Cannon implements GameIterable {
   constructor(spaceship: Spaceship) {
@@ -72,17 +71,21 @@ export class CannonEntity extends Cannon implements GameIterable {
       } else {
         // Getroffen
         //        Game.playerHit.emit( { target: <Spaceship> this.targetPlayer, damage: this.damage });
+        /*
         EventManager.shootProjectile.emit('playerHit', {
           source: this.parent,
           target: this.targetPlayer,
           damage: 100.0,
         });
+        */
       }
-
+/*
       EventManager.shootProjectile.emit('shootProjectile', {
         source: this.parent,
         target: this.targetPlayer,
       });
+
+ */
       //Game.shootLaser.emit({ start: this.parent, end: this.targetPlayer});
     }
   }

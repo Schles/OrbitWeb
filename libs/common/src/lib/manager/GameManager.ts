@@ -12,7 +12,7 @@ export class GameManager {
   public structures: Structure[] = [];
   public skills: any[] = [];
 
-  public eventManager: EventManager;
+  public static eventManager: EventManager = new EventManager();
 
   public send(message: Message) {
 

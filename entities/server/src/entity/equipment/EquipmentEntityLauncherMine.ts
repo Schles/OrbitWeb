@@ -1,6 +1,5 @@
-import { GameFactory, Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
+import { GameFactory, GameManager, Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { EventManager } from '../../../../../libs/game-logic/src/lib/EventManager';
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 
@@ -17,6 +16,6 @@ export class EquipmentEntityLauncherMine extends ShipEquipmentEntity {
     super.onStartEquipment(parent);
 
     const proj: ProjectileEntity = GameFactory.instantiate("SERVER", "PROJECTILE", "Mine", parent, this.value)
-    EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
+    GameManager.eventManager.emit("SHOOT_PROJECTILE", { projectile: proj });
   }
 }

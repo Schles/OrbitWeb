@@ -30,7 +30,7 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
         context.players.splice(p, 1);
       }
 
-      context.eventManager.emit('UI_PLAYER_KILLED', { died: deadPlayer.id, killer: this.message.killer});
+      GameManager.eventManager.emit('UI_PLAYER_KILLED', { died: deadPlayer.id, killer: this.message.killer});
     }
   }
 }

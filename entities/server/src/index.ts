@@ -1,7 +1,6 @@
 
 export * from "./model/CannonEntity"
 export * from "./model/ProjectileEntity"
-export * from "./model/ServerMessageRecieved"
 export * from "./model/ShipEquipmentEntity"
 export * from "./model/SpaceshipEntity"
 export * from "./model/ShipEquipmentTargetEntity"

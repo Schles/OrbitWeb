@@ -1,21 +1,29 @@
 import { Subject } from 'rxjs';
-import { UIEvents } from '../../../../game-objects/src/lib/common/UIEvents';
+import { ServerEvents, Events } from '../Events';
 
-type EventTypes = keyof UIEvents;
+
+
+
+export type EventTypes = Events & ServerEvents;
+
+
+
+
+
 
 type T = {
-  type: keyof UIEvents;
+  type: keyof EventTypes;
   queue: Subject<any>;
 };
 
 export class EventManager {
   private eventQueues: T[] = [];
 
-  public emit<Type extends keyof UIEvents>(type: Type, value: UIEvents[Type]) {
+  public emit<Type extends keyof EventTypes>(type: Type, value: EventTypes[Type]) {
     this.on(type).next(value);
   }
 
-  public on<Type extends keyof UIEvents>(type: Type): Subject<UIEvents[Type]> {
+  public on<Type extends keyof EventTypes>(type: Type): Subject<EventTypes[Type]> {
     let q = this.eventQueues.find((v) => v.type === type);
 
     if (q) return q.queue;

@@ -1,4 +1,4 @@
-import { AssetManager, CGame, CMath, Spaceship } from '@orbitweb/common';
+import { AssetManager, CGame, CMath, GameManager, Spaceship } from '@orbitweb/common';
 import { Container, Graphics } from 'pixi.js';
 import { string2hex } from '@pixi/utils';
 import { OrbitWeb } from '@orbitweb/game-objects';
@@ -53,7 +53,7 @@ export class TargetOrbitContainer extends Container {
       return centerRadius - range / 2 < distance && distance < centerRadius + range / 2;
     }
 
-    this.context.eventManager.on("GAME_MOUSE_MOVE").subscribe( (val) => {
+    GameManager.eventManager.on("GAME_MOUSE_MOVE").subscribe( (val) => {
 
         const distanceToCenter = CMath.len(val.local);
         const nearestLane = this.lanes.findIndex( (lane) => isInRange(distanceToCenter,lane.radius, lane.bandWidth));
@@ -73,7 +73,7 @@ export class TargetOrbitContainer extends Container {
 
     })
 
-    this.context.eventManager.on("GAME_MOUSE_CLICK").subscribe( (val) => {
+    GameManager.eventManager.on("GAME_MOUSE_CLICK").subscribe( (val) => {
 
       const distanceToCenter = CMath.len(val.local);
       const nearestLane = this.lanes.findIndex( (lane) => isInRange(distanceToCenter,lane.radius, lane.bandWidth));

@@ -54,7 +54,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       context.username = player.id; // Dirty retrigger of setter;)
     }
 */
-    context.eventManager.emit('UI_PLAYER_LOGIN', {
+    GameManager.eventManager.emit('UI_PLAYER_LOGIN', {
       name: this.message.source,
       fitting: player.fitting,
       spaceship: player,

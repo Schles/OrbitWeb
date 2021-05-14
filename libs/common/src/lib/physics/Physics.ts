@@ -19,6 +19,4 @@ export class Physics {
     particle.accel.x = 0;
     particle.accel.y = 0;
   }
-
-  public static renderParticle() {}
 }

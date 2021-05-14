@@ -1,6 +1,5 @@
 import { CMath, EventLogMessage, GameIterable, GameManager, Projectile } from '@orbitweb/common';
 import { SpaceshipEntity } from './SpaceshipEntity';
-import { GameLogic } from '@orbitweb/game-logic';
 
 
 export class ProjectileEntity extends Projectile implements GameIterable {

@@ -1,7 +1,6 @@
-import { CMath, Server, ShipEquipment, ShipEquipmentDBValue, Vector2 } from '@orbitweb/common';
+import { CMath, GameManager, Server, ShipEquipment, ShipEquipmentDBValue, Vector2 } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import * as math from 'mathjs';
-import { EventManager } from '../../../../../libs/game-logic/src/lib/EventManager';
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
@@ -82,7 +81,7 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
     proj.type = 'laserProjectile';
     proj.position = target.position;
 
-    EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
+    GameManager.eventManager.emit('SHOOT_PROJECTILE', { projectile: proj });
   }
 
   private getOrientation(parent: SpaceshipEntity): Vector2 {

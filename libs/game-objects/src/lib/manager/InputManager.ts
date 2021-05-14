@@ -1,4 +1,4 @@
-import { AssetManager, CGame, Message, PlayerSelfKillMessage } from '@orbitweb/common';
+import { AssetManager, CGame, GameManager, Message, PlayerSelfKillMessage } from '@orbitweb/common';
 import { GameManagerClient } from './GameManagerClient';
 import {
   CMath,
@@ -44,7 +44,7 @@ export class InputManager {
   public onMouseDown(event) {}
 
   public onMouseMove(event) {
-    this.gameManager.eventManager.emit("GAME_MOUSE_MOVE",{
+    GameManager.eventManager.emit("GAME_MOUSE_MOVE",{
       global: event.data.global,
       local: this.gameManager.toLocal(event.data.global)
     })
@@ -52,7 +52,7 @@ export class InputManager {
   }
 
   public onMouseUp(event) {
-    this.gameManager.eventManager.emit("GAME_MOUSE_CLICK", {
+    GameManager.eventManager.emit("GAME_MOUSE_CLICK", {
       global: event.data.global,
       local: this.gameManager.toLocal(event.data.global)
     })

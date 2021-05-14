@@ -70,3 +70,5 @@ export * from './lib/message/MessageFactory';
 export * from './lib/manager/GameManager'
 
 export * from './lib/message/game/player/EventLogMessage'
+export * from './lib/manager/EventManager'
+export * from './lib/Events'

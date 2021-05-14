@@ -43,7 +43,6 @@ export class GameManagerClient extends GameManager {
 
   public inputManager: InputManager;
   public networkManager: NetworkManager;
-  public eventManager: EventManager;
   public shaderManager: ShaderManager;
 
 
@@ -84,7 +83,6 @@ export class GameManagerClient extends GameManager {
     super();
     this.renderer = new World(options);
 
-    this.eventManager = new EventManager();
     this.networkManager = new NetworkManager(this);
     this.inputManager = new InputManager(this);
     this.shaderManager = new ShaderManager(this);
