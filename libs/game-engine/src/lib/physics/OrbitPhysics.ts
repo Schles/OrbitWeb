@@ -7,6 +7,10 @@ import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
 export class OrbitPhysics extends IPhysics {
+  moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): PhysicsInput {
+      //throw new Error('Method not implemented.');
+    return undefined;
+  }
   public getOrientation(particle: Particle): Vector2 {
     const n: number = <number>math.norm([particle.speed.x, particle.speed.y]);
     //console.log(n);

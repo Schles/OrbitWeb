@@ -17,7 +17,7 @@ export class ServerPlayerStructureMessage extends ServerMessageRecieved<PlayerSt
 
     const structure: StructureEntity = context.structures.find((structure) => {
       return structure.id === this.message.structureId;
-    });
+    }) as StructureEntity;
 
     if (player !== undefined && structure !== undefined) {
       player.movementGoal = new MovementGoalUseStructure(structure);
