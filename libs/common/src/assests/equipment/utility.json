@@ -1,8 +1,23 @@
 [
   {
+    "name": "SpeedBooster",
+    "castTime": 7,
+    "cooldownTime": 15,
+    "action": {
+      "targetSelf": true
+    },
+    "value": {
+      "bonusRate": 1.2
+    },
+    "meta": {
+      "desc": "Increased Speed for high energy cost.",
+      "icon": ""
+    }
+  },
+  {
     "name": "Repair",
-    "castTime": 25,
-    "cooldownTime": 0,
+    "castTime": 3,
+    "cooldownTime": 20,
     "action": {
       "targetSelf": true
     },
@@ -58,20 +73,6 @@
       "desc": "Increased Speed slow",
       "icon": ""
     }
-  },
-  {
-    "name": "SpeedBooster",
-    "castTime": 7,
-    "cooldownTime": 15,
-    "action": {
-      "targetSelf": true
-    },
-    "value": {
-      "bonusRate": 1.2
-    },
-    "meta": {
-      "desc": "Increased Speed for high energy cost.",
-      "icon": ""
-    }
   }
+
 ]
