@@ -15,7 +15,6 @@ export class CollisionParticleWall {
 
     const viewDir = CMath.rotate({ x: 0, y: 1 }, 0);
 
-    //particle.speed = r;
     const angle = CMath.angle(r, viewDir);
 
     particle.rotation = angle;

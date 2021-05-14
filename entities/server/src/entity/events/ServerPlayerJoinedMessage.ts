@@ -3,7 +3,7 @@ import { GameFactory, getRandomColor, PlayerJoinedMessage, Server, ShipFitting, 
 import { GameLogic } from '../../../../../libs/game-logic/src';
 import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
 import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/entity/movement/MovementGoalOrbit';
+import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
 import { Spawner } from '../../../../../libs/game-logic/src/lib/core/Spawner';
 
 

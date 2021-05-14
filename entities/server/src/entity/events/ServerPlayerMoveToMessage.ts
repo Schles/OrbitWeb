@@ -2,7 +2,7 @@
 import { CMath, PlayerMoveToMessage, Server } from '@orbitweb/common';
 import { GameLogic } from '../../../../../libs/game-logic/src';
 import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/entity/movement/MovementGoalOrbit';
+import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
 
 
 @Server("EVENT", "playerMoveToMessage")

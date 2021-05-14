@@ -3,7 +3,7 @@ import { PlayerStructureMessage, Server } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
 import { GameLogic } from '../../../../../libs/game-logic/src';
 import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
-import { MovementGoalUseStructure } from '../../../../../libs/game-logic/src/lib/entity/movement/MovementGoalUseStructure';
+import { MovementGoalUseStructure } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalUseStructure';
 
 
 @Server("EVENT", "playerStructureMessage")

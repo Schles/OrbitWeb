@@ -67,8 +67,6 @@ export class CollisionDetection {
         CMath.sub(particles[0].position, particles[1].position)
       );
 
-      //        console.log(distanceBetweenCircles);
-
       if (distanceBetweenCircles < r1c + r2c) {
         const penDepth = r1c + r2c - distanceBetweenCircles;
 

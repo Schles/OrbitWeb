@@ -21,6 +21,8 @@ export class EquipmentEntityRocketLauncher extends ShipEquipmentTargetEntity {
   protected onEndEquipment(parent: SpaceshipEntity) {
     super.onEndEquipment(parent);
 
+
+
     const proj: ProjectileEntity = GameFactory.instantiate("SERVER", "PROJECTILE", "Rocket", parent, this.value, parent.targetPlayer)
     EventManager.shootProjectile.emit('shootProjectile', { projectile: proj });
   }

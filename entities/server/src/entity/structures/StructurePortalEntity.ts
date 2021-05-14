@@ -1,7 +1,9 @@
-import { StructureEntity } from '../../model/StructureEntity';
-import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { Scoreboard } from '../../core/Scoreboard';
+import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
+import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { Scoreboard } from '../../../../../libs/game-logic/src/lib/core/Scoreboard';
+import { Server } from '@orbitweb/common';
 
+@Server("STRUCTURE", "Portal")
 export class StructurePortalEntity extends StructureEntity {
   constructor(x: number, y: number, public scoreboard: Scoreboard) {
     super(x, y);

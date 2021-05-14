@@ -25,3 +25,6 @@ export * from "./entity/events/ServerPlayerStructureMessage"
 export * from "./entity/projectiles/ProjectileMine"
 export * from "./entity/projectiles/ProjectileBomb"
 export * from "./entity/projectiles/ProjectileRocket"
+
+export * from "./entity/structures/StructureLootEntity"
+export * from "./entity/structures/StructurePortalEntity"

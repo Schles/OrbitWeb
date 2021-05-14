@@ -1,11 +1,11 @@
-import { IPhysics, PhysicsInput } from './IPhysics';
+import { AbstractPhysics, PhysicsInput } from '../AbstractPhysics';
 
 import * as math from 'mathjs';
 import { Particle, Spaceship } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
-export class RealPhysics extends IPhysics {
+export class RealPhysics extends AbstractPhysics {
   public getOrientation(particle: Particle): Vector2 {
     return CMath.rotate({ x: 0, y: 1 }, particle.rotation);
   }
@@ -38,9 +38,7 @@ export class RealPhysics extends IPhysics {
     };
 
     const orientation = this.getOrientation(particle);
-
-    const angle = CMath.angle(orientation, { x: 0, y: 1 });
-    let angleTarget = CMath.angle(dir, orientation);
+    const angleTarget = CMath.angle(dir, orientation);
 
     const d = CMath.rotate(orientation, angleTarget);
 

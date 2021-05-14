@@ -4,13 +4,6 @@ import { CMath } from '@orbitweb/common';
 
 export class CollisionParticleParticle {
   public static collide(p1: Particle, p2: Particle, penetrationDepth: number) {
-    const r1 = 10;
-    const r2 = 10;
-
-    const deltaVector: Vector2 = CMath.sub(p1.position, p2.position);
-
-    const distanceBetweenCircles: number = CMath.len(deltaVector);
-
     // Changing speed of colliders
 
     const getV = (v1, v2, m1, m2) => {

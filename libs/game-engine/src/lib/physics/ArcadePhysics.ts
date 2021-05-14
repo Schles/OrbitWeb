@@ -1,11 +1,11 @@
-import { IPhysics, PhysicsInput } from './IPhysics';
+import { AbstractPhysics, PhysicsInput } from '../AbstractPhysics';
 
 import { Particle, Spaceship } from '@orbitweb/common';
 
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
-export class ArcadePhysics extends IPhysics {
+export class ArcadePhysics extends AbstractPhysics {
   public getOrientation(particle: Particle): Vector2 {
     return CMath.rotate({ x: 0, y: 1 }, particle.rotation);
   }

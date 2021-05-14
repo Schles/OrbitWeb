@@ -1,4 +1,4 @@
-import { IPhysics, PhysicsInput } from './IPhysics';
+import { AbstractPhysics, PhysicsInput } from '../AbstractPhysics';
 
 import { Particle, Spaceship } from '@orbitweb/common';
 
@@ -6,12 +6,10 @@ import * as math from 'mathjs';
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
-export class HybridPhysics extends IPhysics {
+export class HybridPhysics extends AbstractPhysics {
   public getOrientation(particle: Particle): Vector2 {
     const n: number = <number>math.norm([particle.speed.x, particle.speed.y]);
-    //console.log(n);
 
-    //
     if (n == 0) {
       return CMath.rotate({ x: 0, y: 1 }, particle.rotation);
     } else {
@@ -20,14 +18,10 @@ export class HybridPhysics extends IPhysics {
         y: particle.speed.y / n,
       };
     }
-
-    //return particle.speed;
   }
 
   public iterate(spaceship: Spaceship, delta) {
     super.iterate(spaceship, delta);
-
-    const orientation = this.getOrientation(spaceship);
 
     const v = CMath.len(spaceship.speed);
 
@@ -40,11 +34,6 @@ export class HybridPhysics extends IPhysics {
       spaceship.speed.x -= 2 * bremskraft.x * spaceship.acceleration * delta;
       spaceship.speed.y -= 2 * bremskraft.y * spaceship.acceleration * delta;
     }
-    /*
-    if ( math.abs(spaceship.omega) > spaceship.maxOmega ) {
-      spaceship.omega = math.sign(spaceship.omega) * spaceship.maxOmega;
-    }
-    */
 
     spaceship.omega = spaceship.omega / (4 * delta);
   }
@@ -66,20 +55,7 @@ export class HybridPhysics extends IPhysics {
       CMath.rotate({ x: 0, y: 1 }, particle.rotation)
     );
 
-    let angleTarget = CMath.angle(dir, orientation);
-
-    let ang = angleTarget;
-
-    /*
-    //ang = 0;
-
-        if ( math.abs(ang) > this.maxOmega / delta) {
-          ang = math.sign(ang) * this.maxOmega;
-        }
-
-
-    const newSpeed = CMath.rotate(this.speed, ang);
-*/
+    const angleTarget = CMath.angle(dir, orientation);
 
     const a: Vector2 = {
       x: 0,
@@ -87,8 +63,6 @@ export class HybridPhysics extends IPhysics {
     };
 
     if (math.abs(angleTarget) > 0) {
-      //const schub: Vector2 = CMath.rotate(this.getOrientation(this), angleTarget);
-
       const b = {
         x: particle.position.x + particle.speed.x * 0.016,
         y: particle.position.y + particle.speed.y * 0.016,

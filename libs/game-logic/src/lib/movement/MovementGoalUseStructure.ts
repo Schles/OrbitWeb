@@ -1,8 +1,8 @@
-import { MovementGoal } from '../../model/MovementGoal';
+import { MovementGoal } from '../model/MovementGoal';
 import { PhysicsInput } from '@orbitweb/game-engine';
-import { SpaceshipEntity } from '../../model/SpaceshipEntity';
+import { SpaceshipEntity } from '../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
-import { StructureEntity } from '../../model/StructureEntity';
+import { StructureEntity } from '../model/StructureEntity';
 import { MovementGoalAlignTo } from './MovementGoalAlignTo';
 import { MovementGoalIdle } from './MovementGoalIdle';
 import { Vector2 } from '@orbitweb/common';

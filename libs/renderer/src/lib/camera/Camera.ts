@@ -3,12 +3,10 @@ import { Rectangle, Vector2 } from '@orbitweb/common';
 import { Container, Matrix } from 'pixi.js';
 
 export class Camera {
-  private targetRectangle: Rectangle;
-
   public width: number;
   public height: number;
 
-  public maxCameraRange: number = 500;
+  public maxCameraRange = 500;
 
   private _vip: Vector2;
 
@@ -22,9 +20,7 @@ export class Camera {
     this.width = w;
     this.height = h;
 
-    this.maxCameraRange =
-      this.width > this.height ? this.height / 2 : this.width / 2;
-    //this.iterate([this.targetRectangle.x1, this.targetRectangle.x2], 1);
+    this.maxCameraRange = this.width > this.height ? this.height / 2 : this.width / 2;
   }
 
   public getViewMatrix(): Matrix {
@@ -45,17 +41,8 @@ export class Camera {
   public localCenterPoint: Vector2;
 
   public iterate(positions: Vector2[], delta: number) {
-    //return true;
-
-    let rect: Rectangle;
-    const p1 = { x: 0, y: 0 };
-    //console.log("cam", this.getModelMatrix().append(this.getViewMatrix()).apply(p1));
-    //console.log("cam", this.view.worldTransform);
-
-    //return;
     if (positions.length < 1) return;
 
-    //let scale = this.findZoom(rect);
     let scale = 1.0;
 
     scale = scale > 2 ? 2 : scale;
@@ -73,7 +60,7 @@ export class Camera {
       const disVLen: number = CMath.len(disVector);
 
       if (disVLen > 5) {
-        let scale = 0.05;
+        const scale = 0.05;
         const newVector: Vector2 = CMath.add(
           this.localCenterPoint,
           CMath.scale(disVector, scale)
@@ -143,7 +130,7 @@ export class Camera {
     } else {
     }
 
-    let rectangle: Rectangle = {
+    const rectangle: Rectangle = {
       x1: {
         x: Number.POSITIVE_INFINITY,
         y: Number.POSITIVE_INFINITY,

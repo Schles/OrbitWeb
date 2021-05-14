@@ -5,7 +5,7 @@ import { Message } from '@orbitweb/common';
 import { PlayerKilledMessage } from '@orbitweb/common';
 import { Inventory } from '@orbitweb/common';
 import { ShipEquipment } from '@orbitweb/common';
-import { StructureLootEntity } from '../entity/structures/StructureLootEntity';
+import { StructureLootEntity } from '../../../../../entities/server/src/entity/structures/StructureLootEntity';
 import { StructureSpawnMessage } from '@orbitweb/common';
 import { SkillEntity } from '../model/SkillEntity';
 import { ProjectileEntity } from '../model/ProjectileEntity';

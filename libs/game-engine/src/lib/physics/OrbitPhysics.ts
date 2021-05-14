@@ -1,4 +1,4 @@
-import { IPhysics, PhysicsInput } from './IPhysics';
+import { AbstractPhysics, PhysicsInput } from '../AbstractPhysics';
 
 import { Particle, Spaceship } from '@orbitweb/common';
 
@@ -6,16 +6,13 @@ import * as math from 'mathjs';
 import { Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
-export class OrbitPhysics extends IPhysics {
+export class OrbitPhysics extends AbstractPhysics {
   moveTo(particle: Particle, target: Vector2, stopAtTarget?: boolean): PhysicsInput {
-      //throw new Error('Method not implemented.');
     return undefined;
   }
   public getOrientation(particle: Particle): Vector2 {
     const n: number = <number>math.norm([particle.speed.x, particle.speed.y]);
-    //console.log(n);
 
-    //
     if (n == 0) {
       return CMath.rotate({ x: 0, y: 1 }, particle.rotation);
     } else {
@@ -24,8 +21,6 @@ export class OrbitPhysics extends IPhysics {
         y: particle.speed.y / n
       };
     }
-
-    //return particle.speed;
   }
 
   public iterate(spaceship: Spaceship, delta) {

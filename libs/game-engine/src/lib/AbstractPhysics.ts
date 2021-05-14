@@ -9,7 +9,7 @@ export interface PhysicsInput {
   vCap: number;
 }
 
-export abstract class IPhysics {
+export abstract class AbstractPhysics {
   abstract getOrientation(particle: Particle): Vector2;
 
   abstract moveTo(

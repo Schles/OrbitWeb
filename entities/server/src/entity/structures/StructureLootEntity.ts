@@ -1,7 +1,8 @@
-import { StructureEntity } from '../../model/StructureEntity';
-import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { Inventory } from '@orbitweb/common';
+import { StructureEntity } from '../../../../../libs/game-logic/src/lib/model/StructureEntity';
+import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
+import { Inventory, Server } from '@orbitweb/common';
 
+@Server("STRUCTURE", "Loot")
 export class StructureLootEntity extends StructureEntity {
   constructor(x: number, y: number, public inventory: Inventory[]) {
     super(x, y);

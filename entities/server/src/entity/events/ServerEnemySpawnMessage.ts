@@ -4,7 +4,7 @@
 import { EnemySpawnMessage, getRandomColor, Server, ShipEquipment, ShipFitting, Spaceship } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../../../../libs/game-logic/src/lib/model/SpaceshipEntity';
 import { Spawner } from '../../../../../libs/game-logic/src/lib/core/Spawner';
-import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/entity/movement/MovementGoalOrbit';
+import { MovementGoalOrbit } from '../../../../../libs/game-logic/src/lib/movement/MovementGoalOrbit';
 import { ServerMessageRecieved } from '../../../../../libs/game-logic/src/lib/model/ServerMessageRecieved';
 import { GameLogic } from '../../../../../libs/game-logic/src';
 
