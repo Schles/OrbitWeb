@@ -18,8 +18,8 @@
   {
     "name": "Shield",
     "cpuCost": 15,
-    "castTime": 40,
-    "cooldownTime": 0,
+    "castTime": 3,
+    "cooldownTime": 30,
     "action": {
       "targetSelf": true
     },

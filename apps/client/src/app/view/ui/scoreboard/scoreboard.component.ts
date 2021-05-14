@@ -17,7 +17,6 @@ export class ScoreboardComponent implements OnInit {
   ngOnInit() {
     this.gameService.app().networkManager.onMessage.subscribe((msg: EventLogMessage<any>) => {
       if (msg.type === 'eventLogMessage') {
-        console.log("git msg", msg);
         this.eventLog.unshift(msg);
       }
     });

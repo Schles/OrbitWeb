@@ -17,6 +17,8 @@ export class EquipmentSlotComponent implements OnInit {
 
   public equipmentCPUCapacity: number = 200; // TODO
 
+  public showTooltipFor: ShipEquipmentDB;
+
   public tierList: {
     tier: number;
     name: string;
@@ -110,5 +112,9 @@ export class EquipmentSlotComponent implements OnInit {
 
   isCurrentlyEquipped(tier: number, equipment: ShipEquipmentDB) {
     return this.tierList.find( (t) => t.tier === tier).fitting.findIndex( ( fit) => fit.name === equipment.name) >= 0
+  }
+
+  public onHover(item) {
+    this.showTooltipFor = item;
   }
 }

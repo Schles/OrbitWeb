@@ -9,6 +9,7 @@ export * from "./entity/equipment/EquipmentGONosferatu"
 export * from "./entity/equipment/EquipmentGOSpeedBooster"
 export * from "./entity/equipment/EquipmentGOWebber"
 export * from "./entity/equipment/EquipmentGOBomb"
+export * from "./entity/equipment/EquipmentGOShield"
 
 
 /* Projectile */

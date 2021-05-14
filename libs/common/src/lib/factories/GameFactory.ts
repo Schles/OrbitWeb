@@ -64,7 +64,7 @@ export class GameFactory {
       return new constructor(message);
     }
 
-    console.log("Equip missing:", message);
+    //console.log("Equip missing:", message);
     return undefined;
   }
 
@@ -75,7 +75,7 @@ export class GameFactory {
       return new constructor(shipEquipment);
     }
 
-    console.log("Event missing:", shipEquipment.name);
+    //console.log("Event missing:", shipEquipment.name);
     return undefined;
   }
 
@@ -91,7 +91,7 @@ export class GameFactory {
       return new constructor(shipEquipment, params);
     }
 
-    console.log("Equip missing:", shipEquipment.name);
+    //console.log("Equip missing:", shipEquipment.name);
     return undefined;
   }
 
@@ -102,7 +102,7 @@ export class GameFactory {
       return new constructor(message);
     }
 
-    console.log("Event missing:", message.type);
+    //console.log("Event missing:", message.type);
     return undefined;
   }
 

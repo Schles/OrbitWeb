@@ -6,7 +6,7 @@ import { ProjectileEntity } from '../../../../../libs/game-logic/src/lib/model/P
 import { EventManager } from '../../../../../libs/game-logic/src';
 
 
-@Server("EQUIP", "Bomb")
+@Server("EQUIP", "BombLauncher")
 export class EquipmentEntityBomb extends ShipEquipmentEntity {
   constructor(shipEquipment: ShipEquipment, private value: ShipEquipmentDBValue) {
     super(shipEquipment);

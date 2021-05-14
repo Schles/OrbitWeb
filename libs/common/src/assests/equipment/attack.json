@@ -83,14 +83,14 @@
     }
   },
   {
-    "name": "Bomb",
+    "name": "BombLauncher",
     "cpuCost": 8,
-    "castTime": 40,
+    "castTime": 0,
     "cooldownTime": 5,
     "action": {},
     "value": {
       "absolute": 5,
-      "range": 1000,
+      "range": 200,
       "custom": {
         "damageRange": 200
       }

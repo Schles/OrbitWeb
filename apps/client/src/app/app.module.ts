@@ -14,6 +14,7 @@ import { ScoreboardComponent } from './view/ui/scoreboard/scoreboard.component';
 import { GameComponent } from './game/game.component';
 import { EquipmentSlotComponent } from './view/ui/fitting/equipment-slot/equipment-slot.component';
 import { NameplateComponent } from './view/ui/nameplate/nameplate.component';
+import { TooltipComponent } from './view/ui/tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NameplateComponent } from './view/ui/nameplate/nameplate.component';
     ScoreboardComponent,
     GameComponent,
     NameplateComponent,
+    TooltipComponent,
     EquipmentSlotComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],

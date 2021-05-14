@@ -12,7 +12,7 @@ export class ProjectileGOMine extends ProjectileGO {
     value: ShipEquipmentDBValue
   ) {
     super(msg.id, source);
-    console.error("val", value);
+
     this.radius = value?.range ? value.range : 30;
     this.damageRange = value?.custom?.damageRange ? value.custom.damageRange : 30;
 

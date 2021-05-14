@@ -49,7 +49,7 @@ export class GarbageCollector {
 
       const msg: Message = new PlayerKilledMessage(value, undefined);
       context.send(msg);
-console.log(value);
+
       const eventLog = new EventLogMessage("PLAYER_KILLED", {victim: value.id, killer: value.lastHitBy?.id});
       context.send(eventLog);
 

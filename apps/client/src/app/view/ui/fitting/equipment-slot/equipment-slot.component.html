@@ -18,7 +18,9 @@
           <div (click)="addEquipment(tierObj.tier, equipment)" class="equipment" [ngClass]='{
             equipped: isCurrentlyEquipped(tierObj.tier, equipment),
             offline: !isCurrentlyEquipped(tierObj.tier, equipment)
-          }'>
+          }'
+
+          (mouseenter)='onHover(equipment)'>
             {{equipment.name}}
           </div>
         </ng-container>
@@ -30,4 +32,8 @@
 
 
   </ng-container>
+</div>
+
+<div class='tooltip' *ngIf='showTooltipFor'>
+  <app-tooltip [item]='showTooltipFor'></app-tooltip>
 </div>
