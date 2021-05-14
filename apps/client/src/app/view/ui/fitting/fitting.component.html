@@ -1,7 +1,7 @@
 <div class="header flexWraps" [hidden]="!loginEnabled">
   <div class="flexT" style="height: 10px"></div>
 
-  <form class="flexT" [formGroup]="myForm">
+  <form class="flexT loginForm" [formGroup]="myForm">
     <input [hidden]="true" type="checkbox" [formControlName]="'customEq'" />
     <div class="login">
       <div class="name">
@@ -14,7 +14,7 @@
           type="submit"
           [disabled]="!isValid() || myForm.value.name.length === 0"
         >
-          Spawn
+          Start
         </button>
       </div>
 
