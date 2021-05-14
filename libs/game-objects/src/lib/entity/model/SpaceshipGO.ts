@@ -10,7 +10,7 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
   public actionKeepAtRange: boolean = false;
 
   public gameObject: Container;
-  public targetContainer: TargetingLayer;
+
 
   public playerLayer: Container;
   public equipmentLayer: Container;
@@ -25,7 +25,7 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
     this.gameObject = this.getGameObject();
     this.gameObject.filters = [];
 
-    this.targetContainer = new TargetingLayer(0xff0000);
+
   }
 
   public iterate(delta: number) {
@@ -98,12 +98,6 @@ export class SpaceshipGO extends Spaceship implements GameIterable {
       );
       this.progressLayer.endFill();
     }
-
-
-    this.targetContainer.setSource(this);
-    this.targetContainer.iterate();
-
-    //this.nameplate.text = this.health.toFixed(0) + " " + this.id;
   }
 
   public invertColor(hex) {

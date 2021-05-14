@@ -45,7 +45,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
     this.gameService
       .app()
       .eventManager.on('UI_PLAYER_KILLED')
-      .subscribe((name: string) => {
+      .subscribe((val) => {
         if (undefined === this.gameService.app().username)
           this.loginEnabled = true;
       });
@@ -70,11 +70,9 @@ export class FittingComponent implements OnInit, AfterViewInit {
   public spawn() {
     const shipFitting: ShipFitting = new ShipFitting();
 
-    if (this.myForm.value.customEq) {
+
       shipFitting.fitting = this.fittingComponent.getFitting();
-    } else {
-      shipFitting.fitting = AssetManager.getDefaultFitting();
-    }
+
 
     this.gameService
       .app()

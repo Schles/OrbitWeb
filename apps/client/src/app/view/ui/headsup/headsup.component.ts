@@ -100,10 +100,6 @@ export class HeadsupComponent implements OnInit {
     return this.gameService.app().playerLocal;
   }
 
-  public selfKill() {
-    console.log('kill');
-    this.gameService.app().inputManager.onSelfkill();
-  }
 
   public progress(fit: ShipEquipment): number {
 

@@ -45,7 +45,7 @@ export class FittingComponent implements OnInit, AfterViewInit {
     this.gameService
       .app()
       .eventManager.on('UI_PLAYER_KILLED')
-      .subscribe((name: string) => {
+      .subscribe((val) => {
         if (undefined === this.gameService.app().username)
           this.loginEnabled = true;
       });

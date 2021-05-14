@@ -11,13 +11,23 @@
 </div>
 
 <div class="tutorial">
-  Click on a player to select him as target! <br />
-  Click empty space to command your ship
+  Switch lane by clicking on it
 </div>
 
 <div class="nameplates">
   <div *ngFor='let player of players'>
-    <app-nameplate [spaceship]='player' [globalPosition]='toGlobal(player.position)'></app-nameplate>
+    <app-nameplate [spaceship]='player' [globalPosition]='toGlobal(player.position)'
+                   [color]='nameplateColor(player)'></app-nameplate>
+  </div>
+</div>
+
+<div class='combattext'>
+  <div *ngFor='let cText of combatText'
+       [style.top]='cText.position.y + "px"'
+       [style.left]='cText.position.x + "px"'
+       [style.opacity]='cText.timeToLife'
+       class='text'>
+    {{cText.value}}
   </div>
 </div>
 

@@ -33,13 +33,8 @@ export class ProjectileEntity extends Projectile implements GameIterable {
   protected takeHit(player: SpaceshipEntity, context: GameLogic): void {
     console.log('HIT', player.id);
 
-
-
-
     const dmgTaken = player.takeDamage(this.damage, this.source);
-
     const eventLog = new EventLogMessage("PLAYER_DAMAGE_TAKEN", {damageTaken: dmgTaken, equipmentSource: this.type, source: this.source.id, target: player.id});
-
     context.send(eventLog);
 
 

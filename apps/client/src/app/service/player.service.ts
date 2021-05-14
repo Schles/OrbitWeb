@@ -10,8 +10,8 @@ export class PlayerService {
     this.gameService
       .app()
       .eventManager.on('UI_PLAYER_KILLED')
-      .subscribe((name: string) => {
-        if (name === this.gameService.app().username) this.logout();
+      .subscribe((val) => {
+        if (val.died === this.gameService.app().username) this.logout();
       });
   }
 

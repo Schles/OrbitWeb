@@ -1,16 +1,4 @@
 <div *ngIf="mePlayer() !== undefined" class="header">
-  <div class="ship">
-    <div style="color: white">
-      {{ mePlayer().id }} ({{ getSpeed() }} m/s)
-      <button class="capsule" (click)="selfKill()">Capsule</button>
-    </div>
-    <!--
-    <div class="progress energy slot" data-label="Energy" [attr.cost-label]="getEnergy()">
-      <span class="value" [style.width.%]="getEnergyP()"></span>
-    </div>
-    -->
-  </div>
-
   <div class="equipment">
     <div
       *ngFor="let fit of mePlayer().fitting.fitting; let i = index"
@@ -61,6 +49,15 @@
 
       <div class='progressBar' style='color: white'>
         {{mePlayer().targetPlayer?.id}}
+      </div>
+    </div>
+    <div class="slot">
+      <div class='cont offline'>
+        ESC
+      </div>
+
+      <div class='text'>
+        Surrender
       </div>
     </div>
   </div>

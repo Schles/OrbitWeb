@@ -12,6 +12,7 @@ import { ProjectileEntity } from '../model/ProjectileEntity';
 import { ProjectileDestroyMessage } from '@orbitweb/common';
 import { StructureEntity } from '../model/StructureEntity';
 import { StructureDestroyMessage } from '@orbitweb/common';
+import { EventLogMessage } from '../../../../common/src/lib/message/game/player/EventLogMessage';
 
 export class GarbageCollector {
   public static execute(context: GameLogic) {
@@ -48,6 +49,10 @@ export class GarbageCollector {
 
       const msg: Message = new PlayerKilledMessage(value, undefined);
       context.send(msg);
+console.log(value);
+      const eventLog = new EventLogMessage("PLAYER_KILLED", {victim: value.id, killer: value.lastHitBy?.id});
+      context.send(eventLog);
+
 
       if (!value.silentRemove) {
         const inventoryLoot = value.inventory;

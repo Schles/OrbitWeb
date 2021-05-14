@@ -10,7 +10,6 @@ export class EquipmentGORepair extends ShipEquipmentGO {
   private repairGraphic: Sprite;
 
   constructor(shipEquipment: ShipEquipment) {
-    console.error(shipEquipment);
     super(shipEquipment);
 
     /*

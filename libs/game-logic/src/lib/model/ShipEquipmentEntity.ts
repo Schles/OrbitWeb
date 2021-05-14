@@ -6,7 +6,6 @@ export class ShipEquipmentEntity extends ShipEquipment {
   protected alreadyRemoved: boolean = false;
 
 
-
   constructor(shipEquipment: ShipEquipment) {
     super(shipEquipment.name, shipEquipment.tier, shipEquipment.cpuCost, shipEquipment.castTime, shipEquipment.cooldownTime, shipEquipment.passive, shipEquipment.action);
   }
@@ -17,32 +16,30 @@ export class ShipEquipmentEntity extends ShipEquipment {
     super.iterate(parent, delta);
 
 
-    if ( this.hasCasting() && this.state.pendingState) return;
+    if (this.hasCasting() && this.state.pendingState) return;
 
 
-    if ( this.hasCooldown()) return;
-/*
-    if (this.state.active === false && this.state.pendingState === false && this.state.cooldown === false) {
-      console.log(this.isCasting, this.isOnCooldown, this.state.pendingState);
-      console.log("exit");
-      return;
-    }
-*/
+    if (this.hasCooldown()) return;
+    /*
+        if (this.state.active === false && this.state.pendingState === false && this.state.cooldown === false) {
+          console.log(this.isCasting, this.isOnCooldown, this.state.pendingState);
+          console.log("exit");
+          return;
+        }
+    */
     //    this.state.active = this.state.pendingState;
 
     this.onUpdateEquipment(parent, delta);
   }
 
 
-
   protected onUpdateEquipment(parent: SpaceshipEntity, delta: number) {
 
-    if ( !this.isCasting && !this.isOnCooldown && this.state.pendingState) {
+    if (!this.isCasting && !this.isOnCooldown && this.state.pendingState) {
       this.onStartEquipment(parent);
-    } else if ( this.isCasting && (!this.isOnCooldown || !this.state.pendingState)) {
+    } else if (this.isCasting && (!this.isOnCooldown || !this.state.pendingState)) {
       this.onEndEquipment(parent);
-    } else if ( !this.isCasting && this.isOnCooldown) {
-      console.log(this.isCasting, this.isOnCooldown, this.state.pendingState);
+    } else if (!this.isCasting && this.isOnCooldown) {
       this.isOnCooldown = false;
       this.state.cooldown = false;
     }
@@ -55,8 +52,6 @@ export class ShipEquipmentEntity extends ShipEquipment {
 
     this.isOnCooldown = false;
     this.state.cooldown = this.hasCooldown();
-
-    console.log("start", this.name, this.remainingTime, this.state);
   }
 
   protected onEndEquipment(parent: SpaceshipEntity) {
@@ -67,8 +62,6 @@ export class ShipEquipmentEntity extends ShipEquipment {
     this.remainingTime = this.cooldownTime;
 
     this.state.cooldown = this.hasCooldown();
-
-    console.log("stop", this.name, this.remainingTime, this.state);
   }
 
   protected hasCooldown(): boolean {

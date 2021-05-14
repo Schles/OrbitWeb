@@ -12,7 +12,7 @@ export class OrbitWeb extends GameManagerClient {
   public onInitGame() {
     super.onInitGame();
 
-    this.orbitContainer = new TargetOrbitContainer(0xff0000);
+    this.orbitContainer = new TargetOrbitContainer(this);
     this.renderer.uiStage.addChild(this.orbitContainer);
 
     this.renderer.OnResizeWindow.subscribe((size) => {

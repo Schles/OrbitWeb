@@ -1,8 +1,18 @@
-Cashed in:
 <table>
-  <tr *ngFor="let log of eventLog | slice: 0: 10">
-    <td *ngIf='log.logType === "PLAYER_DAMAGE_TAKEN"'>
-      {{log.message.source}} - {{ log.message.equipmentSource }} - {{log.message.damageTaken}} - {{log.message.target}}
+  <tr *ngFor='let log of eventLog | slice: 0: 10'>
+    <td *ngIf='log.logType === "PLAYER_KILLED"'>
+
+      <span [style.color]='getPlayer(log.message.killer)?.color'>
+        {{log.message.killer}}
+      </span>
+
+      killed
+
+      <span [style.color]='getPlayer(log.message.victim)?.color'>
+        {{log.message.victim}}
+      </span>
+
+
     </td>
 
   </tr>

@@ -15,9 +15,6 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
     if (deadPlayer !== undefined) {
       context.renderer.playerStage.removeChild(deadPlayer.gameObject);
 
-      if ( deadPlayer.id === context.username)
-        context.renderer.uiStage.removeChild(deadPlayer.targetContainer);
-
       const p = context.players.findIndex(
         (value) => value.id === deadPlayer.id
       );
@@ -30,7 +27,7 @@ export class ClientPlayerKilledMessage extends ClientMessageRecieved<PlayerKille
         context.players.splice(p, 1);
       }
 
-      context.eventManager.emit('UI_PLAYER_KILLED', deadPlayer.id);
+      context.eventManager.emit('UI_PLAYER_KILLED', { died: deadPlayer.id, killer: this.message.killer});
     }
   }
 }

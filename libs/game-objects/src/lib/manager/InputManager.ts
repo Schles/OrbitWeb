@@ -10,8 +10,10 @@ import {
   Vector2,
 } from '@orbitweb/common';
 import { SpaceshipGO, StructureGO } from '@orbitweb/game-objects';
+import { EventManager } from './EventManager';
 
 export class InputManager {
+
   constructor(private gameManager: GameManagerClient) {}
 
   public onSelfkill() {
@@ -28,6 +30,8 @@ export class InputManager {
     if (userName !== undefined) {
       if (key === -1) {
         this.onClickPlayer(undefined);
+      } else if (key === -2) {
+        this.gameManager.inputManager.onSelfkill();
       } else {
         const msg = new PlayerActionMessage(userName.id, key - 1);
         if (msg !== undefined) {
@@ -39,7 +43,19 @@ export class InputManager {
 
   public onMouseDown(event) {}
 
+  public onMouseMove(event) {
+    this.gameManager.eventManager.emit("GAME_MOUSE_MOVE",{
+      global: event.data.global,
+      local: this.gameManager.toLocal(event.data.global)
+    })
+
+  }
+
   public onMouseUp(event) {
+    this.gameManager.eventManager.emit("GAME_MOUSE_CLICK", {
+      global: event.data.global,
+      local: this.gameManager.toLocal(event.data.global)
+    })
     this.canvasClicked(event);
   }
 
@@ -78,6 +94,7 @@ export class InputManager {
 
   private onClickWorld(lPosition: Vector2) {
     //console.log("worldClicked", localPosition);
+
     if (this.gameManager.playerLocal !== undefined) {
       const lanes = AssetManager.config.world.lanes;
 
@@ -85,7 +102,7 @@ export class InputManager {
 
       const len = CMath.len(localPosition);
 
-      console.log(localPosition);
+
 
       const dir = CMath.normalize(localPosition);
 
@@ -110,7 +127,7 @@ export class InputManager {
 
       const e = d * (AssetManager.config.world.maxRadius - AssetManager.config.world.minRadius) + AssetManager.config.world.minRadius;
 
-console.log("---------------", d);
+
       const a = len;
       const target = CMath.scale(dir, e);
 
@@ -125,8 +142,6 @@ console.log("---------------", d);
       this.send(
         new PlayerMoveToMessage(this.gameManager.playerLocal.id, target)
       );
-
-      this.gameManager.orbitContainer.targetOrbit = CMath.len(target);
     } else {
       console.log('no player');
     }

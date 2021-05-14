@@ -19,6 +19,14 @@ export class InputService {
 
     this.gameService
       .app()
+      .renderer.renderer.plugins.interaction.on('mousemove', (event) => {
+      //this.gameService.app().inputManager.onClick(event);
+      this.gameService.app().inputManager.onMouseMove(event);
+    });
+
+
+    this.gameService
+      .app()
       .renderer.renderer.plugins.interaction.on('pointerdown', (event) => {
         this.gameService.app().inputManager.onMouseDown(event);
       });
@@ -37,6 +45,8 @@ export class InputService {
           this.keyPressed(5);
         } else if (event.key === ' ') {
           this.keyPressed(-1);
+        } else if (event.key === "Escape") {
+          this.keyPressed(-2);
         }
       }
     });

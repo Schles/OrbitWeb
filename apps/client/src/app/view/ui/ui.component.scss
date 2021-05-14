@@ -35,6 +35,17 @@
   color: white
 }
 
+.combattext {
+  .text {
+    position: absolute;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    z-index: 10000;
+
+  }
+}
+
 .tutorial {
   position: absolute;
   right: 0px;

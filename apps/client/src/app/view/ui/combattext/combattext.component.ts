@@ -4,14 +4,14 @@ import { Vector2 } from '@orbitweb/common';
 
 @Component({
   selector: 'app-nameplate',
-  templateUrl: './nameplate.component.html',
-  styleUrls: ['./nameplate.component.scss'],
+  templateUrl: './combattext.component.html',
+  styleUrls: ['./combattext.component.scss'],
 })
-export class NameplateComponent implements OnInit {
+export class CombattextComponent implements OnInit {
 
   @Input() public spaceship: SpaceshipGO;
   @Input() public globalPosition: Vector2;
-  @Input() public color?: string;
+
 
   @HostBinding("style.top") get y() { return this.globalPosition.y + "px"; }
   @HostBinding("style.left") get x() { return this.globalPosition.x + "px"; }

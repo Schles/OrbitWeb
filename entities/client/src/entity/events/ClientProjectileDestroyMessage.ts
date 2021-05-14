@@ -31,9 +31,6 @@ export class ClientProjectileDestroyMessage extends ClientMessageRecieved<Projec
 
         const localP = context.renderer.foregroundStage.toGlobal(a);;
 
-
-        console.log(projectile);
-
         context.lights.push( new LightSource(localP, projectile.damageRange,  0.5));
 
 

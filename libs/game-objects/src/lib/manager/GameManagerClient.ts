@@ -70,7 +70,6 @@ export class GameManagerClient extends GameManager {
 
   public set playerLocal(val: SpaceshipGO) {
     this._playerLocal = val;
-    this.orbitContainer.setSource(this._playerLocal);
   }
 
   public get playerLocal(): SpaceshipGO {

@@ -7,8 +7,12 @@ import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { GameService } from '../../service/game.service';
 import { PlayerService } from '../../service/player.service';
 import { SpaceshipGO } from '@orbitweb/game-objects';
-import { Vector2 } from '@orbitweb/common';
-import { EventLogMessage } from '../../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
+import { CGame, Vector2 } from '@orbitweb/common';
+import {
+  EventLogMessage,
+  EventLogType
+} from '../../../../../../libs/common/src/lib/message/game/player/EventLogMessage';
+import { EquipmentSlotComponent } from './fitting/equipment-slot/equipment-slot.component';
 
 @Component({
   selector: 'app-ui',
@@ -18,6 +22,9 @@ import { EventLogMessage } from '../../../../../../libs/common/src/lib/message/g
 export class UiComponent implements OnInit {
   @ViewChild(HeadsupComponent) public headsUp: HeadsupComponent;
   @ViewChild(FittingComponent) public fitting: FittingComponent;
+
+  @ViewChild(EquipmentSlotComponent) fittingComponent: EquipmentSlotComponent;
+
   @ViewChild(ScoreboardComponent, { static: true })
   public scoreboard: ScoreboardComponent;
 
@@ -32,13 +39,77 @@ export class UiComponent implements OnInit {
     private playerService: PlayerService
   ) {}
 
+  public combatText: { position: Vector2, value: number, damage: boolean, timeToLife: number}[] = [];
+
+  public currentCombatTextIndex: number = 0;
+
   ngOnInit() {
+
+    for (let i = 0; i < 20; i++) {
+      this.combatText.push( {
+        value: 0,
+        damage: true,
+        position: {x: 0, y: 0},
+        timeToLife: 0,
+      })
+    }
+
+
 
     this.gameService.app().networkManager.onMessage.subscribe((msg: EventLogMessage<any>) => {
       if (msg.type === 'eventLogMessage') {
-        //console.log()
+
+
+        if ( msg.logType === "PLAYER_DAMAGE_TAKEN") {
+
+          const target = this.gameService.app().players.find((p) => p.id === msg.message.target);
+
+          if ( target && target.position) {
+
+            this.combatText[this.currentCombatTextIndex].position = this.gameService.app().toGlobal(target.position);
+            this.combatText[this.currentCombatTextIndex].value = msg.message.damageTaken;
+            this.combatText[this.currentCombatTextIndex].timeToLife = 2;
+            this.currentCombatTextIndex = (this.currentCombatTextIndex + 1) % this.combatText.length;
+
+          }
+
+
+        }
+
       }
     });
+
+
+    this.gameService.app().renderer.ticker.add( (delta) => {
+      const dT = this.gameService.app().renderer.ticker.elapsedMS / 1000;
+
+      this.combatText.forEach( (cT) => {
+        cT.timeToLife = CGame.clamp(cT.timeToLife - dT, 0, 100);
+      });
+
+    })
+  }
+
+  public combatTextAlpha(timeToLife: number): number {
+    return 0.3;
+  }
+
+  public get mePlayer(): SpaceshipGO {
+    return this.gameService.app().playerLocal;
+  }
+
+  private nameplateColor(player: SpaceshipGO): string {
+
+    if ( !this.mePlayer )
+      return undefined;
+
+    if (this.mePlayer.id === player.id )
+      return this.mePlayer.color;
+
+    if ( this.mePlayer.targetPlayer && this.mePlayer.targetPlayer.id === player.id)
+      return "red";
+
+    return undefined;
   }
 
   public get players(): SpaceshipGO[] {

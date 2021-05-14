@@ -4,7 +4,7 @@
     "minRadius": 100,
     "maxRadius": 450,
     "lightDistance": 600,
-    "lanes": 5
+    "lanes": 7
   },
   "player": {
     "maxOrbitChange": 20,
