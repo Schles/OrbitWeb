@@ -1,5 +1,5 @@
 import * as math from 'mathjs';
-import { Particle, PhysicsInput, Spaceship } from '@orbitweb/common';
+import { Particle, PhysicsInput, ScalingValue, Spaceship } from '@orbitweb/common';
 import { Tangents, Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
 
@@ -145,6 +145,6 @@ export abstract class AbstractPhysics {
     }
 
     spaceship.accel = input.a;
-    spaceship.omega = input.r;
+    spaceship.omega = new ScalingValue(input.r);
   }
 }

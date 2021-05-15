@@ -1,5 +1,27 @@
 [
   {
+    "name": "RocketLauncher",
+    "castTime": 0,
+    "cooldownTime": 3,
+    "action": {
+      "targetEnemy": true
+    },
+    "value": {
+      "projectile": {
+        "timeToLife": 15,
+        "damage": 10,
+        "damageRange": 30
+      },
+      "custom": {
+        "maxSpeed": 40
+      }
+    },
+    "meta": {
+      "desc": "Fires rockets which follows the target. Explode after 10s or reached the target.",
+      "icon": ""
+    }
+  },
+  {
     "name": "LaserLauncher",
     "castTime": 5,
     "cooldownTime": 1,
@@ -20,28 +42,6 @@
     },
     "meta": {
       "desc": "Shoots at the target. Needs to be in range and aligned for the shot.",
-      "icon": ""
-    }
-  },
-  {
-    "name": "RocketLauncher",
-    "castTime": 0,
-    "cooldownTime": 3,
-    "action": {
-      "targetEnemy": true
-    },
-    "value": {
-      "projectile": {
-        "timeToLife": 15,
-        "damage": 10,
-        "damageRange": 30
-      },
-      "custom": {
-        "maxSpeed": 40
-      }
-    },
-    "meta": {
-      "desc": "Fires rockets which follows the target. Explode after 10s or reached the target.",
       "icon": ""
     }
   },
