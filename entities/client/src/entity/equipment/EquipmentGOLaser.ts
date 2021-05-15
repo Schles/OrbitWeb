@@ -4,13 +4,18 @@ import { string2hex } from '@pixi/utils';
 import { ShipEquipmentGO, SpaceshipGO } from '@orbitweb/client-entities';
 
 
-@Client("EQUIP", "Laser")
+@Client("EQUIP", "LaserLauncher")
 export class EquipmentGOLaser extends ShipEquipmentGO {
   private gameObject: Container;
+
+  private laser: Graphics;
+
+  private range: number;
 
   constructor(shipEquipment: ShipEquipment) {
     console.log("Instantiace Laser", shipEquipment);
     super(shipEquipment);
+    this.range = (shipEquipment as any).range;
   }
 
   onInit(parent: SpaceshipGO) {
@@ -22,6 +27,11 @@ export class EquipmentGOLaser extends ShipEquipmentGO {
 
   iterate(parent: SpaceshipGO, delta: number) {
     super.iterate(parent, delta);
+    if( this.state.active) {
+      this.laser.visible = true;
+    } else {
+      this.laser.visible = false;
+    }
 
     this.gameObject.rotation = this.state.rotation;
   }
@@ -36,20 +46,17 @@ export class EquipmentGOLaser extends ShipEquipmentGO {
   public getGameObject(parent: SpaceshipGO): Container {
     const cannonCont: Container = new Container();
 
-    const cannon: Graphics = new Graphics();
+    this.laser = new Graphics();
+
+
 
     const c = string2hex(parent.color);
 
-    // Set the fill color
-    cannon.beginFill(0xffffff);
 
-    // Draw a circle
-    cannon.drawRect(0, 0, 20, 1);
 
-    // Applies fill to lines and shapes since the last call to beginFill.
-    cannon.endFill();
-
-    //cannonCont.addChild(cannon);
+    this.laser.beginFill(c);
+    this.laser.drawRect(-3, 20, 6, this.range - 20);
+    this.laser.endFill();
 
     const sprite = Sprite.from('assets/ShipATypeB.png');
     sprite.tint = c;
@@ -58,7 +65,12 @@ export class EquipmentGOLaser extends ShipEquipmentGO {
     sprite.scale.x = 0.1;
     sprite.scale.y = 0.1;
     //sprite.rotation = Math.PI * -2 / 4;
+
+
+
+
     cannonCont.addChild(sprite);
+    cannonCont.addChild(this.laser);
 
     return cannonCont;
   }

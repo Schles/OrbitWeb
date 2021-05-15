@@ -7,7 +7,7 @@
       "targetSelf": true
     },
     "value": {
-      "bonusRate": 1.2
+      "bonusRate": 3
     },
     "meta": {
       "desc": "Increased Speed for high energy cost.",
@@ -61,6 +61,21 @@
   },
   {
     "name": "Afterburner",
+    "castTime": 5,
+    "cooldownTime": 0,
+    "action": {
+      "targetSelf": true
+    },
+    "value": {
+      "bonusRate": 1.5
+    },
+    "meta": {
+      "desc": "Increased Speed slow",
+      "icon": ""
+    }
+  },
+  {
+    "name": "Mass Generator",
     "castTime": 5,
     "cooldownTime": 0,
     "action": {

@@ -26,7 +26,7 @@ export class OrbitPhysics extends AbstractPhysics {
   public iterate(spaceship: Spaceship, delta) {
     const dir = { x: 0, y: 1 };
 
-    const omega = spaceship.omega;
+    const omega = spaceship.omega.value;
 
     spaceship.rotation += (omega / spaceship.orbitRadius) * delta;
 

@@ -10,7 +10,7 @@ import {
   Rectangle
 } from '@orbitweb/common';
 
-import { GarbageCollector } from './core/GarbageCollector';
+import { GarbageCollector } from './GarbageCollector';
 import { CollisionDetection, Physics } from '@orbitweb/game-engine';
 import { ProjectileEntity, SpaceshipEntity, StructurePortalEntity } from '@orbitweb/server-entities';
 
@@ -40,6 +40,10 @@ export class GameLogic extends GameManager {
 
     GameManager.eventManager.on('SHOOT_PROJECTILE').subscribe( (msg) => {
       this.onShootProjectile(msg);
+    });
+
+    GameManager.eventManager.on('DIRTY_SINGLETON').subscribe( (msg) => {
+      this.send(msg);
     });
   }
 
@@ -103,13 +107,6 @@ export class GameLogic extends GameManager {
 
   public spawnDefaultEnemy() {
     this.onMessage(new EnemySpawnMessage("Enemy"), false, false);
-    /*
-    const msg: ServerEnemySpawnMessage = new ServerEnemySpawnMessage(
-      new EnemySpawnMessage('Enemy')
-    );
-    msg.onRecieve(this);
-    */
-
   }
 
 

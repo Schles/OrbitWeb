@@ -7,7 +7,7 @@
     "lanes": 7
   },
   "player": {
-    "maxOrbitChange": 20,
+    "maxOrbitChange": 200,
     "maxOmega": 100,
     "baseOmega": 50
   }

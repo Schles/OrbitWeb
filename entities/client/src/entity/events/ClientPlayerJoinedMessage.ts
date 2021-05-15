@@ -10,6 +10,7 @@ import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
 import { World } from '@orbitweb/renderer';
 import { SpaceshipGO } from '../../model/SpaceshipGO';
 import { EquipmentGOError } from '../equipment/EquipmentGOError';
+import { EquipmentGOEmpty } from '../equipment/EquipmentGOEmpty';
 
 
 @Client("EVENT", "playerJoinedMessage")
@@ -25,7 +26,7 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
       return value.id === this.message.source;
     }) as SpaceshipGO;
 
-
+console.log(this.message);
     if (player === undefined) {
       player = new SpaceshipGO(Factories.createSpaceship(this.message));
       player.fitting = new ShipFitting();
@@ -41,8 +42,8 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
           fitGO?.onInit(player);
           return fitGO;
         }
-
-        return new EquipmentGOError(fit);
+console.log("nicht gefunden", fit);
+        return new EquipmentGOEmpty(fit);
       });
 
       //player.iterateGraphics();

@@ -10,11 +10,11 @@ export class Physics {
     particle.speed.x += particle.accel.x * delta;
     particle.speed.y += particle.accel.y * delta;
 
-    particle.rotation += particle.omega * delta;
+    particle.rotation += particle.omega.value * delta;
 
     particle.rotation = particle.rotation % (2 * Math.PI);
 
-    particle.omega = 0;
+    particle.omega.value = 0;
 
     particle.accel.x = 0;
     particle.accel.y = 0;

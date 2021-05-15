@@ -1,18 +1,18 @@
-import { GameLogic } from '../GameLogic';
-import { SpaceshipEntity } from '../../../../../entities/server/src/model/SpaceshipEntity';
+import { GameLogic } from './GameLogic';
+import { SpaceshipEntity } from '../../../../entities/server/src/model/SpaceshipEntity';
 import { ScoreboardUpdateMessage } from '@orbitweb/common';
 import { Message } from '@orbitweb/common';
 import { PlayerKilledMessage } from '@orbitweb/common';
 import { Inventory } from '@orbitweb/common';
 import { ShipEquipment } from '@orbitweb/common';
-import { StructureLootEntity } from '../../../../../entities/server/src/entity/structures/StructureLootEntity';
+import { StructureLootEntity } from '../../../../entities/server/src/entity/structures/StructureLootEntity';
 import { StructureSpawnMessage } from '@orbitweb/common';
-import { SkillEntity } from '../../../../../entities/server/src/model/SkillEntity';
-import { ProjectileEntity } from '../../../../../entities/server/src/model/ProjectileEntity';
+import { SkillEntity } from '../../../../entities/server/src/model/SkillEntity';
+import { ProjectileEntity } from '../../../../entities/server/src/model/ProjectileEntity';
 import { ProjectileDestroyMessage } from '@orbitweb/common';
-import { StructureEntity } from '../../../../../entities/server/src/model/StructureEntity';
+import { StructureEntity } from '../../../../entities/server/src/model/StructureEntity';
 import { StructureDestroyMessage } from '@orbitweb/common';
-import { EventLogMessage } from '../../../../common/src/lib/message/game/player/EventLogMessage';
+import { EventLogMessage } from '../../../common/src/lib/message/game/player/EventLogMessage';
 
 export class GarbageCollector {
   public static execute(context: GameLogic) {

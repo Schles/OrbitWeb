@@ -30,7 +30,7 @@ export class MovementGoalOrbit extends MovementGoal {
       player.orbitRadius -=
         clamp(
           player.orbitRadius - this.distance,
-          AssetManager.config.player.maxOrbitChange
+          player.omega.value
         ) * deltaTime;
     }
 

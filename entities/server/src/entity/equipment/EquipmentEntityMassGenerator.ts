@@ -2,9 +2,8 @@ import { ShipEquipmentEntity } from '../../model/ShipEquipmentEntity';
 import { Server, ShipEquipment, ShipEquipmentDBValue } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 
-@Server("EQUIP", "Afterburner")
-@Server("EQUIP", "SpeedBooster")
-export class EquipmentEntitySpeedBooster extends ShipEquipmentEntity {
+@Server("EQUIP", "Mass Generator")
+export class EquipmentEntityMassGenerator extends ShipEquipmentEntity {
   private bonus: number;
 
   constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {

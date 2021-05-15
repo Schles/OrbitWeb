@@ -1,4 +1,4 @@
-import { Projectile, ShipFitting, Spaceship, Vector2 } from '@orbitweb/common';
+import { Message, Projectile, ShipFitting, Spaceship, Vector2 } from '@orbitweb/common';
 
 export type Events = {
   UI_PLAYER_LOGIN: { name: string; fitting: ShipFitting; spaceship: Spaceship };
@@ -9,4 +9,5 @@ export type Events = {
 
 export type ServerEvents = {
   SHOOT_PROJECTILE: { projectile: Projectile }
+  DIRTY_SINGLETON: { message: Message }
 }

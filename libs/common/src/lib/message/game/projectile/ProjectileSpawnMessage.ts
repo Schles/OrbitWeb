@@ -5,6 +5,7 @@ export class ProjectileSpawnMessage extends ProjectileMessage {
   public projType: string;
   public x: number;
   public y: number;
+  public rotation: number;
   public radius: number;
 
   constructor(projectile: Projectile, public source: string) {
@@ -14,7 +15,7 @@ export class ProjectileSpawnMessage extends ProjectileMessage {
     this.y = projectile.position.y;
 
     this.radius = projectile.radius;
-
+    this.rotation = projectile.rotation;
     this.projType = projectile.type;
     this.type = 'projectileSpawnMessage';
   }

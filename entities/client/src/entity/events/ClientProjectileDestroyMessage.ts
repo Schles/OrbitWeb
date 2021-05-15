@@ -15,6 +15,8 @@ export class ClientProjectileDestroyMessage extends ClientMessageRecieved<Projec
 
 
   onRecieveWithRenderer(context: GameManager, renderer: World) {
+    console.log(this.message);
+
     const projectile = context.projectiles.find(
       (p) => p.id === this.message.id
     ) as ProjectileGO;

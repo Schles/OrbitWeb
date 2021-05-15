@@ -1,15 +1,27 @@
-import { CMath, GameManager, Server, ShipEquipment, ShipEquipmentDBValue, Vector2 } from '@orbitweb/common';
+import {
+  CMath,
+  EventLogMessage, EventManager,
+  GameManager,
+  Server,
+  ShipEquipment,
+  ShipEquipmentDBValue,
+  Vector2
+} from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import * as math from 'mathjs';
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { ShipEquipmentTargetEntity } from '../../model/ShipEquipmentTargetEntity';
 
 
-@Server("EQUIP", "Laser")
+@Server("EQUIP", "LaserLauncher")
 export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
   private maxOmega = 0.4;
   private maxAimAngle: number = 0.2;
   private damage: number = 5;
+
+  private projectile: ProjectileEntity;
+
+  private playersHit: string[] = [];
 
   constructor(shipEquipment: ShipEquipment, value: ShipEquipmentDBValue) {
     super(shipEquipment);
@@ -26,24 +38,22 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
 
     if (parent.targetPlayer !== undefined) {
       this.alignCannon(parent, delta);
+      this.shoot(parent);
     }
+
+
+
+
   }
 
   protected onStartEquipment(parent: SpaceshipEntity) {
     super.onStartEquipment(parent);
-
-    this.shoot(parent);
+    this.playersHit = [];
   }
 
-  protected isTargetInRange(parent: SpaceshipEntity): boolean {
-    const targetVector = CMath.sub(
-      parent.targetPlayer.position,
-      parent.position
-    );
-    const len = CMath.len(targetVector);
-    const angle = CMath.angle(targetVector, this.getOrientation(parent));
-
-    return math.abs(angle) < this.maxAimAngle && len < this.range;
+  protected onEndEquipment(parent: SpaceshipEntity) {
+    super.onEndEquipment(parent);
+    this.playersHit = [];
   }
 
   private alignCannon(parent: SpaceshipEntity, delta: number) {
@@ -60,31 +70,33 @@ export class EquipmentEntityLaser extends ShipEquipmentTargetEntity {
   }
 
   private shoot(parent: SpaceshipEntity) {
-    const start: Vector2 = {
-      x: parent.position.x,
-      y: parent.position.y,
-    };
 
-    let end: Vector2 = {
-      x: parent.targetPlayer.position.x,
-      y: parent.targetPlayer.position.y,
-    };
-
-    const v: Vector2 = CMath.sub(end, start);
-
+    const v: Vector2 = CMath.sub(parent.targetPlayer.position, parent.position);
+    const distance: number = CMath.len(v);
     const target: SpaceshipEntity = <SpaceshipEntity>parent.targetPlayer;
 
-    const dmgTaken = target.takeDamage(this.damage, parent);
+    if (  distance <= this.range) {
+      let omega = CMath.angle(v, this.getOrientation(parent));
+      if ( Math.abs(omega) < this.maxOmega) {
+        if ( this.playersHit.findIndex( (p) => p === parent.targetPlayer.id) < 0) {
+          this.playersHit.push(parent.targetPlayer.id);
 
-    const proj: ProjectileEntity = new ProjectileEntity(undefined, parent);
+          const dmgTaken = (parent.targetPlayer as SpaceshipEntity).takeDamage(this.damage, parent);
+          const eventLog = new EventLogMessage("PLAYER_DAMAGE_TAKEN", {damageTaken: dmgTaken, equipmentSource: "laser",
+            source: parent.id, target: parent.targetPlayer.id});
+          GameManager.eventManager.emit("DIRTY_SINGLETON", { message: eventLog});
 
-    proj.type = 'laserProjectile';
-    proj.position = target.position;
-
-    GameManager.eventManager.emit('SHOOT_PROJECTILE', { projectile: proj });
+        }
+      }
+    }
   }
 
   private getOrientation(parent: SpaceshipEntity): Vector2 {
     return CMath.rotate({ x: 0, y: 1 }, this.state.rotation);
+  }
+
+
+  protected isTargetInRange(parent: SpaceshipEntity): boolean {
+    return true;
   }
 }

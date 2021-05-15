@@ -4,6 +4,7 @@ import { ShipFitting } from './ShipFitting';
 import { Structure } from './Structure';
 import { Inventory } from './Inventory';
 import { AssetManager } from '../database/AssetManager';
+import { ScalingValue } from './ScalingValue';
 
 export class Spaceship extends Particle {
   public id;
@@ -72,7 +73,7 @@ export class Spaceship extends Particle {
     super();
     this.id = id;
     this.color = color;
-    this.omega = AssetManager.config.player.baseOmega;
+    this.omega = new ScalingValue(AssetManager.config.player.baseOmega);
   }
 
   public removeTarget() {

@@ -67,13 +67,13 @@ export class CMath {
     if (this.dot3({ x: 0, y: 0, z: 1 }, cross) > 0) {
       angle = -angle;
     }
-
+/*
     if (angle.hasOwnProperty('re')) {
       //angle = angle.re;
       console.error('winkel ist komplex!', angle);
       angle = 0;
     }
-
+*/
     if (isNaN(angle)) return 0;
 
     return angle;

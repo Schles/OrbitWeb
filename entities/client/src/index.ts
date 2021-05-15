@@ -24,7 +24,7 @@ export * from "./entity/equipment/EquipmentGOShield"
 export * from "./entity/projectiles/ProjectileGOBomb"
 export * from "./entity/projectiles/ProjectileGORocket"
 export * from "./entity/projectiles/ProjectileGOMine"
-export * from "./entity/projectiles/Laser"
+export * from "./entity/projectiles/ProjectileGOLaser"
 
 /* Structures */
 export * from "./entity/structures/StructureGOLoot"
