@@ -13,14 +13,12 @@ export class InputService {
     this.gameService
       .app()
       .renderer.renderer.plugins.interaction.on('pointerup', (event) => {
-        //this.gameService.app().inputManager.onClick(event);
         this.gameService.app().inputManager.onMouseUp(event);
       });
 
     this.gameService
       .app()
       .renderer.renderer.plugins.interaction.on('mousemove', (event) => {
-      //this.gameService.app().inputManager.onClick(event);
       this.gameService.app().inputManager.onMouseMove(event);
     });
 

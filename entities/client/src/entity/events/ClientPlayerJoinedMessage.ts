@@ -1,6 +1,5 @@
 import {
   Client,
-  MessageRecieved,
   Factories,
   GameFactory,
   GameManager,
@@ -27,7 +26,6 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
     }) as SpaceshipGO;
 
 
-
     if (player === undefined) {
       player = new SpaceshipGO(Factories.createSpaceship(this.message));
       player.fitting = new ShipFitting();
@@ -49,19 +47,13 @@ export class ClientPlayerJoinedMessage extends ClientMessageRecieved<PlayerJoine
 
       //player.iterateGraphics();
     }
-/*
-    if (player.id === context.username) {
-      context.username = player.id; // Dirty retrigger of setter;)
-    }
-*/
+
     GameManager.eventManager.emit('UI_PLAYER_LOGIN', {
       name: this.message.source,
       fitting: player.fitting,
       spaceship: player,
     });
 
-    // TODO DIRTY!
-    //context.iterate(0);
-    //context.rerenderArena();
+
   }
 }

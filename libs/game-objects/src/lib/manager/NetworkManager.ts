@@ -33,6 +33,7 @@ export class NetworkManager {
       );
 
  */
+
       msg?.onRecieveWithRenderer(this.gameManager, this.gameManager.renderer);
     });
   }

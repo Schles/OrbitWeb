@@ -1,8 +1,9 @@
 import { Client, MessageRecieved, GameManager, ProjectileUpdateMessage } from '@orbitweb/common';
 import { ProjectileGO } from '../../model/ProjectileGO';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
 
 @Client("EVENT", "projectileUpdateMessage")
-export class ClientProjectileUpdateMessage extends MessageRecieved<ProjectileUpdateMessage> {
+export class ClientProjectileUpdateMessage extends ClientMessageRecieved<ProjectileUpdateMessage> {
   constructor(message: ProjectileUpdateMessage) {
     super(message);
   }

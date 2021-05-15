@@ -1,4 +1,4 @@
-import { AssetManager, CMath, Vector2 } from '@orbitweb/common';
+import { AssetManager, CMath, GameManager, Vector2 } from '@orbitweb/common';
 import {
   LightShader,
   MixedShader,
@@ -25,6 +25,16 @@ export class OrbitWeb extends GameManagerClient {
     this.renderer.ticker.add((delta) => {
       const dT = this.renderer.ticker.elapsedMS / 1000;
       this.iterate(dT);
+    });
+
+    GameManager.eventManager.on('UI_PLAYER_LOGIN').subscribe( (val) => {
+
+      if (val.name === this.username) {
+          this.username = val.name; // Dirty retrigger of setter;)
+      }
+
+      this.iterate(0);
+      this.rerenderArena();
     });
   }
 

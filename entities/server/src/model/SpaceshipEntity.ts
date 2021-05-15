@@ -13,9 +13,6 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
 
   public silentRemove: boolean = false;
 
-  private minorGoal: number;
-  private majorGoal: number;
-
   public movementGoal: MovementGoal;
 
   public get curSpeed(): number {
@@ -31,6 +28,7 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
   public iterate(delta: number) {
     const physics = new Physics();
     physics.iterate(this, delta);
+
 
     this.activationProgress = 0;
     const input = this.movementGoal.iterate(this, delta);

@@ -1,7 +1,8 @@
 import { Client, MessageRecieved, GameManager, ScoreboardUpdateMessage } from '@orbitweb/common';
+import { ClientMessageRecieved } from '../../model/ClientMessageRecieved';
 
 @Client("EVENT", "scoreboardUpdateMessage")
-export class ClientScoreboardUpdateMessage extends MessageRecieved<ScoreboardUpdateMessage> {
+export class ClientScoreboardUpdateMessage extends ClientMessageRecieved<ScoreboardUpdateMessage> {
   constructor(message: ScoreboardUpdateMessage) {
     super(message);
   }
