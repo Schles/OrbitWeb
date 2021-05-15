@@ -22,20 +22,24 @@ export class EquipmentSlotComponent implements OnInit {
   public tierList: {
     tier: number;
     name: string;
+    max: number;
     fitting: ShipEquipmentDB[];
   }[] = [
     {
       tier: 1,
       name: 'Attack',
+      max: 1,
       fitting: [],
     },
     {
       tier: 2,
       name: 'Utility',
+      max: 2,
       fitting: [],
     },
     {
       tier: 3,
+      max: 1,
       name: 'Passive',
       fitting: [],
     },
@@ -79,10 +83,21 @@ export class EquipmentSlotComponent implements OnInit {
 
   public addEquipment(tier: number, equipment: ShipEquipmentDB) {
     const list = this.tierList.find((i) => i.tier === tier);
-    if (list !== undefined) {
-      list.fitting = [equipment];
-      this.addTier = 0;
+
+    const equipedIndex = list.fitting.findIndex( ( fit) => fit.name === equipment.name);
+
+    if ( equipedIndex >= 0) {
+      list.fitting.splice(equipedIndex, 1);
+    } else {
+      list.fitting.push(equipment);
+
+      if (list.fitting.length > list.max)
+        list.fitting.shift();
     }
+
+
+      this.addTier = 0;
+
   }
 
 

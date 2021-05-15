@@ -1,5 +1,5 @@
 
-import { Server, ShipEquipmentDBValue } from '@orbitweb/common';
+import { CMath, EventLogMessage, GameManager, Server, ShipEquipmentDBValue } from '@orbitweb/common';
 import { Vector2 } from '@orbitweb/common';
 import { ProjectileEntity } from '../../model/ProjectileEntity';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
@@ -33,6 +33,16 @@ export class ProjectileBomb extends ProjectileEntity {
 
   }
 
+  protected takeHit(player: SpaceshipEntity, context: GameManager): void {
+
+
+    const distance = CMath.len(CMath.sub(player.position, this.position));
+    const scaling = distance / this.range;
+
+    const dmgTaken = player.takeDamage(Math.round(this.damage * (1 - scaling)), this.source);
+    const eventLog = new EventLogMessage("PLAYER_DAMAGE_TAKEN", {damageTaken: dmgTaken, equipmentSource: this.type, source: this.source.id, target: player.id});
+    context.send(eventLog);
+  }
 
   protected isInRange(player: SpaceshipEntity): boolean {
     return this.source.id !== player.id && super.isInRange(player);
