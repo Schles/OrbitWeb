@@ -42,7 +42,7 @@
     "@angular/router": "^11.2.0",
     "@nrwl/angular": "12.0.8",
     "@nrwl/web": "^12.2.0",
-    "mathjs": "^6.6.4",
+    "mathjs": "^7.5.1",
     "node-gameloop": "^0.1.4",
     "pixi-particles": "^4.2.0",
     "pixi-viewport": "^4.30.4",
