@@ -44,9 +44,6 @@ export class GarbageCollector {
     });
 
     removePlayer.forEach((value: SpaceshipEntity) => {
-      const msgSB = new ScoreboardUpdateMessage(context.scoreboard.scoreboard);
-      context.send(msgSB);
-
       const msg: Message = new PlayerKilledMessage(value, undefined);
       context.send(msg);
 

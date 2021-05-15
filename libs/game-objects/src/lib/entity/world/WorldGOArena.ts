@@ -1,4 +1,4 @@
-import { CMath, Rectangle, Vector2, WorldDB } from '@orbitweb/common';
+import { Rectangle, Vector2, WorldDB } from '@orbitweb/common';
 import { Container, Graphics } from 'pixi.js';
 
 export class WorldGOArena {

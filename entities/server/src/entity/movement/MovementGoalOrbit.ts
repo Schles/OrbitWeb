@@ -1,6 +1,6 @@
 import { MovementGoal } from '../../model/MovementGoal';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
-import { PhysicsInput } from '@orbitweb/game-engine';
+import { PhysicsInput } from '@orbitweb/common';
 
 import * as math from 'mathjs';
 import { AssetManager, CGame, Vector2 } from '@orbitweb/common';
@@ -10,7 +10,6 @@ export class MovementGoalOrbit extends MovementGoal {
 
   constructor(public center: Vector2, distance: number) {
     super();
-    //this.distance = Math.max(AssetManager.config.world.minRadius, Math.min(400, distance));
     this.distance = CGame.clamp(
       distance,
       AssetManager.config.world.minRadius,
@@ -19,20 +18,6 @@ export class MovementGoalOrbit extends MovementGoal {
   }
 
   iterate(player: SpaceshipEntity, deltaTime: number): PhysicsInput {
-    /*
-    let deltaAngle = player.rotation - this.reqAngle;
-
-    if (this.isAligned(player, this.reqAngle)) {
-      player.movementGoal = new MovementGoalFreeFly();
-    }
-
-    deltaAngle = MovementGoalAlignTo.capOmega(
-      deltaAngle,
-      player.maxOmega,
-      deltaTime
-    );
-*/
-
     player.targetPosition = this.center;
 
     const delta = Math.abs(player.orbitRadius - this.distance);

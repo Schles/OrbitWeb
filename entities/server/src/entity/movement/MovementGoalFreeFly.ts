@@ -1,5 +1,5 @@
 import { MovementGoal } from '../../model/MovementGoal';
-import { PhysicsInput } from '@orbitweb/game-engine';
+import { PhysicsInput } from '@orbitweb/common';
 import { SpaceshipEntity } from '../../model/SpaceshipEntity';
 import { CMath } from '@orbitweb/common';
 

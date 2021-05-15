@@ -1,5 +1,5 @@
 import {
-  EnemySpawnMessage,
+  EnemySpawnMessage, EventManager,
   GameFactory,
   GameIterable, GameManager,
   Message,
@@ -9,21 +9,17 @@ import {
   ProjectileUpdateMessage,
   Rectangle
 } from '@orbitweb/common';
-import { CollisionDetection } from '../../../game-engine/src/lib/CollisionDetection';
-import { GarbageCollector } from './core/GarbageCollector';
-import { Scoreboard } from './core/Scoreboard';
 
-import { StructurePortalEntity } from '../../../../entities/server/src/entity/structures/StructurePortalEntity';
-import { EventManager } from './EventManager';
-import { ProjectileEntity } from '../../../../entities/server/src/model/ProjectileEntity';
-import { SpaceshipEntity } from '../../../../entities/server/src/model/SpaceshipEntity';
+import { GarbageCollector } from './core/GarbageCollector';
+import { CollisionDetection, Physics } from '@orbitweb/game-engine';
+import { ProjectileEntity, SpaceshipEntity, StructurePortalEntity } from '@orbitweb/server-entities';
 
 
 export class GameLogic extends GameManager {
   public uniqueIterator: number = 0;
 
+  public physics: Physics;
 
-  public scoreboard: Scoreboard;
 
   public boundries: Rectangle = {
     x1: {
@@ -38,16 +34,12 @@ export class GameLogic extends GameManager {
 
   constructor() {
     super();
-    this.scoreboard = new Scoreboard();
+    this.physics = new Physics();
 
     this.spawnPortal(-700, 450);
 
-    EventManager.shootProjectile.on('shootProjectile', (msg) => {
+    GameManager.eventManager.on('SHOOT_PROJECTILE').subscribe( (msg) => {
       this.onShootProjectile(msg);
-    });
-
-    EventManager.shootProjectile.on('playerHit', (msg) => {
-      this.onPlayerHit(msg);
     });
   }
 
@@ -57,6 +49,10 @@ export class GameLogic extends GameManager {
         gameIterable.iterate(delta);
       }
     );
+
+    this.players.forEach( (p) => {
+      this.physics.playerPhysics.iterate(p, delta);
+    })
 
     this.projectiles.forEach((p: ProjectileEntity) => {
       p.iterateContext(delta, this);
@@ -118,13 +114,9 @@ export class GameLogic extends GameManager {
 
 
   public spawnPortal(x: number, y: number) {
-    let structure = new StructurePortalEntity(x, y, this.scoreboard);
+    let structure = new StructurePortalEntity(x, y, undefined);
     structure.id = '' + this.getUniqueId();
     this.structures.push(structure);
-  }
-
-  public onPlayerHit(msg: any) {
-    msg.target.health -= msg.damage;
   }
 
   public onShootProjectile(msg: any) {

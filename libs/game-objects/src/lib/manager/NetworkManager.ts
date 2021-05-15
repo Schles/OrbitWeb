@@ -9,6 +9,7 @@ import {
 import { MessageRecieved } from '@orbitweb/common';
 import { GameManagerClient } from './GameManagerClient';
 import { ClientMessageRecieved } from '../../../../../entities/client/src/model/ClientMessageRecieved';
+import { ClientPlayerUpdateMessage } from '@orbitweb/client-entities';
 
 export class NetworkManager {
   public onConnect: EventEmitter<any> = new EventEmitter<any>();
@@ -24,16 +25,7 @@ export class NetworkManager {
     });
 
     this.onMessage.subscribe((message: Message) => {
-
       const msg: ClientMessageRecieved<any> = GameFactory.instantiateClientEvent(message);
-
-/*
-      const msg: ClientMessageRecieved<any> = MessageDeserializer.deserialize(
-        events
-      );
-
- */
-
       msg?.onRecieveWithRenderer(this.gameManager, this.gameManager.renderer);
     });
   }

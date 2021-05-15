@@ -29,7 +29,7 @@ export class ServerEnemySpawnMessage extends MessageRecieved<EnemySpawnMessage> 
 
     player.position = { x: 100, y: 100 };
 
-    player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, 100);
+    player.movementGoal = new MovementGoalOrbit({ x: 0, y: 0 }, 200);
     //player.movementGoal = new MovementGoalFreeFly();
     player.fitting = new ShipFitting();
 

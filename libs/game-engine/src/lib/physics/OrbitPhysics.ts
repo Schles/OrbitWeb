@@ -1,6 +1,6 @@
-import { AbstractPhysics, PhysicsInput } from '../AbstractPhysics';
+import { AbstractPhysics } from '../AbstractPhysics';
 
-import { Particle, Spaceship } from '@orbitweb/common';
+import { Particle, PhysicsInput, Spaceship } from '@orbitweb/common';
 
 import * as math from 'mathjs';
 import { Vector2 } from '@orbitweb/common';

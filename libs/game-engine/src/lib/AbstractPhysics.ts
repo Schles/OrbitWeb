@@ -1,13 +1,7 @@
 import * as math from 'mathjs';
-import { Particle, Spaceship } from '@orbitweb/common';
+import { Particle, PhysicsInput, Spaceship } from '@orbitweb/common';
 import { Tangents, Vector2 } from '@orbitweb/common';
 import { CMath } from '@orbitweb/common';
-
-export interface PhysicsInput {
-  r: number;
-  a: Vector2;
-  vCap: number;
-}
 
 export abstract class AbstractPhysics {
   abstract getOrientation(particle: Particle): Vector2;

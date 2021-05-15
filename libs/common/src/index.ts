@@ -12,6 +12,7 @@ export * from './lib/model/Structure';
 //export * from './lib/model/TargetSkill';
 export * from './lib/model/TimedAbility';
 export * from './lib/model/GameIterable';
+export * from './lib/model/PhysicsInput'
 
 export * from './lib/factories/GameFactory'
 export * from './lib/factories/Decorators'

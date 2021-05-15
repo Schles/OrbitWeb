@@ -4,7 +4,6 @@ import { CMath } from '@orbitweb/common';
 import { StructureEntity } from './StructureEntity';
 import { MovementGoalFreeFly } from '../entity/movement/MovementGoalFreeFly';
 import { MovementGoal } from './MovementGoal';
-import { Physics } from '@orbitweb/game-engine';
 
 export class SpaceshipEntity extends Spaceship implements GameIterable {
   public lastHitBy: SpaceshipEntity;
@@ -26,10 +25,6 @@ export class SpaceshipEntity extends Spaceship implements GameIterable {
   }
 
   public iterate(delta: number) {
-    const physics = new Physics();
-    physics.iterate(this, delta);
-
-
     this.activationProgress = 0;
     const input = this.movementGoal.iterate(this, delta);
     /*
