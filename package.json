@@ -41,7 +41,7 @@
     "@angular/platform-browser-dynamic": "^11.2.0",
     "@angular/router": "^11.2.0",
     "@nrwl/angular": "12.0.8",
-    "@nrwl/web": "^12.2.0",
+    "@nrwl/web": "^19.8.4",
     "mathjs": "^7.5.1",
     "node-gameloop": "^0.1.4",
     "pixi-particles": "^4.2.0",
@@ -56,7 +56,7 @@
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.0",
+    "@angular-devkit/build-angular": "~20.0.1",
     "@angular-eslint/eslint-plugin": "~2.0.2",
     "@angular-eslint/eslint-plugin-template": "~2.0.2",
     "@angular-eslint/template-parser": "~2.0.2",
